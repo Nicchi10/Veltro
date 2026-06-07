@@ -1,0 +1,66 @@
+classDiagram
+  class MessageRole {
+    <<enumeration>>
+    System
+    User
+    Assistant
+    Tool
+  }
+  class MemoryMode {
+    <<enumeration>>
+    None
+    FullHistory
+    Summary
+    Extractive
+    Hybrid
+  }
+  class ILlmInvocation {
+    <<interface>>
+    +ConversationState Conversation
+    +MemoryContext Memory
+    +Validate() IValidationResult
+  }
+  class IProviderAdapter {
+    <<interface>>
+    +String ProviderName
+    +ExecuteAsync(ILlmInvocation) Task~LlmResponse~
+    +SupportsCapability(String) Boolean
+  }
+  class IValidationResult {
+    <<interface>>
+    +Boolean IsValid
+    +IEnumerable~String~ Errors
+  }
+  class LlmInvocation {
+    +ConversationState Conversation
+    +MemoryContext Memory
+    +Validate() IValidationResult
+  }
+  class ConversationState {
+    +String TraceId
+    +Int TokenBudget
+    +List~Message~ Messages
+    +Int TurnIndex
+  }
+  class Message {
+    +MessageRole Role
+    +String Content
+    +Dictionary~String, Object~ Metadata
+  }
+  class GenerationOptions {
+    +Float Temperature
+    +Int MaxTokens
+    +Boolean JsonMode
+  }
+  class MemoryContext {
+    +MemoryMode Mode
+    +TimeSpan TTL
+  }
+  class ValidationResult {
+    -Boolean _isValid
+    +Boolean IsValid
+    +Success() ValidationResult$
+    +Failure(IEnumerable~String~ errors) ValidationResult$
+  }
+  ILlmInvocation <|.. LlmInvocation
+  IValidationResult <|.. ValidationResult

@@ -34,16 +34,22 @@ repeated scaffolding.
 ```
 veltro 1                       <- version pragma (line 1)
 
-module <Dotted.Path>           <- flat, dotted, NOT nested (saves indent tokens)
-  <type declaration>           <- 2-space indent
-    <member>                   <- 4-space indent
+module <Dotted.Path>           <- flat, dotted, NOT nested
+<type declaration>             <- class / interface / enum
+<member>                       <- starts with + - # ~ (or > for a doc line)
 
 rel                            <- relation block (optional, usually last)
-  <from> <kind> <to>
+<from> <kind> <to>
 ```
 
-Indentation: **2 spaces per level**, max two levels (type, member), tabs
-forbidden.
+**Indentation is insignificant**: the parser ignores leading whitespace.
+
+
+Structure comes from the first token of each line: `module` / `class` /
+`interface` / `enum` open a block, `+ - # ~` are members of the current type,
+`>` is a doc line, `rel` opens the relation block. The canonical serializer
+emits no indentation (it costs tokens for nothing), a human may still indent
+for readability in their editor, it simply does not count.
 
 ---
 
@@ -165,8 +171,10 @@ An explicit row wins over a derived edge between the same pair.
 
 ## 7. Why this beats raw PlantUML
 
-- **Tokens**: measured +16.8% on real data, the gap widens on comment- or
-  arrow-heavy diagrams
+- **Tokens**: measured **-27.7%** vs PlantUML on the real consolidated diagram
+  (o200k_base), among structured, modular, line-diffable formats Veltro is the
+  densest measured, on par with extreme single-line notations (yUML) that
+  sacrifice readability and git-diffability to get there. See `bench/`
 - **Determinism**: one canonical form, no `!include`, no layout hints
 - **Modularity**: flat module union across files, no monolith ever forms
 - **Projection**: fhe file is the truth, every diagram is a query over the

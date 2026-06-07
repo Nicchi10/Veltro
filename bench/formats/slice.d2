@@ -1,0 +1,71 @@
+MessageRole: {
+  shape: class
+  System
+  User
+  Assistant
+  Tool
+}
+MemoryMode: {
+  shape: class
+  None
+  FullHistory
+  Summary
+  Extractive
+  Hybrid
+}
+ILlmInvocation: {
+  shape: class
+  +Conversation: ConversationState
+  +Memory: MemoryContext
+  +Validate(): IValidationResult
+}
+IProviderAdapter: {
+  shape: class
+  +ProviderName: String
+  +ExecuteAsync(ILlmInvocation): Task<LlmResponse>
+  +SupportsCapability(String): Boolean
+}
+IValidationResult: {
+  shape: class
+  +IsValid: Boolean
+  +Errors: IEnumerable<String>
+}
+LlmInvocation: {
+  shape: class
+  +Conversation: ConversationState
+  +Memory: MemoryContext
+  +Validate(): IValidationResult
+}
+ConversationState: {
+  shape: class
+  +TraceId: String
+  +TokenBudget: Int?
+  +Messages: List<Message>
+  +TurnIndex: Int
+}
+Message: {
+  shape: class
+  +Role: MessageRole
+  +Content: String
+  +Metadata: Dictionary<String, Object>
+}
+GenerationOptions: {
+  shape: class
+  +Temperature: Float?
+  +MaxTokens: Int?
+  +JsonMode: Boolean
+}
+MemoryContext: {
+  shape: class
+  +Mode: MemoryMode
+  +TTL: TimeSpan?
+}
+ValidationResult: {
+  shape: class
+  -_isValid: Boolean
+  +IsValid: Boolean
+  +Success(): ValidationResult
+  +Failure(errors: IEnumerable<String>): ValidationResult
+}
+LlmInvocation -> ILlmInvocation: implements
+ValidationResult -> IValidationResult: implements

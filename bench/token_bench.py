@@ -29,10 +29,12 @@ def read(path):
 
 
 def main():
+    
     for enc_name in ENCODERS:
         enc = tiktoken.get_encoding(enc_name)
         print(f"\n=== tokenizer: {enc_name} ===")
         print(f"{'diagram':24} {'UML':>6} {'VEL':>6} {'saved':>7} {'%':>7}")
+        
         for label, uml, vel in PAIRS:
             tu = len(enc.encode(read(uml)))
             tv = len(enc.encode(read(vel)))

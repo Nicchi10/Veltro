@@ -38,14 +38,32 @@ One viewer, two citizens: one first-class, one luxury guest.
 
 ## Token efficiency (measured, not promised)
 
-Real architecture, vs its PlantUML source (`o200k_base` tokenizer):
+Real architecture (consolidated `z_Loom`), vs its PlantUML source
+(`o200k_base` tokenizer):
 
 | diagram | PlantUML | Veltro | saved |
-|---------|----------|---------------|-------|
-| `z_Loom` (consolidated) | 1634 | 1359 | **-16.8%** |
+|---------|----------|--------|-------|
+| `z_Loom` (consolidated) | 1634 | 1181 | **-27.7%** |
 
-Reproduce with `python bench/token_bench.py` (the PlantUML source is vendored in
-`bench/z_Loom.puml`).
+And against every other class-diagram format, on a representative slice
+(`bench/compare_formats.py`, lower = denser):
+
+| rank | format | tokens | vs Veltro |
+|------|--------|--------|-----------|
+| 1 | yUML | 259 | -2% |
+| 2 | **Veltro** | **263** | — |
+| 3 | Nomnoml | 281 | +7% |
+| 4 | PlantUML | 334 | +27% |
+| 5 | Mermaid | 347 | +32% |
+| 6 | D2 | 365 | +39% |
+| 7 | Graphviz DOT | 470 | +79% |
+
+Veltro is the densest **structured, modular, line-diffable** format measured --
+on par with extreme single-line notations (yUML) that throw away readability and
+git-diffability to shave those last tokens.
+
+Reproduce with `python bench/token_bench.py` and `python bench/compare_formats.py`
+(PlantUML source vendored in `bench/z_Loom.puml`).
 
 > The example architecture is the real [**Loom**](https://github.com/Nicchi10/Loom)
 > framework. Its PlantUML diagrams are the source of truth this `.vel` was ported
