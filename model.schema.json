@@ -1,0 +1,90 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://veltro.dev/model.schema.json",
+  "title": "Veltro Type Graph",
+  "description": "Intermediate model: the single source of truth that every .vel file, PlantUML import, and viewer projection maps onto. A graph of typed nodes and relation edges",
+  "type": "object",
+  "required": ["veltro", "nodes", "edges"],
+  "additionalProperties": false,
+  "properties": {
+    "veltro": { "type": "integer", "const": 1, "description": "Model format version" },
+    "nodes": {
+      "type": "array",
+      "description": "Every type in the model: classes, interfaces, enums",
+      "items": { "$ref": "#/definitions/node" }
+    },
+    "edges": {
+      "type": "array",
+      "description": "Relations between nodes, `derived: true` means the viewer inferred it from a member type rather than reading it from a rel table",
+      "items": { "$ref": "#/definitions/edge" }
+    }
+  },
+  "definitions": {
+    "node": {
+      "type": "object",
+      "required": ["id", "kind", "name", "module"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "description": "Module-qualified unique id, e.g. 'Core.Models.LlmInvocation'" },
+        "kind": { "type": "string", "enum": ["class", "interface", "enum"] },
+        "name": { "type": "string" },
+        "module": { "type": "string", "description": "Dotted module path, e.g. 'Core.Models'" },
+        "doc": { "type": "string", "description": "Concatenated `>` documentation lines" },
+        "modifiers": { "type": "array", "items": { "type": "string", "enum": ["abstract", "static", "sealed"] } },
+        "values": { "type": "array", "description": "Enum members (only for kind=enum).", "items": { "type": "string" } },
+        "fields": { "type": "array", "items": { "$ref": "#/definitions/field" } },
+        "methods": { "type": "array", "items": { "$ref": "#/definitions/method" } }
+      }
+    },
+    "field": {
+      "type": "object",
+      "required": ["vis", "name", "type"],
+      "additionalProperties": false,
+      "properties": {
+        "vis": { "type": "string", "enum": ["+", "-", "#", "~"] },
+        "name": { "type": "string" },
+        "type": { "type": "string", "description": "Full type string incl. generics and nullability, e.g. 'Dictionary<String,Object>', 'Int?'" },
+        "default": { "type": "string" },
+        "static": { "type": "boolean", "default": false },
+        "doc": { "type": "string" }
+      }
+    },
+    "method": {
+      "type": "object",
+      "required": ["vis", "name"],
+      "additionalProperties": false,
+      "properties": {
+        "vis": { "type": "string", "enum": ["+", "-", "#", "~"] },
+        "name": { "type": "string" },
+        "args": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["type"],
+            "additionalProperties": false,
+            "properties": {
+              "name": { "type": "string", "description": "Absent for unnamed (UML-imported) parameters" },
+              "type": { "type": "string" },
+              "default": { "type": "string" }
+            }
+          }
+        },
+        "ret": { "type": "string", "description": "Return type; empty/absent = void or constructor" },
+        "static": { "type": "boolean", "default": false },
+        "doc": { "type": "string" }
+      }
+    },
+    "edge": {
+      "type": "object",
+      "required": ["from", "kind", "to"],
+      "additionalProperties": false,
+      "properties": {
+        "from": { "type": "string", "description": "Source node id." },
+        "to": { "type": "string", "description": "Target node id." },
+        "kind": { "type": "string", "enum": ["extend", "impl", "depend", "assoc", "aggregate", "compose"] },
+        "label": { "type": "string", "description": "Optional edge label, e.g. multiplicity or role" },
+        "derived": { "type": "boolean", "default": false, "description": "True if inferred from a member type rather than read from a rel table" }
+      }
+    }
+  }
+}
