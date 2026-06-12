@@ -113,13 +113,17 @@ TurnIndex Int = 0
 ```
 [<vis>] [$]<name>(<args>) [<ret>]
 SupportsCapability(String) Boolean
-New(LlmInvocation)                         <- no return = void / constructor
+New(LlmInvocation)                         <- no return type = void
 $Success() ValidationResult                <- `$` prefix = static
 ```
 
 - `args` are comma-separated, each is `name: Type` or, when the name is unknown
   (common from UML import), type-only: `Route(ILlmInvocation)`
-- The return type follows the `)` after a single space; absent = void/ctor
+- The return type follows the `)` after a single space; **absent = void**.
+  Constructors are written like any other method (e.g. `New(...)`) and are
+  modelled as void in v0, telling a constructor apart from a void method is
+  deferred until edges are derived from method signatures (today they are
+  derived only from field types).
 
 ### 4.3 Visibility & modifiers
 
@@ -133,7 +137,10 @@ $Success() ValidationResult                <- `$` prefix = static
 | `$`      | static (name prefix)          |
 
 Generics keep their commas inline with no space (`Dictionary<String,Object>`),
-since separators are spaces, the comma never collides with anything.
+since separators are spaces, the comma never collides with anything. The parser
+is **tolerant** of sloppy spacing inside a type and normalises it: a written
+`Dictionary<String, Object>` is read back as the canonical `Dictionary<String,Object>`,
+so the model never depends on how the author spaced a generic.
 
 ---
 
@@ -146,6 +153,20 @@ since separators are spaces, the comma never collides with anything.
 class ConversationState
   ...
 ```
+
+A `>` line always documents the following declaration, never the preceding
+one. So between two types a doc line belongs to the second:
+
+```
+class Foo
+> documents Bar, not Foo
+class Bar
+```
+
+`>` lines accumulate in a buffer that is flushed onto the next
+`class`/`interface`/`enum`, a type keyword (or the `rel` block) resets the
+"current type", so a member can never leak into the wrong type, doc lines left
+dangling at end of file, or just before `rel`, are dropped.
 
 ---
 

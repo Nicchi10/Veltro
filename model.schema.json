@@ -69,7 +69,7 @@
             }
           }
         },
-        "ret": { "type": "string", "description": "Return type; empty/absent = void or constructor" },
+        "ret": { "type": "string", "description": "Return type; absent = void. Constructors are modelled as void in v0 (see SPEC 4.2)" },
         "static": { "type": "boolean", "default": false },
         "doc": { "type": "string" }
       }

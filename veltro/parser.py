@@ -124,6 +124,28 @@ def extract_type_names(type_string: str) -> list[str]:
     
     return re.findall(r"[A-Za-z_][A-Za-z0-9_]*", type_string)
 
+def normalize_type(type_string: str) -> str:
+    """
+
+    Canonicalises a type string so spacing never changes its identity.
+
+    The canonical form has no spaces around generic brackets or commas, so a
+    sloppy 'Dictionary<String, Object>' and a clean 'Dictionary<String,Object>'
+    end up as the same model value, the parser stays tolerant of messy input
+    while the model stays deterministic.
+
+    Args:
+        type_string (str)
+
+    Returns:
+        The type with spaces around '< > ,' removed, e.g:
+        'List< Message >' -> 'List<Message>'
+
+    """
+
+    collapsed = re.sub(r"\s*([<>,])\s*", r"\1", type_string)
+    return collapsed.strip()
+
 # ============ MEMBER PARSING ============
 
 def parse_field(visibility: str, body: str, is_static: bool) -> dict[str, Any]:
@@ -153,7 +175,7 @@ def parse_field(visibility: str, body: str, is_static: bool) -> dict[str, Any]:
     name = pieces[0]
     type_string = ""
     if len(pieces) > 1:
-        type_string = pieces[1].strip()
+        type_string = normalize_type(pieces[1])
 
     field = {"vis": visibility, "name": name, "type": type_string}
     if default_value is not None:
@@ -196,6 +218,7 @@ def parse_arguments(arguments_string: str) -> list[dict[str, Any]]:
             argument["type"] = type_part.strip()
             argument["default"] = default_part.strip()
 
+        argument["type"] = normalize_type(argument["type"])
         arguments.append(argument)
 
     return arguments
@@ -219,9 +242,9 @@ def parse_method(visibility: str, body: str, is_static: bool) -> dict[str, Any]:
     open_index = body.index("(")
     close_index = find_matching_paren(body, open_index)
 
-    name = body[:open_index].strip() 
+    name = body[:open_index].strip()
     arguments_string = body[open_index + 1:close_index]
-    return_type = body[close_index + 1:].strip()
+    return_type = normalize_type(body[close_index + 1:])
 
     method = {"vis": visibility, "name": name}
 

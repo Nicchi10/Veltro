@@ -117,5 +117,38 @@ class TestParser(unittest.TestCase):
         self.assertIn({"from": "Core.Models.LlmInvocation", "kind": "assoc", "to": "Core.Models.ConversationState", "derived": True}, derived,)
 
 
+class TestRefinements(unittest.TestCase):
+    """
+    Edge cases raised in review
+    """
+
+    def test_type_spacing_is_normalized(self):
+        # Sloppy spaces around commas/brackets must not change the model
+        model = parse_text(
+            "module M\n"
+            "class C\n"
+            "Metadata Dictionary<String, Object>\n"
+            "Merge(a: List< Int >, b: Int) Dictionary<String, Object>\n"
+        )
+        node = model["nodes"][0]
+        self.assertEqual(node["fields"][0]["type"], "Dictionary<String,Object>")
+        merge = node["methods"][0]
+        self.assertEqual(merge["args"][0]["type"], "List<Int>")
+        self.assertEqual(merge["ret"], "Dictionary<String,Object>")
+
+    def test_doc_attaches_to_following_declaration(self):
+        # A '>' between two types documents the next one, never the previous
+        model = parse_text(
+            "module M\n"
+            "class Foo\n"
+            "> describes Bar\n"
+            "class Bar\n"
+            "Id String\n"
+        )
+        nodes = {node["name"]: node for node in model["nodes"]}
+        self.assertNotIn("doc", nodes["Foo"])
+        self.assertEqual(nodes["Bar"]["doc"], "describes Bar")
+
+
 if __name__ == "__main__":
     unittest.main()
