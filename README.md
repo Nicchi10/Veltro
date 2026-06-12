@@ -43,24 +43,25 @@ Real architecture (consolidated `z_Loom`), vs its PlantUML source
 
 | diagram | PlantUML | Veltro | saved |
 |---------|----------|--------|-------|
-| `z_Loom` (consolidated) | 1634 | 1181 | **-27.7%** |
+| `z_Loom` (consolidated) | 1634 | 1056 | **-35.4%** |
 
 And against every other class-diagram format, on a representative slice
 (`bench/compare_formats.py`, lower = denser):
 
 | rank | format | tokens | vs Veltro |
 |------|--------|--------|-----------|
-| 1 | yUML | 259 | -2% |
-| 2 | **Veltro** | **263** | — |
-| 3 | Nomnoml | 281 | +7% |
-| 4 | PlantUML | 334 | +27% |
-| 5 | Mermaid | 347 | +32% |
-| 6 | D2 | 365 | +39% |
-| 7 | Graphviz DOT | 470 | +79% |
+| 1 | **Veltro** | **237** | - |
+| 2 | yUML | 259 | +9% |
+| 3 | Nomnoml | 281 | +19% |
+| 4 | PlantUML | 334 | +41% |
+| 5 | Mermaid | 347 | +46% |
+| 6 | D2 | 365 | +54% |
+| 7 | Graphviz DOT | 470 | +98% |
 
-Veltro is the densest **structured, modular, line-diffable** format measured --
-on par with extreme single-line notations (yUML) that throw away readability and
-git-diffability to shave those last tokens.
+Veltro is the densest format measured, and it gets there **without** throwing
+away readability: it keeps one member per line (clean git diffs), modules, and
+the type-graph model, while the runners-up (yUML, Nomnoml) collapse each type
+onto a single unreadable line to compete.
 
 Reproduce with `python bench/token_bench.py` and `python bench/compare_formats.py`
 (PlantUML source vendored in `bench/z_Loom.puml`).

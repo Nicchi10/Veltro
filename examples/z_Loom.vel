@@ -8,188 +8,188 @@ enum ExecutionPriority = Balanced, LatencyOptimized, CostOptimized, QualityOptim
 
 module Core.Interfaces
 interface ILlmInvocation
-+ Conversation ConversationState
-+ Rag RagContext
-+ Memory MemoryContext
-+ Tools ToolContext
-+ Options GenerationOptions
-+ Hints ExecutionHints
-+ Validate() IValidationResult
+Conversation ConversationState
+Rag RagContext
+Memory MemoryContext
+Tools ToolContext
+Options GenerationOptions
+Hints ExecutionHints
+Validate() IValidationResult
 interface IProviderAdapter
-+ ProviderName String
-+ ExecuteAsync(ILlmInvocation) Task<LlmResponse>
-+ SupportsCapability(String) Boolean
+ProviderName String
+ExecuteAsync(ILlmInvocation) Task<LlmResponse>
+SupportsCapability(String) Boolean
 interface IValidationResult
-+ IsValid Boolean
-+ Errors IEnumerable<String>
+IsValid Boolean
+Errors IEnumerable<String>
 interface ITool
-+ ToolName String
-+ Description String
-+ Parameters List<ToolParameters>
-+ Required List<String>
-+ Strictness Boolean?
-+ ExecuteAsync(rawInput: Dictionary<String,Object>) Task<String>
+ToolName String
+Description String
+Parameters List<ToolParameters>
+Required List<String>
+Strictness Boolean?
+ExecuteAsync(rawInput: Dictionary<String,Object>) Task<String>
 
 module Core.Models
 class LlmInvocation
-+ Conversation ConversationState
-+ Rag RagContext
-+ Memory MemoryContext
-+ Tools ToolContext
-+ Options GenerationOptions
-+ Hints ExecutionHints
-+ Validate() IValidationResult
+Conversation ConversationState
+Rag RagContext
+Memory MemoryContext
+Tools ToolContext
+Options GenerationOptions
+Hints ExecutionHints
+Validate() IValidationResult
 class Message
-+ Role MessageRole
-+ Content String
-+ ToolCallId String
-+ ToolName String
-+ ToolArgs Dictionary<String,Object>
-+ Metadata Dictionary<String,Object>
+Role MessageRole
+Content String
+ToolCallId String
+ToolName String
+ToolArgs Dictionary<String,Object>
+Metadata Dictionary<String,Object>
 class ConversationState
-+ TraceId String
-+ SystemPrompt String
-+ TokenBudget Int?
-+ Messages List<Message>
-+ TurnIndex Int = 0
+TraceId String
+SystemPrompt String
+TokenBudget Int?
+Messages List<Message>
+TurnIndex Int = 0
 class ExecutionHints
-+ PreferredModel String
-+ Priority ExecutionPriority
-+ MaxRetryCount Int = 3
+PreferredModel String
+Priority ExecutionPriority
+MaxRetryCount Int = 3
 class GenerationOptions
-+ Temperature Float?
-+ TopK Float?
-+ MaxTokens Int?
-+ StopSequences List<String>
-+ JsonMode Boolean = False
+Temperature Float?
+TopK Float?
+MaxTokens Int?
+StopSequences List<String>
+JsonMode Boolean = False
 class MemoryContext
-+ Mode MemoryMode
-+ Content String
-+ TTL TimeSpan?
+Mode MemoryMode
+Content String
+TTL TimeSpan?
 class ModelMetaData
-+ ModelId String
-+ ProviderName String
-+ ContextWindow Int
-+ SupportsTools Boolean
-+ CostLevel Int
-+ Capabilities List<String>
+ModelId String
+ProviderName String
+ContextWindow Int
+SupportsTools Boolean
+CostLevel Int
+Capabilities List<String>
 class RagChunk
-+ SourceId String
-+ Score Double
-+ Text String
-+ Metadata Dictionary<String,Object>
+SourceId String
+Score Double
+Text String
+Metadata Dictionary<String,Object>
 class RagContext
-+ Strategy InjectionStrategy
-+ MaxTokens Int = 2000
-+ RetrievedChunks List<RagChunk>
+Strategy InjectionStrategy
+MaxTokens Int = 2000
+RetrievedChunks List<RagChunk>
 class ToolDefinition
-+ ToolName String
-+ Description String
-+ Parameters List<ToolParameters>
-+ Required List<String>
-+ Strictness Boolean?
+ToolName String
+Description String
+Parameters List<ToolParameters>
+Required List<String>
+Strictness Boolean?
 class ToolParameters
-+ Name String
-+ Type String
-+ Description String
-+ Enums List<String>
+Name String
+Type String
+Description String
+Enums List<String>
 class ToolCallInvocation
-+ Type String = "function_call"
-+ CallId String
-+ ToolName String
-+ Arguments Dictionary<String,Object>
+Type String = "function_call"
+CallId String
+ToolName String
+Arguments Dictionary<String,Object>
 class ToolContext
-+ RegisteredTools List<ToolDefinition>
-+ MaxToolDepth Int = 5
+RegisteredTools List<ToolDefinition>
+MaxToolDepth Int = 5
 class LlmResponse
-+ Id String
-+ ModelUsed String
-+ Role MessageRole
-+ Content String
-+ ToolCalls List<ToolCallInvocation>
-+ PromptTokens Integer
-+ CompletionTokens Integer
-+ TotalTokens Integer
-+ Metadata Dictionary<String,Object>
+Id String
+ModelUsed String
+Role MessageRole
+Content String
+ToolCalls List<ToolCallInvocation>
+PromptTokens Integer
+CompletionTokens Integer
+TotalTokens Integer
+Metadata Dictionary<String,Object>
 class ValidationResult
 - _isValid Boolean
 - _errors IEnumerable<String>
-+ IsValid Boolean
-+ Errors IEnumerable<String>
-+ $Success() ValidationResult
-+ $Failure(errors: IEnumerable<String>) ValidationResult
+IsValid Boolean
+Errors IEnumerable<String>
+$Success() ValidationResult
+$Failure(errors: IEnumerable<String>) ValidationResult
 class InvocationValidator
-+ Validate(ILlmInvocation) ValidationResult
+Validate(ILlmInvocation) ValidationResult
 
 module Engine.Assemblers
 class PromptAssembler
-+ Assemble(LlmInvocation) List<Message>
-+ AssembleInputItems(LlmInvocation) List<AssembledItem>
-+ BuildContextBlock(LlmInvocation) String
-+ AddContent(String, String) String
+Assemble(LlmInvocation) List<Message>
+AssembleInputItems(LlmInvocation) List<AssembledItem>
+BuildContextBlock(LlmInvocation) String
+AddContent(String, String) String
 
 module Engine.Context
 class ToolRegistry
 - _invocation LlmInvocation
 - _executors Dictionary<String,ITool>
-+ New(LlmInvocation)
-+ RegisterTool(ITool)
-+ ExecuteAsync(String, Dictionary<String,Object>) Task<String>
+New(LlmInvocation)
+RegisterTool(ITool)
+ExecuteAsync(String, Dictionary<String,Object>) Task<String>
 class RagManager
 - _invocation LlmInvocation
-+ New(LlmInvocation)
-+ HasContext Boolean
-+ AddResults(IEnumerable<RagChunk>, Boolean?)
-+ SetStrategy(InjectionStrategy)
+New(LlmInvocation)
+HasContext Boolean
+AddResults(IEnumerable<RagChunk>, Boolean?)
+SetStrategy(InjectionStrategy)
 class MemoryManager
 - _invocation LlmInvocation
-+ New(LlmInvocation)
-+ UpdateMemory(String?)
-+ IsMemoryExpired(DateTime) Boolean
+New(LlmInvocation)
+UpdateMemory(String?)
+IsMemoryExpired(DateTime) Boolean
 class ConversationManager
 - _invocation LlmInvocation
-+ AddMessage(MessageRole, String, Dictionary<String,Object>?)
-+ AddUserRequest(String)
-+ AddToolResult(String, String, String, Dictionary<String,Object>, Dictionary<String,Object>?)
-+ ResetHistory(Boolean)
+AddMessage(MessageRole, String, Dictionary<String,Object>?)
+AddUserRequest(String)
+AddToolResult(String, String, String, Dictionary<String,Object>, Dictionary<String,Object>?)
+ResetHistory(Boolean)
 
 module Engine.Infrastructure
 class TokenCounter
-+ CountTokens(String) Int
-+ CalculateTotal(LlmInvocation) Int
-+ IsWithinBudget(LlmInvocation) Boolean
+CountTokens(String) Int
+CalculateTotal(LlmInvocation) Int
+IsWithinBudget(LlmInvocation) Boolean
 class ExecutionRouter
 - _adapters List<IProviderAdapter>
 - _catalog ModelCatalog
-+ RegisterAdapter(IProviderAdapter)
-+ Route(ILlmInvocation) IProviderAdapter
+RegisterAdapter(IProviderAdapter)
+Route(ILlmInvocation) IProviderAdapter
 class ModelCatalog
 - _models List<ModelMetaData>
-+ GetModelInfo(String) ModelMetaData
-+ GetFallBack(ExecutionPriority) ModelMetaData
+GetModelInfo(String) ModelMetaData
+GetFallBack(ExecutionPriority) ModelMetaData
 
 module Engine
 class LoomClient
-+ Invocation LlmInvocation
-+ Conversation ConversationManager
-+ Rag RagManager
-+ Memory MemoryManager
-+ Tool ToolRegistry
+Invocation LlmInvocation
+Conversation ConversationManager
+Rag RagManager
+Memory MemoryManager
+Tool ToolRegistry
 - _router ExecutionRouter
 - _tokenCounter TokenCounter
-+ New()
-+ RegisterProvider(IProviderAdapter)
-+ SendAsync() Task<LlmResponse>
+New()
+RegisterProvider(IProviderAdapter)
+SendAsync() Task<LlmResponse>
 
 module Providers.OpenAI
 class OpenAIAdapter
 - _assembler IAssembler
 - _http ProviderHttpClient
 - _apiKey String
-+ ProviderName String
-+ New(apiKey: String, assembler: IAssembler)
-+ ExecuteAsync(ILlmInvocation) Task<LlmResponse>
-+ SupportsCapability(String) Boolean
+ProviderName String
+New(apiKey: String, assembler: IAssembler)
+ExecuteAsync(ILlmInvocation) Task<LlmResponse>
+SupportsCapability(String) Boolean
 
 rel
 LlmInvocation impl ILlmInvocation

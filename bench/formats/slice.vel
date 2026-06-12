@@ -6,43 +6,43 @@ enum MemoryMode = None, FullHistory, Summary, Extractive, Hybrid
 
 module Core.Interfaces
 interface ILlmInvocation
-+ Conversation ConversationState
-+ Memory MemoryContext
-+ Validate() IValidationResult
+Conversation ConversationState
+Memory MemoryContext
+Validate() IValidationResult
 interface IProviderAdapter
-+ ProviderName String
-+ ExecuteAsync(ILlmInvocation) Task<LlmResponse>
-+ SupportsCapability(String) Boolean
+ProviderName String
+ExecuteAsync(ILlmInvocation) Task<LlmResponse>
+SupportsCapability(String) Boolean
 interface IValidationResult
-+ IsValid Boolean
-+ Errors IEnumerable<String>
+IsValid Boolean
+Errors IEnumerable<String>
 
 module Core.Models
 class LlmInvocation
-+ Conversation ConversationState
-+ Memory MemoryContext
-+ Validate() IValidationResult
+Conversation ConversationState
+Memory MemoryContext
+Validate() IValidationResult
 class ConversationState
-+ TraceId String
-+ TokenBudget Int?
-+ Messages List<Message>
-+ TurnIndex Int = 0
+TraceId String
+TokenBudget Int?
+Messages List<Message>
+TurnIndex Int = 0
 class Message
-+ Role MessageRole
-+ Content String
-+ Metadata Dictionary<String,Object>
+Role MessageRole
+Content String
+Metadata Dictionary<String,Object>
 class GenerationOptions
-+ Temperature Float?
-+ MaxTokens Int?
-+ JsonMode Boolean = False
+Temperature Float?
+MaxTokens Int?
+JsonMode Boolean = False
 class MemoryContext
-+ Mode MemoryMode
-+ TTL TimeSpan?
+Mode MemoryMode
+TTL TimeSpan?
 class ValidationResult
 - _isValid Boolean
-+ IsValid Boolean
-+ $Success() ValidationResult
-+ $Failure(errors: IEnumerable<String>) ValidationResult
+IsValid Boolean
+$Success() ValidationResult
+$Failure(errors: IEnumerable<String>) ValidationResult
 
 rel
 LlmInvocation impl ILlmInvocation

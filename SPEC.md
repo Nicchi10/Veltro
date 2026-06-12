@@ -36,7 +36,8 @@ veltro 1                       <- version pragma (line 1)
 
 module <Dotted.Path>           <- flat, dotted, NOT nested
 <type declaration>             <- class / interface / enum
-<member>                       <- starts with + - # ~ (or > for a doc line)
+<member>                       <- a public member starts with its name; - # ~ mark
+                                  other visibility; > starts a doc line
 
 rel                            <- relation block (optional, usually last)
 <from> <kind> <to>
@@ -46,8 +47,9 @@ rel                            <- relation block (optional, usually last)
 
 
 Structure comes from the first token of each line: `module` / `class` /
-`interface` / `enum` open a block, `+ - # ~` are members of the current type,
-`>` is a doc line, `rel` opens the relation block. The canonical serializer
+`interface` / `enum` open a block, `rel` opens the relation block, `>` is a doc
+line, and anything else inside a type is a member (a leading `- # ~` marks
+visibility, otherwise the member is public). The canonical serializer
 emits no indentation (it costs tokens for nothing), a human may still indent
 for readability in their editor, it simply does not count.
 
@@ -75,12 +77,12 @@ re-declaration stubs, cross-module references resolve by id.
 enum MessageRole = System, User, Assistant, Tool      <- single line
 
 interface ILlmInvocation                              <- body = members
-  + Conversation ConversationState
-  + Validate() IValidationResult
+Conversation ConversationState
+Validate() IValidationResult
 
 class ConversationState                               <- optional: `class abstract Foo`
-  + TraceId String
-  + TurnIndex Int = 0
+TraceId String
+TurnIndex Int = 0
 ```
 
 A type with no members is just its declaration line.
@@ -89,25 +91,30 @@ A type with no members is just its declaration line.
 
 ## 4. Members (one per line)
 
-A member line is `<vis> <name><signature?> <type?>`, fields and methods are
+A member line is `[<vis>] <name><signature?> <type?>`, fields and methods are
 told apart by the presence of `(`.
+
+**Public is implicit**: a member with no visibility marker is public, since
+public is the common case, omitting the marker saves a token on almost every
+line. The other markers (`- # ~`) are still written, a leading `+` is tolerated
+(it means public too) but the canonical form omits it.
 
 ### 4.1 Fields
 
 ```
-<vis> <name> <type> [= <default>]
-+ TokenBudget Int?
-+ TurnIndex Int = 0
-+ Metadata Dictionary<String,Object>
+[<vis>] <name> <type> [= <default>]
+TokenBudget Int?                           <- public (implicit)
+TurnIndex Int = 0
+- _cache Dictionary<String,Object>         <- private
 ```
 
 ### 4.2 Methods (name followed by `(...)`)
 
 ```
-<vis> [$]<name>(<args>) [<ret>]
-+ SupportsCapability(String) Boolean
-+ New(LlmInvocation)                       <- no return = void / constructor
-+ $Success() ValidationResult              <- `$` prefix = static
+[<vis>] [$]<name>(<args>) [<ret>]
+SupportsCapability(String) Boolean
+New(LlmInvocation)                         <- no return = void / constructor
+$Success() ValidationResult                <- `$` prefix = static
 ```
 
 - `args` are comma-separated, each is `name: Type` or, when the name is unknown
@@ -116,15 +123,16 @@ told apart by the presence of `(`.
 
 ### 4.3 Visibility & modifiers
 
-| symbol | meaning              |
-|--------|----------------------|
-| `+`    | public               |
-| `-`    | private              |
-| `#`    | protected            |
-| `~`    | package              |
-| `$`    | static (name prefix) |
+| symbol   | meaning                       |
+|----------|-------------------------------|
+| *(none)* | public (implicit, canonical)  |
+| `+`      | public (explicit, tolerated)  |
+| `-`      | private                       |
+| `#`      | protected                     |
+| `~`      | package                       |
+| `$`      | static (name prefix)          |
 
-Generics keep their commas inline with no space (`Dictionary<String,Object>`);
+Generics keep their commas inline with no space (`Dictionary<String,Object>`),
 since separators are spaces, the comma never collides with anything.
 
 ---
@@ -134,7 +142,7 @@ since separators are spaces, the comma never collides with anything.
 `>` lines above a declaration are preserved into the model (valuable for AI):
 
 ```
-> Current conversation status. `TokenBudget Null = unlimited`.
+> Current conversation status. `TokenBudget Null = unlimited`
 class ConversationState
   ...
 ```
@@ -171,10 +179,10 @@ An explicit row wins over a derived edge between the same pair.
 
 ## 7. Why this beats raw PlantUML
 
-- **Tokens**: measured **-27.7%** vs PlantUML on the real consolidated diagram
-  (o200k_base), among structured, modular, line-diffable formats Veltro is the
-  densest measured, on par with extreme single-line notations (yUML) that
-  sacrifice readability and git-diffability to get there. See `bench/`
+- **Tokens**: measured **-35.4%** vs PlantUML on the real consolidated diagram
+  (o200k_base), across every class-diagram format benchmarked Veltro is the
+  densest measured and unlike the runners-up (yUML, Nomnoml) it stays
+  readable, modular and line-diffable. See `bench/`
 - **Determinism**: one canonical form, no `!include`, no layout hints
 - **Modularity**: flat module union across files, no monolith ever forms
 - **Projection**: fhe file is the truth, every diagram is a query over the

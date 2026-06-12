@@ -1,0 +1,2 @@
+jsonschema>=4.0     
+tiktoken>=0.5       

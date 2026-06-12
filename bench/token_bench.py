@@ -11,7 +11,7 @@ import tiktoken
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 
-# (label, PlantUML source, Veltro source) -- all relative to the repo.
+# (label, PlantUML source, Veltro source) all relative to the repo.
 PAIRS = [
     (
         "z_Loom (consolidated)",
