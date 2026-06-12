@@ -36,7 +36,7 @@ veltro 1                       <- version pragma (line 1)
 
 module <Dotted.Path>           <- flat, dotted, NOT nested
 <type declaration>             <- class / interface / enum
-<member>                       <- a public member starts with its name; - # ~ mark
+<member>                       <- a public member starts with its name; - # @ mark
                                   other visibility; > starts a doc line
 
 rel                            <- relation block (optional, usually last)
@@ -48,7 +48,7 @@ rel                            <- relation block (optional, usually last)
 
 Structure comes from the first token of each line: `module` / `class` /
 `interface` / `enum` open a block, `rel` opens the relation block, `>` is a doc
-line, and anything else inside a type is a member (a leading `- # ~` marks
+line, and anything else inside a type is a member (a leading `- # @` marks
 visibility, otherwise the member is public). The canonical serializer
 emits no indentation (it costs tokens for nothing), a human may still indent
 for readability in their editor, it simply does not count.
@@ -96,7 +96,7 @@ told apart by the presence of `(`.
 
 **Public is implicit**: a member with no visibility marker is public, since
 public is the common case, omitting the marker saves a token on almost every
-line. The other markers (`- # ~`) are still written, a leading `+` is tolerated
+line. The other markers (`- # @`) are still written, a leading `+` is tolerated
 (it means public too) but the canonical form omits it.
 
 ### 4.1 Fields
@@ -129,7 +129,7 @@ $Success() ValidationResult                <- `$` prefix = static
 | `+`      | public (explicit, tolerated)  |
 | `-`      | private                       |
 | `#`      | protected                     |
-| `~`      | package                       |
+| `@`      | package                       |
 | `$`      | static (name prefix)          |
 
 Generics keep their commas inline with no space (`Dictionary<String,Object>`),

@@ -5,7 +5,7 @@ veltro.__main__.py
 Command line entry point:  python -m veltro <file.vel>
 
 Parses a '.vel' file, prints a short summary, validates the result against
-'model.schema.json' when the 'jsonschema' package is available, and writes the
+'model.schema.json' (requires the 'jsonschema' package), and writes the
 JSON model next to the source (or to the path given with --out)
 
 """
@@ -32,14 +32,14 @@ def load_schema():
     with open(schema_path, encoding="utf-8") as schema_file:
         return json.load(schema_file)
 
-def validate_model(model):
+def validate_model(model: dict):
     """
     Validate the model against the schema
     """
 
     schema = load_schema()
     if schema is None:
-        raise FileNotFoundError("[ERROR] - 'model.schema.json' not found'")
+        raise FileNotFoundError("[ERROR] - 'model.schema.json' not found")
 
     try:
         jsonschema.validate(instance=model, schema=schema)
@@ -47,9 +47,9 @@ def validate_model(model):
         return f"[ERROR] - {error.message}"
     return "OK"
 
-def summarise(model):
+def summarise(model: dict):
     """
-    Counting the prints of what has been analyzed
+    Count and print what has been parsed
     """
     
     nodes = model["nodes"]

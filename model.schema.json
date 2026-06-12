@@ -41,7 +41,7 @@
       "required": ["vis", "name", "type"],
       "additionalProperties": false,
       "properties": {
-        "vis": { "type": "string", "enum": ["+", "-", "#", "~"] },
+        "vis": { "type": "string", "enum": ["+", "-", "#", "@"] },
         "name": { "type": "string" },
         "type": { "type": "string", "description": "Full type string incl. generics and nullability, e.g. 'Dictionary<String,Object>', 'Int?'" },
         "default": { "type": "string" },
@@ -54,7 +54,7 @@
       "required": ["vis", "name"],
       "additionalProperties": false,
       "properties": {
-        "vis": { "type": "string", "enum": ["+", "-", "#", "~"] },
+        "vis": { "type": "string", "enum": ["+", "-", "#", "@"] },
         "name": { "type": "string" },
         "args": {
           "type": "array",

@@ -9,9 +9,10 @@ The output dict matches 'model.schema.json': a graph of 'nodes' (the types) and
 
 Design notes (kept deliberately simple and explicit):
 
-Indentation is insignificant: strips every line and decide what it is by
+Indentation is insignificant: strips every line and decides what it is by
 looking at its first token ('module' / 'class' / 'interface' / 'enum' /
-'rel'), or its first character ('+ - # ~' for a member, '>' for a doc line)
+'rel'), or its first character ('- # @' for a non-public member, '>' for a
+doc line). Any other line inside a type is a public member.
 
 """
 
@@ -19,7 +20,7 @@ import re
 from typing import Any, Tuple
 
 # The visibility markers a member line can start with
-VISIBILITY_MARKERS = ("+", "-", "#", "~")
+VISIBILITY_MARKERS = ("+", "-", "#", "@")
 
 # Modifiers that may appear before a type name, e.g. 'class abstract Foo'
 TYPE_MODIFIERS = ("abstract", "sealed", "static")
@@ -87,8 +88,8 @@ def find_matching_paren(text: str, open_index: int) -> int:
     
     Args:
         text (str)
-        open_index (int): comma
-        
+        open_index (int): index of the opening '('
+
     Returns:
         index (int) -> if brackets ok,
         error -> otherwise
@@ -131,7 +132,7 @@ def parse_field(visibility: str, body: str, is_static: bool) -> dict[str, Any]:
     Parses a field body like 'TokenBudget Int? = 0' (without the '+')
     
     Args:
-        visibility (str): 'None, +, -, ~, #'
+        visibility (str): 'None, +, -, @, #'
         body (str): row field line
         is_static (bool)
         
@@ -205,7 +206,7 @@ def parse_method(visibility: str, body: str, is_static: bool) -> dict[str, Any]:
     Parses a method body like 'ExecuteAsync(x: Int) Task<Foo>'
     
     Args:
-        visibility (str): 'None, +, -, ~, #'
+        visibility (str): 'None, +, -, @, #'
         body (str): row field line
         is_static (bool)
         
@@ -238,7 +239,7 @@ def parse_member_line(line: str) -> Tuple[str, dict[str, Any]]:
     """
     Parses a whole member line. Returns ("field"|"method", member_dict).
 
-    Visibility is optional: a leading '+ - # ~' sets it explicitly, otherwise the
+    Visibility is optional: a leading '+ - # @' sets it explicitly, otherwise the
     member is public, 
     so 'Conversation ConversationState' and
     '+ Conversation ConversationState' mean the same thing, the canonical form
@@ -281,18 +282,18 @@ def qualify(module_path: str, name: str) -> str:
         return module_path + "." + name
     return name
 
-def parse_enum_declaration(line: str, module_path: str, doc_lines: str) -> dict[str, Any]:
+def parse_enum_declaration(line: str, module_path: str, doc_lines: list[str]) -> dict[str, Any]:
     """
     Parses 'enum Name = A, B, C' into a node
-    
+
     Args:
         line (str)
         module_path (str)
-        doc_lines (str)
-    
+        doc_lines (list[str])
+
     Returns:
-        A row's - enum dict fields review, 
-        e.g: {"id": "+", "kind": "enum", "name": "Name", "module" : "Core", "values" : "". "doc" : ">"}
+        The enum node,
+        e.g: {"id": "Core.Name", "kind": "enum", "name": "Name", "module": "Core", "values": ["A", "B"], "doc": "..."}
     """
     left_part, right_part = line.split("=", 1)
 
@@ -313,19 +314,19 @@ def parse_enum_declaration(line: str, module_path: str, doc_lines: str) -> dict[
         node["doc"] = "\n".join(doc_lines)
     return node
 
-def parse_type_declaration(line: str, module_path: str, doc_lines: str) -> dict[str, Any]:
+def parse_type_declaration(line: str, module_path: str, doc_lines: list[str]) -> dict[str, Any]:
     """
     Parses a 'class ...' or 'interface ...' declaration into a node
-    
+
     Args:
         line (str)
         module_path (str)
-        doc_lines (str)
-    
+        doc_lines (list[str])
+
     Returns:
-        A row's - enum dict fields review, 
-        e.g: {"id": "+", "kind": "class", "name": "Name", "module": "Core", "fields": "", methods: "", modifiers: "abstract", "doc": ">" }
-    
+        The class/interface node,
+        e.g: {"id": "Core.Name", "kind": "class", "name": "Name", "module": "Core", "fields": [], "methods": [], "modifiers": ["abstract"], "doc": "..."}
+
     """
     tokens = line.split()
     kind = tokens[0]  # "class" or "interface"
@@ -389,7 +390,7 @@ def build_name_index(nodes: list[dict[str,Any]]) -> dict[str, str]:
             index[node["name"]] = node["id"]
     return index
 
-def resolve_edges(raw_edges: dict[str, str], name_index: dict[str, str]) -> dict[str, str]:
+def resolve_edges(raw_edges: list[dict[str, str]], name_index: dict[str, str]) -> list[dict[str, str]]:
     """
     Turns the simple names in rel rows into full node ids
     
@@ -408,16 +409,21 @@ def resolve_edges(raw_edges: dict[str, str], name_index: dict[str, str]) -> dict
         resolved.append({"from": from_id, "kind": edge["kind"], "to": to_id})
     return resolved
 
-def derive_association_edges(nodes: list[dict[str,Any]], explicit_edges: dict[str, str], name_index: dict[str, str]):
+def derive_association_edges(nodes: list[dict[str, Any]], explicit_edges: list[dict[str, str]], name_index: dict[str, str]) -> list[dict[str, Any]]:
     """
     Create association edges from the types of fields.
 
-    A field '+ user User' already says "this type points at User". 
+    A field '+ user User' already says "this type points at User".
     Rather than forcing the author to also write that in the 'rel' block, derives it here
     and mark it 'derived: True'. If the author already declared a relation between the same pair, skips it.
-    
+
     Args:
-        nodes (list[dict[str,Any]]): 
+        nodes (list[dict[str, Any]]): the parsed type nodes
+        explicit_edges (list[dict[str, str]]): edges already written in 'rel'
+        name_index (dict[str, str]): maps names to node ids
+
+    Returns:
+        list[dict[str, Any]]: the derived association edges (marked 'derived')
     """
     # Remember which (from, to) pairs already have an explicit edge
     explicit_pairs = set()
