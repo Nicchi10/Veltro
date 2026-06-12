@@ -33,8 +33,8 @@ class ConversationState
 class ValidationResult
 - _isValid Boolean
 $Success() ValidationResult
-$Failure(errors: IEnumerable<String>) ValidationResult
-Merge(a: Dictionary<String,Object>, b: Int) Boolean
+$Failure(errors IEnumerable<String>) ValidationResult
+Merge(a Dictionary<String,Object>, b Int) Boolean
 
 rel
 LlmInvocation impl ILlmInvocation
@@ -128,13 +128,30 @@ class TestRefinements(unittest.TestCase):
             "module M\n"
             "class C\n"
             "Metadata Dictionary<String, Object>\n"
-            "Merge(a: List< Int >, b: Int) Dictionary<String, Object>\n"
+            "Merge(a List< Int >, b Int) Dictionary<String, Object>\n"
         )
         node = model["nodes"][0]
         self.assertEqual(node["fields"][0]["type"], "Dictionary<String,Object>")
         merge = node["methods"][0]
         self.assertEqual(merge["args"][0]["type"], "List<Int>")
         self.assertEqual(merge["ret"], "Dictionary<String,Object>")
+
+    def test_named_and_unnamed_arguments(self):
+        # Params use the same "name Type" shape as fields, a lone token is an unnamed (UML-imported) parameter.
+        model = parse_text(
+            "module M\n"
+            "class C\n"
+            "New(apiKey String, assembler IAssembler)\n"
+            "Route(ILlmInvocation) IProviderAdapter\n"
+        )
+        methods = {m["name"]: m for m in model["nodes"][0]["methods"]}
+
+        new_args = methods["New"]["args"]
+        self.assertEqual(new_args[0], {"name": "apiKey", "type": "String"})
+        self.assertEqual(new_args[1], {"name": "assembler", "type": "IAssembler"})
+
+        route_args = methods["Route"]["args"]
+        self.assertEqual(route_args, [{"type": "ILlmInvocation"}])
 
     def test_doc_attaches_to_following_declaration(self):
         # A '>' between two types documents the next one, never the previous

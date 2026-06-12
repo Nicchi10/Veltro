@@ -114,11 +114,13 @@ TurnIndex Int = 0
 [<vis>] [$]<name>(<args>) [<ret>]
 SupportsCapability(String) Boolean
 New(LlmInvocation)                         <- no return type = void
+$Failure(errors IEnumerable<String>) Foo   <- named arg: same `name Type` shape as a field
 $Success() ValidationResult                <- `$` prefix = static
 ```
 
-- `args` are comma-separated, each is `name: Type` or, when the name is unknown
-  (common from UML import), type-only: `Route(ILlmInvocation)`
+- `args` are comma-separated: each uses the same `name Type` shape as a field
+  (no colon spaces over punctuation), or, when the name is unknown (common
+  from UML import), is type-only: `Route(ILlmInvocation)`
 - The return type follows the `)` after a single space; **absent = void**.
   Constructors are written like any other method (e.g. `New(...)`) and are
   modelled as void in v0, telling a constructor apart from a void method is

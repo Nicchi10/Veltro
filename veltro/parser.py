@@ -205,20 +205,27 @@ def parse_arguments(arguments_string: str) -> list[dict[str, Any]]:
     for raw_argument in split_top_level(arguments_string, ","):
         argument_text = raw_argument.strip()
 
-        # An argument is either "name: Type" or just "Type" (unnamed, common when the source was imported from UML)
-        if ":" in argument_text:
-            name_part, type_part = argument_text.split(":", 1)
-            argument = {"name": name_part.strip(), "type": type_part.strip()}
+        # An argument may carry a default, e.g: "IEnumerable<String> = null"
+        default_value = None
+        if "=" in argument_text:
+            argument_text, default_value = argument_text.split("=", 1)
+            argument_text = argument_text.strip()
+            default_value = default_value.strip()
+
+        # Collapse generic spacing first, so "Dictionary<String, Object>" stays a
+        # single token and is not mistaken for a "name Type" pair
+        argument_text = normalize_type(argument_text)
+
+        # Same shape as a field: "name Type" (named) or just "Type" (unnamed,
+        # common when the source was imported from UML)
+        pieces = argument_text.split(None, 1)
+        if len(pieces) == 2:
+            argument = {"name": pieces[0], "type": pieces[1]}
         else:
-            argument = {"type": argument_text}
+            argument = {"type": pieces[0]}
 
-        # An argument type may carry a default, e.g: "IEnumerable<String> = null".
-        if "=" in argument["type"]:
-            type_part, default_part = argument["type"].split("=", 1)
-            argument["type"] = type_part.strip()
-            argument["default"] = default_part.strip()
-
-        argument["type"] = normalize_type(argument["type"])
+        if default_value is not None:
+            argument["default"] = default_value
         arguments.append(argument)
 
     return arguments
@@ -226,16 +233,16 @@ def parse_arguments(arguments_string: str) -> list[dict[str, Any]]:
 def parse_method(visibility: str, body: str, is_static: bool) -> dict[str, Any]:
     """
     
-    Parses a method body like 'ExecuteAsync(x: Int) Task<Foo>'
-    
+    Parses a method body like 'ExecuteAsync(x Int) Task<Foo>'
+
     Args:
         visibility (str): 'None, +, -, @, #'
         body (str): row field line
         is_static (bool)
-        
+
     Returns:
-        A row's dict fields review, 
-        e.g: {"vis": "+", "name": "ExecuteAsync", "args": "x: Int", "ret" : "Task<Foo>", "static" : y/n}
+        A row's dict fields review,
+        e.g: {"vis": "+", "name": "ExecuteAsync", "args": [{"name": "x", "type": "Int"}], "ret": "Task<Foo>", "static": y/n}
     
     """
     

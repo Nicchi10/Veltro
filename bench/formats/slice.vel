@@ -42,7 +42,7 @@ class ValidationResult
 - _isValid Boolean
 IsValid Boolean
 $Success() ValidationResult
-$Failure(errors: IEnumerable<String>) ValidationResult
+$Failure(errors IEnumerable<String>) ValidationResult
 
 rel
 LlmInvocation impl ILlmInvocation
