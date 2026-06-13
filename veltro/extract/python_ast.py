@@ -61,6 +61,12 @@ ABSTRACT_BASES = {"ABC"}
 # Bases that carry no domain meaning, so they never become an edge.
 IGNORED_BASES = ENUM_BASES | INTERFACE_BASES | ABSTRACT_BASES | {"object", "Generic"}
 
+# Veltro line-start keywords. A public member whose name is one of these would
+# collide with a declaration (e.g. a field 'module: str' looks like 'module X'),
+# so such a member must keep an explicit '+'. Methods are safe (the '(' tells
+# them apart), but forcing '+' on them too is harmless.
+RESERVED_NAMES = {"veltro", "module", "class", "interface", "enum", "rel"}
+
 # ============ NAME / TYPE HELPERS ============
 
 def node_name(node) -> str:
@@ -161,6 +167,9 @@ def member_prefix(name: str, is_static: bool) -> str:
     core = ("$" if is_static else "") + name
     if name.startswith("_"):
         return "- " + core
+    if name in RESERVED_NAMES:
+        # Keep an explicit '+' so a member named like a keyword is not read as a 'module' / 'class' / ... declaration.
+        return "+ " + core
     return core
 
 def decorator_names(func_node) -> set:

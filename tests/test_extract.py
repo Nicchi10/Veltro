@@ -121,6 +121,24 @@ class TestPythonExtractor(unittest.TestCase):
         )
 
 
+class TestReservedNameField(unittest.TestCase):
+
+    def test_field_named_like_keyword_keeps_plus(self):
+        # pydantic's SchemaTypePath has a field literally named 'module'
+        source = (
+            "class SchemaTypePath:\n"
+            "    module: str\n"
+            "    name: str\n"
+        )
+        vel = extract_to_vel(source, "pkg")
+        self.assertIn("+ module str", vel)        # explicit '+' forced
+        # and it round-trips through the parser without a keyword collision
+        model = parse_text(vel)
+        node = model["nodes"][0]
+        field_names = [f["name"] for f in node["fields"]]
+        self.assertEqual(field_names, ["module", "name"])
+
+
 class TestTypeTranslation(unittest.TestCase):
 
     def test_translations(self):

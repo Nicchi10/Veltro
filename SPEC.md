@@ -99,6 +99,11 @@ public is the common case, omitting the marker saves a token on almost every
 line. The other markers (`- # @`) are still written, a leading `+` is tolerated
 (it means public too) but the canonical form omits it.
 
+**Keyword exception**: a public member whose *name* is a line-start keyword
+(`veltro`, `module`, `class`, `interface`, `enum`, `rel`) must keep an explicit
+`+`, otherwise a field like `module str` would read as a `module` declaration.
+Methods are unaffected (the `(` tells them apart). Example: `+ module str`.
+
 ### 4.1 Fields
 
 ```
