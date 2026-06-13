@@ -58,7 +58,9 @@ def render_method(method: dict) -> str:
 
 
 def render_node(node: dict) -> list:
-    """Render one type into Mermaid lines."""
+    """
+    Render one type into Mermaid lines
+    """
     lines = [f"  class {node['name']} {{"]
 
     if node["kind"] == "enum":

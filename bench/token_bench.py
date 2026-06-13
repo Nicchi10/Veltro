@@ -14,9 +14,9 @@ ROOT = os.path.dirname(HERE)
 # (label, PlantUML source, Veltro source) all relative to the repo.
 PAIRS = [
     (
-        "z_Loom (consolidated)",
-        os.path.join(HERE, "z_Loom.puml"),
-        os.path.join(ROOT, "examples", "z_Loom.vel"),
+        "pydantic",
+        os.path.join(HERE, "pydantic.puml"),
+        os.path.join(ROOT, "examples", "pydantic.vel"),
     ),
 ]
 

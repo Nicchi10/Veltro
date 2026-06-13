@@ -2,7 +2,7 @@
 Exporters: render a type-graph model into other diagram formats.
 
 They exist so a token benchmark can compare Veltro against PlantUML and Mermaid
-on the *same* model -- identical types, members and relations -- which is the
+on the same model identical types, members and relations which is the
 only fair comparison.
 """
 

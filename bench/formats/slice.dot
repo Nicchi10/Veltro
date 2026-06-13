@@ -1,19 +1,12 @@
-digraph Loom {
+digraph pydantic {
   node [shape=record, fontname="Helvetica"]
 
-  MessageRole [label="{&laquo;enum&raquo; MessageRole|System\lUser\lAssistant\lTool\l}"]
-  MemoryMode [label="{&laquo;enum&raquo; MemoryMode|None\lFullHistory\lSummary\lExtractive\lHybrid\l}"]
-  ILlmInvocation [label="{&laquo;interface&raquo; ILlmInvocation|+ Conversation : ConversationState\l+ Memory : MemoryContext\l|+ Validate() : IValidationResult\l}"]
-  IProviderAdapter [label="{&laquo;interface&raquo; IProviderAdapter|+ ProviderName : String\l|+ ExecuteAsync(ILlmInvocation) : Task\<LlmResponse\>\l+ SupportsCapability(String) : Boolean\l}"]
-  IValidationResult [label="{&laquo;interface&raquo; IValidationResult|+ IsValid : Boolean\l+ Errors : IEnumerable\<String\>\l}"]
-  LlmInvocation [label="{LlmInvocation|+ Conversation : ConversationState\l+ Memory : MemoryContext\l|+ Validate() : IValidationResult\l}"]
-  ConversationState [label="{ConversationState|+ TraceId : String\l+ TokenBudget : Int?\l+ Messages : List\<Message\>\l+ TurnIndex : Int = 0\l}"]
-  Message [label="{Message|+ Role : MessageRole\l+ Content : String\l+ Metadata : Dictionary\<String, Object\>\l}"]
-  GenerationOptions [label="{GenerationOptions|+ Temperature : Float?\l+ MaxTokens : Int?\l+ JsonMode : Boolean = False\l}"]
-  MemoryContext [label="{MemoryContext|+ Mode : MemoryMode\l+ TTL : TimeSpan?\l}"]
-  ValidationResult [label="{ValidationResult|- _isValid : Boolean\l+ IsValid : Boolean\l|+ Success() : ValidationResult\l+ Failure(errors : IEnumerable\<String\>) : ValidationResult\l}"]
+  PaymentCardBrand [label="{&laquo;enum&raquo; PaymentCardBrand|amex\lmastercard\lvisa\lother\l}"]
+  EncoderProtocol [label="{&laquo;interface&raquo; EncoderProtocol||+ decode(data: bytes) : bytes\l+ encode(value: bytes) : bytes\l+ get_json_format() : str\l}"]
+  Base64Encoder [label="{Base64Encoder||+ decode(data: bytes) : bytes\l+ encode(value: bytes) : bytes\l+ get_json_format() : Literal\<base64\>\l}"]
+  EncodedBytes [label="{EncodedBytes|+ encoder : type\<EncoderProtocol\>\l|+ decode(data: bytes, _: core_schema.ValidationInfo) : bytes\l+ encode(value: bytes) : bytes\l}"]
+  PaymentCardNumber [label="{PaymentCardNumber|+ strip_whitespace : bool = True\l+ min_length : int = 12\l+ max_length : int = 19\l+ bin : str\l+ last4 : str\l+ brand : PaymentCardBrand\l+ masked : str\l|- __init__(card_number: str)\l+ validate(_: core_schema.ValidationInfo) : PaymentCardNumber\l+ validate_digits(card_number: str) : None\l+ validate_luhn_check_digit(card_number: str) : str\l+ validate_brand(card_number: str) : PaymentCardBrand\l}"]
 
   edge [arrowhead=empty, style=dashed]
-  LlmInvocation -> ILlmInvocation
-  ValidationResult -> IValidationResult
+  Base64Encoder -> EncoderProtocol
 }

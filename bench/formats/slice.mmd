@@ -1,66 +1,39 @@
 classDiagram
-  class MessageRole {
+  class PaymentCardBrand {
     <<enumeration>>
-    System
-    User
-    Assistant
-    Tool
+    amex
+    mastercard
+    visa
+    other
   }
-  class MemoryMode {
-    <<enumeration>>
-    None
-    FullHistory
-    Summary
-    Extractive
-    Hybrid
-  }
-  class ILlmInvocation {
+  class EncoderProtocol {
     <<interface>>
-    +ConversationState Conversation
-    +MemoryContext Memory
-    +Validate() IValidationResult
+    +decode(bytes data) bytes$
+    +encode(bytes value) bytes$
+    +get_json_format() str$
   }
-  class IProviderAdapter {
-    <<interface>>
-    +String ProviderName
-    +ExecuteAsync(ILlmInvocation) Task~LlmResponse~
-    +SupportsCapability(String) Boolean
+  class Base64Encoder {
+    +decode(bytes data) bytes$
+    +encode(bytes value) bytes$
+    +get_json_format() Literal~base64~$
   }
-  class IValidationResult {
-    <<interface>>
-    +Boolean IsValid
-    +IEnumerable~String~ Errors
+  class EncodedBytes {
+    +type~EncoderProtocol~ encoder
+    +decode(bytes data, core_schema.ValidationInfo _) bytes
+    +encode(bytes value) bytes
   }
-  class LlmInvocation {
-    +ConversationState Conversation
-    +MemoryContext Memory
-    +Validate() IValidationResult
+  class PaymentCardNumber {
+    +bool strip_whitespace$
+    +int min_length$
+    +int max_length$
+    +str bin
+    +str last4
+    +PaymentCardBrand brand
+    +str masked
+    -__init__(str card_number)
+    +validate(core_schema.ValidationInfo _) PaymentCardNumber$
+    +validate_digits(str card_number) None$
+    +validate_luhn_check_digit(str card_number) str$
+    +validate_brand(str card_number) PaymentCardBrand$
   }
-  class ConversationState {
-    +String TraceId
-    +Int TokenBudget
-    +List~Message~ Messages
-    +Int TurnIndex
-  }
-  class Message {
-    +MessageRole Role
-    +String Content
-    +Dictionary~String, Object~ Metadata
-  }
-  class GenerationOptions {
-    +Float Temperature
-    +Int MaxTokens
-    +Boolean JsonMode
-  }
-  class MemoryContext {
-    +MemoryMode Mode
-    +TimeSpan TTL
-  }
-  class ValidationResult {
-    -Boolean _isValid
-    +Boolean IsValid
-    +Success() ValidationResult$
-    +Failure(IEnumerable~String~ errors) ValidationResult$
-  }
-  ILlmInvocation <|.. LlmInvocation
-  IValidationResult <|.. ValidationResult
+  EncoderProtocol <|-- Base64Encoder

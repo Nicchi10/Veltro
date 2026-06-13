@@ -58,7 +58,9 @@ def render_method(method: dict) -> str:
 
 
 def render_node(node: dict) -> list:
-    """Render one type into PlantUML lines (indented one level for the package)."""
+    """
+    Render one type into PlantUML lines (indented one level for the package)
+    """
     if node["kind"] == "enum":
         lines = [f"  enum {node['name']} {{"]
         for value in node.get("values", []):

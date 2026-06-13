@@ -1,71 +1,41 @@
-MessageRole: {
+PaymentCardBrand: {
   shape: class
-  System
-  User
-  Assistant
-  Tool
+  amex
+  mastercard
+  visa
+  other
 }
-MemoryMode: {
+EncoderProtocol: {
   shape: class
-  None
-  FullHistory
-  Summary
-  Extractive
-  Hybrid
+  +decode(data: bytes): bytes
+  +encode(value: bytes): bytes
+  +get_json_format(): str
 }
-ILlmInvocation: {
+Base64Encoder: {
   shape: class
-  +Conversation: ConversationState
-  +Memory: MemoryContext
-  +Validate(): IValidationResult
+  +decode(data: bytes): bytes
+  +encode(value: bytes): bytes
+  +get_json_format(): Literal<base64>
 }
-IProviderAdapter: {
+EncodedBytes: {
   shape: class
-  +ProviderName: String
-  +ExecuteAsync(ILlmInvocation): Task<LlmResponse>
-  +SupportsCapability(String): Boolean
+  +encoder: type<EncoderProtocol>
+  +decode(data: bytes, _: core_schema.ValidationInfo): bytes
+  +encode(value: bytes): bytes
 }
-IValidationResult: {
+PaymentCardNumber: {
   shape: class
-  +IsValid: Boolean
-  +Errors: IEnumerable<String>
+  +strip_whitespace: bool
+  +min_length: int
+  +max_length: int
+  +bin: str
+  +last4: str
+  +brand: PaymentCardBrand
+  +masked: str
+  -__init__(card_number: str)
+  +validate(_: core_schema.ValidationInfo): PaymentCardNumber
+  +validate_digits(card_number: str): None
+  +validate_luhn_check_digit(card_number: str): str
+  +validate_brand(card_number: str): PaymentCardBrand
 }
-LlmInvocation: {
-  shape: class
-  +Conversation: ConversationState
-  +Memory: MemoryContext
-  +Validate(): IValidationResult
-}
-ConversationState: {
-  shape: class
-  +TraceId: String
-  +TokenBudget: Int?
-  +Messages: List<Message>
-  +TurnIndex: Int
-}
-Message: {
-  shape: class
-  +Role: MessageRole
-  +Content: String
-  +Metadata: Dictionary<String, Object>
-}
-GenerationOptions: {
-  shape: class
-  +Temperature: Float?
-  +MaxTokens: Int?
-  +JsonMode: Boolean
-}
-MemoryContext: {
-  shape: class
-  +Mode: MemoryMode
-  +TTL: TimeSpan?
-}
-ValidationResult: {
-  shape: class
-  -_isValid: Boolean
-  +IsValid: Boolean
-  +Success(): ValidationResult
-  +Failure(errors: IEnumerable<String>): ValidationResult
-}
-LlmInvocation -> ILlmInvocation: implements
-ValidationResult -> IValidationResult: implements
+Base64Encoder -> EncoderProtocol: extends
