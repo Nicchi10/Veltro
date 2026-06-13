@@ -3,8 +3,8 @@
 > *<<...verrà 'l veltro / che la farà morir con doglia.>>* - Dante, *Inferno* I
 
 **Veltro** is a compact, AI-native language for documenting the static
-architecture of a codebase as a graph of types and a 'buoyant' viewer
-that makes that graph navigable at any scale.
+architecture of a codebase as a graph of types, plus a viewer that makes that
+graph navigable at any scale.
 
 The file is telegraphic on purpose, all the power lives in the viewer: click a
 type and its relations, inheritance chain and dependents light up, the rest fades.
@@ -25,70 +25,117 @@ Veltro separates the three:
 
 - **Compact**: token frugality first, spaces over punctuation, derived edges
 - **Deterministic**: one canonical serialization, clean diffs, reliable AI round-trip
-- **Modular**: modules nest and split across files, the model is their union
+- **Modular**: modules split across files, the model is their union
 - **Projectable**: every diagram is a query over the graph, computed by the viewer
 
-## Dual mandate 
+## Dual mandate
 
 1. **Primary**: read `.vel` natively, at full power, optimized for AI authoring
-2. **Secondary**: act as a gorgeous viewer for imported **PlantUML / UML**, via
-   an adapter that maps them onto the same internal graph
+2. **Secondary**: act as a gorgeous viewer for imported **PlantUML / UML**, via an adapter that maps them onto the same internal graph
 
 One viewer, two citizens: one first-class, one luxury guest.
 
 ## Token efficiency (measured, not promised)
 
-Real architecture (consolidated `z_Loom`), vs its PlantUML source
-(`o200k_base` tokenizer):
+The same architecture is extracted from real code, then rendered to Veltro,
+PlantUML and Mermaid **from one identical model** (so the comparison is fair),
+and counted with `tiktoken` (`o200k_base`).
 
-| diagram | PlantUML | Veltro | saved |
-|---------|----------|--------|-------|
-| `z_Loom` (consolidated) | 1634 | 1056 | **-35.4%** |
+On whole real projects (`python bench/scale_bench.py <package>`):
 
-And against every other class-diagram format, on a representative slice
-(`bench/compare_formats.py`, lower = denser):
+| project | types | Veltro | Mermaid | PlantUML |
+|---------|-------|--------|---------|----------|
+| [Rich](https://github.com/Textualize/rich) | 173 | 12,792 | +18% | +33% |
+| [Pydantic](https://github.com/pydantic/pydantic) | 360 | 19,885 | +19% | +32% |
+
+Against every other class-diagram format, on a representative slice of pydantic
+(`python bench/compare_formats.py`, lower = denser):
 
 | rank | format | tokens | vs Veltro |
 |------|--------|--------|-----------|
-| 1 | **Veltro** | **237** | - |
-| 2 | yUML | 259 | +9% |
-| 3 | Nomnoml | 281 | +19% |
-| 4 | PlantUML | 334 | +41% |
-| 5 | Mermaid | 347 | +46% |
-| 6 | D2 | 365 | +54% |
-| 7 | Graphviz DOT | 470 | +98% |
+| 1 | **Veltro** | **211** | - |
+| 2 | yUML | 213 | +1% |
+| 3 | Nomnoml | 222 | +5% |
+| 4 | Mermaid | 254 | +20% |
+| 5 | D2 | 273 | +29% |
+| 6 | PlantUML | 332 | +57% |
+| 7 | Graphviz DOT | 352 | +67% |
 
 Veltro is the densest format measured, and it gets there **without** throwing
 away readability: it keeps one member per line (clean git diffs), modules, and
 the type-graph model, while the runners-up (yUML, Nomnoml) collapse each type
 onto a single unreadable line to compete.
 
-Reproduce with `python bench/token_bench.py` and `python bench/compare_formats.py`
-(PlantUML source vendored in `bench/z_Loom.puml`).
+### Reproduce it
 
-> The example architecture is the real [**Loom**](https://github.com/Nicchi10/Loom)
-> framework. Its PlantUML diagrams are the source of truth this `.vel` was ported
-> from.
+```bash
+pip install -r requirements.txt
+
+# 1. whole-project comparison (Veltro vs PlantUML vs Mermaid), all from one model
+python bench/scale_bench.py path/to/some/package
+
+# 2. the 7-format ranking on the bundled pydantic slice
+python bench/compare_formats.py
+
+# 3. just extract a Python package to .vel
+python -m veltro.extract.python_ast path/to/some/package --out build/out.vel
+```
+
+The examples are not hand-written: they are **extracted from real projects**
+(Rich, Pydantic) with the AST extractor, so the numbers are not cherry-picked.
+
+## Repository layout
+
+```
+veltro/                   the Python package
+  parser.py               .vel  ->  type-graph model (the ONE parser, format is language-agnostic)
+  extract/python_ast.py   Python source  ->  .vel  (AST extractor; one per source language)
+  export/                 model  ->  PlantUML / Mermaid (fair benchmarking, the Rosetta way out)
+  __main__.py             CLI: parse a .vel, validate it, write the JSON model
+model.schema.json         the type-graph contract (nodes + edges) shared by every piece
+SPEC.md                   the .vel language specification
+examples/                 real architectures extracted to .vel (e.g. pydantic.vel)
+bench/                    token benchmarks + the vendored PlantUML sample
+  formats/                the same slice encoded in 7 formats, for the ranking
+eval/                     (planned) LLM comprehension eval -- see eval/README.md
+tests/                    unit tests (parser, extractor, exporters)
+```
+
+The funnel: many extractors feed one format, and from there everything is single.
+
+```
+extract_python |
+extract_ts     |--> .vel --> parser (1) --> model (1) --> viewer (1)
+extract_java   |
+```
 
 ## Status
 
-`v0` - founding artifacts:
+`v0` - working today:
 
-| File | Role |
-|------|------|
+| Piece | Role |
+|-------|------|
 | [`SPEC.md`](SPEC.md) | The `.vel` grammar + relation-kind -> UML mapping |
 | [`model.schema.json`](model.schema.json) | The intermediate type-graph schema (single source of truth) |
-| [`examples/z_Loom.vel`](examples/z_Loom.vel) | Full consolidated architecture (Core+Engine+Providers), ported from the [Loom](https://github.com/Nicchi10/Loom) repo |
+| [`veltro/parser.py`](veltro/parser.py) | `.vel` -> model, with schema validation |
+| [`veltro/extract/python_ast.py`](veltro/extract/python_ast.py) | Python source -> `.vel` (deterministic, no LLM) |
+| [`veltro/export/`](veltro/export) | model -> PlantUML / Mermaid |
+| [`examples/pydantic.vel`](examples/pydantic.vel) | Pydantic's architecture, extracted to `.vel` |
 
 ## Roadmap
 
-- [ ] `parser` - `.vel` -> `model.schema.json` (TypeScript)
-- [ ] `viewer` - WebGL graph, semantic zoom, click-to-highlight (TypeScript)
-- [ ] `adapter-plantuml` - PlantUML -> graph
-- [ ] `serializer` - graph -> canonical `.vel` (round-trip guarantee)
-- [ ] `export-plantuml` - graph -> PlantUML (Rosetta, the other way)
+- [ ] **Java extractor** (Kafka, Spring) so people lick their fingers
+- [ ] **LLM comprehension eval**: same architecture in `.vel` / Mermaid / PlantUML,
+      ask an LLM the same structural questions, measure accuracy at equal (or
+      lower) token cost. Repeatable and verifiable -- see [`eval/`](eval)
+- [ ] **VS Code extension** (and other IDEs) once the gain is clear
+- [ ] **Parser in TypeScript / Rust** (the reference parser is Python today)
+- [ ] **The viewer**: WebGL graph, semantic zoom, click-to-highlight
+- [ ] **PlantUML / Mermaid -> Veltro** translator (the inbound Rosetta direction)
 
 ## Stack
 
-TypeScript end to end, viewer renders on Canvas/WebGL (not SVG/DOM it dies past
-a few thousand nodes) with a force-directed engine and stable, remembered layout.
+The language tooling (parser, extractor, exporters, benchmarks) is **Python**,
+standard library only at runtime. The viewer will be **TypeScript** on
+Canvas/WebGL (not SVG/DOM, which dies past a few thousand nodes) with a
+force-directed engine and a stable, remembered layout.
