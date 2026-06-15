@@ -97,7 +97,7 @@ SPEC.md                   the .vel language specification
 examples/                 real architectures extracted to .vel (e.g. pydantic.vel)
 bench/                    token benchmarks + the vendored PlantUML sample
   formats/                the same slice encoded in 7 formats, for the ranking
-eval/                     (planned) LLM comprehension eval -- see eval/README.md
+eval/                     (planned) LLM comprehension eval, see eval/README.md
 tests/                    unit tests (parser, extractor, exporters)
 ```
 
@@ -125,9 +125,7 @@ extract_java   |
 ## Roadmap
 
 - [ ] **Java extractor** (Kafka, Spring) so people lick their fingers
-- [ ] **LLM comprehension eval**: same architecture in `.vel` / Mermaid / PlantUML,
-      ask an LLM the same structural questions, measure accuracy at equal (or
-      lower) token cost. Repeatable and verifiable -- see [`eval/`](eval)
+- [ ] **LLM comprehension eval**: same architecture in `.vel` / Mermaid / PlantUML, ask an LLM the same structural questions, measure accuracy at equal (or lower) token cost. Repeatable and verifiable, see [`eval/`](eval)
 - [ ] **VS Code extension** (and other IDEs) once the gain is clear
 - [ ] **Parser in TypeScript / Rust** (the reference parser is Python today)
 - [ ] **The viewer**: WebGL graph, semantic zoom, click-to-highlight

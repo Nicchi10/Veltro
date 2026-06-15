@@ -1,0 +1,458 @@
+{
+  "project": "pydantic",
+  "types": 360,
+  "questions": [
+    {
+      "id": "q1",
+      "type": "implementors",
+      "subject": "ABCMeta",
+      "prompt": "List every type that extends or implements 'ABCMeta'. Answer with type names only.",
+      "answer": [
+        "ModelMetaclass"
+      ]
+    },
+    {
+      "id": "q2",
+      "type": "implementors",
+      "subject": "AnyHttpUrl",
+      "prompt": "List every type that extends or implements 'AnyHttpUrl'. Answer with type names only.",
+      "answer": [
+        "HttpUrl"
+      ]
+    },
+    {
+      "id": "q3",
+      "type": "implementors",
+      "subject": "AnyUrl",
+      "prompt": "List every type that extends or implements 'AnyUrl'. Answer with type names only.",
+      "answer": [
+        "AmqpDsn",
+        "AnyHttpUrl",
+        "AnyWebsocketUrl",
+        "ClickHouseDsn",
+        "CockroachDsn",
+        "FileUrl",
+        "FtpUrl",
+        "HttpUrl",
+        "KafkaDsn",
+        "MariaDBDsn",
+        "MongoDsn",
+        "MultiHostDsn",
+        "MySQLDsn",
+        "RedisDsn",
+        "SnowflakeDsn",
+        "WebsocketUrl"
+      ]
+    },
+    {
+      "id": "q4",
+      "type": "implementors",
+      "subject": "BaseMetadata",
+      "prompt": "List every type that extends or implements 'BaseMetadata'. Answer with type names only.",
+      "answer": [
+        "FailFast",
+        "Strict"
+      ]
+    },
+    {
+      "id": "q5",
+      "type": "implementors",
+      "subject": "BaseModel",
+      "prompt": "List every type that extends or implements 'BaseModel'. Answer with type names only.",
+      "answer": [
+        "BaseSettings",
+        "GenericModel",
+        "RootModel"
+      ]
+    },
+    {
+      "id": "q6",
+      "type": "implementors",
+      "subject": "BaseValidateHandlerProtocol",
+      "prompt": "List every type that extends or implements 'BaseValidateHandlerProtocol'. Answer with type names only.",
+      "answer": [
+        "ValidateJsonHandlerProtocol",
+        "ValidatePythonHandlerProtocol",
+        "ValidateStringsHandlerProtocol"
+      ]
+    },
+    {
+      "id": "q7",
+      "type": "implementors",
+      "subject": "CoreSchemaGenerationWarning",
+      "prompt": "List every type that extends or implements 'CoreSchemaGenerationWarning'. Answer with type names only.",
+      "answer": [
+        "ArbitraryTypeWarning",
+        "TypedDictExtraConfigWarning",
+        "UnsupportedFieldAttributeWarning"
+      ]
+    },
+    {
+      "id": "q8",
+      "type": "implementors",
+      "subject": "Decimal",
+      "prompt": "List every type that extends or implements 'Decimal'. Answer with type names only.",
+      "answer": [
+        "ConstrainedDecimal"
+      ]
+    },
+    {
+      "id": "q9",
+      "type": "implementors",
+      "subject": "DeprecationWarning",
+      "prompt": "List every type that extends or implements 'DeprecationWarning'. Answer with type names only.",
+      "answer": [
+        "PydanticDeprecationWarning"
+      ]
+    },
+    {
+      "id": "q10",
+      "type": "implementors",
+      "subject": "EncoderProtocol",
+      "prompt": "List every type that extends or implements 'EncoderProtocol'. Answer with type names only.",
+      "answer": [
+        "Base64Encoder",
+        "Base64UrlEncoder"
+      ]
+    },
+    {
+      "id": "q11",
+      "type": "depends_on",
+      "subject": "AliasChoices",
+      "prompt": "List every type that 'AliasChoices' references or inherits (its outgoing relations).",
+      "answer": [
+        "AliasPath"
+      ]
+    },
+    {
+      "id": "q12",
+      "type": "depends_on",
+      "subject": "AliasGenerator",
+      "prompt": "List every type that 'AliasGenerator' references or inherits (its outgoing relations).",
+      "answer": [
+        "AliasChoices",
+        "AliasPath"
+      ]
+    },
+    {
+      "id": "q13",
+      "type": "depends_on",
+      "subject": "AllowInfNan",
+      "prompt": "List every type that 'AllowInfNan' references or inherits (its outgoing relations).",
+      "answer": [
+        "PydanticMetadata"
+      ]
+    },
+    {
+      "id": "q14",
+      "type": "depends_on",
+      "subject": "AmqpDsn",
+      "prompt": "List every type that 'AmqpDsn' references or inherits (its outgoing relations).",
+      "answer": [
+        "AnyUrl"
+      ]
+    },
+    {
+      "id": "q15",
+      "type": "depends_on",
+      "subject": "AnyHttpUrl",
+      "prompt": "List every type that 'AnyHttpUrl' references or inherits (its outgoing relations).",
+      "answer": [
+        "AnyUrl"
+      ]
+    },
+    {
+      "id": "q16",
+      "type": "depends_on",
+      "subject": "AnyStrMaxLengthError",
+      "prompt": "List every type that 'AnyStrMaxLengthError' references or inherits (its outgoing relations).",
+      "answer": [
+        "PydanticValueError"
+      ]
+    },
+    {
+      "id": "q17",
+      "type": "depends_on",
+      "subject": "AnyStrMinLengthError",
+      "prompt": "List every type that 'AnyStrMinLengthError' references or inherits (its outgoing relations).",
+      "answer": [
+        "PydanticValueError"
+      ]
+    },
+    {
+      "id": "q18",
+      "type": "depends_on",
+      "subject": "AnyUrl",
+      "prompt": "List every type that 'AnyUrl' references or inherits (its outgoing relations).",
+      "answer": [
+        "_BaseUrl",
+        "str"
+      ]
+    },
+    {
+      "id": "q19",
+      "type": "depends_on",
+      "subject": "AnyWebsocketUrl",
+      "prompt": "List every type that 'AnyWebsocketUrl' references or inherits (its outgoing relations).",
+      "answer": [
+        "AnyUrl"
+      ]
+    },
+    {
+      "id": "q20",
+      "type": "depends_on",
+      "subject": "ArbitraryTypeError",
+      "prompt": "List every type that 'ArbitraryTypeError' references or inherits (its outgoing relations).",
+      "answer": [
+        "PydanticTypeError"
+      ]
+    },
+    {
+      "id": "q21",
+      "type": "module_of",
+      "subject": "ConfigWrapper",
+      "prompt": "Which module is the type 'ConfigWrapper' defined in?",
+      "answer": "pydantic._internal._config"
+    },
+    {
+      "id": "q22",
+      "type": "module_of",
+      "subject": "ConfigWrapperStack",
+      "prompt": "Which module is the type 'ConfigWrapperStack' defined in?",
+      "answer": "pydantic._internal._config"
+    },
+    {
+      "id": "q23",
+      "type": "module_of",
+      "subject": "CoreMetadata",
+      "prompt": "Which module is the type 'CoreMetadata' defined in?",
+      "answer": "pydantic._internal._core_metadata"
+    },
+    {
+      "id": "q24",
+      "type": "module_of",
+      "subject": "Decorator",
+      "prompt": "Which module is the type 'Decorator' defined in?",
+      "answer": "pydantic._internal._decorators"
+    },
+    {
+      "id": "q25",
+      "type": "module_of",
+      "subject": "DecoratorInfos",
+      "prompt": "Which module is the type 'DecoratorInfos' defined in?",
+      "answer": "pydantic._internal._decorators"
+    },
+    {
+      "id": "q26",
+      "type": "module_of",
+      "subject": "FieldSerializerDecoratorInfo",
+      "prompt": "Which module is the type 'FieldSerializerDecoratorInfo' defined in?",
+      "answer": "pydantic._internal._decorators"
+    },
+    {
+      "id": "q27",
+      "type": "module_of",
+      "subject": "FieldValidatorDecoratorInfo",
+      "prompt": "Which module is the type 'FieldValidatorDecoratorInfo' defined in?",
+      "answer": "pydantic._internal._decorators"
+    },
+    {
+      "id": "q28",
+      "type": "module_of",
+      "subject": "ModelSerializerDecoratorInfo",
+      "prompt": "Which module is the type 'ModelSerializerDecoratorInfo' defined in?",
+      "answer": "pydantic._internal._decorators"
+    },
+    {
+      "id": "q29",
+      "type": "module_of",
+      "subject": "ModelValidatorDecoratorInfo",
+      "prompt": "Which module is the type 'ModelValidatorDecoratorInfo' defined in?",
+      "answer": "pydantic._internal._decorators"
+    },
+    {
+      "id": "q30",
+      "type": "module_of",
+      "subject": "PydanticDescriptorProxy",
+      "prompt": "Which module is the type 'PydanticDescriptorProxy' defined in?",
+      "answer": "pydantic._internal._decorators"
+    },
+    {
+      "id": "q31",
+      "type": "public_method_count",
+      "subject": "ConfigWrapper",
+      "prompt": "How many public methods does 'ConfigWrapper' declare?",
+      "answer": 2
+    },
+    {
+      "id": "q32",
+      "type": "public_method_count",
+      "subject": "ConfigWrapperStack",
+      "prompt": "How many public methods does 'ConfigWrapperStack' declare?",
+      "answer": 1
+    },
+    {
+      "id": "q33",
+      "type": "public_method_count",
+      "subject": "CoreMetadata",
+      "prompt": "How many public methods does 'CoreMetadata' declare?",
+      "answer": 0
+    },
+    {
+      "id": "q34",
+      "type": "public_method_count",
+      "subject": "Decorator",
+      "prompt": "How many public methods does 'Decorator' declare?",
+      "answer": 2
+    },
+    {
+      "id": "q35",
+      "type": "public_method_count",
+      "subject": "DecoratorInfos",
+      "prompt": "How many public methods does 'DecoratorInfos' declare?",
+      "answer": 9
+    },
+    {
+      "id": "q36",
+      "type": "public_method_count",
+      "subject": "FieldSerializerDecoratorInfo",
+      "prompt": "How many public methods does 'FieldSerializerDecoratorInfo' declare?",
+      "answer": 0
+    },
+    {
+      "id": "q37",
+      "type": "public_method_count",
+      "subject": "FieldValidatorDecoratorInfo",
+      "prompt": "How many public methods does 'FieldValidatorDecoratorInfo' declare?",
+      "answer": 0
+    },
+    {
+      "id": "q38",
+      "type": "public_method_count",
+      "subject": "ModelSerializerDecoratorInfo",
+      "prompt": "How many public methods does 'ModelSerializerDecoratorInfo' declare?",
+      "answer": 0
+    },
+    {
+      "id": "q39",
+      "type": "public_method_count",
+      "subject": "ModelValidatorDecoratorInfo",
+      "prompt": "How many public methods does 'ModelValidatorDecoratorInfo' declare?",
+      "answer": 0
+    },
+    {
+      "id": "q40",
+      "type": "public_method_count",
+      "subject": "PydanticDescriptorProxy",
+      "prompt": "How many public methods does 'PydanticDescriptorProxy' declare?",
+      "answer": 0
+    },
+    {
+      "id": "q41",
+      "type": "collection_fields",
+      "subject": "ConfigWrapper",
+      "prompt": "Which fields of 'ConfigWrapper' have a generic or collection type (e.g. a List, Dict, Optional, ...)? Answer with field names only.",
+      "answer": [
+        "alias_generator",
+        "cache_strings",
+        "field_title_generator",
+        "ignored_types",
+        "json_encoders",
+        "json_schema_mode_override",
+        "model_title_generator",
+        "plugin_settings",
+        "protected_namespaces",
+        "regex_engine",
+        "revalidate_instances",
+        "schema_generator",
+        "ser_json_bytes",
+        "ser_json_inf_nan",
+        "ser_json_temporal",
+        "ser_json_timedelta",
+        "val_json_bytes",
+        "val_temporal_unit"
+      ]
+    },
+    {
+      "id": "q42",
+      "type": "collection_fields",
+      "subject": "ConfigWrapperStack",
+      "prompt": "Which fields of 'ConfigWrapperStack' have a generic or collection type (e.g. a List, Dict, Optional, ...)? Answer with field names only.",
+      "answer": []
+    },
+    {
+      "id": "q43",
+      "type": "collection_fields",
+      "subject": "CoreMetadata",
+      "prompt": "Which fields of 'CoreMetadata' have a generic or collection type (e.g. a List, Dict, Optional, ...)? Answer with field names only.",
+      "answer": [
+        "pydantic_js_annotation_functions",
+        "pydantic_js_functions"
+      ]
+    },
+    {
+      "id": "q44",
+      "type": "collection_fields",
+      "subject": "Decorator",
+      "prompt": "Which fields of 'Decorator' have a generic or collection type (e.g. a List, Dict, Optional, ...)? Answer with field names only.",
+      "answer": [
+        "func",
+        "shim"
+      ]
+    },
+    {
+      "id": "q45",
+      "type": "collection_fields",
+      "subject": "DecoratorInfos",
+      "prompt": "Which fields of 'DecoratorInfos' have a generic or collection type (e.g. a List, Dict, Optional, ...)? Answer with field names only.",
+      "answer": []
+    },
+    {
+      "id": "q46",
+      "type": "collection_fields",
+      "subject": "FieldSerializerDecoratorInfo",
+      "prompt": "Which fields of 'FieldSerializerDecoratorInfo' have a generic or collection type (e.g. a List, Dict, Optional, ...)? Answer with field names only.",
+      "answer": [
+        "fields",
+        "mode"
+      ]
+    },
+    {
+      "id": "q47",
+      "type": "collection_fields",
+      "subject": "FieldValidatorDecoratorInfo",
+      "prompt": "Which fields of 'FieldValidatorDecoratorInfo' have a generic or collection type (e.g. a List, Dict, Optional, ...)? Answer with field names only.",
+      "answer": [
+        "fields"
+      ]
+    },
+    {
+      "id": "q48",
+      "type": "collection_fields",
+      "subject": "ModelSerializerDecoratorInfo",
+      "prompt": "Which fields of 'ModelSerializerDecoratorInfo' have a generic or collection type (e.g. a List, Dict, Optional, ...)? Answer with field names only.",
+      "answer": [
+        "mode"
+      ]
+    },
+    {
+      "id": "q49",
+      "type": "collection_fields",
+      "subject": "ModelValidatorDecoratorInfo",
+      "prompt": "Which fields of 'ModelValidatorDecoratorInfo' have a generic or collection type (e.g. a List, Dict, Optional, ...)? Answer with field names only.",
+      "answer": [
+        "mode"
+      ]
+    },
+    {
+      "id": "q50",
+      "type": "collection_fields",
+      "subject": "PydanticDescriptorProxy",
+      "prompt": "Which fields of 'PydanticDescriptorProxy' have a generic or collection type (e.g. a List, Dict, Optional, ...)? Answer with field names only.",
+      "answer": [
+        "shim",
+        "wrapped"
+      ]
+    }
+  ]
+}
