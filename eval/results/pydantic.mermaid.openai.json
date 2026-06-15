@@ -1,0 +1,154 @@
+{
+  "project": "pydantic",
+  "provider": "openai",
+  "format": "mermaid",
+  "model": "gpt-4.1-nano",
+  "input_tokens": 24857,
+  "output_tokens": 643,
+  "answers": {
+    "q1": [
+      "ABCMeta"
+    ],
+    "q2": [
+      "AnyHttpUrl"
+    ],
+    "q3": [
+      "AnyUrl"
+    ],
+    "q4": [
+      "BaseMetadata"
+    ],
+    "q5": [
+      "BaseModel"
+    ],
+    "q6": [
+      "BaseValidateHandlerProtocol"
+    ],
+    "q7": [
+      "CoreSchemaGenerationWarning"
+    ],
+    "q8": [
+      "Decimal"
+    ],
+    "q9": [
+      "DeprecationWarning"
+    ],
+    "q10": [
+      "EncoderProtocol"
+    ],
+    "q11": [
+      "AliasChoices"
+    ],
+    "q12": [
+      "AliasGenerator"
+    ],
+    "q13": [
+      "AllowInfNan"
+    ],
+    "q14": [
+      "AmqpDsn"
+    ],
+    "q15": [
+      "AnyHttpUrl"
+    ],
+    "q16": [
+      "AnyStrMaxLengthError"
+    ],
+    "q17": [
+      "AnyStrMinLengthError"
+    ],
+    "q18": [
+      "AnyUrl"
+    ],
+    "q19": [
+      "AnyWebsocketUrl"
+    ],
+    "q20": [
+      "ArbitraryTypeError"
+    ],
+    "q21": "pydantic.schema",
+    "q22": "pydantic.schema",
+    "q23": "pydantic.schema",
+    "q24": "pydantic.schema",
+    "q25": "pydantic.schema",
+    "q26": "pydantic.schema",
+    "q27": "pydantic.schema",
+    "q28": "pydantic.schema",
+    "q29": "pydantic.schema",
+    "q30": "pydantic.schema",
+    "q31": 7,
+    "q32": 4,
+    "q33": 1,
+    "q34": 7,
+    "q35": 7,
+    "q36": 3,
+    "q37": 3,
+    "q38": 3,
+    "q39": 3,
+    "q40": 3,
+    "q41": [
+      "config_dict"
+    ],
+    "q42": [],
+    "q43": [
+      "pydantic_js_prefer_positional_arguments",
+      "pydantic_js_updates",
+      "pydantic_js_extra",
+      "pydantic_internal_union_tag_key",
+      "pydantic_internal_union_discriminator"
+    ],
+    "q44": [
+      "info",
+      "build"
+    ],
+    "q45": [
+      "validators",
+      "field_validators",
+      "root_validators",
+      "field_serializers",
+      "model_serializers",
+      "model_validators",
+      "computed_fields"
+    ],
+    "q46": [
+      "decorator_repr$",
+      "wrapped_property",
+      "return_type",
+      "alias",
+      "alias_priority",
+      "exclude_if",
+      "title",
+      "field_title_generator",
+      "description",
+      "examples",
+      "json_schema_extra",
+      "repr",
+      "deprecation_message"
+    ],
+    "q47": [
+      "decorator_repr$",
+      "fields",
+      "mode",
+      "check_fields",
+      "json_schema_input_type"
+    ],
+    "q48": [
+      "decorator_repr$",
+      "mode",
+      "return_type",
+      "when_used"
+    ],
+    "q49": [
+      "decorator_repr$",
+      "mode"
+    ],
+    "q50": [
+      "decorator_repr$",
+      "fields",
+      "mode",
+      "return_type",
+      "when_used"
+    ]
+  },
+  "raw_text": "{\n  \"q1\": [\"ABCMeta\"],\n  \"q2\": [\"AnyHttpUrl\"],\n  \"q3\": [\"AnyUrl\"],\n  \"q4\": [\"BaseMetadata\"],\n  \"q5\": [\"BaseModel\"],\n  \"q6\": [\"BaseValidateHandlerProtocol\"],\n  \"q7\": [\"CoreSchemaGenerationWarning\"],\n  \"q8\": [\"Decimal\"],\n  \"q9\": [\"DeprecationWarning\"],\n  \"q10\": [\"EncoderProtocol\"],\n  \"q11\": [\"AliasChoices\"],\n  \"q12\": [\"AliasGenerator\"],\n  \"q13\": [\"AllowInfNan\"],\n  \"q14\": [\"AmqpDsn\"],\n  \"q15\": [\"AnyHttpUrl\"],\n  \"q16\": [\"AnyStrMaxLengthError\"],\n  \"q17\": [\"AnyStrMinLengthError\"],\n  \"q18\": [\"AnyUrl\"],\n  \"q19\": [\"AnyWebsocketUrl\"],\n  \"q20\": [\"ArbitraryTypeError\"],\n  \"q21\": \"pydantic.schema\",\n  \"q22\": \"pydantic.schema\",\n  \"q23\": \"pydantic.schema\",\n  \"q24\": \"pydantic.schema\",\n  \"q25\": \"pydantic.schema\",\n  \"q26\": \"pydantic.schema\",\n  \"q27\": \"pydantic.schema\",\n  \"q28\": \"pydantic.schema\",\n  \"q29\": \"pydantic.schema\",\n  \"q30\": \"pydantic.schema\",\n  \"q31\": 7,\n  \"q32\": 4,\n  \"q33\": 1,\n  \"q34\": 7,\n  \"q35\": 7,\n  \"q36\": 3,\n  \"q37\": 3,\n  \"q38\": 3,\n  \"q39\": 3,\n  \"q40\": 3,\n  \"q41\": [\"config_dict\"],\n  \"q42\": [],\n  \"q43\": [\"pydantic_js_prefer_positional_arguments\", \"pydantic_js_updates\", \"pydantic_js_extra\", \"pydantic_internal_union_tag_key\", \"pydantic_internal_union_discriminator\"],\n  \"q44\": [\"info\", \"build\"],\n  \"q45\": [\"validators\", \"field_validators\", \"root_validators\", \"field_serializers\", \"model_serializers\", \"model_validators\", \"computed_fields\"],\n  \"q46\": [\"decorator_repr$\", \"wrapped_property\", \"return_type\", \"alias\", \"alias_priority\", \"exclude_if\", \"title\", \"field_title_generator\", \"description\", \"examples\", \"json_schema_extra\", \"repr\", \"deprecation_message\"],\n  \"q47\": [\"decorator_repr$\", \"fields\", \"mode\", \"check_fields\", \"json_schema_input_type\"],\n  \"q48\": [\"decorator_repr$\", \"mode\", \"return_type\", \"when_used\"],\n  \"q49\": [\"decorator_repr$\", \"mode\"],\n  \"q50\": [\"decorator_repr$\", \"fields\", \"mode\", \"return_type\", \"when_used\"]\n}"
+}
