@@ -167,6 +167,46 @@ def load_questions(subjects_dir: str, project: str) -> list:
         return json.load(questions_file)["questions"]
 
 
+def mean(values: list) -> float:
+    """
+    Arithmetic mean, or 0.0 for an empty list
+    """
+    if not values:
+        return 0.0
+    return sum(values) / len(values)
+
+
+def stdev(values: list) -> float:
+    """
+    Sample standard deviation (n-1), or 0.0 when there are fewer than 2 values
+    """
+    count = len(values)
+    if count < 2:
+        return 0.0
+    average = mean(values)
+    total = 0.0
+    for value in values:
+        total += (value - average) ** 2
+    return (total / (count - 1)) ** 0.5
+
+
+def runs_of(result: dict) -> list:
+    """
+
+    Return the list of runs in a result file.
+
+    Supports both the new shape ({"runs": [...]}) and the old single-run shape
+    ({"answers": ..., "input_tokens": ...}), so older result files still score.
+
+    """
+    if "runs" in result:
+        return result["runs"]
+    return [{
+        "answers": result.get("answers", {}),
+        "input_tokens": result.get("input_tokens", 0),
+    }]
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(description="Score eval answers against ground truth")
     parser.add_argument("project")
@@ -191,13 +231,37 @@ def main(argv=None):
     for path in result_paths:
         with open(path, encoding="utf-8") as result_file:
             result = json.load(result_file)
-        scored = score_result(questions, result.get("answers", {}))
+
+        runs = runs_of(result)
+
+        exact_values = []
+        f1_values = []
+        token_values = []
+        per_type_values = {}
+
+        for run in runs:
+            scored = score_result(questions, run.get("answers", {}))
+            exact_values.append(scored["exact_accuracy"])
+            f1_values.append(scored["list_f1"])
+            token_values.append(run.get("input_tokens", 0))
+            for qtype, accuracy in scored["per_type_accuracy"].items():
+                per_type_values.setdefault(qtype, []).append(accuracy)
+
+        per_type_mean = {}
+        for qtype, values in per_type_values.items():
+            per_type_mean[qtype] = mean(values)
+
         rows.append({
             "format": result["format"],
             "provider": result.get("provider", "?"),
             "model": result.get("model", "?"),
-            "input_tokens": result.get("input_tokens", 0),
-            "scored": scored,
+            "runs": len(runs),
+            "tokens": int(mean(token_values)),
+            "exact_mean": mean(exact_values),
+            "exact_std": stdev(exact_values),
+            "f1_mean": mean(f1_values),
+            "f1_std": stdev(f1_values),
+            "per_type_mean": per_type_mean,
         })
 
     # Sort by accuracy desc, then tokens asc (best + cheapest first)
@@ -205,17 +269,17 @@ def main(argv=None):
 
     provider = rows[0]["provider"]
     model = rows[0]["model"]
-    print(f"project: {arguments.project}   provider: {provider}   model: {model}")
+    run_count = rows[0]["runs"]
+    print(f"project: {arguments.project}   provider: {provider}   model: {model}   runs: {run_count}")
     print(f"ground-truth questions: {len(questions)}\n")
 
-    header = f"{'format':10} {'tokens':>7} {'exact%':>7} {'listF1':>7}"
-    print(header)
+    print(f"{'format':10} {'tokens':>7} {'exact%':>10} {'listF1':>12}")
     for row in rows:
-        scored = row["scored"]
-        exact_percent = 100 * scored["exact_accuracy"]
-        print(f"{row['format']:10} {row['input_tokens']:7} {exact_percent:6.0f}% {scored['list_f1']:7.2f}")
+        exact = f"{100 * row['exact_mean']:.0f}+/-{100 * row['exact_std']:.0f}%"
+        f1 = f"{row['f1_mean']:.2f}+/-{row['f1_std']:.2f}"
+        print(f"{row['format']:10} {row['tokens']:7} {exact:>10} {f1:>12}")
 
-    print("\nper-type exact accuracy:")
+    print("\nper-type exact accuracy (mean):")
     type_header = f"{'format':10}"
     for qtype in question_types:
         type_header += f" {qtype:>20}"
@@ -223,7 +287,7 @@ def main(argv=None):
     for row in rows:
         line = f"{row['format']:10}"
         for qtype in question_types:
-            accuracy = row["scored"]["per_type_accuracy"].get(qtype, 0.0)
+            accuracy = row["per_type_mean"].get(qtype, 0.0)
             line += f" {100 * accuracy:19.0f}%"
         print(line)
 
@@ -232,9 +296,9 @@ def main(argv=None):
 
 def sort_key(row: dict):
     """
-    Best first: higher accuracy, then fewer tokens
+    Best first: higher mean accuracy, then fewer tokens
     """
-    return (-row["scored"]["exact_accuracy"], row["input_tokens"])
+    return (-row["exact_mean"], row["tokens"])
 
 
 if __name__ == "__main__":

@@ -20,6 +20,7 @@ Run:
     python eval/run.py pydantic
     python eval/run.py pydantic --provider openai --model gpt-4.1-nano
     python eval/run.py pydantic --formats veltro,mermaid,plantuml
+    python eval/run.py pydantic --repeat 5      # 5 queries per format, for mean +/- std
 """
 
 import argparse
@@ -210,6 +211,7 @@ def main(argv=None):
     parser.add_argument("--formats", default="veltro,mermaid,plantuml", help="comma-separated subset of: veltro,mermaid,plantuml")
     parser.add_argument("--subjects-dir", default="eval/subjects")
     parser.add_argument("--out-dir", default="eval/results")
+    parser.add_argument("--repeat", type=int, default=1, help="how many times to query each format (for mean +/- std)")
     arguments = parser.parse_args(argv)
 
     provider = arguments.provider or detect_provider()
@@ -244,18 +246,23 @@ def main(argv=None):
         diagram = load_subject(arguments.subjects_dir, arguments.project, format_info["extension"])
         system_text, user_text = build_prompt(format_info["legend"], diagram, questions)
 
-        raw_text, input_tokens, output_tokens = call_provider(model, system_text, user_text)
-        answers = extract_json(raw_text)
+        # Query the format --repeat times so step 3 can report mean +/- std
+        runs = []
+        for run_index in range(arguments.repeat):
+            raw_text, input_tokens, output_tokens = call_provider(model, system_text, user_text)
+            runs.append({
+                "input_tokens": input_tokens,
+                "output_tokens": output_tokens,
+                "answers": extract_json(raw_text),
+                "raw_text": raw_text,
+            })
 
         result = {
             "project": arguments.project,
             "provider": provider,
             "format": format_name,
             "model": model,
-            "input_tokens": input_tokens,
-            "output_tokens": output_tokens,
-            "answers": answers,
-            "raw_text": raw_text,
+            "runs": runs,
         }
 
         out_path = os.path.join(arguments.out_dir, f"{arguments.project}.{format_name}.{provider}.json")
@@ -263,7 +270,10 @@ def main(argv=None):
             json.dump(result, out_file, indent=2, ensure_ascii=False)
             out_file.write("\n")
 
-        print(f"[INFO] - {provider}/{model}  {format_name:9} input={input_tokens:6} output={output_tokens:5} answers={len(answers)} -> {out_path}")
+        answers_per_run = []
+        for run in runs:
+            answers_per_run.append(len(run["answers"]))
+        print(f"[INFO] - {provider}/{model}  {format_name:9} runs={len(runs)} input={runs[0]['input_tokens']:6} answers/run={answers_per_run} -> {out_path}")
 
     return 0
 
