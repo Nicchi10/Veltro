@@ -1,4 +1,415 @@
 classDiagram
+namespace pydantic._internal._config {
+  class ConfigWrapper {
+    +ConfigDict config_dict
+    +str? title
+    +bool str_to_lower
+    +bool str_to_upper
+    +bool str_strip_whitespace
+    +int str_min_length
+    +int? str_max_length
+    +ExtraValues? extra
+    +bool frozen
+    +bool populate_by_name
+    +bool use_enum_values
+    +bool validate_assignment
+    +bool arbitrary_types_allowed
+    +bool from_attributes
+    +bool loc_by_alias
+    +Callable~~str~,str~| AliasGenerator | None alias_generator
+    +Callable~~type~,str~? model_title_generator
+    +Callable~~str,FieldInfo | ComputedFieldInfo~,str~| None field_title_generator
+    +tuple~type,...~ ignored_types
+    +bool allow_inf_nan
+    +JsonDict | JsonSchemaExtraCallable | None json_schema_extra
+    +dict~type~object~,JsonEncoder~? json_encoders
+    +bool strict
+    +Literal~always,never,subclass-instances~ revalidate_instances
+    +Literal~iso8601,float~ ser_json_timedelta
+    +Literal~iso8601,seconds,milliseconds~ ser_json_temporal
+    +Literal~seconds,milliseconds,infer~ val_temporal_unit
+    +Literal~utf8,base64,hex~ ser_json_bytes
+    +Literal~utf8,base64,hex~ val_json_bytes
+    +Literal~null,constants,strings~ ser_json_inf_nan
+    +bool validate_default
+    +bool validate_return
+    +tuple~str | Pattern~str~,...~ protected_namespaces
+    +bool hide_input_in_errors
+    +bool defer_build
+    +dict~str,object~? plugin_settings
+    +type~GenerateSchema~? schema_generator
+    +bool json_schema_serialization_defaults_required
+    +Literal~validation,serialization,None~ json_schema_mode_override
+    +bool coerce_numbers_to_str
+    +Literal~rust-regex,python-re~ regex_engine
+    +bool validation_error_cause
+    +bool use_attribute_docstrings
+    +bool | Literal~all,keys,none~ cache_strings
+    +bool validate_by_alias
+    +bool validate_by_name
+    +bool serialize_by_alias
+    +bool url_preserve_empty_path
+    +bool polymorphic_serialization
+    -__init__(ConfigDict | dict~str,Any~| type~Any~| None config, bool check)
+    +for_model(tuple~type~Any~,...~ bases, dict~str,Any~ namespace, dict~str,Any~ raw_annotations, dict~str,Any~ kwargs) Self$
+    +core_config(str? title) core_schema.CoreConfig
+  }
+  class ConfigWrapperStack {
+    +ConfigWrapper tail
+    -__init__(ConfigWrapper config_wrapper)
+    +push(ConfigWrapper | ConfigDict | None config_wrapper)
+  }
+}
+namespace pydantic._internal._core_metadata {
+  class CoreMetadata {
+    +list~GetJsonSchemaFunction~ pydantic_js_functions
+    +list~GetJsonSchemaFunction~ pydantic_js_annotation_functions
+    +bool pydantic_js_prefer_positional_arguments
+    +JsonDict pydantic_js_updates
+    +JsonDict | JsonSchemaExtraCallable pydantic_js_extra
+    +str pydantic_internal_union_tag_key
+    +str pydantic_internal_union_discriminator
+  }
+}
+namespace pydantic._internal._decorators {
+  class ValidatorDecoratorInfo {
+    +str decorator_repr$
+    +tuple~str,...~ fields
+    +Literal~before,after~ mode
+    +bool each_item
+    +bool always
+    +bool? check_fields
+  }
+  class FieldValidatorDecoratorInfo {
+    +str decorator_repr$
+    +tuple~str,...~ fields
+    +FieldValidatorModes mode
+    +bool? check_fields
+    +Any json_schema_input_type
+  }
+  class RootValidatorDecoratorInfo {
+    +str decorator_repr$
+    +Literal~before,after~ mode
+  }
+  class FieldSerializerDecoratorInfo {
+    +str decorator_repr$
+    +tuple~str,...~ fields
+    +Literal~plain,wrap~ mode
+    +Any return_type
+    +core_schema.WhenUsed when_used
+    +bool? check_fields
+  }
+  class ModelSerializerDecoratorInfo {
+    +str decorator_repr$
+    +Literal~plain,wrap~ mode
+    +Any return_type
+    +core_schema.WhenUsed when_used
+  }
+  class ModelValidatorDecoratorInfo {
+    +str decorator_repr$
+    +Literal~wrap,before,after~ mode
+  }
+  class PydanticDescriptorProxy {
+    +DecoratedType~ReturnType~ wrapped
+    +DecoratorInfo decorator_info
+    +Callable~~Callable~...,Any~~,Callable~...,Any~~? shim
+    -_call_wrapped_attr(Callable~~Any~,None~ func, str name) PydanticDescriptorProxy~ReturnType~
+  }
+  class Decorator {
+    +str cls_ref
+    +str cls_var_name
+    +Callable~...,Any~ func
+    +Callable~~Any~,Any~? shim
+    +DecoratorInfoType info
+    +build(Any cls_, str cls_var_name, Callable~~Any~,Any~? shim, DecoratorInfoType info) Decorator~DecoratorInfoType~$
+    +bind_to_cls(Any cls) Decorator~DecoratorInfoType~
+  }
+  class DecoratorInfos {
+    +validators dict<str,Decorator<ValidatorDecoratorInfo>> = field(default_factory)
+    +field_validators dict<str,Decorator<FieldValidatorDecoratorInfo>> = field(default_factory)
+    +root_validators dict<str,Decorator<RootValidatorDecoratorInfo>> = field(default_factory)
+    +field_serializers dict<str,Decorator<FieldSerializerDecoratorInfo>> = field(default_factory)
+    +model_serializers dict<str,Decorator<ModelSerializerDecoratorInfo>> = field(default_factory)
+    +model_validators dict<str,Decorator<ModelValidatorDecoratorInfo>> = field(default_factory)
+    +computed_fields dict<str,Decorator<ComputedFieldInfo>> = field(default_factory)
+    +build(type~Any~ typ, bool replace_wrapped_methods) Self$
+    -_validate() None
+    +update_from_config(ConfigWrapper config_wrapper) None
+  }
+}
+namespace pydantic._internal._decorators_v1 {
+  class V1OnlyValueValidator {
+    <<interface>>
+  }
+  class V1ValidatorWithValues {
+    <<interface>>
+  }
+  class V1ValidatorWithValuesKwOnly {
+    <<interface>>
+  }
+  class V1ValidatorWithKwargs {
+    <<interface>>
+  }
+  class V1ValidatorWithValuesAndKwargs {
+    <<interface>>
+  }
+  class V1RootValidatorFunction {
+    <<interface>>
+  }
+  class V2CoreBeforeRootValidator {
+    <<interface>>
+  }
+  class V2CoreAfterRootValidator {
+    <<interface>>
+  }
+}
+namespace pydantic._internal._discriminated_union {
+  class MissingDefinitionForUnionRef {
+    -__init__(str ref) None
+  }
+  class _ApplyInferredDiscriminator {
+    -__init__(str discriminator, dict~str,core_schema.CoreSchema~ definitions)
+    +apply(core_schema.CoreSchema schema) core_schema.CoreSchema
+    -_apply_to_root(core_schema.CoreSchema schema) core_schema.CoreSchema
+    -_handle_choice(core_schema.CoreSchema choice) None
+    -_is_discriminator_shared(core_schema.TaggedUnionSchema choice) bool
+    -_infer_discriminator_values_for_choice(core_schema.CoreSchema choice, str? source_name) list~str | int~
+    -_infer_discriminator_values_for_typed_dict_choice(core_schema.TypedDictSchema choice, str? source_name) list~str | int~
+    -_infer_discriminator_values_for_model_choice(core_schema.ModelFieldsSchema choice, str? source_name) list~str | int~
+    -_infer_discriminator_values_for_dataclass_choice(core_schema.DataclassArgsSchema choice, str? source_name) list~str | int~
+    -_infer_discriminator_values_for_field(CoreSchemaField field, str source) list~str | int~
+    -_infer_discriminator_values_for_inner_schema(core_schema.CoreSchema schema, str source) list~str | int~
+    -_set_unique_choice_for_values(core_schema.CoreSchema choice, Sequence~str | int~ values) None
+  }
+}
+namespace pydantic._internal._docs_extraction {
+  class DocstringVisitor {
+    -__init__() None
+    +visit(ast.AST node) Any
+    +visit_AnnAssign(ast.AnnAssign node) Any
+    +visit_Expr(ast.Expr node) Any
+  }
+}
+namespace pydantic._internal._fields {
+  class PydanticMetadata {
+  }
+  class PydanticExtraInfo {
+    +Any annotation
+    +bool complete
+  }
+}
+namespace pydantic._internal._forward_ref {
+  class PydanticRecursiveRef {
+    +str type_ref
+  }
+}
+namespace pydantic._internal._generate_schema {
+  class InvalidSchemaError {
+  }
+  class GenerateSchema {
+    -ConfigWrapper _config_wrapper
+    -NamespacesTuple _types_namespace
+    -bool _arbitrary_types
+    -__init__(ConfigWrapper config_wrapper, NsResolver? ns_resolver, Mapping~TypeVar,Any~? typevars_map) None
+    -_list_schema(Any items_type) CoreSchema
+    -_dict_schema(Any keys_type, Any values_type) CoreSchema
+    -_set_schema(Any items_type) CoreSchema
+    -_frozenset_schema(Any items_type) CoreSchema
+    -_enum_schema(type~Enum~ enum_type) CoreSchema
+    -_ip_schema(Any tp) CoreSchema
+    -_path_schema(Any tp, Any path_type) CoreSchema
+    -_deque_schema(Any items_type) CoreSchema
+    -_mapping_schema(Any tp, Any keys_type, Any values_type) CoreSchema
+    -_fraction_schema() CoreSchema
+    -_arbitrary_type_schema(Any tp) CoreSchema
+    -_unknown_type_schema(Any obj) CoreSchema
+    -_apply_discriminator_to_union(CoreSchema schema, str | Discriminator | None discriminator) CoreSchema
+    +clean_schema(CoreSchema schema) CoreSchema
+    -_add_js_function(CoreSchema metadata_schema, Callable~...,Any~ js_function) None
+    +generate_schema(Any obj) core_schema.CoreSchema
+    -_model_schema(type~BaseModel~ cls) core_schema.CoreSchema
+    -_resolve_self_type(Any obj) Any
+    -_generate_schema_from_get_schema_method(Any obj, Any source) core_schema.CoreSchema?
+    -_resolve_forward_ref(Any obj) Any
+    -_get_args_resolving_forward_refs(Any obj, Literal~True~ required) tuple~Any,...~
+    -_get_args_resolving_forward_refs(Any obj) tuple~Any,...~?
+    -_get_args_resolving_forward_refs(Any obj, bool required) tuple~Any,...~?
+    -_get_first_arg_or_any(Any obj) Any
+    -_get_first_two_args_or_any(Any obj) tuple~Any,Any~
+    -_generate_schema_inner(Any obj) core_schema.CoreSchema
+    +match_type(Any obj) core_schema.CoreSchema
+    -_match_generic_type(Any obj, Any origin) CoreSchema
+    -_generate_td_field_schema(str name, FieldInfo field_info, DecoratorInfos decorators, bool required) core_schema.TypedDictField
+    -_generate_md_field_schema(str name, FieldInfo field_info, DecoratorInfos decorators) core_schema.ModelField
+    -_generate_dc_field_schema(str name, FieldInfo field_info, DecoratorInfos decorators) core_schema.DataclassField
+    -_common_field_schema(str name, FieldInfo field_info, DecoratorInfos decorators) tuple~CoreSchema,dict~str,Any~~
+    -_union_schema(Any union_type) core_schema.CoreSchema
+    -_type_alias_type_schema(TypeAliasType obj) CoreSchema
+    -_literal_schema(Any literal_type) CoreSchema
+    -_typed_dict_schema(Any typed_dict_cls, Any origin) core_schema.CoreSchema
+    -_namedtuple_schema(Any namedtuple_cls, Any origin) core_schema.CoreSchema
+    -_generate_parameter_schema(str name, type~Any~ annotation, AnnotationSource source, Any default, Literal~positional_only,positional_or_keyword,keyword_only~? mode) core_schema.ArgumentsParameter
+    -_generate_parameter_v3_schema(str name, Any annotation, AnnotationSource source, Literal~positional_only,positional_or_keyword,keyword_only,var_args,var_kwargs_uniform,var_kwargs_unpacked_typed_dict~ mode, Any default) core_schema.ArgumentsV3Parameter
+    -_tuple_schema(Any tuple_type) core_schema.CoreSchema
+    -_type_schema() core_schema.CoreSchema
+    -_zoneinfo_schema() core_schema.CoreSchema
+    -_union_is_subclass_schema(Any union_type) core_schema.CoreSchema
+    -_subclass_schema(Any type_) core_schema.CoreSchema
+    -_sequence_schema(Any items_type) core_schema.CoreSchema
+    -_iterable_schema(Any type_) core_schema.GeneratorSchema
+    -_pattern_schema(Any pattern_type) core_schema.CoreSchema
+    -_hashable_schema() core_schema.CoreSchema
+    -_dataclass_schema(type~StandardDataclass~ dataclass, type~StandardDataclass~? origin) core_schema.CoreSchema
+    -_call_schema(ValidateCallSupportedTypes function) core_schema.CallSchema
+    -_arguments_schema(ValidateCallSupportedTypes function, ParametersCallback? parameters_callback) core_schema.ArgumentsSchema
+    -_arguments_v3_schema(ValidateCallSupportedTypes function, ParametersCallback? parameters_callback) core_schema.ArgumentsV3Schema
+    -_unsubstituted_typevar_schema(typing.TypeVar typevar) core_schema.CoreSchema
+    -_computed_field_schema(Decorator~ComputedFieldInfo~ d, dict~str,Decorator~FieldSerializerDecoratorInfo~~ field_serializers) core_schema.ComputedField
+    -_annotated_schema(Any annotated_type) core_schema.CoreSchema
+    -_apply_annotations(Any source_type, list~Any~ annotations, Callable~~CoreSchema~,CoreSchema~ transform_inner_schema, bool check_unsupported_field_info_attributes) CoreSchema
+    -_apply_single_annotation(core_schema.CoreSchema schema, Any metadata, bool check_unsupported_field_info_attributes) core_schema.CoreSchema
+    -_apply_single_annotation_json_schema(core_schema.CoreSchema schema, Any metadata) core_schema.CoreSchema
+    -_get_unsupported_field_info_attributes(FieldInfo field_info) list~tuple~str,Any~~
+    -_get_wrapped_inner_schema(GetCoreSchemaHandler get_inner_schema, Any annotation, list~GetJsonSchemaFunction~ pydantic_js_annotation_functions, bool check_unsupported_field_info_attributes) CallbackGetCoreSchemaHandler
+    -_apply_field_serializers(core_schema.CoreSchema schema, list~Decorator~FieldSerializerDecoratorInfo~~ serializers) core_schema.CoreSchema
+    -_apply_model_serializers(core_schema.CoreSchema schema, Iterable~Decorator~ModelSerializerDecoratorInfo~~ serializers) core_schema.CoreSchema
+  }
+  class _Definitions {
+    -set~str~ _recursively_seen
+    -dict~str,core_schema.CoreSchema~ _definitions
+    -__init__() None
+    +get_schema_or_ref() Generator~tuple~str,core_schema.DefinitionReferenceSchema | None~~
+    +get_schema_from_ref(str ref) CoreSchema?
+    +create_definition_reference_schema(CoreSchema schema) core_schema.DefinitionReferenceSchema
+    +unpack_definitions(core_schema.DefinitionsSchema schema) CoreSchema
+    +finalize_schema(CoreSchema schema) CoreSchema
+    -_resolve_definition(str ref, dict~str,CoreSchema~ definitions, set~str~ kept_refs) CoreSchema
+  }
+  class _FieldNameStack {
+    -__init__() None
+    +push(str field_name) Iterator~None~
+    +get() str?
+  }
+  class _ModelTypeStack {
+    -__init__() None
+    +push(type type_obj) Iterator~None~
+    +get() type?
+  }
+}
+namespace pydantic._internal._generics {
+  class LimitedDict {
+    -__init__(int size_limit) None
+  }
+  class PydanticGenericMetadata {
+    +type~BaseModel~? origin
+    +tuple~Any,...~ args
+    +tuple~TypeVar,...~ parameters
+  }
+}
+namespace pydantic._internal._mock_val_ser {
+  class MockCoreSchema {
+    -__init__(str error_message, PydanticErrorCodes code, Callable~~~,CoreSchema | None~| None attempt_rebuild) None
+    -_get_built() CoreSchema
+    +rebuild() CoreSchema?
+  }
+  class MockValSer {
+    -__init__(str error_message, PydanticErrorCodes code, Literal~validator,serializer~ val_or_ser, Callable~~~,ValSer | None~| None attempt_rebuild) None
+    +rebuild() ValSer?
+  }
+}
+namespace pydantic._internal._model_construction {
+  class _ModelNamespaceDict {
+  }
+  class ModelMetaclass {
+    +register(type~_T~ subclass) type~_T~
+    -_collect_bases_data(tuple~type~Any~,...~ bases) tuple~set~str~,set~str~,dict~str,ModelPrivateAttr~~$
+  }
+  class _DeprecatedFieldDescriptor {
+    +str field_name
+    -__init__(str msg, property? wrapped_property) None
+  }
+  class _PydanticWeakRef {
+    -__init__(Any obj)
+  }
+}
+namespace pydantic._internal._namespace_utils {
+  class NamespacesTuple {
+    +GlobalsNamespace globals
+    +MappingNamespace locals
+  }
+  class LazyLocalNamespace {
+    -__init__() None
+    +data() dict~str,Any~
+  }
+  class NsResolver {
+    -__init__(NamespacesTuple? namespaces_tuple, MappingNamespace? parent_namespace) None
+    +types_namespace() NamespacesTuple
+    +push() Generator~None~
+  }
+}
+namespace pydantic._internal._repr {
+  class PlainRepr {
+  }
+  class Representation {
+  }
+}
+namespace pydantic._internal._schema_gather {
+  class GatherResult {
+    +dict~str,DefinitionReferenceSchema | None~ collected_references
+    +list~CoreSchema~ deferred_discriminator_schemas
+  }
+  class MissingDefinitionError {
+    -__init__() None
+  }
+  class GatherContext {
+    +dict~str,CoreSchema~ definitions
+    +deferred_discriminator_schemas list<CoreSchema> = field(init, default_factory)
+    +collected_references dict<str,DefinitionReferenceSchema | None> = field(init, default_factory)
+  }
+}
+namespace pydantic._internal._schema_generation_shared {
+  class GenerateJsonSchemaHandler {
+    -__init__(GenerateJsonSchema generate_json_schema, HandlerOverride? handler_override) None
+    +resolve_ref_schema(JsonSchemaValue maybe_ref_json_schema) JsonSchemaValue
+  }
+  class CallbackGetCoreSchemaHandler {
+    +str? field_name
+    -__init__(Callable~~Any~,core_schema.CoreSchema~ handler, GenerateSchema generate_schema, Literal~to-def,unpack~ ref_mode) None
+    -_get_types_namespace() NamespacesTuple
+    +generate_schema() core_schema.CoreSchema
+    +resolve_ref_schema(core_schema.CoreSchema maybe_ref_schema) core_schema.CoreSchema
+  }
+}
+namespace pydantic._internal._signature {
+  class _HAS_DEFAULT_FACTORY_CLASS {
+  }
+}
+namespace pydantic._internal._utils {
+  class ValueItems {
+    -__init__(Any value, AbstractSetIntStr | MappingIntStrAny items) None
+    +is_excluded(Any item) bool
+    +is_included(Any item) bool
+    +for_element(int | str e) AbstractSetIntStr | MappingIntStrAny | None
+    -_normalize_indexes(MappingIntStrAny items, int v_length) dict~int | str,Any~
+    +merge(Any base, Any override, bool intersect) Any$
+    -_coerce_items(AbstractSetIntStr | MappingIntStrAny items) MappingIntStrAny$
+    -_coerce_value(Any value) Any$
+    +is_true(Any v) bool$
+  }
+  class SafeGetItemProxy {
+    +Mapping~str,Any~ wrapped
+  }
+  class deprecated_instance_property {
+    -__init__() None
+  }
+}
+namespace pydantic._internal._validate_call {
+  class ValidateCallWrapper {
+    -__init__(ValidateCallSupportedTypes function, ConfigDict? config, bool validate_return, MappingNamespace? parent_namespace) None
+    -_create_validators() None
+  }
+}
+namespace pydantic.aliases {
   class AliasPath {
     +list~int | str~ path
     -__init__(str first_arg) None
@@ -17,6 +428,8 @@ classDiagram
     -_generate_alias(Literal~alias,validation_alias,serialization_alias~ alias_kind, tuple~type~str~| type~AliasPath~| type~AliasChoices~,...~ allowed_types, str field_name) str | AliasPath | AliasChoices | None
     +generate_aliases(str field_name) tuple~str | None,str | AliasPath | AliasChoices | None,str | None~
   }
+}
+namespace pydantic.annotated_handlers {
   class GetJsonSchemaHandler {
     +JsonSchemaMode mode
     +resolve_ref_schema() JsonSchemaValue
@@ -27,6 +440,8 @@ classDiagram
     +resolve_ref_schema() core_schema.CoreSchema
     -_get_types_namespace() NamespacesTuple
   }
+}
+namespace pydantic.color {
   class RGBA {
     -__init__(float r, float g, float b, float? alpha)
   }
@@ -42,6 +457,8 @@ classDiagram
     -_alpha_float() float
     -_validate(Any __input_value, Any _) Color$
   }
+}
+namespace pydantic.config {
   class ConfigDict {
     +str? title
     +Callable~~type~,str~? model_title_generator
@@ -92,6 +509,38 @@ classDiagram
     +bool url_preserve_empty_path
     +bool polymorphic_serialization
   }
+}
+namespace pydantic.deprecated.config {
+  class _ConfigMetaclass {
+  }
+  class BaseConfig {
+  }
+  class _ExtraMeta {
+  }
+  class Extra {
+    +Literal~allow~ allow
+    +Literal~ignore~ ignore
+    +Literal~forbid~ forbid
+  }
+}
+namespace pydantic.deprecated.decorator {
+  class ValidatedFunction {
+    -__init__(AnyCallable function, ConfigType config)
+    +init_model_instance() BaseModel
+    +call() Any
+    +build_values(tuple~Any,...~ args, dict~str,Any~ kwargs) dict~str,Any~
+    +execute(BaseModel m) Any
+    +create_model(dict~str,Any~ fields, bool takes_args, bool takes_kwargs, ConfigType config) None
+  }
+}
+namespace pydantic.deprecated.parse {
+  class Protocol {
+    <<enumeration>>
+    json
+    pickle
+  }
+}
+namespace pydantic.errors {
   class PydanticErrorMixin {
     -__init__(str message, PydanticErrorCodes? code) None
   }
@@ -114,6 +563,103 @@ classDiagram
     -dict~Qualifier,str~ _qualifier_repr_map$
     -__init__(Qualifier qualifier, Any annotation) None
   }
+}
+namespace pydantic.experimental.pipeline {
+  class _ValidateAs {
+    +type~Any~ tp
+    +bool strict
+  }
+  class _ValidateAsDefer {
+    +Callable~~~,type~Any~~ func
+    +tp() type~Any~
+  }
+  class _Transform {
+    +Callable~~Any~,Any~ func
+  }
+  class _PipelineOr {
+    +_Pipeline~Any,Any~ left
+    +_Pipeline~Any,Any~ right
+  }
+  class _PipelineAnd {
+    +_Pipeline~Any,Any~ left
+    +_Pipeline~Any,Any~ right
+  }
+  class _Eq {
+    +Any value
+  }
+  class _NotEq {
+    +Any value
+  }
+  class _In {
+    +Container~Any~ values
+  }
+  class _NotIn {
+    +Container~Any~ values
+  }
+  class _Constraint {
+    +_ConstraintAnnotation constraint
+  }
+  class _FieldTypeMarker {
+  }
+  class _Pipeline {
+    -tuple~_Step,...~ _steps
+    +transform(Callable~~_OutT~,_NewOutT~ func) _Pipeline~_InT,_NewOutT~
+    +validate_as(type~_NewOutT~ tp, bool strict) _Pipeline~_InT,_NewOutT~
+    +validate_as(EllipsisType tp, bool strict) _Pipeline~_InT,Any~
+    +validate_as(Any tp, bool strict) _Pipeline~_InT,Any~
+    +validate_as(type~_NewOutT~| EllipsisType | Any tp, bool strict) _Pipeline~_InT,Any~
+    +validate_as_deferred(Callable~~~,type~_NewOutT~~ func) _Pipeline~_InT,_NewOutT~
+    +constrain(annotated_types.Ge constraint) _Pipeline~_InT,_NewOutGe~
+    +constrain(annotated_types.Gt constraint) _Pipeline~_InT,_NewOutGt~
+    +constrain(annotated_types.Le constraint) _Pipeline~_InT,_NewOutLe~
+    +constrain(annotated_types.Lt constraint) _Pipeline~_InT,_NewOutLt~
+    +constrain(annotated_types.Len constraint) _Pipeline~_InT,_NewOutLen~
+    +constrain(annotated_types.MultipleOf constraint) _Pipeline~_InT,_NewOutT~
+    +constrain(annotated_types.Timezone constraint) _Pipeline~_InT,_NewOutDatetime~
+    +constrain(annotated_types.Predicate constraint) _Pipeline~_InT,_OutT~
+    +constrain(annotated_types.Interval constraint) _Pipeline~_InT,_NewOutInterval~
+    +constrain(_Eq constraint) _Pipeline~_InT,_OutT~
+    +constrain(_NotEq constraint) _Pipeline~_InT,_OutT~
+    +constrain(_In constraint) _Pipeline~_InT,_OutT~
+    +constrain(_NotIn constraint) _Pipeline~_InT,_OutT~
+    +constrain(Pattern~str~ constraint) _Pipeline~_InT,_NewOutT~
+    +constrain(_ConstraintAnnotation constraint) Any
+    +predicate(Callable~~_NewOutT~,bool~ func) _Pipeline~_InT,_NewOutT~
+    +gt(_NewOutGt gt) _Pipeline~_InT,_NewOutGt~
+    +lt(_NewOutLt lt) _Pipeline~_InT,_NewOutLt~
+    +ge(_NewOutGe ge) _Pipeline~_InT,_NewOutGe~
+    +le(_NewOutLe le) _Pipeline~_InT,_NewOutLe~
+    +len(int min_len, int? max_len) _Pipeline~_InT,_NewOutLen~
+    +multiple_of(_NewOutDiv multiple_of) _Pipeline~_InT,_NewOutDiv~
+    +multiple_of(_NewOutMod multiple_of) _Pipeline~_InT,_NewOutMod~
+    +multiple_of(Any multiple_of) _Pipeline~_InT,Any~
+    +eq(_OutT value) _Pipeline~_InT,_OutT~
+    +not_eq(_OutT value) _Pipeline~_InT,_OutT~
+    +in_(Container~_OutT~ values) _Pipeline~_InT,_OutT~
+    +not_in(Container~_OutT~ values) _Pipeline~_InT,_OutT~
+    +datetime_tz_naive() _Pipeline~_InT,datetime.datetime~
+    +datetime_tz_aware() _Pipeline~_InT,datetime.datetime~
+    +datetime_tz(datetime.tzinfo tz) _Pipeline~_InT,datetime.datetime~
+    +datetime_with_tz(datetime.tzinfo? tz) _Pipeline~_InT,datetime.datetime~
+    +str_lower() _Pipeline~_InT,str~
+    +str_upper() _Pipeline~_InT,str~
+    +str_title() _Pipeline~_InT,str~
+    +str_strip() _Pipeline~_InT,str~
+    +str_pattern(str pattern) _Pipeline~_InT,str~
+    +str_contains(str substring) _Pipeline~_InT,str~
+    +str_starts_with(str prefix) _Pipeline~_InT,str~
+    +str_ends_with(str suffix) _Pipeline~_InT,str~
+    +otherwise(_Pipeline~_OtherIn,_OtherOut~ other) _Pipeline~_InT | _OtherIn,_OutT | _OtherOut~
+    +then(_Pipeline~_OutT,_OtherOut~ other) _Pipeline~_InT,_OtherOut~
+  }
+  class _SupportsRange {
+    <<interface>>
+  }
+  class _SupportsLen {
+    <<interface>>
+  }
+}
+namespace pydantic.fields {
   class _FromFieldInfoInputs {
     +type~Any~? annotation
     +Callable~~~,Any~| Callable~~dict~str,Any~~,Any~| None default_factory
@@ -231,6 +777,8 @@ classDiagram
     -_update_from_config(ConfigWrapper config_wrapper, str name) None
     -_apply_alias_generator(Callable~~str~,str~| AliasGenerator alias_generator, str name) None
   }
+}
+namespace pydantic.functional_serializers {
   class PlainSerializer {
     +core_schema.SerializerFunction func
     +Any return_type
@@ -241,6 +789,8 @@ classDiagram
     +Any return_type
     +WhenUsed when_used
   }
+}
+namespace pydantic.functional_validators {
   class AfterValidator {
     +core_schema.NoInfoValidatorFunction | core_schema.WithInfoValidatorFunction func
     -_from_decorator(_decorators.Decorator~_decorators.FieldValidatorDecoratorInfo~ decorator) Self$
@@ -284,6 +834,8 @@ classDiagram
   class ValidateAs {
     -__init__(Callable~~_FromTypeT~,Any~ instantiation_hook) None
   }
+}
+namespace pydantic.json_schema {
   class PydanticJsonSchemaWarning {
   }
   class _DefinitionsRemapping {
@@ -404,6 +956,8 @@ classDiagram
     -__init__(list~Any~ examples, Literal~validation,serialization~? mode) None
     -__init__(dict~str,Any~| list~Any~ examples, Literal~validation,serialization~? mode) None
   }
+}
+namespace pydantic.main {
   class BaseModel {
     +dict~str,Any~? model_extra
     +set~str~ model_fields_set
@@ -439,6 +993,8 @@ classDiagram
     -_get_value() Any$
     -_calculate_keys() Any
   }
+}
+namespace pydantic.mypy {
   class PydanticPlugin {
     -__init__(Options options) None
     +get_base_class_hook(str fullname) Callable~~ClassDefContext~,None~?
@@ -505,6 +1061,8 @@ classDiagram
     +update(ModelConfigData? config) None
     +setdefault(str key, Any value) None
   }
+}
+namespace pydantic.networks {
   class UrlConstraints {
     +int? max_length
     +list~str~? allowed_schemes
@@ -595,11 +1153,49 @@ classDiagram
     -__init__(str name, str email)
     -_validate() Self$
   }
+}
+namespace pydantic.plugin {
+  class SchemaTypePath {
+    +str module
+    +str name
+  }
+  class PydanticPluginProtocol {
+    <<interface>>
+    +new_schema_validator(CoreSchema schema, Any schema_type, SchemaTypePath schema_type_path, SchemaKind schema_kind, CoreConfig? config, dict~str,object~ plugin_settings) tuple~ValidatePythonHandlerProtocol | None,ValidateJsonHandlerProtocol | None,ValidateStringsHandlerProtocol | None~
+  }
+  class BaseValidateHandlerProtocol {
+    <<interface>>
+    +Callable~...,None~ on_enter
+    +on_success(Any result) None
+    +on_error(ValidationError error) None
+    +on_exception(Exception exception) None
+  }
+  class ValidatePythonHandlerProtocol {
+    <<interface>>
+    +on_enter(Any input, bool? strict, ExtraValues? extra, bool? from_attributes, Any? context, Any? self_instance, bool? by_alias, bool? by_name) None
+  }
+  class ValidateJsonHandlerProtocol {
+    <<interface>>
+    +on_enter(str | bytes | bytearray input, bool? strict, ExtraValues? extra, Any? context, Any? self_instance, bool? by_alias, bool? by_name) None
+  }
+  class ValidateStringsHandlerProtocol {
+    <<interface>>
+    +on_enter(StringInput input, bool? strict, ExtraValues? extra, Any? context, bool? by_alias, bool? by_name) None
+  }
+}
+namespace pydantic.plugin._schema_validator {
+  class PluggableSchemaValidator {
+    -__init__(CoreSchema schema, Any schema_type, SchemaTypePath schema_type_path, SchemaKind schema_kind, CoreConfig? config, Iterable~PydanticPluginProtocol~ plugins, dict~str,Any~ plugin_settings, bool _use_prebuilt) None
+  }
+}
+namespace pydantic.root_model {
   class RootModel {
     +RootModelRootType root
     -__init__(RootModelRootType root) None
     +model_construct(RootModelRootType root, set~str~? _fields_set) Self$
   }
+}
+namespace pydantic.type_adapter {
   class TypeAdapter {
     +CoreSchema core_schema
     +SchemaValidator | PluggableSchemaValidator validator
@@ -622,6 +1218,8 @@ classDiagram
     +json_schema(bool by_alias, str ref_template, Literal~any_of,primitive_type_array~ union_format, type~GenerateJsonSchema~ schema_generator, JsonSchemaMode mode) dict~str,Any~
     +json_schemas(bool by_alias, str? title, str? description, str ref_template, Literal~any_of,primitive_type_array~ union_format, type~GenerateJsonSchema~ schema_generator) tuple~dict~tuple~JsonSchemaKeyT,JsonSchemaMode~,JsonSchemaValue~,JsonSchemaValue~$
   }
+}
+namespace pydantic.types {
   class Strict {
     +bool strict
   }
@@ -743,189 +1341,8 @@ classDiagram
   class FailFast {
     +bool fail_fast
   }
-  class PydanticDeprecationWarning {
-    +str message
-    +tuple~int,int~ since
-    +tuple~int,int~ expected_removal
-    -__init__(str message, tuple~int,int~ since, tuple~int,int~? expected_removal) None
-  }
-  class PydanticDeprecatedSince20 {
-    -__init__(str message) None
-  }
-  class PydanticDeprecatedSince26 {
-    -__init__(str message) None
-  }
-  class PydanticDeprecatedSince29 {
-    -__init__(str message) None
-  }
-  class PydanticDeprecatedSince210 {
-    -__init__(str message) None
-  }
-  class PydanticDeprecatedSince211 {
-    -__init__(str message) None
-  }
-  class PydanticDeprecatedSince212 {
-    -__init__(str message) None
-  }
-  class GenericBeforeBaseModelWarning {
-  }
-  class PydanticExperimentalWarning {
-  }
-  class CoreSchemaGenerationWarning {
-  }
-  class ArbitraryTypeWarning {
-  }
-  class UnsupportedFieldAttributeWarning {
-  }
-  class TypedDictExtraConfigWarning {
-  }
-  class _ConfigMetaclass {
-  }
-  class BaseConfig {
-  }
-  class _ExtraMeta {
-  }
-  class Extra {
-    +Literal~allow~ allow
-    +Literal~ignore~ ignore
-    +Literal~forbid~ forbid
-  }
-  class ValidatedFunction {
-    -__init__(AnyCallable function, ConfigType config)
-    +init_model_instance() BaseModel
-    +call() Any
-    +build_values(tuple~Any,...~ args, dict~str,Any~ kwargs) dict~str,Any~
-    +execute(BaseModel m) Any
-    +create_model(dict~str,Any~ fields, bool takes_args, bool takes_kwargs, ConfigType config) None
-  }
-  class Protocol {
-    <<enumeration>>
-    json
-    pickle
-  }
-  class _ValidateAs {
-    +type~Any~ tp
-    +bool strict
-  }
-  class _ValidateAsDefer {
-    +Callable~~~,type~Any~~ func
-    +tp() type~Any~
-  }
-  class _Transform {
-    +Callable~~Any~,Any~ func
-  }
-  class _PipelineOr {
-    +_Pipeline~Any,Any~ left
-    +_Pipeline~Any,Any~ right
-  }
-  class _PipelineAnd {
-    +_Pipeline~Any,Any~ left
-    +_Pipeline~Any,Any~ right
-  }
-  class _Eq {
-    +Any value
-  }
-  class _NotEq {
-    +Any value
-  }
-  class _In {
-    +Container~Any~ values
-  }
-  class _NotIn {
-    +Container~Any~ values
-  }
-  class _Constraint {
-    +_ConstraintAnnotation constraint
-  }
-  class _FieldTypeMarker {
-  }
-  class _Pipeline {
-    -tuple~_Step,...~ _steps
-    +transform(Callable~~_OutT~,_NewOutT~ func) _Pipeline~_InT,_NewOutT~
-    +validate_as(type~_NewOutT~ tp, bool strict) _Pipeline~_InT,_NewOutT~
-    +validate_as(EllipsisType tp, bool strict) _Pipeline~_InT,Any~
-    +validate_as(Any tp, bool strict) _Pipeline~_InT,Any~
-    +validate_as(type~_NewOutT~| EllipsisType | Any tp, bool strict) _Pipeline~_InT,Any~
-    +validate_as_deferred(Callable~~~,type~_NewOutT~~ func) _Pipeline~_InT,_NewOutT~
-    +constrain(annotated_types.Ge constraint) _Pipeline~_InT,_NewOutGe~
-    +constrain(annotated_types.Gt constraint) _Pipeline~_InT,_NewOutGt~
-    +constrain(annotated_types.Le constraint) _Pipeline~_InT,_NewOutLe~
-    +constrain(annotated_types.Lt constraint) _Pipeline~_InT,_NewOutLt~
-    +constrain(annotated_types.Len constraint) _Pipeline~_InT,_NewOutLen~
-    +constrain(annotated_types.MultipleOf constraint) _Pipeline~_InT,_NewOutT~
-    +constrain(annotated_types.Timezone constraint) _Pipeline~_InT,_NewOutDatetime~
-    +constrain(annotated_types.Predicate constraint) _Pipeline~_InT,_OutT~
-    +constrain(annotated_types.Interval constraint) _Pipeline~_InT,_NewOutInterval~
-    +constrain(_Eq constraint) _Pipeline~_InT,_OutT~
-    +constrain(_NotEq constraint) _Pipeline~_InT,_OutT~
-    +constrain(_In constraint) _Pipeline~_InT,_OutT~
-    +constrain(_NotIn constraint) _Pipeline~_InT,_OutT~
-    +constrain(Pattern~str~ constraint) _Pipeline~_InT,_NewOutT~
-    +constrain(_ConstraintAnnotation constraint) Any
-    +predicate(Callable~~_NewOutT~,bool~ func) _Pipeline~_InT,_NewOutT~
-    +gt(_NewOutGt gt) _Pipeline~_InT,_NewOutGt~
-    +lt(_NewOutLt lt) _Pipeline~_InT,_NewOutLt~
-    +ge(_NewOutGe ge) _Pipeline~_InT,_NewOutGe~
-    +le(_NewOutLe le) _Pipeline~_InT,_NewOutLe~
-    +len(int min_len, int? max_len) _Pipeline~_InT,_NewOutLen~
-    +multiple_of(_NewOutDiv multiple_of) _Pipeline~_InT,_NewOutDiv~
-    +multiple_of(_NewOutMod multiple_of) _Pipeline~_InT,_NewOutMod~
-    +multiple_of(Any multiple_of) _Pipeline~_InT,Any~
-    +eq(_OutT value) _Pipeline~_InT,_OutT~
-    +not_eq(_OutT value) _Pipeline~_InT,_OutT~
-    +in_(Container~_OutT~ values) _Pipeline~_InT,_OutT~
-    +not_in(Container~_OutT~ values) _Pipeline~_InT,_OutT~
-    +datetime_tz_naive() _Pipeline~_InT,datetime.datetime~
-    +datetime_tz_aware() _Pipeline~_InT,datetime.datetime~
-    +datetime_tz(datetime.tzinfo tz) _Pipeline~_InT,datetime.datetime~
-    +datetime_with_tz(datetime.tzinfo? tz) _Pipeline~_InT,datetime.datetime~
-    +str_lower() _Pipeline~_InT,str~
-    +str_upper() _Pipeline~_InT,str~
-    +str_title() _Pipeline~_InT,str~
-    +str_strip() _Pipeline~_InT,str~
-    +str_pattern(str pattern) _Pipeline~_InT,str~
-    +str_contains(str substring) _Pipeline~_InT,str~
-    +str_starts_with(str prefix) _Pipeline~_InT,str~
-    +str_ends_with(str suffix) _Pipeline~_InT,str~
-    +otherwise(_Pipeline~_OtherIn,_OtherOut~ other) _Pipeline~_InT | _OtherIn,_OutT | _OtherOut~
-    +then(_Pipeline~_OutT,_OtherOut~ other) _Pipeline~_InT,_OtherOut~
-  }
-  class _SupportsRange {
-    <<interface>>
-  }
-  class _SupportsLen {
-    <<interface>>
-  }
-  class SchemaTypePath {
-    +str module
-    +str name
-  }
-  class PydanticPluginProtocol {
-    <<interface>>
-    +new_schema_validator(CoreSchema schema, Any schema_type, SchemaTypePath schema_type_path, SchemaKind schema_kind, CoreConfig? config, dict~str,object~ plugin_settings) tuple~ValidatePythonHandlerProtocol | None,ValidateJsonHandlerProtocol | None,ValidateStringsHandlerProtocol | None~
-  }
-  class BaseValidateHandlerProtocol {
-    <<interface>>
-    +Callable~...,None~ on_enter
-    +on_success(Any result) None
-    +on_error(ValidationError error) None
-    +on_exception(Exception exception) None
-  }
-  class ValidatePythonHandlerProtocol {
-    <<interface>>
-    +on_enter(Any input, bool? strict, ExtraValues? extra, bool? from_attributes, Any? context, Any? self_instance, bool? by_alias, bool? by_name) None
-  }
-  class ValidateJsonHandlerProtocol {
-    <<interface>>
-    +on_enter(str | bytes | bytearray input, bool? strict, ExtraValues? extra, Any? context, Any? self_instance, bool? by_alias, bool? by_name) None
-  }
-  class ValidateStringsHandlerProtocol {
-    <<interface>>
-    +on_enter(StringInput input, bool? strict, ExtraValues? extra, Any? context, bool? by_alias, bool? by_name) None
-  }
-  class PluggableSchemaValidator {
-    -__init__(CoreSchema schema, Any schema_type, SchemaTypePath schema_type_path, SchemaKind schema_kind, CoreConfig? config, Iterable~PydanticPluginProtocol~ plugins, dict~str,Any~ plugin_settings, bool _use_prebuilt) None
-  }
+}
+namespace pydantic.v1.class_validators {
   class Validator {
     -__init__(AnyCallable func, bool pre, bool each_item, bool always, bool check_fields, bool skip_on_failure)
   }
@@ -934,6 +1351,8 @@ classDiagram
     +get_validators(str name) Dict~str,Validator~?
     +check_for_unused() None
   }
+}
+namespace pydantic.v1.color {
   class RGBA {
     -__init__(float r, float g, float b, float? alpha)
   }
@@ -948,6 +1367,8 @@ classDiagram
     +as_hsl_tuple(bool? alpha) HslColorTuple
     -_alpha_float() float
   }
+}
+namespace pydantic.v1.config {
   class Extra {
     <<enumeration>>
     allow
@@ -987,9 +1408,13 @@ classDiagram
     +get_field_info(str name) Dict~str,Any~$
     +prepare_field(ModelField field) None$
   }
+}
+namespace pydantic.v1.dataclasses {
   class DataclassProxy {
     -__init__(Type~Dataclass~ dc_cls) None
   }
+}
+namespace pydantic.v1.decorator {
   class ValidatedFunction {
     -__init__(AnyCallableT function, ConfigType config)
     +init_model_instance() BaseModel
@@ -998,6 +1423,8 @@ classDiagram
     +execute(BaseModel m) Any
     +create_model(Dict~str,Any~ fields, bool takes_args, bool takes_kwargs, ConfigType config) None
   }
+}
+namespace pydantic.v1.env_settings {
   class SettingsError {
   }
   class BaseSettings {
@@ -1016,6 +1443,8 @@ classDiagram
   class SecretsSettingsSource {
     -__init__(StrPath? secrets_dir)
   }
+}
+namespace pydantic.v1.error_wrappers {
   class ErrorWrapper {
     -__init__(Exception exc, Union~str,Loc~ loc) None
     +loc_tuple() Loc
@@ -1025,6 +1454,8 @@ classDiagram
     +errors() List~ErrorDict~
     +json(Union~None,int,str~ indent) str
   }
+}
+namespace pydantic.v1.errors {
   class PydanticErrorMixin {
     +str code
     +str msg_template
@@ -1247,6 +1678,8 @@ classDiagram
   class InvalidDiscriminator {
     -__init__(str discriminator_key, Any discriminator_value, Sequence~Any~ allowed_values) None
   }
+}
+namespace pydantic.v1.fields {
   class UndefinedType {
   }
   class FieldInfo {
@@ -1286,8 +1719,12 @@ classDiagram
   }
   class DeferredType {
   }
+}
+namespace pydantic.v1.generics {
   class GenericModel {
   }
+}
+namespace pydantic.v1.main {
   class ModelMetaclass {
   }
   class BaseModel {
@@ -1312,6 +1749,8 @@ classDiagram
     -_iter(bool to_dict, bool by_alias, Union~AbstractSetIntStr,MappingIntStrAny~? include, Union~AbstractSetIntStr,MappingIntStrAny~? exclude, bool exclude_unset, bool exclude_defaults, bool exclude_none) TupleGenerator
     -_calculate_keys(MappingIntStrAny? include, MappingIntStrAny? exclude, bool exclude_unset, DictStrAny? update) AbstractSet~str~?
   }
+}
+namespace pydantic.v1.mypy {
   class PydanticPlugin {
     -__init__(Options options) None
     +get_base_class_hook(str fullname) Callable~~ClassDefContext~,None~?
@@ -1364,6 +1803,8 @@ classDiagram
     +update(ModelConfigData? config) None
     +setdefault(str key, Any value) None
   }
+}
+namespace pydantic.v1.networks {
   class AnyUrl {
     +Collection~str~? allowed_schemes
     +bool tld_required
@@ -1425,14 +1866,20 @@ classDiagram
   class IPvAnyNetwork {
     +validate(NetworkType value) Union~IPv4Network,IPv6Network~$
   }
+}
+namespace pydantic.v1.parse {
   class Protocol {
     <<enumeration>>
     json
     pickle
   }
+}
+namespace pydantic.v1.schema {
   class SkipField {
     -__init__(str message) None
   }
+}
+namespace pydantic.v1.types {
   class ConstrainedNumberMeta {
   }
   class ConstrainedInt {
@@ -1551,6 +1998,8 @@ classDiagram
     +OptionalDate lt
     +OptionalDate le
   }
+}
+namespace pydantic.v1.utils {
   class PyObjectStr {
   }
   class Representation {
@@ -1577,382 +2026,51 @@ classDiagram
   class ClassAttribute {
     -__init__(str name, Any value) None
   }
+}
+namespace pydantic.v1.validators {
   class IfConfig {
     -__init__(AnyCallable validator, Any ignored_value) None
     +check(Type~BaseConfig~ config) bool
   }
-  class ConfigWrapper {
-    +ConfigDict config_dict
-    +str? title
-    +bool str_to_lower
-    +bool str_to_upper
-    +bool str_strip_whitespace
-    +int str_min_length
-    +int? str_max_length
-    +ExtraValues? extra
-    +bool frozen
-    +bool populate_by_name
-    +bool use_enum_values
-    +bool validate_assignment
-    +bool arbitrary_types_allowed
-    +bool from_attributes
-    +bool loc_by_alias
-    +Callable~~str~,str~| AliasGenerator | None alias_generator
-    +Callable~~type~,str~? model_title_generator
-    +Callable~~str,FieldInfo | ComputedFieldInfo~,str~| None field_title_generator
-    +tuple~type,...~ ignored_types
-    +bool allow_inf_nan
-    +JsonDict | JsonSchemaExtraCallable | None json_schema_extra
-    +dict~type~object~,JsonEncoder~? json_encoders
-    +bool strict
-    +Literal~always,never,subclass-instances~ revalidate_instances
-    +Literal~iso8601,float~ ser_json_timedelta
-    +Literal~iso8601,seconds,milliseconds~ ser_json_temporal
-    +Literal~seconds,milliseconds,infer~ val_temporal_unit
-    +Literal~utf8,base64,hex~ ser_json_bytes
-    +Literal~utf8,base64,hex~ val_json_bytes
-    +Literal~null,constants,strings~ ser_json_inf_nan
-    +bool validate_default
-    +bool validate_return
-    +tuple~str | Pattern~str~,...~ protected_namespaces
-    +bool hide_input_in_errors
-    +bool defer_build
-    +dict~str,object~? plugin_settings
-    +type~GenerateSchema~? schema_generator
-    +bool json_schema_serialization_defaults_required
-    +Literal~validation,serialization,None~ json_schema_mode_override
-    +bool coerce_numbers_to_str
-    +Literal~rust-regex,python-re~ regex_engine
-    +bool validation_error_cause
-    +bool use_attribute_docstrings
-    +bool | Literal~all,keys,none~ cache_strings
-    +bool validate_by_alias
-    +bool validate_by_name
-    +bool serialize_by_alias
-    +bool url_preserve_empty_path
-    +bool polymorphic_serialization
-    -__init__(ConfigDict | dict~str,Any~| type~Any~| None config, bool check)
-    +for_model(tuple~type~Any~,...~ bases, dict~str,Any~ namespace, dict~str,Any~ raw_annotations, dict~str,Any~ kwargs) Self$
-    +core_config(str? title) core_schema.CoreConfig
+}
+namespace pydantic.warnings {
+  class PydanticDeprecationWarning {
+    +str message
+    +tuple~int,int~ since
+    +tuple~int,int~ expected_removal
+    -__init__(str message, tuple~int,int~ since, tuple~int,int~? expected_removal) None
   }
-  class ConfigWrapperStack {
-    +ConfigWrapper tail
-    -__init__(ConfigWrapper config_wrapper)
-    +push(ConfigWrapper | ConfigDict | None config_wrapper)
+  class PydanticDeprecatedSince20 {
+    -__init__(str message) None
   }
-  class CoreMetadata {
-    +list~GetJsonSchemaFunction~ pydantic_js_functions
-    +list~GetJsonSchemaFunction~ pydantic_js_annotation_functions
-    +bool pydantic_js_prefer_positional_arguments
-    +JsonDict pydantic_js_updates
-    +JsonDict | JsonSchemaExtraCallable pydantic_js_extra
-    +str pydantic_internal_union_tag_key
-    +str pydantic_internal_union_discriminator
+  class PydanticDeprecatedSince26 {
+    -__init__(str message) None
   }
-  class ValidatorDecoratorInfo {
-    +str decorator_repr$
-    +tuple~str,...~ fields
-    +Literal~before,after~ mode
-    +bool each_item
-    +bool always
-    +bool? check_fields
+  class PydanticDeprecatedSince29 {
+    -__init__(str message) None
   }
-  class FieldValidatorDecoratorInfo {
-    +str decorator_repr$
-    +tuple~str,...~ fields
-    +FieldValidatorModes mode
-    +bool? check_fields
-    +Any json_schema_input_type
+  class PydanticDeprecatedSince210 {
+    -__init__(str message) None
   }
-  class RootValidatorDecoratorInfo {
-    +str decorator_repr$
-    +Literal~before,after~ mode
+  class PydanticDeprecatedSince211 {
+    -__init__(str message) None
   }
-  class FieldSerializerDecoratorInfo {
-    +str decorator_repr$
-    +tuple~str,...~ fields
-    +Literal~plain,wrap~ mode
-    +Any return_type
-    +core_schema.WhenUsed when_used
-    +bool? check_fields
+  class PydanticDeprecatedSince212 {
+    -__init__(str message) None
   }
-  class ModelSerializerDecoratorInfo {
-    +str decorator_repr$
-    +Literal~plain,wrap~ mode
-    +Any return_type
-    +core_schema.WhenUsed when_used
+  class GenericBeforeBaseModelWarning {
   }
-  class ModelValidatorDecoratorInfo {
-    +str decorator_repr$
-    +Literal~wrap,before,after~ mode
+  class PydanticExperimentalWarning {
   }
-  class PydanticDescriptorProxy {
-    +DecoratedType~ReturnType~ wrapped
-    +DecoratorInfo decorator_info
-    +Callable~~Callable~...,Any~~,Callable~...,Any~~? shim
-    -_call_wrapped_attr(Callable~~Any~,None~ func, str name) PydanticDescriptorProxy~ReturnType~
+  class CoreSchemaGenerationWarning {
   }
-  class Decorator {
-    +str cls_ref
-    +str cls_var_name
-    +Callable~...,Any~ func
-    +Callable~~Any~,Any~? shim
-    +DecoratorInfoType info
-    +build(Any cls_, str cls_var_name, Callable~~Any~,Any~? shim, DecoratorInfoType info) Decorator~DecoratorInfoType~$
-    +bind_to_cls(Any cls) Decorator~DecoratorInfoType~
+  class ArbitraryTypeWarning {
   }
-  class DecoratorInfos {
-    +validators dict<str,Decorator<ValidatorDecoratorInfo>> = field(default_factory)
-    +field_validators dict<str,Decorator<FieldValidatorDecoratorInfo>> = field(default_factory)
-    +root_validators dict<str,Decorator<RootValidatorDecoratorInfo>> = field(default_factory)
-    +field_serializers dict<str,Decorator<FieldSerializerDecoratorInfo>> = field(default_factory)
-    +model_serializers dict<str,Decorator<ModelSerializerDecoratorInfo>> = field(default_factory)
-    +model_validators dict<str,Decorator<ModelValidatorDecoratorInfo>> = field(default_factory)
-    +computed_fields dict<str,Decorator<ComputedFieldInfo>> = field(default_factory)
-    +build(type~Any~ typ, bool replace_wrapped_methods) Self$
-    -_validate() None
-    +update_from_config(ConfigWrapper config_wrapper) None
+  class UnsupportedFieldAttributeWarning {
   }
-  class V1OnlyValueValidator {
-    <<interface>>
+  class TypedDictExtraConfigWarning {
   }
-  class V1ValidatorWithValues {
-    <<interface>>
-  }
-  class V1ValidatorWithValuesKwOnly {
-    <<interface>>
-  }
-  class V1ValidatorWithKwargs {
-    <<interface>>
-  }
-  class V1ValidatorWithValuesAndKwargs {
-    <<interface>>
-  }
-  class V1RootValidatorFunction {
-    <<interface>>
-  }
-  class V2CoreBeforeRootValidator {
-    <<interface>>
-  }
-  class V2CoreAfterRootValidator {
-    <<interface>>
-  }
-  class MissingDefinitionForUnionRef {
-    -__init__(str ref) None
-  }
-  class _ApplyInferredDiscriminator {
-    -__init__(str discriminator, dict~str,core_schema.CoreSchema~ definitions)
-    +apply(core_schema.CoreSchema schema) core_schema.CoreSchema
-    -_apply_to_root(core_schema.CoreSchema schema) core_schema.CoreSchema
-    -_handle_choice(core_schema.CoreSchema choice) None
-    -_is_discriminator_shared(core_schema.TaggedUnionSchema choice) bool
-    -_infer_discriminator_values_for_choice(core_schema.CoreSchema choice, str? source_name) list~str | int~
-    -_infer_discriminator_values_for_typed_dict_choice(core_schema.TypedDictSchema choice, str? source_name) list~str | int~
-    -_infer_discriminator_values_for_model_choice(core_schema.ModelFieldsSchema choice, str? source_name) list~str | int~
-    -_infer_discriminator_values_for_dataclass_choice(core_schema.DataclassArgsSchema choice, str? source_name) list~str | int~
-    -_infer_discriminator_values_for_field(CoreSchemaField field, str source) list~str | int~
-    -_infer_discriminator_values_for_inner_schema(core_schema.CoreSchema schema, str source) list~str | int~
-    -_set_unique_choice_for_values(core_schema.CoreSchema choice, Sequence~str | int~ values) None
-  }
-  class DocstringVisitor {
-    -__init__() None
-    +visit(ast.AST node) Any
-    +visit_AnnAssign(ast.AnnAssign node) Any
-    +visit_Expr(ast.Expr node) Any
-  }
-  class PydanticMetadata {
-  }
-  class PydanticExtraInfo {
-    +Any annotation
-    +bool complete
-  }
-  class PydanticRecursiveRef {
-    +str type_ref
-  }
-  class InvalidSchemaError {
-  }
-  class GenerateSchema {
-    -ConfigWrapper _config_wrapper
-    -NamespacesTuple _types_namespace
-    -bool _arbitrary_types
-    -__init__(ConfigWrapper config_wrapper, NsResolver? ns_resolver, Mapping~TypeVar,Any~? typevars_map) None
-    -_list_schema(Any items_type) CoreSchema
-    -_dict_schema(Any keys_type, Any values_type) CoreSchema
-    -_set_schema(Any items_type) CoreSchema
-    -_frozenset_schema(Any items_type) CoreSchema
-    -_enum_schema(type~Enum~ enum_type) CoreSchema
-    -_ip_schema(Any tp) CoreSchema
-    -_path_schema(Any tp, Any path_type) CoreSchema
-    -_deque_schema(Any items_type) CoreSchema
-    -_mapping_schema(Any tp, Any keys_type, Any values_type) CoreSchema
-    -_fraction_schema() CoreSchema
-    -_arbitrary_type_schema(Any tp) CoreSchema
-    -_unknown_type_schema(Any obj) CoreSchema
-    -_apply_discriminator_to_union(CoreSchema schema, str | Discriminator | None discriminator) CoreSchema
-    +clean_schema(CoreSchema schema) CoreSchema
-    -_add_js_function(CoreSchema metadata_schema, Callable~...,Any~ js_function) None
-    +generate_schema(Any obj) core_schema.CoreSchema
-    -_model_schema(type~BaseModel~ cls) core_schema.CoreSchema
-    -_resolve_self_type(Any obj) Any
-    -_generate_schema_from_get_schema_method(Any obj, Any source) core_schema.CoreSchema?
-    -_resolve_forward_ref(Any obj) Any
-    -_get_args_resolving_forward_refs(Any obj, Literal~True~ required) tuple~Any,...~
-    -_get_args_resolving_forward_refs(Any obj) tuple~Any,...~?
-    -_get_args_resolving_forward_refs(Any obj, bool required) tuple~Any,...~?
-    -_get_first_arg_or_any(Any obj) Any
-    -_get_first_two_args_or_any(Any obj) tuple~Any,Any~
-    -_generate_schema_inner(Any obj) core_schema.CoreSchema
-    +match_type(Any obj) core_schema.CoreSchema
-    -_match_generic_type(Any obj, Any origin) CoreSchema
-    -_generate_td_field_schema(str name, FieldInfo field_info, DecoratorInfos decorators, bool required) core_schema.TypedDictField
-    -_generate_md_field_schema(str name, FieldInfo field_info, DecoratorInfos decorators) core_schema.ModelField
-    -_generate_dc_field_schema(str name, FieldInfo field_info, DecoratorInfos decorators) core_schema.DataclassField
-    -_common_field_schema(str name, FieldInfo field_info, DecoratorInfos decorators) tuple~CoreSchema,dict~str,Any~~
-    -_union_schema(Any union_type) core_schema.CoreSchema
-    -_type_alias_type_schema(TypeAliasType obj) CoreSchema
-    -_literal_schema(Any literal_type) CoreSchema
-    -_typed_dict_schema(Any typed_dict_cls, Any origin) core_schema.CoreSchema
-    -_namedtuple_schema(Any namedtuple_cls, Any origin) core_schema.CoreSchema
-    -_generate_parameter_schema(str name, type~Any~ annotation, AnnotationSource source, Any default, Literal~positional_only,positional_or_keyword,keyword_only~? mode) core_schema.ArgumentsParameter
-    -_generate_parameter_v3_schema(str name, Any annotation, AnnotationSource source, Literal~positional_only,positional_or_keyword,keyword_only,var_args,var_kwargs_uniform,var_kwargs_unpacked_typed_dict~ mode, Any default) core_schema.ArgumentsV3Parameter
-    -_tuple_schema(Any tuple_type) core_schema.CoreSchema
-    -_type_schema() core_schema.CoreSchema
-    -_zoneinfo_schema() core_schema.CoreSchema
-    -_union_is_subclass_schema(Any union_type) core_schema.CoreSchema
-    -_subclass_schema(Any type_) core_schema.CoreSchema
-    -_sequence_schema(Any items_type) core_schema.CoreSchema
-    -_iterable_schema(Any type_) core_schema.GeneratorSchema
-    -_pattern_schema(Any pattern_type) core_schema.CoreSchema
-    -_hashable_schema() core_schema.CoreSchema
-    -_dataclass_schema(type~StandardDataclass~ dataclass, type~StandardDataclass~? origin) core_schema.CoreSchema
-    -_call_schema(ValidateCallSupportedTypes function) core_schema.CallSchema
-    -_arguments_schema(ValidateCallSupportedTypes function, ParametersCallback? parameters_callback) core_schema.ArgumentsSchema
-    -_arguments_v3_schema(ValidateCallSupportedTypes function, ParametersCallback? parameters_callback) core_schema.ArgumentsV3Schema
-    -_unsubstituted_typevar_schema(typing.TypeVar typevar) core_schema.CoreSchema
-    -_computed_field_schema(Decorator~ComputedFieldInfo~ d, dict~str,Decorator~FieldSerializerDecoratorInfo~~ field_serializers) core_schema.ComputedField
-    -_annotated_schema(Any annotated_type) core_schema.CoreSchema
-    -_apply_annotations(Any source_type, list~Any~ annotations, Callable~~CoreSchema~,CoreSchema~ transform_inner_schema, bool check_unsupported_field_info_attributes) CoreSchema
-    -_apply_single_annotation(core_schema.CoreSchema schema, Any metadata, bool check_unsupported_field_info_attributes) core_schema.CoreSchema
-    -_apply_single_annotation_json_schema(core_schema.CoreSchema schema, Any metadata) core_schema.CoreSchema
-    -_get_unsupported_field_info_attributes(FieldInfo field_info) list~tuple~str,Any~~
-    -_get_wrapped_inner_schema(GetCoreSchemaHandler get_inner_schema, Any annotation, list~GetJsonSchemaFunction~ pydantic_js_annotation_functions, bool check_unsupported_field_info_attributes) CallbackGetCoreSchemaHandler
-    -_apply_field_serializers(core_schema.CoreSchema schema, list~Decorator~FieldSerializerDecoratorInfo~~ serializers) core_schema.CoreSchema
-    -_apply_model_serializers(core_schema.CoreSchema schema, Iterable~Decorator~ModelSerializerDecoratorInfo~~ serializers) core_schema.CoreSchema
-  }
-  class _Definitions {
-    -set~str~ _recursively_seen
-    -dict~str,core_schema.CoreSchema~ _definitions
-    -__init__() None
-    +get_schema_or_ref() Generator~tuple~str,core_schema.DefinitionReferenceSchema | None~~
-    +get_schema_from_ref(str ref) CoreSchema?
-    +create_definition_reference_schema(CoreSchema schema) core_schema.DefinitionReferenceSchema
-    +unpack_definitions(core_schema.DefinitionsSchema schema) CoreSchema
-    +finalize_schema(CoreSchema schema) CoreSchema
-    -_resolve_definition(str ref, dict~str,CoreSchema~ definitions, set~str~ kept_refs) CoreSchema
-  }
-  class _FieldNameStack {
-    -__init__() None
-    +push(str field_name) Iterator~None~
-    +get() str?
-  }
-  class _ModelTypeStack {
-    -__init__() None
-    +push(type type_obj) Iterator~None~
-    +get() type?
-  }
-  class LimitedDict {
-    -__init__(int size_limit) None
-  }
-  class PydanticGenericMetadata {
-    +type~BaseModel~? origin
-    +tuple~Any,...~ args
-    +tuple~TypeVar,...~ parameters
-  }
-  class MockCoreSchema {
-    -__init__(str error_message, PydanticErrorCodes code, Callable~~~,CoreSchema | None~| None attempt_rebuild) None
-    -_get_built() CoreSchema
-    +rebuild() CoreSchema?
-  }
-  class MockValSer {
-    -__init__(str error_message, PydanticErrorCodes code, Literal~validator,serializer~ val_or_ser, Callable~~~,ValSer | None~| None attempt_rebuild) None
-    +rebuild() ValSer?
-  }
-  class _ModelNamespaceDict {
-  }
-  class ModelMetaclass {
-    +register(type~_T~ subclass) type~_T~
-    -_collect_bases_data(tuple~type~Any~,...~ bases) tuple~set~str~,set~str~,dict~str,ModelPrivateAttr~~$
-  }
-  class _DeprecatedFieldDescriptor {
-    +str field_name
-    -__init__(str msg, property? wrapped_property) None
-  }
-  class _PydanticWeakRef {
-    -__init__(Any obj)
-  }
-  class NamespacesTuple {
-    +GlobalsNamespace globals
-    +MappingNamespace locals
-  }
-  class LazyLocalNamespace {
-    -__init__() None
-    +data() dict~str,Any~
-  }
-  class NsResolver {
-    -__init__(NamespacesTuple? namespaces_tuple, MappingNamespace? parent_namespace) None
-    +types_namespace() NamespacesTuple
-    +push() Generator~None~
-  }
-  class PlainRepr {
-  }
-  class Representation {
-  }
-  class GatherResult {
-    +dict~str,DefinitionReferenceSchema | None~ collected_references
-    +list~CoreSchema~ deferred_discriminator_schemas
-  }
-  class MissingDefinitionError {
-    -__init__() None
-  }
-  class GatherContext {
-    +dict~str,CoreSchema~ definitions
-    +deferred_discriminator_schemas list<CoreSchema> = field(init, default_factory)
-    +collected_references dict<str,DefinitionReferenceSchema | None> = field(init, default_factory)
-  }
-  class GenerateJsonSchemaHandler {
-    -__init__(GenerateJsonSchema generate_json_schema, HandlerOverride? handler_override) None
-    +resolve_ref_schema(JsonSchemaValue maybe_ref_json_schema) JsonSchemaValue
-  }
-  class CallbackGetCoreSchemaHandler {
-    +str? field_name
-    -__init__(Callable~~Any~,core_schema.CoreSchema~ handler, GenerateSchema generate_schema, Literal~to-def,unpack~ ref_mode) None
-    -_get_types_namespace() NamespacesTuple
-    +generate_schema() core_schema.CoreSchema
-    +resolve_ref_schema(core_schema.CoreSchema maybe_ref_schema) core_schema.CoreSchema
-  }
-  class _HAS_DEFAULT_FACTORY_CLASS {
-  }
-  class ValueItems {
-    -__init__(Any value, AbstractSetIntStr | MappingIntStrAny items) None
-    +is_excluded(Any item) bool
-    +is_included(Any item) bool
-    +for_element(int | str e) AbstractSetIntStr | MappingIntStrAny | None
-    -_normalize_indexes(MappingIntStrAny items, int v_length) dict~int | str,Any~
-    +merge(Any base, Any override, bool intersect) Any$
-    -_coerce_items(AbstractSetIntStr | MappingIntStrAny items) MappingIntStrAny$
-    -_coerce_value(Any value) Any$
-    +is_true(Any v) bool$
-  }
-  class SafeGetItemProxy {
-    +Mapping~str,Any~ wrapped
-  }
-  class deprecated_instance_property {
-    -__init__() None
-  }
-  class ValidateCallWrapper {
-    -__init__(ValidateCallSupportedTypes function, ConfigDict? config, bool validate_return, MappingNamespace? parent_namespace) None
-    -_create_validators() None
-  }
+}
   Representation <|-- Color
   TypedDict <|-- ConfigDict
   PydanticErrorMixin <|-- PydanticUserError

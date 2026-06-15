@@ -60,6 +60,13 @@ class TestExporters(unittest.TestCase):
         self.assertIn("<<enumeration>>", self.mmd)
         self.assertIn("<<interface>>", self.mmd)
 
+    def test_mermaid_groups_types_into_namespaces(self):
+        # The module must appear so "which module is X in?" is answerable.
+        self.assertIn("namespace M {", self.mmd)
+
+    def test_plantuml_groups_types_into_packages(self):
+        self.assertIn("package M {", self.puml)
+
     def test_mermaid_generics_and_static(self):
         self.assertIn("List~Point~", self.mmd)        # angle brackets -> tilde
         self.assertIn("make() Circle$", self.mmd)     # static -> trailing $

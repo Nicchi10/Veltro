@@ -119,7 +119,7 @@
       "id": "q11",
       "type": "depends_on",
       "subject": "AliasChoices",
-      "prompt": "List every type that 'AliasChoices' references or inherits (its outgoing relations).",
+      "prompt": "List every type that 'AliasChoices' references or inherits (its outgoing relations)",
       "answer": [
         "AliasPath"
       ]
@@ -128,7 +128,7 @@
       "id": "q12",
       "type": "depends_on",
       "subject": "AliasGenerator",
-      "prompt": "List every type that 'AliasGenerator' references or inherits (its outgoing relations).",
+      "prompt": "List every type that 'AliasGenerator' references or inherits (its outgoing relations)",
       "answer": [
         "AliasChoices",
         "AliasPath"
@@ -138,7 +138,7 @@
       "id": "q13",
       "type": "depends_on",
       "subject": "AllowInfNan",
-      "prompt": "List every type that 'AllowInfNan' references or inherits (its outgoing relations).",
+      "prompt": "List every type that 'AllowInfNan' references or inherits (its outgoing relations)",
       "answer": [
         "PydanticMetadata"
       ]
@@ -147,7 +147,7 @@
       "id": "q14",
       "type": "depends_on",
       "subject": "AmqpDsn",
-      "prompt": "List every type that 'AmqpDsn' references or inherits (its outgoing relations).",
+      "prompt": "List every type that 'AmqpDsn' references or inherits (its outgoing relations)",
       "answer": [
         "AnyUrl"
       ]
@@ -156,7 +156,7 @@
       "id": "q15",
       "type": "depends_on",
       "subject": "AnyHttpUrl",
-      "prompt": "List every type that 'AnyHttpUrl' references or inherits (its outgoing relations).",
+      "prompt": "List every type that 'AnyHttpUrl' references or inherits (its outgoing relations)",
       "answer": [
         "AnyUrl"
       ]
@@ -165,7 +165,7 @@
       "id": "q16",
       "type": "depends_on",
       "subject": "AnyStrMaxLengthError",
-      "prompt": "List every type that 'AnyStrMaxLengthError' references or inherits (its outgoing relations).",
+      "prompt": "List every type that 'AnyStrMaxLengthError' references or inherits (its outgoing relations)",
       "answer": [
         "PydanticValueError"
       ]
@@ -174,7 +174,7 @@
       "id": "q17",
       "type": "depends_on",
       "subject": "AnyStrMinLengthError",
-      "prompt": "List every type that 'AnyStrMinLengthError' references or inherits (its outgoing relations).",
+      "prompt": "List every type that 'AnyStrMinLengthError' references or inherits (its outgoing relations)",
       "answer": [
         "PydanticValueError"
       ]
@@ -183,7 +183,7 @@
       "id": "q18",
       "type": "depends_on",
       "subject": "AnyUrl",
-      "prompt": "List every type that 'AnyUrl' references or inherits (its outgoing relations).",
+      "prompt": "List every type that 'AnyUrl' references or inherits (its outgoing relations)",
       "answer": [
         "_BaseUrl",
         "str"
@@ -193,7 +193,7 @@
       "id": "q19",
       "type": "depends_on",
       "subject": "AnyWebsocketUrl",
-      "prompt": "List every type that 'AnyWebsocketUrl' references or inherits (its outgoing relations).",
+      "prompt": "List every type that 'AnyWebsocketUrl' references or inherits (its outgoing relations)",
       "answer": [
         "AnyUrl"
       ]
@@ -202,7 +202,7 @@
       "id": "q20",
       "type": "depends_on",
       "subject": "ArbitraryTypeError",
-      "prompt": "List every type that 'ArbitraryTypeError' references or inherits (its outgoing relations).",
+      "prompt": "List every type that 'ArbitraryTypeError' references or inherits (its outgoing relations)",
       "answer": [
         "PydanticTypeError"
       ]
@@ -351,7 +351,7 @@
       "id": "q41",
       "type": "collection_fields",
       "subject": "ConfigWrapper",
-      "prompt": "Which fields of 'ConfigWrapper' have a generic or collection type (e.g. a List, Dict, Optional, ...)? Answer with field names only.",
+      "prompt": "Which fields of 'ConfigWrapper' have a generic or collection type (e.g. a List, Dict, Optional, ...)? Answer with field names only",
       "answer": [
         "alias_generator",
         "cache_strings",
@@ -377,14 +377,14 @@
       "id": "q42",
       "type": "collection_fields",
       "subject": "ConfigWrapperStack",
-      "prompt": "Which fields of 'ConfigWrapperStack' have a generic or collection type (e.g. a List, Dict, Optional, ...)? Answer with field names only.",
+      "prompt": "Which fields of 'ConfigWrapperStack' have a generic or collection type (e.g. a List, Dict, Optional, ...)? Answer with field names only",
       "answer": []
     },
     {
       "id": "q43",
       "type": "collection_fields",
       "subject": "CoreMetadata",
-      "prompt": "Which fields of 'CoreMetadata' have a generic or collection type (e.g. a List, Dict, Optional, ...)? Answer with field names only.",
+      "prompt": "Which fields of 'CoreMetadata' have a generic or collection type (e.g. a List, Dict, Optional, ...)? Answer with field names only",
       "answer": [
         "pydantic_js_annotation_functions",
         "pydantic_js_functions"
@@ -394,7 +394,7 @@
       "id": "q44",
       "type": "collection_fields",
       "subject": "Decorator",
-      "prompt": "Which fields of 'Decorator' have a generic or collection type (e.g. a List, Dict, Optional, ...)? Answer with field names only.",
+      "prompt": "Which fields of 'Decorator' have a generic or collection type (e.g. a List, Dict, Optional, ...)? Answer with field names only",
       "answer": [
         "func",
         "shim"
@@ -404,14 +404,14 @@
       "id": "q45",
       "type": "collection_fields",
       "subject": "DecoratorInfos",
-      "prompt": "Which fields of 'DecoratorInfos' have a generic or collection type (e.g. a List, Dict, Optional, ...)? Answer with field names only.",
+      "prompt": "Which fields of 'DecoratorInfos' have a generic or collection type (e.g. a List, Dict, Optional, ...)? Answer with field names only",
       "answer": []
     },
     {
       "id": "q46",
       "type": "collection_fields",
       "subject": "FieldSerializerDecoratorInfo",
-      "prompt": "Which fields of 'FieldSerializerDecoratorInfo' have a generic or collection type (e.g. a List, Dict, Optional, ...)? Answer with field names only.",
+      "prompt": "Which fields of 'FieldSerializerDecoratorInfo' have a generic or collection type (e.g. a List, Dict, Optional, ...)? Answer with field names only",
       "answer": [
         "fields",
         "mode"
@@ -421,7 +421,7 @@
       "id": "q47",
       "type": "collection_fields",
       "subject": "FieldValidatorDecoratorInfo",
-      "prompt": "Which fields of 'FieldValidatorDecoratorInfo' have a generic or collection type (e.g. a List, Dict, Optional, ...)? Answer with field names only.",
+      "prompt": "Which fields of 'FieldValidatorDecoratorInfo' have a generic or collection type (e.g. a List, Dict, Optional, ...)? Answer with field names only",
       "answer": [
         "fields"
       ]
@@ -430,7 +430,7 @@
       "id": "q48",
       "type": "collection_fields",
       "subject": "ModelSerializerDecoratorInfo",
-      "prompt": "Which fields of 'ModelSerializerDecoratorInfo' have a generic or collection type (e.g. a List, Dict, Optional, ...)? Answer with field names only.",
+      "prompt": "Which fields of 'ModelSerializerDecoratorInfo' have a generic or collection type (e.g. a List, Dict, Optional, ...)? Answer with field names only",
       "answer": [
         "mode"
       ]
@@ -439,7 +439,7 @@
       "id": "q49",
       "type": "collection_fields",
       "subject": "ModelValidatorDecoratorInfo",
-      "prompt": "Which fields of 'ModelValidatorDecoratorInfo' have a generic or collection type (e.g. a List, Dict, Optional, ...)? Answer with field names only.",
+      "prompt": "Which fields of 'ModelValidatorDecoratorInfo' have a generic or collection type (e.g. a List, Dict, Optional, ...)? Answer with field names only",
       "answer": [
         "mode"
       ]
@@ -448,7 +448,7 @@
       "id": "q50",
       "type": "collection_fields",
       "subject": "PydanticDescriptorProxy",
-      "prompt": "Which fields of 'PydanticDescriptorProxy' have a generic or collection type (e.g. a List, Dict, Optional, ...)? Answer with field names only.",
+      "prompt": "Which fields of 'PydanticDescriptorProxy' have a generic or collection type (e.g. a List, Dict, Optional, ...)? Answer with field names only",
       "answer": [
         "shim",
         "wrapped"

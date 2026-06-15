@@ -96,12 +96,19 @@ def export_mermaid(model: dict) -> str:
 
     """
     id_to_name = {}
+    modules = {}
     for node in model["nodes"]:
         id_to_name[node["id"]] = node["name"]
+        modules.setdefault(node["module"], []).append(node)
 
+    # Group types into `namespace` blocks so the module is part of the diagram
+    # (the flat classDiagram dropped it, which made "which module" unanswerable).
     lines = ["classDiagram"]
-    for node in model["nodes"]:
-        lines.extend(render_node(node))
+    for module_path in sorted(modules):
+        lines.append(f"namespace {module_path} {{")
+        for node in modules[module_path]:
+            lines.extend(render_node(node))
+        lines.append("}")
 
     for edge in model["edges"]:
         if edge.get("derived"):
