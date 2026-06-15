@@ -69,6 +69,15 @@ FORMATS = {
         "extension": ".puml",
         "legend": "The diagram is written in PlantUML.",
     },
+    "d2": {
+        "extension": ".d2",
+        "legend": (
+            "The diagram is written in D2 (d2lang). Each type is a 'shape: class' "
+            "block whose key is the fully-qualified name, so the dotted prefix "
+            "before the final segment is the module (e.g. in 'a.b.Foo' the module "
+            "is 'a.b'); a connection 'A -> B: extends' is a relation."
+        ),
+    },
 }
 
 def load_subject(subjects_dir: str, project: str, extension: str) -> str:
@@ -208,7 +217,7 @@ def main(argv=None):
     parser.add_argument("project", help="project name (matches eval/subjects/<project>.*)")
     parser.add_argument("--provider", choices=sorted(PROVIDERS), help="anthropic or openai (default: auto-detect from the API key set)")
     parser.add_argument("--model", help="model id (default: the provider's default)")
-    parser.add_argument("--formats", default="veltro,mermaid,plantuml", help="comma-separated subset of: veltro,mermaid,plantuml")
+    parser.add_argument("--formats", default="veltro,mermaid,plantuml,d2", help="comma-separated subset of: veltro,mermaid,plantuml,d2")
     parser.add_argument("--subjects-dir", default="eval/subjects")
     parser.add_argument("--out-dir", default="eval/results")
     parser.add_argument("--repeat", type=int, default=1, help="how many times to query each format (for mean +/- std)")

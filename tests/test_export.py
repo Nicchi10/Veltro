@@ -15,6 +15,7 @@ if REPO_ROOT not in sys.path:
 from veltro.parser import parse_text
 from veltro.export.plantuml import export_plantuml
 from veltro.export.mermaid import export_mermaid
+from veltro.export.d2 import export_d2
 
 
 SOURCE = """\
@@ -41,6 +42,7 @@ class TestExporters(unittest.TestCase):
         self.model = parse_text(SOURCE)
         self.puml = export_plantuml(self.model)
         self.mmd = export_mermaid(self.model)
+        self.d2 = export_d2(self.model)
 
     def test_plantuml_kinds(self):
         self.assertIn("enum Color {", self.puml)
@@ -66,6 +68,20 @@ class TestExporters(unittest.TestCase):
 
     def test_plantuml_groups_types_into_packages(self):
         self.assertIn("package M {", self.puml)
+
+    def test_d2_keys_carry_the_module(self):
+        # The dotted id 'M.Circle' embeds the module so it stays answerable.
+        self.assertIn("M.Circle: {", self.d2)
+        self.assertIn("shape: class", self.d2)
+
+    def test_d2_members_and_generics(self):
+        self.assertIn("+items: List<Point>", self.d2)
+        self.assertIn("+make(): Circle", self.d2)
+
+    def test_d2_written_edge_only(self):
+        self.assertIn("M.Circle -> M.Shape: extends", self.d2)
+        # the Circle -> Point association is derived: it must NOT be an arrow
+        self.assertNotIn("M.Circle -> M.Point", self.d2)
 
     def test_mermaid_generics_and_static(self):
         self.assertIn("List~Point~", self.mmd)        # angle brackets -> tilde

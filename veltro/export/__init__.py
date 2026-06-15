@@ -8,5 +8,6 @@ only fair comparison.
 
 from veltro.export.plantuml import export_plantuml
 from veltro.export.mermaid import export_mermaid
+from veltro.export.d2 import export_d2
 
-__all__ = ["export_plantuml", "export_mermaid"]
+__all__ = ["export_plantuml", "export_mermaid", "export_d2"]

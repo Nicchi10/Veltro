@@ -30,6 +30,7 @@ from veltro.extract.python_ast import extract_project
 from veltro.parser import parse_text
 from veltro.export.plantuml import export_plantuml
 from veltro.export.mermaid import export_mermaid
+from veltro.export.d2 import export_d2
 
 
 def load_model(source: str):
@@ -179,6 +180,7 @@ def write_subjects(name: str, vel_text: str, model: dict, out_dir: str) -> None:
         ".vel": vel_text,
         ".puml": export_plantuml(model),
         ".mmd": export_mermaid(model),
+        ".d2": export_d2(model),
     }
     for extension, text in artefacts.items():
         path = os.path.join(out_dir, name + extension)
