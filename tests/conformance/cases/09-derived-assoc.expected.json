@@ -1,0 +1,23 @@
+{
+  "veltro": 1,
+  "nodes": [
+    {
+      "id": "Core.Models.LlmInvocation",
+      "kind": "class",
+      "name": "LlmInvocation",
+      "module": "Core.Models",
+      "fields": [
+        {"vis": "+", "name": "Conversation", "type": "ConversationState"},
+        {"vis": "+", "name": "Self", "type": "LlmInvocation"},
+        {"vis": "+", "name": "Bag", "type": "List<Message>"}
+      ],
+      "methods": []
+    },
+    {"id": "Core.Models.ConversationState", "kind": "class", "name": "ConversationState", "module": "Core.Models", "fields": [], "methods": []},
+    {"id": "Core.Models.Message", "kind": "class", "name": "Message", "module": "Core.Models", "fields": [], "methods": []}
+  ],
+  "edges": [
+    {"from": "Core.Models.LlmInvocation", "kind": "depend", "to": "Core.Models.Message"},
+    {"from": "Core.Models.LlmInvocation", "kind": "assoc", "to": "Core.Models.ConversationState", "derived": true}
+  ]
+}

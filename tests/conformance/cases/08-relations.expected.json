@@ -1,0 +1,14 @@
+{
+  "veltro": 1,
+  "nodes": [
+    {"id": "Core.LlmInvocation", "kind": "class", "name": "LlmInvocation", "module": "Core", "fields": [], "methods": []},
+    {"id": "Core.ILlmInvocation", "kind": "interface", "name": "ILlmInvocation", "module": "Core", "fields": [], "methods": []},
+    {"id": "Core.Base", "kind": "class", "name": "Base", "module": "Core", "fields": [], "methods": []},
+    {"id": "Core.Derived", "kind": "class", "name": "Derived", "module": "Core", "fields": [], "methods": []}
+  ],
+  "edges": [
+    {"from": "Core.LlmInvocation", "kind": "impl", "to": "Core.ILlmInvocation"},
+    {"from": "Core.Derived", "kind": "extend", "to": "Core.Base"},
+    {"from": "Core.LlmInvocation", "kind": "depend", "to": "Core.Base"}
+  ]
+}

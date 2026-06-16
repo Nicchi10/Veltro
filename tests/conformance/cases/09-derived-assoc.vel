@@ -1,0 +1,12 @@
+veltro 1
+
+module Core.Models
+class LlmInvocation
+Conversation ConversationState
+Self LlmInvocation
+Bag List<Message>
+class ConversationState
+class Message
+
+rel
+LlmInvocation depend Message

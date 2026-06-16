@@ -1,0 +1,10 @@
+veltro 1
+
+module A
+class Logger
+module B
+class Logger
+class Unique
+
+rel
+Unique depend Logger

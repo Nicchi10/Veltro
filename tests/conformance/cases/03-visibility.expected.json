@@ -1,0 +1,20 @@
+{
+  "veltro": 1,
+  "nodes": [
+    {
+      "id": "Core.Models.ValidationResult",
+      "kind": "class",
+      "name": "ValidationResult",
+      "module": "Core.Models",
+      "fields": [
+        {"vis": "+", "name": "PublicImplicit", "type": "String"},
+        {"vis": "+", "name": "PublicExplicit", "type": "String"},
+        {"vis": "-", "name": "_private", "type": "Boolean"},
+        {"vis": "#", "name": "protectedField", "type": "Int"},
+        {"vis": "@", "name": "packageField", "type": "Int"}
+      ],
+      "methods": []
+    }
+  ],
+  "edges": []
+}

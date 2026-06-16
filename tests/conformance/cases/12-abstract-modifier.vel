@@ -1,0 +1,7 @@
+veltro 1
+
+module M
+> an abstract base
+class abstract Shape
+Area() Double
+class Circle

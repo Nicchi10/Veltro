@@ -1,0 +1,14 @@
+{
+  "veltro": 1,
+  "nodes": [
+    {
+      "id": "Core.Empty",
+      "kind": "class",
+      "name": "Empty",
+      "module": "Core",
+      "fields": [],
+      "methods": []
+    }
+  ],
+  "edges": []
+}

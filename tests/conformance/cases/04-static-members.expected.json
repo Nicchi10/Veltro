@@ -1,0 +1,19 @@
+{
+  "veltro": 1,
+  "nodes": [
+    {
+      "id": "Core.Models.ValidationResult",
+      "kind": "class",
+      "name": "ValidationResult",
+      "module": "Core.Models",
+      "fields": [
+        {"vis": "+", "name": "Shared", "type": "Int", "default": "0", "static": true}
+      ],
+      "methods": [
+        {"vis": "+", "name": "Success", "ret": "ValidationResult", "static": true},
+        {"vis": "+", "name": "Failure", "args": [{"name": "errors", "type": "IEnumerable<String>"}], "ret": "ValidationResult", "static": true}
+      ]
+    }
+  ],
+  "edges": []
+}

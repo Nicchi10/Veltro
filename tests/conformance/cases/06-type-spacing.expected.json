@@ -1,0 +1,18 @@
+{
+  "veltro": 1,
+  "nodes": [
+    {
+      "id": "M.C",
+      "kind": "class",
+      "name": "C",
+      "module": "M",
+      "fields": [
+        {"vis": "+", "name": "Metadata", "type": "Dictionary<String,Object>"}
+      ],
+      "methods": [
+        {"vis": "+", "name": "Merge", "args": [{"name": "a", "type": "List<Int>"}, {"name": "b", "type": "Int"}], "ret": "Dictionary<String,Object>"}
+      ]
+    }
+  ],
+  "edges": []
+}

@@ -1,0 +1,19 @@
+{
+  "veltro": 1,
+  "nodes": [
+    {
+      "id": "Core.Service",
+      "kind": "class",
+      "name": "Service",
+      "module": "Core",
+      "fields": [],
+      "methods": [
+        {"vis": "+", "name": "Validate", "ret": "IValidationResult"},
+        {"vis": "+", "name": "New", "args": [{"name": "apiKey", "type": "String"}, {"name": "assembler", "type": "IAssembler"}]},
+        {"vis": "+", "name": "Route", "args": [{"type": "ILlmInvocation"}], "ret": "IProviderAdapter"},
+        {"vis": "+", "name": "Merge", "args": [{"name": "a", "type": "Dictionary<String,Object>"}, {"name": "b", "type": "Int"}], "ret": "Boolean"}
+      ]
+    }
+  ],
+  "edges": []
+}

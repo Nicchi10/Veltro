@@ -1,0 +1,12 @@
+veltro 1
+
+module Core
+class LlmInvocation
+interface ILlmInvocation
+class Base
+class Derived
+
+rel
+LlmInvocation impl ILlmInvocation
+Derived extend Base
+LlmInvocation depend Base

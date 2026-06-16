@@ -1,0 +1,19 @@
+{
+  "veltro": 1,
+  "nodes": [
+    {
+      "id": "M.Shape",
+      "kind": "class",
+      "name": "Shape",
+      "module": "M",
+      "fields": [],
+      "methods": [
+        {"vis": "+", "name": "Area", "ret": "Double"}
+      ],
+      "modifiers": ["abstract"],
+      "doc": "an abstract base"
+    },
+    {"id": "M.Circle", "kind": "class", "name": "Circle", "module": "M", "fields": [], "methods": []}
+  ],
+  "edges": []
+}

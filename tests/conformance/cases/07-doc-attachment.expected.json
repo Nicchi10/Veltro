@@ -1,0 +1,27 @@
+{
+  "veltro": 1,
+  "nodes": [
+    {
+      "id": "M.Foo",
+      "kind": "class",
+      "name": "Foo",
+      "module": "M",
+      "fields": [],
+      "methods": []
+    },
+    {
+      "id": "M.Bar",
+      "kind": "class",
+      "name": "Bar",
+      "module": "M",
+      "fields": [
+        {"vis": "+", "name": "Id", "type": "String"}
+      ],
+      "methods": [],
+      "doc": "documents Bar, not Foo"
+    }
+  ],
+  "edges": [
+    {"from": "M.Foo", "kind": "depend", "to": "M.Bar"}
+  ]
+}

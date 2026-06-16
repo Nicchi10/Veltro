@@ -1,0 +1,14 @@
+{
+  "veltro": 1,
+  "nodes": [
+    {
+      "id": "Core.Enums.MessageRole",
+      "kind": "enum",
+      "name": "MessageRole",
+      "module": "Core.Enums",
+      "values": ["System", "User", "Assistant", "Tool"],
+      "doc": "Who authored a message."
+    }
+  ],
+  "edges": []
+}

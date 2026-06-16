@@ -1,0 +1,11 @@
+veltro 1
+
+module M
+class Foo
+> documents Bar, not Foo
+class Bar
+Id String
+> dangling doc before rel is dropped
+
+rel
+Foo depend Bar

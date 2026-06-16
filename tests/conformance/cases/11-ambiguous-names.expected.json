@@ -1,0 +1,11 @@
+{
+  "veltro": 1,
+  "nodes": [
+    {"id": "A.Logger", "kind": "class", "name": "Logger", "module": "A", "fields": [], "methods": []},
+    {"id": "B.Logger", "kind": "class", "name": "Logger", "module": "B", "fields": [], "methods": []},
+    {"id": "B.Unique", "kind": "class", "name": "Unique", "module": "B", "fields": [], "methods": []}
+  ],
+  "edges": [
+    {"from": "B.Unique", "kind": "depend", "to": "Logger"}
+  ]
+}

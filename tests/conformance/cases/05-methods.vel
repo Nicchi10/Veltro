@@ -1,0 +1,8 @@
+veltro 1
+
+module Core
+class Service
+Validate() IValidationResult
+New(apiKey String, assembler IAssembler)
+Route(ILlmInvocation) IProviderAdapter
+Merge(a Dictionary<String,Object>, b Int) Boolean

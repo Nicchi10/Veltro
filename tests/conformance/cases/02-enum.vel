@@ -1,0 +1,5 @@
+veltro 1
+
+module Core.Enums
+> Who authored a message.
+enum MessageRole = System, User, Assistant, Tool

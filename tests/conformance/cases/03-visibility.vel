@@ -1,0 +1,9 @@
+veltro 1
+
+module Core.Models
+class ValidationResult
+PublicImplicit String
++ PublicExplicit String
+- _private Boolean
+# protectedField Int
+@ packageField Int

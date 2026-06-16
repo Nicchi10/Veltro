@@ -1,0 +1,7 @@
+veltro 1
+
+module Core.Models
+class ValidationResult
+$Shared Int = 0
+$Success() ValidationResult
+$Failure(errors IEnumerable<String>) ValidationResult
