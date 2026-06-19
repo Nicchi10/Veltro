@@ -45,8 +45,8 @@ On whole real projects (`python bench/scale_bench.py <package>`):
 
 | project | types | Veltro | Mermaid | PlantUML |
 |---------|-------|--------|---------|----------|
-| [Rich](https://github.com/Textualize/rich) | 173 | 12,792 | +18% | +33% |
-| [Pydantic](https://github.com/pydantic/pydantic) | 360 | 19,885 | +19% | +32% |
+| [Rich](https://github.com/Textualize/rich) | 173 | 12,792 | +20% | +33% |
+| [Pydantic](https://github.com/pydantic/pydantic) | 360 | 19,885 | +22% | +32% |
 
 Against every other class-diagram format, on a representative slice of pydantic
 (`python bench/compare_formats.py`, lower = denser):
@@ -66,6 +66,20 @@ away readability: it keeps one member per line (clean git diffs), modules, and
 the type-graph model, while the runners-up (yUML, Nomnoml) collapse each type
 onto a single unreadable line to compete.
 
+## Comprehension (does the model still understand it?)
+
+Fewer tokens are worthless if the model reads the diagram worse. So we test it:
+50 structural questions whose answers are facts derived from the type graph
+(automatic, deterministic scoring), asked of the same architecture rendered in
+each format. Run across four model tiers (see [`eval/`](eval) and the generated
+[`eval/REPORT.md`](eval/REPORT.md)).
+
+The honest result: the accuracy ranking shuffles by model and the formats
+sit in overlapping bands, there is no robust comprehension winner. Which
+is the point: **the token savings cost no measurable comprehension.** Veltro
+reads as well as PlantUML/Mermaid/D2 while being the cheapest. We do not claim
+"Veltro is understood better", only "as well, for fewer tokens".
+
 ### Reproduce it
 
 ```bash
@@ -79,6 +93,13 @@ python bench/compare_formats.py
 
 # 3. just extract a Python package to .vel
 python -m veltro.extract.python_ast path/to/some/package --out build/out.vel
+
+# 4. the comprehension eval (ground truth + ask a model + score -> leaderboard)
+python eval/generate.py examples/pydantic.vel          # subjects + ground truth
+python eval/run.py pydantic --provider openai           # answer via API, or:
+python eval/run_claude_code.py pydantic --model sonnet  # answer via Claude Code (no API cost)
+python eval/score.py pydantic --save eval/leaderboard.csv
+python eval/report.py                                   # -> eval/REPORT.md
 ```
 
 The examples are not hand-written: they are **extracted from real projects**
@@ -90,15 +111,16 @@ The examples are not hand-written: they are **extracted from real projects**
 veltro/                   the Python package
   parser.py               .vel  ->  type-graph model (the ONE parser, format is language-agnostic)
   extract/python_ast.py   Python source  ->  .vel  (AST extractor; one per source language)
-  export/                 model  ->  PlantUML / Mermaid (fair benchmarking, the Rosetta way out)
+  export/                 model  ->  PlantUML / Mermaid / D2 (fair benchmarking, the Rosetta way out)
   __main__.py             CLI: parse a .vel, validate it, write the JSON model
 model.schema.json         the type-graph contract (nodes + edges) shared by every piece
 SPEC.md                   the .vel language specification
 examples/                 real architectures extracted to .vel (e.g. pydantic.vel)
 bench/                    token benchmarks + the vendored PlantUML sample
   formats/                the same slice encoded in 7 formats, for the ranking
-eval/                     (planned) LLM comprehension eval, see eval/README.md
-tests/                    unit tests (parser, extractor, exporters)
+eval/                     LLM comprehension eval: generate/run/run_claude_code/score/report
+  leaderboard.csv         the editable results dataset -> REPORT.md (see eval/README.md)
+tests/                    unit tests (parser, extractor, exporters, scorer)
 ```
 
 The funnel: many extractors feed one format, and from there everything is single.
@@ -119,13 +141,16 @@ extract_java   |
 | [`model.schema.json`](model.schema.json) | The intermediate type-graph schema (single source of truth) |
 | [`veltro/parser.py`](veltro/parser.py) | `.vel` -> model, with schema validation |
 | [`veltro/extract/python_ast.py`](veltro/extract/python_ast.py) | Python source -> `.vel` (deterministic, no LLM) |
-| [`veltro/export/`](veltro/export) | model -> PlantUML / Mermaid |
+| [`veltro/export/`](veltro/export) | model -> PlantUML / Mermaid / D2 |
 | [`examples/pydantic.vel`](examples/pydantic.vel) | Pydantic's architecture, extracted to `.vel` |
+| [`eval/`](eval) | comprehension eval (API or Claude Code) + token/accuracy leaderboard |
 
 ## Roadmap
 
+- [x] **LLM comprehension eval** — built and run (OpenAI API + Claude Code),
+      across four model tiers and four formats. Result so far: comparable
+      comprehension, fewer tokens. See [`eval/`](eval).
 - [ ] **Java extractor** (Kafka, Spring) so people lick their fingers
-- [ ] **LLM comprehension eval**: same architecture in `.vel` / Mermaid / PlantUML, ask an LLM the same structural questions, measure accuracy at equal (or lower) token cost. Repeatable and verifiable, see [`eval/`](eval)
 - [ ] **VS Code extension** (and other IDEs) once the gain is clear
 - [ ] **Parser in TypeScript / Rust** (the reference parser is Python today)
 - [ ] **The viewer**: WebGL graph, semantic zoom, click-to-highlight

@@ -3,22 +3,22 @@
 eval/run_claude_code.py
 
 STEP 2, Claude edition. Same job as run.py, but the answers come from a local
-Claude Code session (`claude -p`) instead of a paid API — so it runs on the
+Claude Code session ('claude -p') instead of a paid API, so it runs on the
 Claude Code subscription, not per-token API billing.
 
-Isolation (critical): the model must answer from the prompt ALONE. We pass
-`--tools ""` so the session has no file/bash tools and therefore cannot read the
+Isolation (critical): the model must answer from the prompt ALONE. Passes
+'--tools ""' so the session has no file/bash tools and therefore cannot read the
 repo or the ground truth (eval/subjects/*.questions.json). The diagram is piped
-on stdin (too large for an argv); the short notation legend goes in the system
-prompt. The Veltro legend in run.py.FORMATS is the "minimal context" the model
+on stdin (too large for an argv), the short notation legend goes in the system
+prompt, the Veltro legend in run.py.FORMATS is the "minimal context" the model
 needs for a notation it has never seen.
 
 Caveats (write these down when reporting):
 - This is the Claude Code HARNESS, not the raw API: every call carries Claude
   Code's own (cached) system prompt, so token counts are NOT comparable to API
-  runs and `total_cost_usd` is informational (subscription, not billed per token).
-- Comparing formats WITHIN a Claude model is valid; comparing a Claude-Code
-  model's absolute accuracy to an OpenAI-API model is cross-harness — mark it.
+  runs and 'total_cost_usd' is informational (subscription, not billed per token).
+- Comparing formats WITHIN a Claude model is valid, comparing a Claude-Code
+  model's absolute accuracy to an OpenAI-API model is cross-harness, mark it.
 
 Run (one model per invocation, like run.py; repeat for haiku/sonnet/opus):
     python eval/run_claude_code.py pydantic --model sonnet
@@ -47,9 +47,8 @@ def call_claude_code(model: str, effort: str, system_text: str, user_text: str) 
     Ask a local Claude Code session one question set and return
     (raw_text, input_tokens, output_tokens, cost_usd).
 
-    Tools are disabled (`--tools ""`) so the model cannot read any file; the
-    diagram is sent on stdin so it is never an argv (no length limit, no shell
-    quoting of the big text).
+    Tools are disabled ('--tools ""') so the model cannot read any file, the
+    diagram is sent on stdin
 
     """
     executable = shutil.which("claude")
@@ -88,17 +87,14 @@ def call_claude_code(model: str, effort: str, system_text: str, user_text: str) 
 
 
 def main(argv=None):
-    parser = argparse.ArgumentParser(
-        description="Ask the eval questions to a local Claude Code session (no API cost)")
+    parser = argparse.ArgumentParser(description="Ask the eval questions to a local Claude Code session (no API cost)")
     parser.add_argument("project", help="project name (matches eval/subjects/<project>.*)")
     parser.add_argument("--model", default="sonnet", help="claude alias: haiku, sonnet, opus")
     parser.add_argument("--effort", default="high", choices=["low", "medium", "high", "xhigh", "max"])
-    parser.add_argument("--formats", default="veltro,mermaid,plantuml,d2",
-                        help="comma-separated subset of: veltro,mermaid,plantuml,d2")
+    parser.add_argument("--formats", default="veltro,mermaid,plantuml,d2", help="comma-separated subset of: veltro,mermaid,plantuml,d2")
     parser.add_argument("--subjects-dir", default="eval/subjects")
     parser.add_argument("--out-dir", default="eval/results")
-    parser.add_argument("--repeat", type=int, default=1,
-                        help="how many times to query each format (for mean +/- std)")
+    parser.add_argument("--repeat", type=int, default=1, help="how many times to query each format (for mean +/- std)")
     arguments = parser.parse_args(argv)
 
     questions = load_questions(arguments.subjects_dir, arguments.project)
@@ -116,8 +112,7 @@ def main(argv=None):
             continue
 
         format_info = FORMATS[format_name]
-        diagram = load_subject(arguments.subjects_dir, arguments.project,
-                               format_info["extension"])
+        diagram = load_subject(arguments.subjects_dir, arguments.project, format_info["extension"])
         system_text, user_text = build_prompt(format_info["legend"], diagram, questions)
 
         runs = []
@@ -141,7 +136,7 @@ def main(argv=None):
             "runs": runs,
         }
 
-        # Model in the filename so haiku/sonnet/opus do not overwrite each other.
+        # Model in the filename so haiku/sonnet/opus do not overwrite each other
         out_path = os.path.join(
             arguments.out_dir,
             f"{arguments.project}.{format_name}.{PROVIDER}-{arguments.model}.json")
