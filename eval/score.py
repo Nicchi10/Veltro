@@ -49,8 +49,14 @@ def as_name_set(value) -> set:
     names = set()
     for item in items:
         text = str(item).strip().lower()
-        if text:
-            names.add(text)
+        if not text:
+            continue
+        # Compare by the leaf segment, so a fully-qualified answer
+        # ('pydantic.types.foo') matches the simple ground-truth name ('foo').
+        # This is needed because D2 keys types by their dotted id, so the model
+        # naturally answers with qualified names; on simple names it is a no-op.
+        leaf = text.rsplit(".", 1)[-1]
+        names.add(leaf)
     return names
 
 
