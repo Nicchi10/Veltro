@@ -5,21 +5,25 @@ eval/report.py
 Turn eval/leaderboard.csv (the editable, version-controlled dataset) into a
 Markdown leaderboard in eval/REPORT.md.
 
-The CSV is the source of truth hand-editable, git-diffable. This script is
+The CSV is the source of truth, hand-editable, git-diffable. This script is
 just a view over it: token cost, exact% (mean +/- std) and listF1, pivoted as
-format (rows) x model (columns).
+format (rows) x system (columns), where a "system" is model+provider so that
+OpenAI-API and Claude-Code runs are visibly distinct (cross-harness caveat).
+
+The token-cost table uses only API/deterministic providers: Claude Code runs
+carry the harness system prompt, so their token counts are not comparable.
 
 Run:
     python eval/report.py            # project pydantic -> eval/REPORT.md
-    python eval/report.py --project pydantic --out eval/REPORT.md
 """
 
 import argparse
 import csv
-import os
 import sys
 
 FORMAT_ORDER = ["veltro", "mermaid", "plantuml", "d2"]
+PROVIDER_DISPLAY = {"openai": "openai", "claudecode": "claude-code"}
+TOKEN_COMPARABLE_PROVIDERS = ("openai",)
 
 
 def parse_float(text: str):
@@ -44,15 +48,28 @@ def load_rows(csv_path: str, project: str) -> list:
     return rows
 
 
-def models_in_order(rows: list) -> list:
+def system_of(row: dict) -> tuple:
     """
-    Distinct models, in first-appearance order (authored weak -> strong)
+    A column key: (model, provider)
     """
-    models = []
+    return (row["model"], row.get("provider", "openai"))
+
+
+def system_label(system: tuple) -> str:
+    model, provider = system
+    return f"{model} ({PROVIDER_DISPLAY.get(provider, provider)})"
+
+
+def systems_in_order(rows: list) -> list:
+    """
+    Distinct (model, provider) columns, in first-appearance order
+    """
+    systems = []
     for row in rows:
-        if row["model"] not in models:
-            models.append(row["model"])
-    return models
+        key = system_of(row)
+        if key not in systems:
+            systems.append(key)
+    return systems
 
 
 def formats_present(rows: list) -> list:
@@ -71,11 +88,11 @@ def formats_present(rows: list) -> list:
 
 def index_rows(rows: list) -> dict:
     """
-    Map (format, model) -> row
+    Map (format, (model, provider)) -> row
     """
     index = {}
     for row in rows:
-        index[(row["format"], row["model"])] = row
+        index[(row["format"], system_of(row))] = row
     return index
 
 
@@ -111,13 +128,17 @@ def f1_cell(row: dict) -> str:
 
 def tokens_per_format(rows: list, formats: list) -> dict:
     """
-    One token figure per format (deterministic): take the row with most runs
+    One token figure per format, from a token-comparable provider only
+    (Claude Code's counts include the harness system prompt, so they are
+    excluded). Picks the row with the most runs
     """
     best = {}
     for fmt in formats:
         chosen = None
         for row in rows:
             if row["format"] != fmt:
+                continue
+            if row.get("provider", "openai") not in TOKEN_COMPARABLE_PROVIDERS:
                 continue
             if chosen is None or int(row["runs"]) > int(chosen["runs"]):
                 chosen = row
@@ -126,43 +147,48 @@ def tokens_per_format(rows: list, formats: list) -> dict:
     return best
 
 
-def pivot_table(title: str, rows: list, formats: list, models: list, cell_func) -> list:
+def pivot_table(title: str, rows: list, formats: list, systems: list, cell_func) -> list:
     """
     Build a Markdown pivot: rows = formats, columns = models
     """
+    
     index = index_rows(rows)
+    labels = []
+    for system in systems:
+        labels.append(system_label(system))
+
     lines = [f"### {title}", ""]
-
-    header = "| format | " + " | ".join(models) + " |"
-    separator = "|" + "---|" * (len(models) + 1)
-    lines.append(header)
-    lines.append(separator)
-
+    lines.append("| format | " + " | ".join(labels) + " |")
+    lines.append("|" + "---|" * (len(systems) + 1))
     for fmt in formats:
         cells = []
-        for model in models:
-            cells.append(cell_func(index.get((fmt, model))))
+        for system in systems:
+            cells.append(cell_func(index.get((fmt, system))))
         lines.append(f"| {fmt} | " + " | ".join(cells) + " |")
-
     lines.append("")
     return lines
 
 
 def build_report(project: str, rows: list) -> str:
-    models = models_in_order(rows)
+    systems = systems_in_order(rows)
     formats = formats_present(rows)
     tokens = tokens_per_format(rows, formats)
 
     lines = []
     lines.append(f"# Veltro eval leaderboard - {project}")
     lines.append("")
-    lines.append("Generated from `eval/leaderboard.csv` by `eval/report.py`. Provider: OpenAI. One question set (50 ground-truth questions derived from the type-graph model).")
+    lines.append("Generated from `eval/leaderboard.csv` by `eval/report.py`. "
+                 "Columns are model (provider): OpenAI runs are via API, Claude "
+                 "runs via the Claude Code harness, compare formats within a "
+                 "column, absolute accuracy across harnesses is not 1:1.")
     lines.append("")
-    lines.append("**Read it honestly:** token cost is deterministic and solid, comprehension accuracy is model-dependent and the formats land in overlapping bands, no robust comprehension winner. The durable result is fewer tokens at comparable comprehension.")
+    lines.append("**Read it honestly:** token cost is deterministic and solid, "
+                 "comprehension accuracy is model-dependent and the formats land "
+                 "in overlapping bands, no robust comprehension winner. The "
+                 "durable result is fewer tokens at comparable comprehension.")
     lines.append("")
 
-    # Token cost table.
-    lines.append("### Token cost (o200k_base, per format)")
+    lines.append("### Token cost (o200k_base, per format, API runs only)")
     lines.append("")
     lines.append("| format | tokens | vs Veltro |")
     lines.append("|---|---|---|")
@@ -178,12 +204,10 @@ def build_report(project: str, rows: list) -> str:
         lines.append(f"| {fmt} | {count} | {delta} |")
     lines.append("")
 
-    lines.extend(pivot_table("Exact accuracy (mean +/- std)", rows, formats, models, exact_cell))
-    lines.extend(pivot_table("List-question F1 (mean +/- std)", rows, formats, models, f1_cell))
+    lines.extend(pivot_table("Exact accuracy (mean +/- std)", rows, formats, systems, exact_cell))
+    lines.extend(pivot_table("List-question F1 (mean +/- std)", rows, formats, systems, f1_cell))
 
-    lines.append("Legend: `-` = combination not tested (not a zero). ")
-    lines.append("`*` = contaminated run (pre-fix or weak model), indicative only. ")            
-    lines.append("Cells without `+/-` are single runs (n=1, no variance).")             
+    lines.append("Legend: `-` = combination not tested (not a zero). `*` = contaminated run (pre-fix or weak model), indicative only. Cells without `+/-` are single runs (n=1, no variance).")
     lines.append("")
     return "\n".join(lines)
 
@@ -197,7 +221,8 @@ def main(argv=None):
 
     rows = load_rows(arguments.csv, arguments.project)
     if not rows:
-        print(f"[ERROR] - no rows for project '{arguments.project}' in {arguments.csv}", file=sys.stderr)
+        print(f"[ERROR] - no rows for project '{arguments.project}' in {arguments.csv}",
+              file=sys.stderr)
         return 1
 
     report = build_report(arguments.project, rows)

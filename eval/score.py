@@ -16,6 +16,7 @@ Run:
 """
 
 import argparse
+import csv
 import glob
 import json
 import os
@@ -213,91 +214,47 @@ def runs_of(result: dict) -> list:
     }]
 
 
-def main(argv=None):
-    parser = argparse.ArgumentParser(description="Score eval answers against ground truth")
-    parser.add_argument("project")
-    parser.add_argument("--subjects-dir", default="eval/subjects")
-    parser.add_argument("--results-dir", default="eval/results")
-    arguments = parser.parse_args(argv)
+CSV_FIELDS = ["project", "format", "model", "provider", "runs",
+              "exact_mean", "exact_std", "listf1_mean", "listf1_std",
+              "tokens", "notes"]
 
-    questions = load_questions(arguments.subjects_dir, arguments.project)
 
-    result_paths = sorted(glob.glob(
-        os.path.join(arguments.results_dir, arguments.project + ".*.json")))
-    if not result_paths:
-        print(f"[ERROR] - no result files for '{arguments.project}' in {arguments.results_dir}", file=sys.stderr)
-        return 1
+def aggregate_file(project: str, questions: list, result: dict) -> dict:
+    """
+    Score every run in one result file and return one aggregated row
+    """
+    runs = runs_of(result)
 
-    rows = []
-    question_types = []
-    for question in questions:
-        if question["type"] not in question_types:
-            question_types.append(question["type"])
+    exact_values = []
+    f1_values = []
+    token_values = []
+    per_type_values = {}
 
-    for path in result_paths:
-        with open(path, encoding="utf-8") as result_file:
-            result = json.load(result_file)
+    for run in runs:
+        scored = score_result(questions, run.get("answers", {}))
+        exact_values.append(scored["exact_accuracy"])
+        f1_values.append(scored["list_f1"])
+        token_values.append(run.get("input_tokens", 0))
+        for qtype, accuracy in scored["per_type_accuracy"].items():
+            per_type_values.setdefault(qtype, []).append(accuracy)
 
-        runs = runs_of(result)
+    per_type_mean = {}
+    for qtype, values in per_type_values.items():
+        per_type_mean[qtype] = mean(values)
 
-        exact_values = []
-        f1_values = []
-        token_values = []
-        per_type_values = {}
-
-        for run in runs:
-            scored = score_result(questions, run.get("answers", {}))
-            exact_values.append(scored["exact_accuracy"])
-            f1_values.append(scored["list_f1"])
-            token_values.append(run.get("input_tokens", 0))
-            for qtype, accuracy in scored["per_type_accuracy"].items():
-                per_type_values.setdefault(qtype, []).append(accuracy)
-
-        per_type_mean = {}
-        for qtype, values in per_type_values.items():
-            per_type_mean[qtype] = mean(values)
-
-        rows.append({
-            "format": result["format"],
-            "provider": result.get("provider", "?"),
-            "model": result.get("model", "?"),
-            "runs": len(runs),
-            "tokens": int(mean(token_values)),
-            "exact_mean": mean(exact_values),
-            "exact_std": stdev(exact_values),
-            "f1_mean": mean(f1_values),
-            "f1_std": stdev(f1_values),
-            "per_type_mean": per_type_mean,
-        })
-
-    # Sort by accuracy desc, then tokens asc (best + cheapest first)
-    rows.sort(key=sort_key)
-
-    provider = rows[0]["provider"]
-    model = rows[0]["model"]
-    run_count = rows[0]["runs"]
-    print(f"project: {arguments.project}   provider: {provider}   model: {model}   runs: {run_count}")
-    print(f"ground-truth questions: {len(questions)}\n")
-
-    print(f"{'format':10} {'tokens':>7} {'exact%':>10} {'listF1':>12}")
-    for row in rows:
-        exact = f"{100 * row['exact_mean']:.0f}+/-{100 * row['exact_std']:.0f}%"
-        f1 = f"{row['f1_mean']:.2f}+/-{row['f1_std']:.2f}"
-        print(f"{row['format']:10} {row['tokens']:7} {exact:>10} {f1:>12}")
-
-    print("\nper-type exact accuracy (mean):")
-    type_header = f"{'format':10}"
-    for qtype in question_types:
-        type_header += f" {qtype:>20}"
-    print(type_header)
-    for row in rows:
-        line = f"{row['format']:10}"
-        for qtype in question_types:
-            accuracy = row["per_type_mean"].get(qtype, 0.0)
-            line += f" {100 * accuracy:19.0f}%"
-        print(line)
-
-    return 0
+    return {
+        "project": project,
+        "format": result["format"],
+        "provider": result.get("provider", "openai"),
+        "model": result.get("model", "?"),
+        "runs": len(runs),
+        "tokens": int(mean(token_values)),
+        "exact_mean": mean(exact_values),
+        "exact_std": stdev(exact_values),
+        "f1_mean": mean(f1_values),
+        "f1_std": stdev(f1_values),
+        "per_type_mean": per_type_mean,
+    }
 
 
 def sort_key(row: dict):
@@ -305,6 +262,138 @@ def sort_key(row: dict):
     Best first: higher mean accuracy, then fewer tokens
     """
     return (-row["exact_mean"], row["tokens"])
+
+
+def print_system(system: tuple, rows: list, question_types: list, single: bool) -> None:
+    """
+    Print one (provider, model) block: a format leaderboard, plus per-type
+    accuracy when this is the only system on screen
+    """
+    provider, model = system
+    print(f"\n=== {model} ({provider}) ===")
+    print(f"{'format':10} {'tokens':>7} {'exact%':>11} {'listF1':>12}")
+    for row in sorted(rows, key=sort_key):
+        exact = f"{100 * row['exact_mean']:.0f}+/-{100 * row['exact_std']:.0f}%"
+        f1 = f"{row['f1_mean']:.2f}+/-{row['f1_std']:.2f}"
+        print(f"{row['format']:10} {row['tokens']:7} {exact:>11} {f1:>12}")
+
+    if single:
+        print("\nper-type exact accuracy (mean):")
+        header = f"{'format':10}"
+        for qtype in question_types:
+            header += f" {qtype:>20}"
+        print(header)
+        for row in sorted(rows, key=sort_key):
+            line = f"{row['format']:10}"
+            for qtype in question_types:
+                line += f" {100 * row['per_type_mean'].get(qtype, 0.0):19.0f}%"
+            print(line)
+
+
+def format_metric(value, std):
+    """
+    CSV cell: 2-decimal mean, and std only when it is meaningful (runs >= 2)
+    """
+    if std is not None and std > 0:
+        return f"{value:.2f}", f"{std:.2f}"
+    return f"{value:.2f}", ""
+
+
+def save_to_csv(csv_path: str, scored_rows: list) -> None:
+    """
+    Upsert the scored rows into the leaderboard CSV, keyed by
+    (project, format, model, provider). Existing notes are preserved.
+    """
+    existing = []
+    if os.path.exists(csv_path):
+        with open(csv_path, encoding="utf-8") as csv_file:
+            existing = list(csv.DictReader(csv_file))
+
+    by_key = {}
+    for index, row in enumerate(existing):
+        key = (row["project"], row["format"], row["model"], row.get("provider", "openai"))
+        by_key[key] = index
+
+    for scored in scored_rows:
+        key = (scored["project"], scored["format"], scored["model"], scored["provider"])
+        exact_mean, exact_std = format_metric(scored["exact_mean"],
+                                              scored["exact_std"] if scored["runs"] > 1 else None)
+        f1_mean, f1_std = format_metric(scored["f1_mean"],
+                                        scored["f1_std"] if scored["runs"] > 1 else None)
+        new_row = {
+            "project": scored["project"],
+            "format": scored["format"],
+            "model": scored["model"],
+            "provider": scored["provider"],
+            "runs": str(scored["runs"]),
+            "exact_mean": exact_mean,
+            "exact_std": exact_std,
+            "listf1_mean": f1_mean,
+            "listf1_std": f1_std,
+            "tokens": str(scored["tokens"]),
+            "notes": "",
+        }
+        if key in by_key:
+            new_row["notes"] = existing[by_key[key]].get("notes", "")  # keep any note
+            existing[by_key[key]] = new_row
+        else:
+            existing.append(new_row)
+            by_key[key] = len(existing) - 1
+
+    with open(csv_path, "w", encoding="utf-8", newline="") as csv_file:
+        writer = csv.DictWriter(csv_file, fieldnames=CSV_FIELDS)
+        writer.writeheader()
+        for row in existing:
+            writer.writerow(row)
+
+
+def main(argv=None):
+    parser = argparse.ArgumentParser(description="Score eval answers against ground truth")
+    parser.add_argument("project")
+    parser.add_argument("--subjects-dir", default="eval/subjects")
+    parser.add_argument("--results-dir", default="eval/results")
+    parser.add_argument("--save", help="upsert the aggregated rows into this leaderboard CSV")
+    arguments = parser.parse_args(argv)
+
+    questions = load_questions(arguments.subjects_dir, arguments.project)
+
+    result_paths = sorted(glob.glob(
+        os.path.join(arguments.results_dir, arguments.project + ".*.json")))
+    if not result_paths:
+        print(f"[ERROR] - no result files for '{arguments.project}' in {arguments.results_dir}",file=sys.stderr)
+        return 1
+
+    question_types = []
+    for question in questions:
+        if question["type"] not in question_types:
+            question_types.append(question["type"])
+
+    # Aggregate every result file, grouped by (provider, model) system
+    by_system = {}
+    system_order = []
+    for path in result_paths:
+        with open(path, encoding="utf-8") as result_file:
+            result = json.load(result_file)
+        row = aggregate_file(arguments.project, questions, result)
+        system = (row["provider"], row["model"])
+        if system not in by_system:
+            by_system[system] = []
+            system_order.append(system)
+        by_system[system].append(row)
+
+    print(f"project: {arguments.project}   ground-truth questions: {len(questions)}")
+    single = len(system_order) == 1
+    for system in system_order:
+        print_system(system, by_system[system], question_types, single)
+
+    if arguments.save:
+        all_rows = []
+        for system in system_order:
+            all_rows.extend(by_system[system])
+        save_to_csv(arguments.save, all_rows)
+        print(f"\n[INFO] - saved {len(all_rows)} rows -> {arguments.save}")
+
+    return 0
 
 
 if __name__ == "__main__":

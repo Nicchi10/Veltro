@@ -1,14 +1,14 @@
-project,format,model,runs,exact_mean,exact_std,listf1_mean,listf1_std,tokens,notes
-pydantic,veltro,gpt-4.1-nano,1,0.20,,0.33,,21192,contaminated: pre-fixes; weak model; indicative only
-pydantic,mermaid,gpt-4.1-nano,1,0.02,,0.04,,24857,contaminated: pre-namespace-fix; weak model
-pydantic,plantuml,gpt-4.1-nano,1,0.30,,0.36,,27448,contaminated: pre-fixes; weak model; indicative only
-pydantic,veltro,gpt-4o,1,0.62,,0.54,,21192,
-pydantic,mermaid,gpt-4o,1,0.70,,0.72,,25419,
-pydantic,plantuml,gpt-4o,1,0.62,,0.60,,27448,
-pydantic,veltro,gpt-5.4-mini,5,0.51,0.04,0.48,0.03,21190,
-pydantic,mermaid,gpt-5.4-mini,5,0.57,0.08,0.63,0.02,25418,
-pydantic,plantuml,gpt-5.4-mini,5,0.49,0.08,0.69,0.01,27446,
-pydantic,d2,gpt-5.4-mini,5,0.55,0.05,0.66,0.08,30520,
-pydantic,veltro,gpt-5.5,1,0.84,,0.89,,21190,
-pydantic,mermaid,gpt-5.5,1,0.78,,0.79,,25418,
-pydantic,plantuml,gpt-5.5,1,0.74,,0.80,,27446,
+project,format,model,provider,runs,exact_mean,exact_std,listf1_mean,listf1_std,tokens,notes
+pydantic,veltro,gpt-4.1-nano,openai,1,0.20,,0.33,,21192,contaminated: pre-fixes; weak model; indicative only
+pydantic,mermaid,gpt-4.1-nano,openai,1,0.02,,0.04,,24857,contaminated: pre-namespace-fix; weak model
+pydantic,plantuml,gpt-4.1-nano,openai,1,0.30,,0.36,,27448,contaminated: pre-fixes; weak model; indicative only
+pydantic,veltro,gpt-4o,openai,1,0.62,,0.54,,21192,
+pydantic,mermaid,gpt-4o,openai,1,0.70,,0.72,,25419,
+pydantic,plantuml,gpt-4o,openai,1,0.62,,0.60,,27448,
+pydantic,veltro,gpt-5.4-mini,openai,5,0.51,0.04,0.48,0.03,21190,
+pydantic,mermaid,gpt-5.4-mini,openai,5,0.57,0.08,0.63,0.02,25418,
+pydantic,plantuml,gpt-5.4-mini,openai,5,0.49,0.08,0.69,0.01,27446,
+pydantic,d2,gpt-5.4-mini,openai,5,0.55,0.05,0.66,0.08,30520,
+pydantic,veltro,gpt-5.5,openai,1,0.84,,0.89,,21190,
+pydantic,mermaid,gpt-5.5,openai,1,0.78,,0.79,,25418,
+pydantic,plantuml,gpt-5.5,openai,1,0.74,,0.80,,27446,
