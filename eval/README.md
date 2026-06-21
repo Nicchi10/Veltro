@@ -1,6 +1,6 @@
 # Veltro - LLM comprehension eval
 
-**Status: built and run** (OpenAI API + Claude Code), four model tiers, four
+**Status: built and run** (OpenAI + Anthropic APIs), four model tiers, four
 formats. It exists to test the claim token count alone can't prove: that an LLM
 understands a `.vel` diagram at least as well as the same architecture in
 Mermaid / PlantUML / D2, while spending fewer tokens.

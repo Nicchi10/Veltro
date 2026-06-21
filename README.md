@@ -96,8 +96,7 @@ python -m veltro.extract.python_ast path/to/some/package --out build/out.vel
 
 # 4. the comprehension eval (ground truth + ask a model + score -> leaderboard)
 python eval/generate.py examples/pydantic.vel          # subjects + ground truth
-python eval/run.py pydantic --provider openai           # answer via API, or:
-python eval/run_claude_code.py pydantic --model sonnet  # answer via Claude Code (no API cost)
+python eval/run.py pydantic --provider openai           # answer via API (openai or anthropic)
 python eval/score.py pydantic --save eval/leaderboard.csv
 python eval/report.py                                   # -> eval/REPORT.md
 ```
@@ -118,7 +117,7 @@ SPEC.md                   the .vel language specification
 examples/                 real architectures extracted to .vel (e.g. pydantic.vel)
 bench/                    token benchmarks + the vendored PlantUML sample
   formats/                the same slice encoded in 7 formats, for the ranking
-eval/                     LLM comprehension eval: generate/run/run_claude_code/score/report
+eval/                     LLM comprehension eval: generate/run/score/report
   leaderboard.csv         the editable results dataset -> REPORT.md (see eval/README.md)
 tests/                    unit tests (parser, extractor, exporters, scorer)
 ```
@@ -143,11 +142,11 @@ extract_java   |
 | [`veltro/extract/python_ast.py`](veltro/extract/python_ast.py) | Python source -> `.vel` (deterministic, no LLM) |
 | [`veltro/export/`](veltro/export) | model -> PlantUML / Mermaid / D2 |
 | [`examples/pydantic.vel`](examples/pydantic.vel) | Pydantic's architecture, extracted to `.vel` |
-| [`eval/`](eval) | comprehension eval (API or Claude Code) + token/accuracy leaderboard |
+| [`eval/`](eval) | comprehension eval (OpenAI / Anthropic APIs) + token/accuracy leaderboard |
 
 ## Roadmap
 
-- [x] **LLM comprehension eval** built and run (OpenAI API + Claude Code),
+- [x] **LLM comprehension eval** built and run (OpenAI + Anthropic APIs),
       across four model tiers and four formats. Result so far: comparable
       comprehension, fewer tokens. See [`eval/`](eval)
 - [ ] **Java extractor** (Kafka, Spring) so people lick their fingers

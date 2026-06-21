@@ -7,11 +7,12 @@ Markdown leaderboard in eval/REPORT.md.
 
 The CSV is the source of truth, hand-editable, git-diffable. This script is
 just a view over it: token cost, exact% (mean +/- std) and listF1, pivoted as
-format (rows) x system (columns), where a "system" is model+provider so that
-OpenAI-API and Claude-Code runs are visibly distinct (cross-harness caveat).
+format (rows) x system (columns), where a "system" is model+provider (e.g.
+OpenAI-API and Anthropic-API runs are visibly distinct).
 
-The token-cost table uses only API/deterministic providers: Claude Code runs
-carry the harness system prompt, so their token counts are not comparable.
+The token-cost table uses a single tokenizer (o200k_base) so it draws on the
+OpenAI rows only, other providers API token counts use a different tokenizer
+and are not directly comparable.
 
 Run:
     python eval/report.py            # project pydantic -> eval/REPORT.md
@@ -22,7 +23,7 @@ import csv
 import sys
 
 FORMAT_ORDER = ["veltro", "mermaid", "plantuml", "d2"]
-PROVIDER_DISPLAY = {"openai": "openai", "claudecode": "claude-code"}
+PROVIDER_DISPLAY = {"openai": "openai", "anthropic": "anthropic"}
 TOKEN_COMPARABLE_PROVIDERS = ("openai",)
 
 
@@ -129,8 +130,9 @@ def f1_cell(row: dict) -> str:
 def tokens_per_format(rows: list, formats: list) -> dict:
     """
     One token figure per format, from a token-comparable provider only
-    (Claude Code's counts include the harness system prompt, so they are
-    excluded). Picks the row with the most runs
+    (a single tokenizer, o200k_base, so only the OpenAI rows qualify, other
+    providers' API token counts use a different tokenizer). Picks the row with
+    the most runs
     """
     best = {}
     for fmt in formats:
@@ -178,9 +180,8 @@ def build_report(project: str, rows: list) -> str:
     lines.append(f"# Veltro eval leaderboard - {project}")
     lines.append("")
     lines.append("Generated from `eval/leaderboard.csv` by `eval/report.py`. "
-                 "Columns are model (provider): OpenAI runs are via API, Claude "
-                 "runs via the Claude Code harness, compare formats within a "
-                 "column, absolute accuracy across harnesses is not 1:1.")
+                 "Columns are model (provider): all runs are via paid API "
+                 "(OpenAI / Anthropic). Compare formats within a column.")
     lines.append("")
     lines.append("**Read it honestly:** token cost is deterministic and solid, "
                  "comprehension accuracy is model-dependent and the formats land "
