@@ -147,9 +147,9 @@ extract_java   |
 
 ## Roadmap
 
-- [x] **LLM comprehension eval** — built and run (OpenAI API + Claude Code),
+- [x] **LLM comprehension eval** built and run (OpenAI API + Claude Code),
       across four model tiers and four formats. Result so far: comparable
-      comprehension, fewer tokens. See [`eval/`](eval).
+      comprehension, fewer tokens. See [`eval/`](eval)
 - [ ] **Java extractor** (Kafka, Spring) so people lick their fingers
 - [ ] **VS Code extension** (and other IDEs) once the gain is clear
 - [ ] **Parser in TypeScript / Rust** (the reference parser is Python today)

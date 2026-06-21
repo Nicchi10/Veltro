@@ -34,7 +34,6 @@ eval/
   README.md            this file (methodology)
   generate.py          model -> 4 subjects (.vel/.mmd/.puml/.d2) + questions.json (ground truth)
   run.py               ask via paid API (--provider openai|anthropic, --repeat N)
-  run_claude_code.py   ask via local Claude Code (no API cost) -- haiku/sonnet/opus
   score.py             score answers vs ground truth, grouped by (provider, model); --save -> CSV
   report.py            leaderboard.csv -> REPORT.md (format x system pivots)
   leaderboard.csv      the editable, version-controlled results dataset
@@ -49,11 +48,8 @@ eval/
 # 1. Build the subjects and ground-truth questions (deterministic, no LLM)
 python eval/generate.py examples/pydantic.vel
 
-# 2a. Answer via a paid API (key from env: OPENAI_API_KEY / ANTHROPIC_API_KEY)
+# 2. Answer via a paid API (key from env: OPENAI_API_KEY / ANTHROPIC_API_KEY)
 python eval/run.py pydantic --provider openai --repeat 5
-
-# 2b. ...or via local Claude Code, on the subscription (no API cost)
-python eval/run_claude_code.py pydantic --model sonnet --repeat 5
 
 # 3. Score (mean +/- std) and append to the leaderboard, then render
 python eval/score.py pydantic --save eval/leaderboard.csv
@@ -63,23 +59,11 @@ python eval/report.py
 Every step is deterministic except the LLM call; raw answers are saved under
 `results/` so a run can be re-scored and audited without re-querying.
 
-## Two rules that keep it honest
-
-1. **No open-book**: The answering model must see only the prompt (legend +
-   diagram + questions), never the repo or `subjects/*.questions.json` (which
-   holds the answers). `run_claude_code.py` enforces this with `--tools ""`
-   (the session has no file access), the API path is isolated by construction.
-2. **Cross-harness is marked, not mixed**: Claude-Code answers carry Claude
-   Code's own (cached) system prompt, so their token counts are not comparable
-   to API runs and the leaderboard labels columns `model (provider)`. Compare
-   formats within a column, do not compare absolute accuracy across
-   harnesses. The token-cost table uses API runs only.
-
 ## The honest finding (so far)
 
 Across four model tiers the accuracy ranking shuffles by model and the
 formats land in overlapping bands (with n=5 error bars, Veltro / Mermaid /
 PlantUML / D2 are statistically tied). There is no robust comprehension
 winner. The durable, deterministic result is token cost: Veltro is the
-cheapest. So the defensible claim is **"fewer tokens at comparable
-comprehension"**, not "Veltro is understood better". See `REPORT.md`.
+cheapest. So the defensible claim is "fewer tokens at comparable
+comprehension", not "Veltro is understood better". See `REPORT.md`.

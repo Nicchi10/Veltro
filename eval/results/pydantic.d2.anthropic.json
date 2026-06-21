@@ -1,0 +1,781 @@
+{
+  "project": "pydantic",
+  "provider": "anthropic",
+  "format": "d2",
+  "model": "claude-opus-4-8",
+  "runs": [
+    {
+      "input_tokens": 52935,
+      "output_tokens": 1028,
+      "answers": {
+        "q1": [
+          "ModelMetaclass"
+        ],
+        "q2": [
+          "HttpUrl"
+        ],
+        "q3": [
+          "AnyHttpUrl",
+          "HttpUrl",
+          "AnyWebsocketUrl",
+          "WebsocketUrl",
+          "FileUrl",
+          "FtpUrl",
+          "CockroachDsn",
+          "AmqpDsn",
+          "RedisDsn",
+          "KafkaDsn",
+          "MySQLDsn",
+          "MariaDBDsn",
+          "ClickHouseDsn",
+          "SnowflakeDsn",
+          "MultiHostDsn",
+          "MongoDsn"
+        ],
+        "q4": [
+          "Strict",
+          "FailFast"
+        ],
+        "q5": [
+          "RootModel",
+          "BaseSettings",
+          "GenericModel"
+        ],
+        "q6": [
+          "ValidatePythonHandlerProtocol",
+          "ValidateJsonHandlerProtocol",
+          "ValidateStringsHandlerProtocol"
+        ],
+        "q7": [
+          "ArbitraryTypeWarning",
+          "UnsupportedFieldAttributeWarning",
+          "TypedDictExtraConfigWarning"
+        ],
+        "q8": [
+          "ConstrainedDecimal"
+        ],
+        "q9": [
+          "PydanticDeprecationWarning"
+        ],
+        "q10": [
+          "Base64Encoder",
+          "Base64UrlEncoder"
+        ],
+        "q11": [],
+        "q12": [],
+        "q13": [
+          "PydanticMetadata"
+        ],
+        "q14": [
+          "AnyUrl"
+        ],
+        "q15": [
+          "AnyUrl"
+        ],
+        "q16": [
+          "PydanticValueError"
+        ],
+        "q17": [
+          "PydanticValueError"
+        ],
+        "q18": [
+          "_BaseUrl",
+          "str"
+        ],
+        "q19": [
+          "AnyUrl"
+        ],
+        "q20": [
+          "PydanticTypeError"
+        ],
+        "q21": "pydantic._internal._config",
+        "q22": "pydantic._internal._config",
+        "q23": "pydantic._internal._core_metadata",
+        "q24": "pydantic._internal._decorators",
+        "q25": "pydantic._internal._decorators",
+        "q26": "pydantic._internal._decorators",
+        "q27": "pydantic._internal._decorators",
+        "q28": "pydantic._internal._decorators",
+        "q29": "pydantic._internal._decorators",
+        "q30": "pydantic._internal._decorators",
+        "q31": 2,
+        "q32": 1,
+        "q33": 0,
+        "q34": 2,
+        "q35": 2,
+        "q36": 0,
+        "q37": 0,
+        "q38": 0,
+        "q39": 0,
+        "q40": 0,
+        "q41": [
+          "alias_generator",
+          "model_title_generator",
+          "field_title_generator",
+          "ignored_types",
+          "json_schema_extra",
+          "json_encoders",
+          "protected_namespaces",
+          "plugin_settings",
+          "schema_generator",
+          "cache_strings"
+        ],
+        "q42": [],
+        "q43": [
+          "pydantic_js_functions",
+          "pydantic_js_annotation_functions",
+          "pydantic_js_extra"
+        ],
+        "q44": [
+          "func",
+          "shim",
+          "info"
+        ],
+        "q45": [
+          "validators",
+          "field_validators",
+          "root_validators",
+          "field_serializers",
+          "model_serializers",
+          "model_validators",
+          "computed_fields"
+        ],
+        "q46": [
+          "fields"
+        ],
+        "q47": [
+          "fields"
+        ],
+        "q48": [],
+        "q49": [],
+        "q50": [
+          "wrapped",
+          "shim"
+        ]
+      },
+      "raw_text": "{\"q1\": [\"ModelMetaclass\"], \"q2\": [\"HttpUrl\"], \"q3\": [\"AnyHttpUrl\", \"HttpUrl\", \"AnyWebsocketUrl\", \"WebsocketUrl\", \"FileUrl\", \"FtpUrl\", \"CockroachDsn\", \"AmqpDsn\", \"RedisDsn\", \"KafkaDsn\", \"MySQLDsn\", \"MariaDBDsn\", \"ClickHouseDsn\", \"SnowflakeDsn\", \"MultiHostDsn\", \"MongoDsn\"], \"q4\": [\"Strict\", \"FailFast\"], \"q5\": [\"RootModel\", \"BaseSettings\", \"GenericModel\"], \"q6\": [\"ValidatePythonHandlerProtocol\", \"ValidateJsonHandlerProtocol\", \"ValidateStringsHandlerProtocol\"], \"q7\": [\"ArbitraryTypeWarning\", \"UnsupportedFieldAttributeWarning\", \"TypedDictExtraConfigWarning\"], \"q8\": [\"ConstrainedDecimal\"], \"q9\": [\"PydanticDeprecationWarning\"], \"q10\": [\"Base64Encoder\", \"Base64UrlEncoder\"], \"q11\": [], \"q12\": [], \"q13\": [\"PydanticMetadata\"], \"q14\": [\"AnyUrl\"], \"q15\": [\"AnyUrl\"], \"q16\": [\"PydanticValueError\"], \"q17\": [\"PydanticValueError\"], \"q18\": [\"_BaseUrl\", \"str\"], \"q19\": [\"AnyUrl\"], \"q20\": [\"PydanticTypeError\"], \"q21\": \"pydantic._internal._config\", \"q22\": \"pydantic._internal._config\", \"q23\": \"pydantic._internal._core_metadata\", \"q24\": \"pydantic._internal._decorators\", \"q25\": \"pydantic._internal._decorators\", \"q26\": \"pydantic._internal._decorators\", \"q27\": \"pydantic._internal._decorators\", \"q28\": \"pydantic._internal._decorators\", \"q29\": \"pydantic._internal._decorators\", \"q30\": \"pydantic._internal._decorators\", \"q31\": 2, \"q32\": 1, \"q33\": 0, \"q34\": 2, \"q35\": 2, \"q36\": 0, \"q37\": 0, \"q38\": 0, \"q39\": 0, \"q40\": 0, \"q41\": [\"alias_generator\", \"model_title_generator\", \"field_title_generator\", \"ignored_types\", \"json_schema_extra\", \"json_encoders\", \"protected_namespaces\", \"plugin_settings\", \"schema_generator\", \"cache_strings\"], \"q42\": [], \"q43\": [\"pydantic_js_functions\", \"pydantic_js_annotation_functions\", \"pydantic_js_extra\"], \"q44\": [\"func\", \"shim\", \"info\"], \"q45\": [\"validators\", \"field_validators\", \"root_validators\", \"field_serializers\", \"model_serializers\", \"model_validators\", \"computed_fields\"], \"q46\": [\"fields\"], \"q47\": [\"fields\"], \"q48\": [], \"q49\": [], \"q50\": [\"wrapped\", \"shim\"]}"
+    },
+    {
+      "input_tokens": 52935,
+      "output_tokens": 1087,
+      "answers": {
+        "q1": [
+          "ModelMetaclass"
+        ],
+        "q2": [
+          "HttpUrl"
+        ],
+        "q3": [
+          "AnyHttpUrl",
+          "HttpUrl",
+          "AnyWebsocketUrl",
+          "WebsocketUrl",
+          "FileUrl",
+          "FtpUrl",
+          "CockroachDsn",
+          "AmqpDsn",
+          "RedisDsn",
+          "KafkaDsn",
+          "MySQLDsn",
+          "MariaDBDsn",
+          "ClickHouseDsn",
+          "SnowflakeDsn",
+          "MultiHostDsn",
+          "MongoDsn"
+        ],
+        "q4": [
+          "Strict",
+          "FailFast"
+        ],
+        "q5": [
+          "RootModel",
+          "BaseSettings",
+          "GenericModel"
+        ],
+        "q6": [
+          "ValidatePythonHandlerProtocol",
+          "ValidateJsonHandlerProtocol",
+          "ValidateStringsHandlerProtocol"
+        ],
+        "q7": [
+          "ArbitraryTypeWarning",
+          "UnsupportedFieldAttributeWarning",
+          "TypedDictExtraConfigWarning"
+        ],
+        "q8": [
+          "ConstrainedDecimal"
+        ],
+        "q9": [
+          "PydanticDeprecationWarning"
+        ],
+        "q10": [
+          "Base64Encoder",
+          "Base64UrlEncoder"
+        ],
+        "q11": [],
+        "q12": [],
+        "q13": [
+          "pydantic._internal._fields.PydanticMetadata"
+        ],
+        "q14": [
+          "AnyUrl"
+        ],
+        "q15": [
+          "AnyUrl"
+        ],
+        "q16": [
+          "pydantic.v1.errors.PydanticValueError"
+        ],
+        "q17": [
+          "pydantic.v1.errors.PydanticValueError"
+        ],
+        "q18": [
+          "pydantic.networks._BaseUrl",
+          "str"
+        ],
+        "q19": [
+          "AnyUrl"
+        ],
+        "q20": [
+          "pydantic.v1.errors.PydanticTypeError"
+        ],
+        "q21": "pydantic._internal._config",
+        "q22": "pydantic._internal._config",
+        "q23": "pydantic._internal._core_metadata",
+        "q24": "pydantic._internal._decorators",
+        "q25": "pydantic._internal._decorators",
+        "q26": "pydantic._internal._decorators",
+        "q27": "pydantic._internal._decorators",
+        "q28": "pydantic._internal._decorators",
+        "q29": "pydantic._internal._decorators",
+        "q30": "pydantic._internal._decorators",
+        "q31": 2,
+        "q32": 1,
+        "q33": 0,
+        "q34": 2,
+        "q35": 1,
+        "q36": 0,
+        "q37": 0,
+        "q38": 0,
+        "q39": 0,
+        "q40": 0,
+        "q41": [
+          "config_dict",
+          "extra",
+          "str_max_length",
+          "alias_generator",
+          "model_title_generator",
+          "field_title_generator",
+          "ignored_types",
+          "json_schema_extra",
+          "json_encoders",
+          "protected_namespaces",
+          "plugin_settings",
+          "schema_generator",
+          "cache_strings"
+        ],
+        "q42": [],
+        "q43": [
+          "pydantic_js_functions",
+          "pydantic_js_annotation_functions",
+          "pydantic_js_extra"
+        ],
+        "q44": [
+          "func",
+          "shim"
+        ],
+        "q45": [
+          "validators",
+          "field_validators",
+          "root_validators",
+          "field_serializers",
+          "model_serializers",
+          "model_validators",
+          "computed_fields"
+        ],
+        "q46": [
+          "fields"
+        ],
+        "q47": [
+          "fields"
+        ],
+        "q48": [],
+        "q49": [],
+        "q50": [
+          "shim"
+        ]
+      },
+      "raw_text": "{\"q1\": [\"ModelMetaclass\"], \"q2\": [\"HttpUrl\"], \"q3\": [\"AnyHttpUrl\", \"HttpUrl\", \"AnyWebsocketUrl\", \"WebsocketUrl\", \"FileUrl\", \"FtpUrl\", \"CockroachDsn\", \"AmqpDsn\", \"RedisDsn\", \"KafkaDsn\", \"MySQLDsn\", \"MariaDBDsn\", \"ClickHouseDsn\", \"SnowflakeDsn\", \"MultiHostDsn\", \"MongoDsn\"], \"q4\": [\"Strict\", \"FailFast\"], \"q5\": [\"RootModel\", \"BaseSettings\", \"GenericModel\"], \"q6\": [\"ValidatePythonHandlerProtocol\", \"ValidateJsonHandlerProtocol\", \"ValidateStringsHandlerProtocol\"], \"q7\": [\"ArbitraryTypeWarning\", \"UnsupportedFieldAttributeWarning\", \"TypedDictExtraConfigWarning\"], \"q8\": [\"ConstrainedDecimal\"], \"q9\": [\"PydanticDeprecationWarning\"], \"q10\": [\"Base64Encoder\", \"Base64UrlEncoder\"], \"q11\": [], \"q12\": [], \"q13\": [\"pydantic._internal._fields.PydanticMetadata\"], \"q14\": [\"AnyUrl\"], \"q15\": [\"AnyUrl\"], \"q16\": [\"pydantic.v1.errors.PydanticValueError\"], \"q17\": [\"pydantic.v1.errors.PydanticValueError\"], \"q18\": [\"pydantic.networks._BaseUrl\", \"str\"], \"q19\": [\"AnyUrl\"], \"q20\": [\"pydantic.v1.errors.PydanticTypeError\"], \"q21\": \"pydantic._internal._config\", \"q22\": \"pydantic._internal._config\", \"q23\": \"pydantic._internal._core_metadata\", \"q24\": \"pydantic._internal._decorators\", \"q25\": \"pydantic._internal._decorators\", \"q26\": \"pydantic._internal._decorators\", \"q27\": \"pydantic._internal._decorators\", \"q28\": \"pydantic._internal._decorators\", \"q29\": \"pydantic._internal._decorators\", \"q30\": \"pydantic._internal._decorators\", \"q31\": 2, \"q32\": 1, \"q33\": 0, \"q34\": 2, \"q35\": 1, \"q36\": 0, \"q37\": 0, \"q38\": 0, \"q39\": 0, \"q40\": 0, \"q41\": [\"config_dict\", \"extra\", \"str_max_length\", \"alias_generator\", \"model_title_generator\", \"field_title_generator\", \"ignored_types\", \"json_schema_extra\", \"json_encoders\", \"protected_namespaces\", \"plugin_settings\", \"schema_generator\", \"cache_strings\"], \"q42\": [], \"q43\": [\"pydantic_js_functions\", \"pydantic_js_annotation_functions\", \"pydantic_js_extra\"], \"q44\": [\"func\", \"shim\"], \"q45\": [\"validators\", \"field_validators\", \"root_validators\", \"field_serializers\", \"model_serializers\", \"model_validators\", \"computed_fields\"], \"q46\": [\"fields\"], \"q47\": [\"fields\"], \"q48\": [], \"q49\": [], \"q50\": [\"shim\"]}"
+    },
+    {
+      "input_tokens": 52935,
+      "output_tokens": 951,
+      "answers": {
+        "q1": [
+          "ModelMetaclass"
+        ],
+        "q2": [
+          "HttpUrl"
+        ],
+        "q3": [
+          "AnyHttpUrl",
+          "HttpUrl",
+          "AnyWebsocketUrl",
+          "WebsocketUrl",
+          "FileUrl",
+          "FtpUrl",
+          "CockroachDsn",
+          "AmqpDsn",
+          "RedisDsn",
+          "KafkaDsn",
+          "MySQLDsn",
+          "MariaDBDsn",
+          "ClickHouseDsn",
+          "SnowflakeDsn",
+          "MultiHostDsn",
+          "MongoDsn"
+        ],
+        "q4": [
+          "Strict",
+          "FailFast"
+        ],
+        "q5": [
+          "RootModel",
+          "BaseSettings",
+          "GenericModel"
+        ],
+        "q6": [
+          "ValidatePythonHandlerProtocol",
+          "ValidateJsonHandlerProtocol",
+          "ValidateStringsHandlerProtocol"
+        ],
+        "q7": [
+          "ArbitraryTypeWarning",
+          "UnsupportedFieldAttributeWarning",
+          "TypedDictExtraConfigWarning"
+        ],
+        "q8": [
+          "ConstrainedDecimal"
+        ],
+        "q9": [
+          "PydanticDeprecationWarning"
+        ],
+        "q10": [
+          "Base64Encoder",
+          "Base64UrlEncoder"
+        ],
+        "q11": [
+          "AliasPath"
+        ],
+        "q12": [
+          "AliasPath",
+          "AliasChoices"
+        ],
+        "q13": [
+          "PydanticMetadata"
+        ],
+        "q14": [
+          "AnyUrl"
+        ],
+        "q15": [
+          "AnyUrl"
+        ],
+        "q16": [
+          "PydanticValueError"
+        ],
+        "q17": [
+          "PydanticValueError"
+        ],
+        "q18": [
+          "_BaseUrl",
+          "str"
+        ],
+        "q19": [
+          "AnyUrl"
+        ],
+        "q20": [
+          "PydanticTypeError"
+        ],
+        "q21": "pydantic._internal._config",
+        "q22": "pydantic._internal._config",
+        "q23": "pydantic._internal._core_metadata",
+        "q24": "pydantic._internal._decorators",
+        "q25": "pydantic._internal._decorators",
+        "q26": "pydantic._internal._decorators",
+        "q27": "pydantic._internal._decorators",
+        "q28": "pydantic._internal._decorators",
+        "q29": "pydantic._internal._decorators",
+        "q30": "pydantic._internal._decorators",
+        "q31": 2,
+        "q32": 1,
+        "q33": 0,
+        "q34": 2,
+        "q35": 2,
+        "q36": 0,
+        "q37": 0,
+        "q38": 0,
+        "q39": 0,
+        "q40": 0,
+        "q41": [
+          "alias_generator",
+          "model_title_generator",
+          "field_title_generator",
+          "ignored_types",
+          "json_schema_extra",
+          "json_encoders",
+          "protected_namespaces",
+          "plugin_settings",
+          "schema_generator",
+          "cache_strings"
+        ],
+        "q42": [],
+        "q43": [
+          "pydantic_js_functions",
+          "pydantic_js_annotation_functions",
+          "pydantic_js_extra"
+        ],
+        "q44": [
+          "func",
+          "shim"
+        ],
+        "q45": [
+          "validators",
+          "field_validators",
+          "root_validators",
+          "field_serializers",
+          "model_serializers",
+          "model_validators",
+          "computed_fields"
+        ],
+        "q46": [
+          "fields"
+        ],
+        "q47": [
+          "fields"
+        ],
+        "q48": [],
+        "q49": [],
+        "q50": [
+          "shim"
+        ]
+      },
+      "raw_text": "{\"q1\":[\"ModelMetaclass\"],\"q2\":[\"HttpUrl\"],\"q3\":[\"AnyHttpUrl\",\"HttpUrl\",\"AnyWebsocketUrl\",\"WebsocketUrl\",\"FileUrl\",\"FtpUrl\",\"CockroachDsn\",\"AmqpDsn\",\"RedisDsn\",\"KafkaDsn\",\"MySQLDsn\",\"MariaDBDsn\",\"ClickHouseDsn\",\"SnowflakeDsn\",\"MultiHostDsn\",\"MongoDsn\"],\"q4\":[\"Strict\",\"FailFast\"],\"q5\":[\"RootModel\",\"BaseSettings\",\"GenericModel\"],\"q6\":[\"ValidatePythonHandlerProtocol\",\"ValidateJsonHandlerProtocol\",\"ValidateStringsHandlerProtocol\"],\"q7\":[\"ArbitraryTypeWarning\",\"UnsupportedFieldAttributeWarning\",\"TypedDictExtraConfigWarning\"],\"q8\":[\"ConstrainedDecimal\"],\"q9\":[\"PydanticDeprecationWarning\"],\"q10\":[\"Base64Encoder\",\"Base64UrlEncoder\"],\"q11\":[\"AliasPath\"],\"q12\":[\"AliasPath\",\"AliasChoices\"],\"q13\":[\"PydanticMetadata\"],\"q14\":[\"AnyUrl\"],\"q15\":[\"AnyUrl\"],\"q16\":[\"PydanticValueError\"],\"q17\":[\"PydanticValueError\"],\"q18\":[\"_BaseUrl\",\"str\"],\"q19\":[\"AnyUrl\"],\"q20\":[\"PydanticTypeError\"],\"q21\":\"pydantic._internal._config\",\"q22\":\"pydantic._internal._config\",\"q23\":\"pydantic._internal._core_metadata\",\"q24\":\"pydantic._internal._decorators\",\"q25\":\"pydantic._internal._decorators\",\"q26\":\"pydantic._internal._decorators\",\"q27\":\"pydantic._internal._decorators\",\"q28\":\"pydantic._internal._decorators\",\"q29\":\"pydantic._internal._decorators\",\"q30\":\"pydantic._internal._decorators\",\"q31\":2,\"q32\":1,\"q33\":0,\"q34\":2,\"q35\":2,\"q36\":0,\"q37\":0,\"q38\":0,\"q39\":0,\"q40\":0,\"q41\":[\"alias_generator\",\"model_title_generator\",\"field_title_generator\",\"ignored_types\",\"json_schema_extra\",\"json_encoders\",\"protected_namespaces\",\"plugin_settings\",\"schema_generator\",\"cache_strings\"],\"q42\":[],\"q43\":[\"pydantic_js_functions\",\"pydantic_js_annotation_functions\",\"pydantic_js_extra\"],\"q44\":[\"func\",\"shim\"],\"q45\":[\"validators\",\"field_validators\",\"root_validators\",\"field_serializers\",\"model_serializers\",\"model_validators\",\"computed_fields\"],\"q46\":[\"fields\"],\"q47\":[\"fields\"],\"q48\":[],\"q49\":[],\"q50\":[\"shim\"]}"
+    },
+    {
+      "input_tokens": 52935,
+      "output_tokens": 1518,
+      "answers": {
+        "q1": [
+          "pydantic.v1.main.ModelMetaclass",
+          "pydantic._internal._model_construction.ModelMetaclass"
+        ],
+        "q2": [
+          "pydantic.v1.networks.HttpUrl"
+        ],
+        "q3": [
+          "pydantic.networks.AnyHttpUrl",
+          "pydantic.networks.HttpUrl",
+          "pydantic.networks.AnyWebsocketUrl",
+          "pydantic.networks.WebsocketUrl",
+          "pydantic.networks.FileUrl",
+          "pydantic.networks.FtpUrl",
+          "pydantic.networks.CockroachDsn",
+          "pydantic.networks.AmqpDsn",
+          "pydantic.networks.RedisDsn",
+          "pydantic.networks.KafkaDsn",
+          "pydantic.networks.MySQLDsn",
+          "pydantic.networks.MariaDBDsn",
+          "pydantic.networks.ClickHouseDsn",
+          "pydantic.networks.SnowflakeDsn",
+          "pydantic.v1.networks.AnyHttpUrl",
+          "pydantic.v1.networks.FileUrl",
+          "pydantic.v1.networks.MultiHostDsn",
+          "pydantic.v1.networks.CockroachDsn",
+          "pydantic.v1.networks.AmqpDsn",
+          "pydantic.v1.networks.RedisDsn",
+          "pydantic.v1.networks.MongoDsn",
+          "pydantic.v1.networks.KafkaDsn"
+        ],
+        "q4": [
+          "pydantic.types.Strict",
+          "pydantic.types.FailFast"
+        ],
+        "q5": [
+          "pydantic.root_model.RootModel",
+          "pydantic.v1.env_settings.BaseSettings",
+          "pydantic.v1.generics.GenericModel"
+        ],
+        "q6": [
+          "pydantic.plugin.ValidatePythonHandlerProtocol",
+          "pydantic.plugin.ValidateJsonHandlerProtocol",
+          "pydantic.plugin.ValidateStringsHandlerProtocol"
+        ],
+        "q7": [
+          "pydantic.warnings.ArbitraryTypeWarning",
+          "pydantic.warnings.UnsupportedFieldAttributeWarning",
+          "pydantic.warnings.TypedDictExtraConfigWarning"
+        ],
+        "q8": [
+          "pydantic.v1.types.ConstrainedDecimal"
+        ],
+        "q9": [
+          "pydantic.warnings.PydanticDeprecationWarning"
+        ],
+        "q10": [
+          "pydantic.types.Base64Encoder",
+          "pydantic.types.Base64UrlEncoder"
+        ],
+        "q11": [],
+        "q12": [],
+        "q13": [
+          "pydantic._internal._fields.PydanticMetadata"
+        ],
+        "q14": [
+          "AnyUrl"
+        ],
+        "q15": [
+          "AnyUrl"
+        ],
+        "q16": [
+          "pydantic.v1.errors.PydanticValueError"
+        ],
+        "q17": [
+          "pydantic.v1.errors.PydanticValueError"
+        ],
+        "q18": [
+          "pydantic.networks._BaseUrl",
+          "str"
+        ],
+        "q19": [
+          "AnyUrl"
+        ],
+        "q20": [
+          "pydantic.v1.errors.PydanticTypeError"
+        ],
+        "q21": "pydantic._internal._config",
+        "q22": "pydantic._internal._config",
+        "q23": "pydantic._internal._core_metadata",
+        "q24": "pydantic._internal._decorators",
+        "q25": "pydantic._internal._decorators",
+        "q26": "pydantic._internal._decorators",
+        "q27": "pydantic._internal._decorators",
+        "q28": "pydantic._internal._decorators",
+        "q29": "pydantic._internal._decorators",
+        "q30": "pydantic._internal._decorators",
+        "q31": 2,
+        "q32": 1,
+        "q33": 0,
+        "q34": 2,
+        "q35": 1,
+        "q36": 0,
+        "q37": 0,
+        "q38": 0,
+        "q39": 0,
+        "q40": 0,
+        "q41": [
+          "str_max_length",
+          "extra",
+          "alias_generator",
+          "model_title_generator",
+          "field_title_generator",
+          "ignored_types",
+          "json_schema_extra",
+          "json_encoders",
+          "protected_namespaces",
+          "plugin_settings",
+          "schema_generator",
+          "cache_strings"
+        ],
+        "q42": [],
+        "q43": [
+          "pydantic_js_functions",
+          "pydantic_js_annotation_functions",
+          "pydantic_js_extra"
+        ],
+        "q44": [
+          "func",
+          "shim"
+        ],
+        "q45": [
+          "validators",
+          "field_validators",
+          "root_validators",
+          "field_serializers",
+          "model_serializers",
+          "model_validators",
+          "computed_fields"
+        ],
+        "q46": [
+          "fields"
+        ],
+        "q47": [
+          "fields",
+          "check_fields"
+        ],
+        "q48": [],
+        "q49": [],
+        "q50": [
+          "shim"
+        ]
+      },
+      "raw_text": "{\"q1\": [\"pydantic.v1.main.ModelMetaclass\", \"pydantic._internal._model_construction.ModelMetaclass\"], \"q2\": [\"pydantic.v1.networks.HttpUrl\"], \"q3\": [\"pydantic.networks.AnyHttpUrl\", \"pydantic.networks.HttpUrl\", \"pydantic.networks.AnyWebsocketUrl\", \"pydantic.networks.WebsocketUrl\", \"pydantic.networks.FileUrl\", \"pydantic.networks.FtpUrl\", \"pydantic.networks.CockroachDsn\", \"pydantic.networks.AmqpDsn\", \"pydantic.networks.RedisDsn\", \"pydantic.networks.KafkaDsn\", \"pydantic.networks.MySQLDsn\", \"pydantic.networks.MariaDBDsn\", \"pydantic.networks.ClickHouseDsn\", \"pydantic.networks.SnowflakeDsn\", \"pydantic.v1.networks.AnyHttpUrl\", \"pydantic.v1.networks.FileUrl\", \"pydantic.v1.networks.MultiHostDsn\", \"pydantic.v1.networks.CockroachDsn\", \"pydantic.v1.networks.AmqpDsn\", \"pydantic.v1.networks.RedisDsn\", \"pydantic.v1.networks.MongoDsn\", \"pydantic.v1.networks.KafkaDsn\"], \"q4\": [\"pydantic.types.Strict\", \"pydantic.types.FailFast\"], \"q5\": [\"pydantic.root_model.RootModel\", \"pydantic.v1.env_settings.BaseSettings\", \"pydantic.v1.generics.GenericModel\"], \"q6\": [\"pydantic.plugin.ValidatePythonHandlerProtocol\", \"pydantic.plugin.ValidateJsonHandlerProtocol\", \"pydantic.plugin.ValidateStringsHandlerProtocol\"], \"q7\": [\"pydantic.warnings.ArbitraryTypeWarning\", \"pydantic.warnings.UnsupportedFieldAttributeWarning\", \"pydantic.warnings.TypedDictExtraConfigWarning\"], \"q8\": [\"pydantic.v1.types.ConstrainedDecimal\"], \"q9\": [\"pydantic.warnings.PydanticDeprecationWarning\"], \"q10\": [\"pydantic.types.Base64Encoder\", \"pydantic.types.Base64UrlEncoder\"], \"q11\": [], \"q12\": [], \"q13\": [\"pydantic._internal._fields.PydanticMetadata\"], \"q14\": [\"AnyUrl\"], \"q15\": [\"AnyUrl\"], \"q16\": [\"pydantic.v1.errors.PydanticValueError\"], \"q17\": [\"pydantic.v1.errors.PydanticValueError\"], \"q18\": [\"pydantic.networks._BaseUrl\", \"str\"], \"q19\": [\"AnyUrl\"], \"q20\": [\"pydantic.v1.errors.PydanticTypeError\"], \"q21\": \"pydantic._internal._config\", \"q22\": \"pydantic._internal._config\", \"q23\": \"pydantic._internal._core_metadata\", \"q24\": \"pydantic._internal._decorators\", \"q25\": \"pydantic._internal._decorators\", \"q26\": \"pydantic._internal._decorators\", \"q27\": \"pydantic._internal._decorators\", \"q28\": \"pydantic._internal._decorators\", \"q29\": \"pydantic._internal._decorators\", \"q30\": \"pydantic._internal._decorators\", \"q31\": 2, \"q32\": 1, \"q33\": 0, \"q34\": 2, \"q35\": 1, \"q36\": 0, \"q37\": 0, \"q38\": 0, \"q39\": 0, \"q40\": 0, \"q41\": [\"str_max_length\", \"extra\", \"alias_generator\", \"model_title_generator\", \"field_title_generator\", \"ignored_types\", \"json_schema_extra\", \"json_encoders\", \"protected_namespaces\", \"plugin_settings\", \"schema_generator\", \"cache_strings\"], \"q42\": [], \"q43\": [\"pydantic_js_functions\", \"pydantic_js_annotation_functions\", \"pydantic_js_extra\"], \"q44\": [\"func\", \"shim\"], \"q45\": [\"validators\", \"field_validators\", \"root_validators\", \"field_serializers\", \"model_serializers\", \"model_validators\", \"computed_fields\"], \"q46\": [\"fields\"], \"q47\": [\"fields\", \"check_fields\"], \"q48\": [], \"q49\": [], \"q50\": [\"shim\"]}"
+    },
+    {
+      "input_tokens": 52935,
+      "output_tokens": 1196,
+      "answers": {
+        "q1": [
+          "pydantic.v1.main.ModelMetaclass",
+          "pydantic._internal._model_construction.ModelMetaclass"
+        ],
+        "q2": [
+          "HttpUrl"
+        ],
+        "q3": [
+          "AnyHttpUrl",
+          "HttpUrl",
+          "AnyWebsocketUrl",
+          "WebsocketUrl",
+          "FileUrl",
+          "FtpUrl",
+          "CockroachDsn",
+          "AmqpDsn",
+          "RedisDsn",
+          "KafkaDsn",
+          "MySQLDsn",
+          "MariaDBDsn",
+          "ClickHouseDsn",
+          "SnowflakeDsn",
+          "MultiHostDsn",
+          "MongoDsn"
+        ],
+        "q4": [
+          "pydantic.types.Strict",
+          "pydantic.types.FailFast"
+        ],
+        "q5": [
+          "pydantic.root_model.RootModel",
+          "pydantic.v1.env_settings.BaseSettings",
+          "pydantic.v1.generics.GenericModel"
+        ],
+        "q6": [
+          "pydantic.plugin.ValidatePythonHandlerProtocol",
+          "pydantic.plugin.ValidateJsonHandlerProtocol",
+          "pydantic.plugin.ValidateStringsHandlerProtocol"
+        ],
+        "q7": [
+          "pydantic.warnings.ArbitraryTypeWarning",
+          "pydantic.warnings.UnsupportedFieldAttributeWarning",
+          "pydantic.warnings.TypedDictExtraConfigWarning"
+        ],
+        "q8": [
+          "pydantic.v1.types.ConstrainedDecimal"
+        ],
+        "q9": [
+          "pydantic.warnings.PydanticDeprecationWarning"
+        ],
+        "q10": [
+          "pydantic.types.Base64Encoder",
+          "pydantic.types.Base64UrlEncoder",
+          "pydantic.types.EncodedBytes",
+          "pydantic.types.EncodedStr"
+        ],
+        "q11": [
+          "str",
+          "AliasPath"
+        ],
+        "q12": [],
+        "q13": [
+          "pydantic._internal._fields.PydanticMetadata"
+        ],
+        "q14": [
+          "AnyUrl"
+        ],
+        "q15": [
+          "AnyUrl"
+        ],
+        "q16": [
+          "pydantic.v1.errors.PydanticValueError"
+        ],
+        "q17": [
+          "pydantic.v1.errors.PydanticValueError"
+        ],
+        "q18": [
+          "pydantic.networks._BaseUrl",
+          "str"
+        ],
+        "q19": [
+          "AnyUrl"
+        ],
+        "q20": [
+          "pydantic.v1.errors.PydanticTypeError"
+        ],
+        "q21": "pydantic._internal._config",
+        "q22": "pydantic._internal._config",
+        "q23": "pydantic._internal._core_metadata",
+        "q24": "pydantic._internal._decorators",
+        "q25": "pydantic._internal._decorators",
+        "q26": "pydantic._internal._decorators",
+        "q27": "pydantic._internal._decorators",
+        "q28": "pydantic._internal._decorators",
+        "q29": "pydantic._internal._decorators",
+        "q30": "pydantic._internal._decorators",
+        "q31": 2,
+        "q32": 1,
+        "q33": 0,
+        "q34": 2,
+        "q35": 2,
+        "q36": 0,
+        "q37": 0,
+        "q38": 0,
+        "q39": 0,
+        "q40": 0,
+        "q41": [
+          "alias_generator",
+          "model_title_generator",
+          "field_title_generator",
+          "ignored_types",
+          "json_schema_extra",
+          "json_encoders",
+          "protected_namespaces",
+          "plugin_settings",
+          "schema_generator",
+          "cache_strings"
+        ],
+        "q42": [],
+        "q43": [
+          "pydantic_js_functions",
+          "pydantic_js_annotation_functions",
+          "pydantic_js_extra"
+        ],
+        "q44": [
+          "shim",
+          "func"
+        ],
+        "q45": [
+          "validators",
+          "field_validators",
+          "root_validators",
+          "field_serializers",
+          "model_serializers",
+          "model_validators",
+          "computed_fields"
+        ],
+        "q46": [
+          "fields",
+          "check_fields"
+        ],
+        "q47": [
+          "fields",
+          "check_fields"
+        ],
+        "q48": [],
+        "q49": [],
+        "q50": [
+          "shim"
+        ]
+      },
+      "raw_text": "{\"q1\":[\"pydantic.v1.main.ModelMetaclass\",\"pydantic._internal._model_construction.ModelMetaclass\"],\"q2\":[\"HttpUrl\"],\"q3\":[\"AnyHttpUrl\",\"HttpUrl\",\"AnyWebsocketUrl\",\"WebsocketUrl\",\"FileUrl\",\"FtpUrl\",\"CockroachDsn\",\"AmqpDsn\",\"RedisDsn\",\"KafkaDsn\",\"MySQLDsn\",\"MariaDBDsn\",\"ClickHouseDsn\",\"SnowflakeDsn\",\"MultiHostDsn\",\"MongoDsn\"],\"q4\":[\"pydantic.types.Strict\",\"pydantic.types.FailFast\"],\"q5\":[\"pydantic.root_model.RootModel\",\"pydantic.v1.env_settings.BaseSettings\",\"pydantic.v1.generics.GenericModel\"],\"q6\":[\"pydantic.plugin.ValidatePythonHandlerProtocol\",\"pydantic.plugin.ValidateJsonHandlerProtocol\",\"pydantic.plugin.ValidateStringsHandlerProtocol\"],\"q7\":[\"pydantic.warnings.ArbitraryTypeWarning\",\"pydantic.warnings.UnsupportedFieldAttributeWarning\",\"pydantic.warnings.TypedDictExtraConfigWarning\"],\"q8\":[\"pydantic.v1.types.ConstrainedDecimal\"],\"q9\":[\"pydantic.warnings.PydanticDeprecationWarning\"],\"q10\":[\"pydantic.types.Base64Encoder\",\"pydantic.types.Base64UrlEncoder\",\"pydantic.types.EncodedBytes\",\"pydantic.types.EncodedStr\"],\"q11\":[\"str\",\"AliasPath\"],\"q12\":[],\"q13\":[\"pydantic._internal._fields.PydanticMetadata\"],\"q14\":[\"AnyUrl\"],\"q15\":[\"AnyUrl\"],\"q16\":[\"pydantic.v1.errors.PydanticValueError\"],\"q17\":[\"pydantic.v1.errors.PydanticValueError\"],\"q18\":[\"pydantic.networks._BaseUrl\",\"str\"],\"q19\":[\"AnyUrl\"],\"q20\":[\"pydantic.v1.errors.PydanticTypeError\"],\"q21\":\"pydantic._internal._config\",\"q22\":\"pydantic._internal._config\",\"q23\":\"pydantic._internal._core_metadata\",\"q24\":\"pydantic._internal._decorators\",\"q25\":\"pydantic._internal._decorators\",\"q26\":\"pydantic._internal._decorators\",\"q27\":\"pydantic._internal._decorators\",\"q28\":\"pydantic._internal._decorators\",\"q29\":\"pydantic._internal._decorators\",\"q30\":\"pydantic._internal._decorators\",\"q31\":2,\"q32\":1,\"q33\":0,\"q34\":2,\"q35\":2,\"q36\":0,\"q37\":0,\"q38\":0,\"q39\":0,\"q40\":0,\"q41\":[\"alias_generator\",\"model_title_generator\",\"field_title_generator\",\"ignored_types\",\"json_schema_extra\",\"json_encoders\",\"protected_namespaces\",\"plugin_settings\",\"schema_generator\",\"cache_strings\"],\"q42\":[],\"q43\":[\"pydantic_js_functions\",\"pydantic_js_annotation_functions\",\"pydantic_js_extra\"],\"q44\":[\"shim\",\"func\"],\"q45\":[\"validators\",\"field_validators\",\"root_validators\",\"field_serializers\",\"model_serializers\",\"model_validators\",\"computed_fields\"],\"q46\":[\"fields\",\"check_fields\"],\"q47\":[\"fields\",\"check_fields\"],\"q48\":[],\"q49\":[],\"q50\":[\"shim\"]}"
+    }
+  ]
+}
