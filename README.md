@@ -1,10 +1,12 @@
 <p align="center">
+  <em>&lt;&lt;...verrà 'l veltro / che la farà morir con doglia.&gt;&gt;</em> - Dante, <em>Inferno</em> I
+</p>
+
+<p align="center">
   <img src="images/veltro.png" alt="Veltro - a compact, AI-native language for documenting the static architecture of a codebase as a graph of types" width="200" />
 </p>
 
 <h1 align="center">Veltro</h1>
-
-> *<<...verrà 'l veltro / che la farà morir con doglia.>>* - Dante, *Inferno* I
 
 
 
