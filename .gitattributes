@@ -1,0 +1,2 @@
+# GitHub syntax highlighting for Veltro source files
+*.vel linguist-language=TypeScript linguist-detectable=false

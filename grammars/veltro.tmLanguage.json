@@ -1,0 +1,118 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "Veltro",
+  "scopeName": "source.veltro",
+  "fileTypes": ["vel"],
+  "patterns": [
+    { "include": "#doc" },
+    { "include": "#pragma" },
+    { "include": "#module" },
+    { "include": "#type-declaration" },
+    { "include": "#relation" },
+    { "include": "#member" }
+  ],
+  "repository": {
+    "doc": {
+      "comment": "A '>' line documents the following declaration; render it like a comment",
+      "match": "^\\s*>.*$",
+      "name": "comment.line.documentation.veltro"
+    },
+    "pragma": {
+      "comment": "The version pragma, e.g. 'veltro 1'.",
+      "match": "^\\s*(veltro)\\s+(\\d+)\\b",
+      "captures": {
+        "1": { "name": "keyword.control.veltro" },
+        "2": { "name": "constant.numeric.veltro" }
+      }
+    },
+    "module": {
+      "comment": "module Dotted.Path",
+      "match": "^\\s*(module)\\s+([A-Za-z_][\\w]*(?:\\.[A-Za-z_][\\w]*)*)",
+      "captures": {
+        "1": { "name": "keyword.control.module.veltro" },
+        "2": { "name": "entity.name.namespace.veltro" }
+      }
+    },
+    "type-declaration": {
+      "patterns": [
+        {
+          "comment": "enum E = A, B, C  (constants coloured until end of line)",
+          "begin": "^\\s*(enum)\\s+([A-Za-z_][\\w]*)\\s*(=)",
+          "beginCaptures": {
+            "1": { "name": "keyword.control.veltro" },
+            "2": { "name": "entity.name.type.veltro" },
+            "3": { "name": "keyword.operator.assignment.veltro" }
+          },
+          "end": "$",
+          "patterns": [
+            { "match": "[A-Za-z_][\\w]*", "name": "constant.other.enum.veltro" },
+            { "match": ",", "name": "punctuation.separator.veltro" }
+          ]
+        },
+        {
+          "comment": "class [abstract|sealed|static] Foo  /  interface I",
+          "match": "^\\s*(class|interface)\\s+(?:(abstract|sealed|static)\\s+)?([A-Za-z_][\\w]*)",
+          "captures": {
+            "1": { "name": "keyword.control.veltro" },
+            "2": { "name": "storage.modifier.veltro" },
+            "3": { "name": "entity.name.type.veltro" }
+          }
+        }
+      ]
+    },
+    "relation": {
+      "patterns": [
+        {
+          "comment": "the 'rel' block header",
+          "match": "^\\s*(rel)\\s*$",
+          "name": "keyword.control.veltro"
+        },
+        {
+          "comment": "a relation row: <from> <kind> <to>",
+          "match": "^\\s*([A-Za-z_][\\w.]*)\\s+(extend|impl|depend|assoc|aggregate|compose)\\s+([A-Za-z_][\\w.]*)\\s*$",
+          "captures": {
+            "1": { "name": "entity.name.type.veltro" },
+            "2": { "name": "keyword.operator.relation.veltro" },
+            "3": { "name": "entity.name.type.veltro" }
+          }
+        }
+      ]
+    },
+    "member": {
+      "patterns": [
+        {
+          "comment": "method: optional visibility/static, name, then '('",
+          "match": "^\\s*(?:([-#@+])\\s*)?(\\$)?([A-Za-z_]\\w*)(?=\\s*\\()",
+          "captures": {
+            "1": { "name": "keyword.operator.visibility.veltro" },
+            "2": { "name": "storage.modifier.static.veltro" },
+            "3": { "name": "entity.name.function.veltro" }
+          }
+        },
+        {
+          "comment": "field: optional visibility/static, name, then a space (a type follows)",
+          "match": "^\\s*(?:([-#@+])\\s*)?(\\$)?([A-Za-z_]\\w*)(?=\\s)",
+          "captures": {
+            "1": { "name": "keyword.operator.visibility.veltro" },
+            "2": { "name": "storage.modifier.static.veltro" },
+            "3": { "name": "variable.other.member.veltro" }
+          }
+        },
+        { "include": "#type-tokens" }
+      ]
+    },
+    "type-tokens": {
+      "comment": "Decorations that appear inside member types and signatures.",
+      "patterns": [
+        { "match": "\\?", "name": "keyword.operator.optional.veltro" },
+        { "match": "[<>]", "name": "punctuation.definition.generic.veltro" },
+        { "match": "\\|", "name": "keyword.operator.union.veltro" },
+        { "match": "=", "name": "keyword.operator.assignment.veltro" },
+        { "match": ",", "name": "punctuation.separator.veltro" },
+        { "match": "\\b(None|null|true|false)\\b", "name": "constant.language.veltro" },
+        { "match": "\\b\\d+(?:\\.\\d+)?\\b", "name": "constant.numeric.veltro" },
+        { "match": "\\b[A-Za-z_][\\w.]*\\b", "name": "support.type.veltro" }
+      ]
+    }
+  }
+}
