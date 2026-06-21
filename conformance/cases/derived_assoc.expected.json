@@ -1,0 +1,35 @@
+{
+  "veltro": 1,
+  "nodes": [
+    {
+      "id": "m.A",
+      "kind": "class",
+      "name": "A",
+      "module": "m",
+      "fields": [
+        {
+          "vis": "+",
+          "name": "ref",
+          "type": "B"
+        }
+      ],
+      "methods": []
+    },
+    {
+      "id": "m.B",
+      "kind": "class",
+      "name": "B",
+      "module": "m",
+      "fields": [],
+      "methods": []
+    }
+  ],
+  "edges": [
+    {
+      "from": "m.A",
+      "kind": "assoc",
+      "to": "m.B",
+      "derived": true
+    }
+  ]
+}

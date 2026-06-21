@@ -1,0 +1,25 @@
+{
+  "veltro": 1,
+  "nodes": [
+    {
+      "id": "m.Base",
+      "kind": "class",
+      "name": "Base",
+      "module": "m",
+      "fields": [],
+      "methods": [],
+      "modifiers": [
+        "abstract"
+      ]
+    },
+    {
+      "id": "m.I",
+      "kind": "interface",
+      "name": "I",
+      "module": "m",
+      "fields": [],
+      "methods": []
+    }
+  ],
+  "edges": []
+}

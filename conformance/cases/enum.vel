@@ -1,0 +1,4 @@
+veltro 1
+
+module m
+enum E = A, B, C

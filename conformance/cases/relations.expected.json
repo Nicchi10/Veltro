@@ -1,0 +1,54 @@
+{
+  "veltro": 1,
+  "nodes": [
+    {
+      "id": "m.A",
+      "kind": "class",
+      "name": "A",
+      "module": "m",
+      "fields": [],
+      "methods": []
+    },
+    {
+      "id": "m.B",
+      "kind": "class",
+      "name": "B",
+      "module": "m",
+      "fields": [],
+      "methods": []
+    },
+    {
+      "id": "m.I",
+      "kind": "interface",
+      "name": "I",
+      "module": "m",
+      "fields": [],
+      "methods": []
+    },
+    {
+      "id": "m.D",
+      "kind": "class",
+      "name": "D",
+      "module": "m",
+      "fields": [],
+      "methods": []
+    }
+  ],
+  "edges": [
+    {
+      "from": "m.A",
+      "kind": "extend",
+      "to": "m.B"
+    },
+    {
+      "from": "m.A",
+      "kind": "impl",
+      "to": "m.I"
+    },
+    {
+      "from": "m.A",
+      "kind": "depend",
+      "to": "m.D"
+    }
+  ]
+}

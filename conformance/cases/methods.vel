@@ -1,0 +1,7 @@
+veltro 1
+
+module m
+class C
+named(x int) int
+typeonly(int)
+voidm(x int)

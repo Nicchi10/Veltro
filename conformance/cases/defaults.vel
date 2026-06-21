@@ -1,0 +1,5 @@
+veltro 1
+
+module m
+class C
+n int = 0

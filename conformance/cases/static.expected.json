@@ -1,0 +1,28 @@
+{
+  "veltro": 1,
+  "nodes": [
+    {
+      "id": "m.C",
+      "kind": "class",
+      "name": "C",
+      "module": "m",
+      "fields": [
+        {
+          "vis": "+",
+          "name": "count",
+          "type": "int",
+          "static": true
+        }
+      ],
+      "methods": [
+        {
+          "vis": "+",
+          "name": "make",
+          "ret": "C",
+          "static": true
+        }
+      ]
+    }
+  ],
+  "edges": []
+}

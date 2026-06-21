@@ -1,0 +1,45 @@
+{
+  "veltro": 1,
+  "nodes": [
+    {
+      "id": "m.C",
+      "kind": "class",
+      "name": "C",
+      "module": "m",
+      "fields": [],
+      "methods": [
+        {
+          "vis": "+",
+          "name": "named",
+          "args": [
+            {
+              "name": "x",
+              "type": "int"
+            }
+          ],
+          "ret": "int"
+        },
+        {
+          "vis": "+",
+          "name": "typeonly",
+          "args": [
+            {
+              "type": "int"
+            }
+          ]
+        },
+        {
+          "vis": "+",
+          "name": "voidm",
+          "args": [
+            {
+              "name": "x",
+              "type": "int"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "edges": []
+}

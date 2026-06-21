@@ -1,0 +1,6 @@
+veltro 1
+
+module m
+class C
+$count int
+$make() C

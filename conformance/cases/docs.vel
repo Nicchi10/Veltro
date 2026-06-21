@@ -1,0 +1,6 @@
+veltro 1
+
+module m
+> documents C
+class C
+a int

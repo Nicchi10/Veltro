@@ -1,0 +1,12 @@
+veltro 1
+
+module m
+class A
+class B
+interface I
+class D
+
+rel
+A extend B
+A impl I
+A depend D

@@ -1,0 +1,17 @@
+{
+  "veltro": 1,
+  "nodes": [
+    {
+      "id": "m.E",
+      "kind": "enum",
+      "name": "E",
+      "module": "m",
+      "values": [
+        "A",
+        "B",
+        "C"
+      ]
+    }
+  ],
+  "edges": []
+}

@@ -1,0 +1,5 @@
+veltro 1
+
+module m
+class abstract Base
+interface I

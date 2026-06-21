@@ -1,0 +1,20 @@
+{
+  "veltro": 1,
+  "nodes": [
+    {
+      "id": "m.C",
+      "kind": "class",
+      "name": "C",
+      "module": "m",
+      "fields": [
+        {
+          "vis": "+",
+          "name": "m",
+          "type": "Map<String,Object>"
+        }
+      ],
+      "methods": []
+    }
+  ],
+  "edges": []
+}

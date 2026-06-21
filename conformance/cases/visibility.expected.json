@@ -1,0 +1,35 @@
+{
+  "veltro": 1,
+  "nodes": [
+    {
+      "id": "m.C",
+      "kind": "class",
+      "name": "C",
+      "module": "m",
+      "fields": [
+        {
+          "vis": "+",
+          "name": "a",
+          "type": "int"
+        },
+        {
+          "vis": "-",
+          "name": "b",
+          "type": "int"
+        },
+        {
+          "vis": "#",
+          "name": "c",
+          "type": "int"
+        },
+        {
+          "vis": "@",
+          "name": "d",
+          "type": "int"
+        }
+      ],
+      "methods": []
+    }
+  ],
+  "edges": []
+}
