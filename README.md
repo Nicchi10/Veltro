@@ -2,9 +2,7 @@
   <img src="images/veltro.png" alt="Veltro - a compact, AI-native language for documenting the static architecture of a codebase as a graph of types" width="200" />
 </p>
 
-<p align="center">
-  <h1> Veltro <h1>
-</p>
+<h1 align="center">Veltro</h1>
 
 > *<<...verrà 'l veltro / che la farà morir con doglia.>>* - Dante, *Inferno* I
 
