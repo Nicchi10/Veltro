@@ -1,4 +1,4 @@
-# Veltro Language Specification v0
+# Veltro Language Specification v0.1
 
 > *<<...verrà 'l veltro / [...] e sua nazion sarà tra feltro e feltro.>>* - Dante, *Inferno* I
 >

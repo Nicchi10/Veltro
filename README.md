@@ -1,6 +1,26 @@
+<p align="center">
+  <img src="images/veltro.png" alt="Veltro - a compact, AI-native language for documenting the static architecture of a codebase as a graph of types" width="800" />
+</p>
+
 # Veltro
 
+---
+
 > *<<...verrà 'l veltro / che la farà morir con doglia.>>* - Dante, *Inferno* I
+
+
+
+<p align="center">
+  <img src="https://img.shields.io/badge/v-0.1-ff5b00?labelColor=ff5b00" alt="version 0.1" />
+</p>
+
+<p align="center">
+  <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/license-MIT-blue" alt="MIT License" /></a>
+  <img src="https://img.shields.io/badge/input_used-19.9k_tokens-ff5b00" alt="Input used" />
+  <img src="https://img.shields.io/badge/tokens_saved-17--31%25-ff5b00" alt="Tokens saved" />
+</p>
+
+---
 
 **Veltro** is a compact, AI-native language for documenting the static
 architecture of a codebase as a graph of types, plus a viewer that makes that
