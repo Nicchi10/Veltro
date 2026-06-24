@@ -3,7 +3,7 @@
 eval/report.py
 
 Turn eval/leaderboard.csv (the editable, version-controlled dataset) into a
-Markdown leaderboard in eval/REPORT.md.
+per-project Markdown leaderboard at eval/subjects/<project>/REPORT.md.
 
 The CSV is the source of truth, hand-editable, git-diffable. This script is
 just a view over it: token cost, exact% (mean +/- std) and listF1, pivoted as
@@ -15,11 +15,13 @@ OpenAI rows only, other providers API token counts use a different tokenizer
 and are not directly comparable.
 
 Run:
-    python eval/report.py            # project pydantic -> eval/REPORT.md
+    python eval/report.py                      # project pydantic -> eval/subjects/pydantic/REPORT.md
+    python eval/report.py --project spring-beans
 """
 
 import argparse
 import csv
+import os
 import sys
 
 FORMAT_ORDER = ["veltro", "mermaid", "plantuml", "d2"]
@@ -217,7 +219,8 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description="Render the eval leaderboard to Markdown")
     parser.add_argument("--project", default="pydantic")
     parser.add_argument("--csv", default="eval/leaderboard.csv")
-    parser.add_argument("--out", default="eval/REPORT.md")
+    parser.add_argument("--subjects-dir", default="eval/subjects")
+    parser.add_argument("--out", default=None, help="output path (default: <subjects-dir>/<project>/REPORT.md)")
     arguments = parser.parse_args(argv)
 
     rows = load_rows(arguments.csv, arguments.project)
@@ -226,13 +229,19 @@ def main(argv=None):
               file=sys.stderr)
         return 1
 
+    # Each project's report lives next to its subjects, so reports for pydantic, spring-beans, ... never pile up in one place
+    out_path = arguments.out
+    if out_path is None:
+        out_path = os.path.join(arguments.subjects_dir, arguments.project, "REPORT.md")
+    os.makedirs(os.path.dirname(out_path), exist_ok=True)
+
     report = build_report(arguments.project, rows)
-    with open(arguments.out, "w", encoding="utf-8", newline="\n") as out_file:
+    with open(out_path, "w", encoding="utf-8", newline="\n") as out_file:
         out_file.write(report)
         if not report.endswith("\n"):
             out_file.write("\n")
 
-    print(f"[INFO] - wrote {arguments.out} ({len(rows)} rows, project {arguments.project})")
+    print(f"[INFO] - wrote {out_path} ({len(rows)} rows, project {arguments.project})")
     return 0
 
 

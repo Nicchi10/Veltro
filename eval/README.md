@@ -32,13 +32,12 @@ Because the questions and their answers are generated from the same `model`
 ```
 eval/
   README.md            this file (methodology)
-  generate.py          model -> 4 subjects (.vel/.mmd/.puml/.d2) + questions.json (ground truth)
+  generate.py          model -> subjects/<name>/<name>.{vel,mmd,puml,d2} + .questions.json (ground truth)
   run.py               ask via paid API (--provider openai|anthropic, --repeat N)
   score.py             score answers vs ground truth, grouped by (provider, model); --save -> CSV
-  report.py            leaderboard.csv -> REPORT.md (format x system pivots)
-  leaderboard.csv      the editable, version-controlled results dataset
-  REPORT.md            the generated leaderboard
-  subjects/            the rendered diagrams + questions under test
+  report.py            leaderboard.csv -> subjects/<name>/REPORT.md (format x system pivots)
+  leaderboard.csv      the editable, version-controlled results dataset (all projects)
+  subjects/<name>/     per project: the rendered diagrams + questions + generated REPORT.md
   results/             raw model answers + token usage (re-scoreable offline)
 ```
 
@@ -66,4 +65,5 @@ formats land in overlapping bands (with n=5 error bars, Veltro / Mermaid /
 PlantUML / D2 are statistically tied). There is no robust comprehension
 winner. The durable, deterministic result is token cost: Veltro is the
 cheapest. So the defensible claim is "fewer tokens at comparable
-comprehension", not "Veltro is understood better". See `REPORT.md`.
+comprehension", not "Veltro is understood better". See each project's
+`subjects/<name>/REPORT.md`.

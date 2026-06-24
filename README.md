@@ -99,7 +99,7 @@ Fewer tokens are worthless if the model reads the diagram worse. So we test it:
 50 structural questions whose answers are facts derived from the type graph
 (automatic, deterministic scoring), asked of the same architecture rendered in
 each format. Run across four model tiers (see [`eval/`](eval) and the generated
-[`eval/REPORT.md`](eval/REPORT.md)).
+per-project report, e.g. [`eval/subjects/pydantic/REPORT.md`](eval/subjects/pydantic/REPORT.md)).
 
 The honest result: the accuracy ranking shuffles by model and the formats
 sit in overlapping bands, there is no robust comprehension winner. Which
@@ -125,7 +125,7 @@ python -m veltro.extract.python_ast path/to/some/package --out build/out.vel
 python eval/generate.py examples/pydantic.vel          # subjects + ground truth
 python eval/run.py pydantic --provider openai           # answer via API (openai or anthropic)
 python eval/score.py pydantic --save eval/leaderboard.csv
-python eval/report.py                                   # -> eval/REPORT.md
+python eval/report.py                                   # -> eval/subjects/<project>/REPORT.md
 ```
 
 The examples are not hand-written: they are **extracted from real projects**
@@ -145,7 +145,7 @@ examples/                 real architectures extracted to .vel (e.g. pydantic.ve
 bench/                    token benchmarks + the vendored PlantUML sample
   formats/                the same slice encoded in 7 formats, for the ranking
 eval/                     LLM comprehension eval: generate/run/score/report
-  leaderboard.csv         the editable results dataset -> REPORT.md (see eval/README.md)
+  leaderboard.csv         the editable results dataset -> per-project subjects/<name>/REPORT.md (see eval/README.md)
 tests/                    unit tests (parser, extractor, exporters, scorer)
 ```
 
