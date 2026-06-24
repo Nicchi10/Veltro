@@ -31,19 +31,30 @@
  *     - generic type parameters of methods (<T> ... ) and throws clauses
  *     - static/instance initializer blocks
  *
+ * Pick the JDK version: javac can only parse source up to its OWN language
+ * level, so use a JDK at least as new as the target project (e.g. Spring uses
+ * Java 17 syntax -- run this with JDK 17+, not JDK 8, or javac error-recovers
+ * into a corrupt .vel).
+ *
  * How to run it:
  *
- *   On JDK 9+ the Compiler Tree API is in the 'jdk.compiler' module and on the
- *   classpath by default, so a plain compile/run works:
+ *   On JDK 9+ the supported Compiler Tree API (com.sun.source.*) is on the
+ *   classpath, but this extractor also reads two INTERNAL javac packages (for
+ *   the authoritative enum-constant flag, see isEnumConstant), which the module
+ *   system encapsulates -- so both javac and java need --add-exports:
+ *
+ *     EXPORTS="--add-exports jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED \
+ *              --add-exports jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED"
  *
  *     1. Compile once (writes VeltroJavaExtractor.class next to the source):
- *         javac veltro/extract/java/VeltroJavaExtractor.java
+ *         javac $EXPORTS veltro/extract/java/VeltroJavaExtractor.java
  *
  *     2. Extract a source folder to a .vel file (or omit --out for stdout):
- *         java -cp veltro/extract/java VeltroJavaExtractor <src_dir> --out out.vel
+ *         java $EXPORTS -cp veltro/extract/java VeltroJavaExtractor <src_dir> --out out.vel
  *
- *   On JDK 8 the same classes live in <JDK>/lib/tools.jar, which is NOT on the
- *   default classpath, so add it to both steps:
+ *   On JDK 8 there is no module system (no --add-exports), but the same classes
+ *   live in <JDK>/lib/tools.jar, which is NOT on the default classpath, so add
+ *   it instead -- note JDK 8 only parses sources up to Java 8:
  *
  *         javac -cp "$JAVA_HOME/lib/tools.jar" veltro/extract/java/VeltroJavaExtractor.java
  *         java  -cp "veltro/extract/java:$JAVA_HOME/lib/tools.jar" VeltroJavaExtractor <src_dir> --out out.vel
@@ -55,6 +66,7 @@
 
 import com.sun.source.tree.ClassTree;
 import com.sun.source.tree.CompilationUnitTree;
+import com.sun.source.tree.ExpressionTree;
 import com.sun.source.tree.MethodTree;
 import com.sun.source.tree.Tree;
 import com.sun.source.tree.VariableTree;
@@ -229,6 +241,36 @@ public class VeltroJavaExtractor {
     // ============ MEMBER EXTRACTION ============
 
     /**
+     * Whether a field initializer is a plain literal, safe to copy verbatim
+     * after the '='.
+     *
+     * Anything else -- a method call, a lambda, an anonymous class -- renders
+     * via toString() as arbitrary, often multi-line Java source, which would
+     * inject newlines and stray '(' into the line-oriented .vel and corrupt it.
+     * (Real example from Spring: a field assigned 'new SomeInterface() { ... }'
+     * dumped a whole method body into the model.) For those, the default is
+     * dropped: a default value is informative, not load-bearing.
+     *
+     * @param init the initializer expression
+     * @return true only for numeric / boolean / char / string / null literals
+     */
+    private static boolean isSimpleDefault(ExpressionTree init) {
+        switch (init.getKind()) {
+            case INT_LITERAL:
+            case LONG_LITERAL:
+            case FLOAT_LITERAL:
+            case DOUBLE_LITERAL:
+            case BOOLEAN_LITERAL:
+            case CHAR_LITERAL:
+            case STRING_LITERAL:
+            case NULL_LITERAL:
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    /**
      * Turn a field declaration into a Veltro field line.
      *
      * @param field           the variable declaration
@@ -244,7 +286,7 @@ public class VeltroJavaExtractor {
         String type = javaTypeToVeltro(field.getType());
 
         String line = memberPrefix(name, marker, isStatic) + " " + type;
-        if (field.getInitializer() != null) {
+        if (field.getInitializer() != null && isSimpleDefault(field.getInitializer())) {
             line += " = " + field.getInitializer().toString();
         }
         return line;
