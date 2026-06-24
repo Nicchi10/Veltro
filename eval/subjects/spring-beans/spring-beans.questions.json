@@ -1,0 +1,441 @@
+{
+  "project": "spring-beans",
+  "types": 323,
+  "questions": [
+    {
+      "id": "q1",
+      "type": "implementors",
+      "subject": "AbstractAutowireCapableBeanFactory",
+      "prompt": "List every type that extends or implements 'AbstractAutowireCapableBeanFactory'. Answer with type names only.",
+      "answer": [
+        "DefaultListableBeanFactory"
+      ]
+    },
+    {
+      "id": "q2",
+      "type": "implementors",
+      "subject": "AbstractBeanDefinition",
+      "prompt": "List every type that extends or implements 'AbstractBeanDefinition'. Answer with type names only.",
+      "answer": [
+        "ChildBeanDefinition",
+        "GenericBeanDefinition",
+        "RootBeanDefinition"
+      ]
+    },
+    {
+      "id": "q3",
+      "type": "implementors",
+      "subject": "AbstractBeanDefinitionParser",
+      "prompt": "List every type that extends or implements 'AbstractBeanDefinitionParser'. Answer with type names only.",
+      "answer": [
+        "AbstractSingleBeanDefinitionParser"
+      ]
+    },
+    {
+      "id": "q4",
+      "type": "implementors",
+      "subject": "AbstractBeanDefinitionReader",
+      "prompt": "List every type that extends or implements 'AbstractBeanDefinitionReader'. Answer with type names only.",
+      "answer": [
+        "GroovyBeanDefinitionReader",
+        "PropertiesBeanDefinitionReader",
+        "XmlBeanDefinitionReader"
+      ]
+    },
+    {
+      "id": "q5",
+      "type": "implementors",
+      "subject": "AbstractBeanFactory",
+      "prompt": "List every type that extends or implements 'AbstractBeanFactory'. Answer with type names only.",
+      "answer": [
+        "AbstractAutowireCapableBeanFactory"
+      ]
+    },
+    {
+      "id": "q6",
+      "type": "implementors",
+      "subject": "AbstractComponentDefinition",
+      "prompt": "List every type that extends or implements 'AbstractComponentDefinition'. Answer with type names only.",
+      "answer": [
+        "CompositeComponentDefinition"
+      ]
+    },
+    {
+      "id": "q7",
+      "type": "implementors",
+      "subject": "AbstractFactoryBean",
+      "prompt": "List every type that extends or implements 'AbstractFactoryBean'. Answer with type names only.",
+      "answer": [
+        "AbstractServiceLoaderBasedFactoryBean",
+        "ListFactoryBean",
+        "MapFactoryBean",
+        "ObjectFactoryCreatingFactoryBean",
+        "ProviderCreatingFactoryBean",
+        "SetFactoryBean"
+      ]
+    },
+    {
+      "id": "q8",
+      "type": "implementors",
+      "subject": "AbstractNestablePropertyAccessor",
+      "prompt": "List every type that extends or implements 'AbstractNestablePropertyAccessor'. Answer with type names only.",
+      "answer": [
+        "BeanWrapperImpl",
+        "DirectFieldAccessor"
+      ]
+    },
+    {
+      "id": "q9",
+      "type": "implementors",
+      "subject": "AbstractPropertyAccessor",
+      "prompt": "List every type that extends or implements 'AbstractPropertyAccessor'. Answer with type names only.",
+      "answer": [
+        "AbstractNestablePropertyAccessor"
+      ]
+    },
+    {
+      "id": "q10",
+      "type": "implementors",
+      "subject": "AbstractResource",
+      "prompt": "List every type that extends or implements 'AbstractResource'. Answer with type names only.",
+      "answer": [
+        "BeanDefinitionResource"
+      ]
+    },
+    {
+      "id": "q11",
+      "type": "depends_on",
+      "subject": "AbstractAutowireCapableBeanFactory",
+      "prompt": "List every type that 'AbstractAutowireCapableBeanFactory' references or inherits (its outgoing relations)",
+      "answer": [
+        "AbstractBeanFactory",
+        "AutowireCapableBeanFactory",
+        "BeanWrapper",
+        "InstantiationStrategy"
+      ]
+    },
+    {
+      "id": "q12",
+      "type": "depends_on",
+      "subject": "AbstractBeanDefinition",
+      "prompt": "List every type that 'AbstractBeanDefinition' references or inherits (its outgoing relations)",
+      "answer": [
+        "AutowireCandidateQualifier",
+        "BeanDefinition",
+        "BeanMetadataAttributeAccessor",
+        "Cloneable",
+        "ConstructorArgumentValues",
+        "MethodOverrides",
+        "MutablePropertyValues"
+      ]
+    },
+    {
+      "id": "q13",
+      "type": "depends_on",
+      "subject": "AbstractBeanDefinitionParser",
+      "prompt": "List every type that 'AbstractBeanDefinitionParser' references or inherits (its outgoing relations)",
+      "answer": [
+        "BeanDefinitionParser"
+      ]
+    },
+    {
+      "id": "q14",
+      "type": "depends_on",
+      "subject": "AbstractBeanDefinitionReader",
+      "prompt": "List every type that 'AbstractBeanDefinitionReader' references or inherits (its outgoing relations)",
+      "answer": [
+        "BeanDefinitionReader",
+        "BeanDefinitionRegistry",
+        "BeanNameGenerator",
+        "EnvironmentCapable"
+      ]
+    },
+    {
+      "id": "q15",
+      "type": "depends_on",
+      "subject": "AbstractBeanFactory",
+      "prompt": "List every type that 'AbstractBeanFactory' references or inherits (its outgoing relations)",
+      "answer": [
+        "BeanExpressionResolver",
+        "BeanFactory",
+        "BeanPostProcessor",
+        "ConfigurableBeanFactory",
+        "FactoryBeanRegistrySupport",
+        "PropertyEditorRegistrar",
+        "RootBeanDefinition",
+        "Scope",
+        "TypeConverter"
+      ]
+    },
+    {
+      "id": "q16",
+      "type": "depends_on",
+      "subject": "AbstractComponentDefinition",
+      "prompt": "List every type that 'AbstractComponentDefinition' references or inherits (its outgoing relations)",
+      "answer": [
+        "ComponentDefinition"
+      ]
+    },
+    {
+      "id": "q17",
+      "type": "depends_on",
+      "subject": "AbstractFactoryBean",
+      "prompt": "List every type that 'AbstractFactoryBean' references or inherits (its outgoing relations)",
+      "answer": [
+        "BeanClassLoaderAware",
+        "BeanFactory",
+        "BeanFactoryAware",
+        "DisposableBean",
+        "FactoryBean",
+        "InitializingBean"
+      ]
+    },
+    {
+      "id": "q18",
+      "type": "depends_on",
+      "subject": "AbstractNestablePropertyAccessor",
+      "prompt": "List every type that 'AbstractNestablePropertyAccessor' references or inherits (its outgoing relations)",
+      "answer": [
+        "AbstractPropertyAccessor"
+      ]
+    },
+    {
+      "id": "q19",
+      "type": "depends_on",
+      "subject": "AbstractPropertyAccessor",
+      "prompt": "List every type that 'AbstractPropertyAccessor' references or inherits (its outgoing relations)",
+      "answer": [
+        "ConfigurablePropertyAccessor",
+        "TypeConverterSupport"
+      ]
+    },
+    {
+      "id": "q20",
+      "type": "depends_on",
+      "subject": "AbstractServiceLoaderBasedFactoryBean",
+      "prompt": "List every type that 'AbstractServiceLoaderBasedFactoryBean' references or inherits (its outgoing relations)",
+      "answer": [
+        "AbstractFactoryBean",
+        "BeanClassLoaderAware"
+      ]
+    },
+    {
+      "id": "q21",
+      "type": "module_of",
+      "subject": "AbstractNestablePropertyAccessor",
+      "prompt": "Which module is the type 'AbstractNestablePropertyAccessor' defined in?",
+      "answer": "org.springframework.beans"
+    },
+    {
+      "id": "q22",
+      "type": "module_of",
+      "subject": "AbstractPropertyAccessor",
+      "prompt": "Which module is the type 'AbstractPropertyAccessor' defined in?",
+      "answer": "org.springframework.beans"
+    },
+    {
+      "id": "q23",
+      "type": "module_of",
+      "subject": "BeanInfoFactory",
+      "prompt": "Which module is the type 'BeanInfoFactory' defined in?",
+      "answer": "org.springframework.beans"
+    },
+    {
+      "id": "q24",
+      "type": "module_of",
+      "subject": "BeanInstantiationException",
+      "prompt": "Which module is the type 'BeanInstantiationException' defined in?",
+      "answer": "org.springframework.beans"
+    },
+    {
+      "id": "q25",
+      "type": "module_of",
+      "subject": "BeanMetadataAttribute",
+      "prompt": "Which module is the type 'BeanMetadataAttribute' defined in?",
+      "answer": "org.springframework.beans"
+    },
+    {
+      "id": "q26",
+      "type": "module_of",
+      "subject": "BeanMetadataAttributeAccessor",
+      "prompt": "Which module is the type 'BeanMetadataAttributeAccessor' defined in?",
+      "answer": "org.springframework.beans"
+    },
+    {
+      "id": "q27",
+      "type": "module_of",
+      "subject": "BeanMetadataElement",
+      "prompt": "Which module is the type 'BeanMetadataElement' defined in?",
+      "answer": "org.springframework.beans"
+    },
+    {
+      "id": "q28",
+      "type": "module_of",
+      "subject": "BeanUtils",
+      "prompt": "Which module is the type 'BeanUtils' defined in?",
+      "answer": "org.springframework.beans"
+    },
+    {
+      "id": "q29",
+      "type": "module_of",
+      "subject": "BeanUtilsRuntimeHints",
+      "prompt": "Which module is the type 'BeanUtilsRuntimeHints' defined in?",
+      "answer": "org.springframework.beans"
+    },
+    {
+      "id": "q30",
+      "type": "module_of",
+      "subject": "BeanWrapper",
+      "prompt": "Which module is the type 'BeanWrapper' defined in?",
+      "answer": "org.springframework.beans"
+    },
+    {
+      "id": "q31",
+      "type": "public_method_count",
+      "subject": "AbstractNestablePropertyAccessor",
+      "prompt": "How many public methods does 'AbstractNestablePropertyAccessor' declare?",
+      "answer": 15
+    },
+    {
+      "id": "q32",
+      "type": "public_method_count",
+      "subject": "AbstractPropertyAccessor",
+      "prompt": "How many public methods does 'AbstractPropertyAccessor' declare?",
+      "answer": 14
+    },
+    {
+      "id": "q33",
+      "type": "public_method_count",
+      "subject": "BeanInfoFactory",
+      "prompt": "How many public methods does 'BeanInfoFactory' declare?",
+      "answer": 1
+    },
+    {
+      "id": "q34",
+      "type": "public_method_count",
+      "subject": "BeanInstantiationException",
+      "prompt": "How many public methods does 'BeanInstantiationException' declare?",
+      "answer": 7
+    },
+    {
+      "id": "q35",
+      "type": "public_method_count",
+      "subject": "BeanMetadataAttribute",
+      "prompt": "How many public methods does 'BeanMetadataAttribute' declare?",
+      "answer": 8
+    },
+    {
+      "id": "q36",
+      "type": "public_method_count",
+      "subject": "BeanMetadataAttributeAccessor",
+      "prompt": "How many public methods does 'BeanMetadataAttributeAccessor' declare?",
+      "answer": 7
+    },
+    {
+      "id": "q37",
+      "type": "public_method_count",
+      "subject": "BeanMetadataElement",
+      "prompt": "How many public methods does 'BeanMetadataElement' declare?",
+      "answer": 1
+    },
+    {
+      "id": "q38",
+      "type": "public_method_count",
+      "subject": "BeanUtils",
+      "prompt": "How many public methods does 'BeanUtils' declare?",
+      "answer": 26
+    },
+    {
+      "id": "q39",
+      "type": "public_method_count",
+      "subject": "BeanUtilsRuntimeHints",
+      "prompt": "How many public methods does 'BeanUtilsRuntimeHints' declare?",
+      "answer": 1
+    },
+    {
+      "id": "q40",
+      "type": "public_method_count",
+      "subject": "BeanWrapper",
+      "prompt": "How many public methods does 'BeanWrapper' declare?",
+      "answer": 6
+    },
+    {
+      "id": "q41",
+      "type": "collection_fields",
+      "subject": "AbstractNestablePropertyAccessor",
+      "prompt": "Which fields of 'AbstractNestablePropertyAccessor' have a generic or collection type (e.g. a List, Dict, Optional, ...)? Answer with field names only",
+      "answer": [
+        "nestedPropertyAccessors"
+      ]
+    },
+    {
+      "id": "q42",
+      "type": "collection_fields",
+      "subject": "AbstractPropertyAccessor",
+      "prompt": "Which fields of 'AbstractPropertyAccessor' have a generic or collection type (e.g. a List, Dict, Optional, ...)? Answer with field names only",
+      "answer": []
+    },
+    {
+      "id": "q43",
+      "type": "collection_fields",
+      "subject": "BeanInfoFactory",
+      "prompt": "Which fields of 'BeanInfoFactory' have a generic or collection type (e.g. a List, Dict, Optional, ...)? Answer with field names only",
+      "answer": []
+    },
+    {
+      "id": "q44",
+      "type": "collection_fields",
+      "subject": "BeanInstantiationException",
+      "prompt": "Which fields of 'BeanInstantiationException' have a generic or collection type (e.g. a List, Dict, Optional, ...)? Answer with field names only",
+      "answer": [
+        "beanClass",
+        "constructor"
+      ]
+    },
+    {
+      "id": "q45",
+      "type": "collection_fields",
+      "subject": "BeanMetadataAttribute",
+      "prompt": "Which fields of 'BeanMetadataAttribute' have a generic or collection type (e.g. a List, Dict, Optional, ...)? Answer with field names only",
+      "answer": []
+    },
+    {
+      "id": "q46",
+      "type": "collection_fields",
+      "subject": "BeanMetadataAttributeAccessor",
+      "prompt": "Which fields of 'BeanMetadataAttributeAccessor' have a generic or collection type (e.g. a List, Dict, Optional, ...)? Answer with field names only",
+      "answer": []
+    },
+    {
+      "id": "q47",
+      "type": "collection_fields",
+      "subject": "BeanMetadataElement",
+      "prompt": "Which fields of 'BeanMetadataElement' have a generic or collection type (e.g. a List, Dict, Optional, ...)? Answer with field names only",
+      "answer": []
+    },
+    {
+      "id": "q48",
+      "type": "collection_fields",
+      "subject": "BeanUtils",
+      "prompt": "Which fields of 'BeanUtils' have a generic or collection type (e.g. a List, Dict, Optional, ...)? Answer with field names only",
+      "answer": [
+        "DEFAULT_TYPE_VALUES",
+        "unknownEditorTypes"
+      ]
+    },
+    {
+      "id": "q49",
+      "type": "collection_fields",
+      "subject": "BeanUtilsRuntimeHints",
+      "prompt": "Which fields of 'BeanUtilsRuntimeHints' have a generic or collection type (e.g. a List, Dict, Optional, ...)? Answer with field names only",
+      "answer": []
+    },
+    {
+      "id": "q50",
+      "type": "collection_fields",
+      "subject": "BeanWrapper",
+      "prompt": "Which fields of 'BeanWrapper' have a generic or collection type (e.g. a List, Dict, Optional, ...)? Answer with field names only",
+      "answer": []
+    }
+  ]
+}

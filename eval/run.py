@@ -87,9 +87,9 @@ FORMATS = {
 
 def load_subject(subjects_dir: str, project: str, extension: str) -> str:
     """
-    Read one rendered subject file (e.g. pydantic.vel)
+    Read one rendered subject file (e.g. subjects/pydantic/pydantic.vel)
     """
-    path = os.path.join(subjects_dir, project + extension)
+    path = os.path.join(subjects_dir, project, project + extension)
     with open(path, encoding="utf-8") as subject_file:
         return subject_file.read()
 
@@ -97,7 +97,7 @@ def load_questions(subjects_dir: str, project: str) -> list:
     """
     Read the questions produced by generate.py
     """
-    path = os.path.join(subjects_dir, project + ".questions.json")
+    path = os.path.join(subjects_dir, project, project + ".questions.json")
     with open(path, encoding="utf-8") as questions_file:
         payload = json.load(questions_file)
     return payload["questions"]

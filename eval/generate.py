@@ -197,7 +197,11 @@ def main(argv=None):
 
     name, vel_text, model = load_model(arguments.source)
     questions = build_questions(model, arguments.limit)
-    write_subjects(name, vel_text, model, arguments.out_dir)
+
+    # Each project gets its own folder: <out_dir>/<name>/<name>.{vel,puml,mmd,d2}
+    # + <name>.questions.json. Keeps subjects tidy as more projects are added
+    project_dir = os.path.join(arguments.out_dir, name)
+    write_subjects(name, vel_text, model, project_dir)
 
     payload = {
         "project": name,
@@ -205,7 +209,7 @@ def main(argv=None):
         "questions": questions,
     }
 
-    questions_path = os.path.join(arguments.out_dir, name + ".questions.json")
+    questions_path = os.path.join(project_dir, name + ".questions.json")
     with open(questions_path, "w", encoding="utf-8", newline="\n") as out_file:
         json.dump(payload, out_file, indent=2, ensure_ascii=False)
         out_file.write("\n")
@@ -215,9 +219,9 @@ def main(argv=None):
         qtype = question["type"]
         count_by_type[qtype] = count_by_type.get(qtype, 0) + 1
 
-    subjects_path = os.path.join(arguments.out_dir, name)
+    subjects_path = os.path.join(project_dir, name)
     print(f"project:   {name}  ({len(model['nodes'])} types)")
-    print(f"subjects:  {subjects_path}.{{vel,puml,mmd}}")
+    print(f"subjects:  {subjects_path}.{{vel,puml,mmd,d2}}")
     print(f"questions: {len(questions)} -> {questions_path}")
     for qtype in sorted(count_by_type):
         print(f"  {qtype:22} {count_by_type[qtype]}")

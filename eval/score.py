@@ -169,7 +169,7 @@ def score_result(questions: list, answers: dict) -> dict:
 
 
 def load_questions(subjects_dir: str, project: str) -> list:
-    path = os.path.join(subjects_dir, project + ".questions.json")
+    path = os.path.join(subjects_dir, project, project + ".questions.json")
     with open(path, encoding="utf-8") as questions_file:
         return json.load(questions_file)["questions"]
 
