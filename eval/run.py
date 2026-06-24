@@ -10,23 +10,33 @@ sees only the diagram as context and must answer from it. Raw answers and token
 usage are saved under eval/results/ so step 3 (score.py) can score them offline
 and a run can be re-scored without re-querying.
 
-Providers: Anthropic and OpenAI, pick one with --provider (or let it auto-detect
-from whichever API key is set). The API key is read from the provider's
-environment variable (ANTHROPIC_API_KEY / OPENAI_API_KEY), it is never read from
-a file or hardcoded.
+Providers: paid APIs (Anthropic / OpenAI / Gemini) or a local, free Ollama
+server. For the APIs pick one with --provider (or let it auto-detect from
+whichever API key is set); the key comes from the provider's env var
+(ANTHROPIC_API_KEY / OPENAI_API_KEY / GOOGLE_API_KEY), never from a file.
+Ollama needs no key, just a running server (and the model pulled).
 
-Run:
+Run (paid API):
     set ANTHROPIC_API_KEY=...           (Windows)  / export on Unix
-    python eval/run.py pydantic
     python eval/run.py pydantic --provider openai --model gpt-4.1-nano
-    python eval/run.py pydantic --formats veltro,mermaid,plantuml
     python eval/run.py pydantic --repeat 5      # 5 queries per format, for mean +/- std
+
+Run (local, free, via Ollama):
+    ollama serve                                 # if not already running
+    ollama pull qwen2.5:14b
+    python eval/run.py pydantic --provider ollama --model qwen2.5:14b --repeat 5
+
+Note: Ollama token counts use the model's own tokenizer, so they are excluded
+from report.py's o200k_base token-cost table; only accuracy is compared. The
+host defaults to http://localhost:11434 (override with $OLLAMA_HOST).
 """
 
 import argparse
 import json
 import os
 import sys
+import urllib.request
+import urllib.error
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if REPO_ROOT not in sys.path:
@@ -47,8 +57,17 @@ PROVIDERS = {
         "env": "GOOGLE_API_KEY",
         "default_model": "gemini-2.5-flash",
         "package": "gemini"
-    }
+    },
+    "ollama": {
+        "env": None,             # local server, no API key
+        "default_model": "qwen2.5:14b",
+        "package": None,         # talked to over plain HTTP, no SDK
+    },
 }
+
+# Local Ollama server: host from $OLLAMA_HOST or the default port
+OLLAMA_BASE_URL = os.environ.get("OLLAMA_HOST", "http://localhost:11434")
+OLLAMA_TIMEOUT = 600
 
 # Each format: the subject file extension and a short legend given to the model
 # PlantUML and Mermaid are widely known, Veltro is not, so it gets a real legend
@@ -163,9 +182,12 @@ def extract_json(text: str) -> dict:
 
 # ============ PROVIDER BACKENDS ============
 
-def call_anthropic(model: str, system_text: str, user_text: str) -> tuple:
+def call_anthropic(model: str, system_text: str, user_text: str, temperature: float) -> tuple:
     """
-    Query Anthropic (Claude) via the official SDK
+    Query Anthropic (Claude) via the official SDK.
+
+    'temperature' is accepted for a uniform backend signature but intentionally
+    not forwarded: some hosted/reasoning models reject a non-default value.
     """
     import anthropic
 
@@ -184,9 +206,13 @@ def call_anthropic(model: str, system_text: str, user_text: str) -> tuple:
 
     return raw_text, response.usage.input_tokens, response.usage.output_tokens
 
-def call_openai(model: str, system_text: str, user_text: str) -> tuple:
+def call_openai(model: str, system_text: str, user_text: str, temperature: float) -> tuple:
     """
-    Query OpenAI via the official SDK
+    Query OpenAI via the official SDK.
+
+    'temperature' is accepted for a uniform backend signature but intentionally
+    not forwarded: the reasoning models (gpt-5.x, o-series) reject a non-default
+    temperature, which would break existing runs.
     """
     from openai import OpenAI
 
@@ -202,9 +228,12 @@ def call_openai(model: str, system_text: str, user_text: str) -> tuple:
     raw_text = response.choices[0].message.content or ""
     return raw_text, response.usage.prompt_tokens, response.usage.completion_tokens
 
-def call_gemini(model_name: str, system_text: str, user_text: str) -> tuple:
+def call_gemini(model_name: str, system_text: str, user_text: str, temperature: float) -> tuple:
     """
-    Query Gemini via the official google-generativeai SDK
+    Query Gemini via the official google-generativeai SDK.
+
+    'temperature' is accepted for a uniform backend signature; left at the SDK
+    default here (only the Ollama backend uses --temperature for now).
     """
     import google.generativeai as genai
     
@@ -225,10 +254,61 @@ def call_gemini(model_name: str, system_text: str, user_text: str) -> tuple:
 
     return raw_text, prompt_tokens, completion_tokens
 
+def call_ollama(model: str, system_text: str, user_text: str, temperature: float) -> tuple:
+    """
+
+    Query a local Ollama server via its native /api/chat endpoint.
+
+    Uses only the standard library (urllib): Ollama speaks plain HTTP/JSON, so
+    no SDK or API key is needed, just a running 'ollama serve' (the default when
+    Ollama is installed). Token counts come from Ollama's own 'prompt_eval_count'
+    / 'eval_count' they use the model's own tokenizer, so they are NOT
+    comparable to the o200k_base token-cost table (report.py excludes them).
+
+    Args:
+        model (str): an Ollama tag, e.g. 'qwen2.5:14b' or 'llama3.1:8b'
+        system_text (str): the system prompt
+        user_text (str): the user prompt (legend + diagram + questions)
+        temperature (float): sampling temperature (a little > 0 gives the
+            run-to-run variance that --repeat needs for error bars)
+
+    Returns:
+        (raw_text, input_tokens, output_tokens)
+
+    """
+    payload = {
+        "model": model,
+        "messages": [
+            {"role": "system", "content": system_text},
+            {"role": "user", "content": user_text},
+        ],
+        "stream": False,
+        "options": {"temperature": temperature},
+    }
+    data = json.dumps(payload).encode("utf-8")
+    url = OLLAMA_BASE_URL.rstrip("/") + "/api/chat"
+    request = urllib.request.Request(
+        url, data=data, headers={"Content-Type": "application/json"}, method="POST")
+
+    try:
+        with urllib.request.urlopen(request, timeout=OLLAMA_TIMEOUT) as response:
+            body = json.loads(response.read().decode("utf-8"))
+    except urllib.error.URLError as error:
+        raise RuntimeError(
+            f"could not reach Ollama at {OLLAMA_BASE_URL} ({error}). "
+            f"Is it running? Try 'ollama serve' and 'ollama pull {model}'.")
+
+    raw_text = body.get("message", {}).get("content", "")
+    input_tokens = body.get("prompt_eval_count", 0)
+    output_tokens = body.get("eval_count", 0)
+    return raw_text, input_tokens, output_tokens
+
+
 PROVIDER_CALLS = {
     "anthropic": call_anthropic,
     "openai": call_openai,
-    "gemini": call_gemini
+    "gemini": call_gemini,
+    "ollama": call_ollama,
 }
 
 def detect_provider() -> str:
@@ -236,7 +316,7 @@ def detect_provider() -> str:
     Pick a provider from whichever API key is present in the environment
     """
     for name, info in PROVIDERS.items():
-        if os.environ.get(info["env"]):
+        if info["env"] and os.environ.get(info["env"]):
             return name
     return ""
 
@@ -259,6 +339,7 @@ def main(argv=None):
     parser.add_argument("--subjects-dir", default="eval/subjects")
     parser.add_argument("--out-dir", default="eval/results")
     parser.add_argument("--repeat", type=int, default=1, help="how many times to query each format (for mean +/- std)")
+    parser.add_argument("--temperature", type=float, default=0.3, help="sampling temperature (Ollama only; a little > 0 so --repeat has variance)")
     arguments = parser.parse_args(argv)
 
     provider = arguments.provider or detect_provider()
@@ -267,7 +348,7 @@ def main(argv=None):
         return 1
 
     info = PROVIDERS[provider]
-    if not os.environ.get(info["env"]):
+    if info["env"] and not os.environ.get(info["env"]):
         print(f"[ERROR] - provider '{provider}' needs {info['env']} in the environment", file=sys.stderr)
         return 1
 
@@ -296,7 +377,7 @@ def main(argv=None):
         # Query the format --repeat times so step 3 can report mean +/- std
         runs = []
         for run_index in range(arguments.repeat):
-            raw_text, input_tokens, output_tokens = call_provider(model, system_text, user_text)
+            raw_text, input_tokens, output_tokens = call_provider(model, system_text, user_text, arguments.temperature)
             runs.append({
                 "input_tokens": input_tokens,
                 "output_tokens": output_tokens,
@@ -312,7 +393,11 @@ def main(argv=None):
             "runs": runs,
         }
 
-        out_path = os.path.join(arguments.out_dir, f"{arguments.project}.{format_name}.{provider}.json")
+        # Model in the filename (sanitised: ':' and '/' are illegal in Windows
+        # filenames) so different models of one provider never overwrite each other
+        safe_model = model.replace(":", "-").replace("/", "-")
+        out_path = os.path.join(
+            arguments.out_dir, f"{arguments.project}.{format_name}.{provider}-{safe_model}.json")
         with open(out_path, "w", encoding="utf-8", newline="\n") as out_file:
             json.dump(result, out_file, indent=2, ensure_ascii=False)
             out_file.write("\n")
