@@ -69,9 +69,11 @@ the [Java extractor](veltro/extract/java):
 | [Rich](https://github.com/Textualize/rich) | Python | 173 | 12,792 | +20% | +33% |
 | [Pydantic](https://github.com/pydantic/pydantic) | Python | 360 | 19,885 | +22% | +32% |
 | [Spring](https://github.com/spring-projects/spring-framework) (spring-beans) | Java | 323 | 41,463 | +22% | +34% |
+| [Kafka](https://github.com/apache/kafka) (clients) | Java | 1,287 | 174,594 | +13% | +32% |
 
-The Java row is the first cross-language evidence: the token saving holds on
-real enterprise Java, not just Python.
+The two Java rows are cross-language evidence: the token saving holds on real
+enterprise Java (Spring, Kafka), not just Python and on Kafka it scales to
+~1,300 types without breaking down.
 
 Against every other class-diagram format, on a representative slice of pydantic
 (`python bench/compare_formats.py`, lower = denser):
