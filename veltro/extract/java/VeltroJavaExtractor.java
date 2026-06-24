@@ -33,7 +33,7 @@
  *
  * Pick the JDK version: javac can only parse source up to its OWN language
  * level, so use a JDK at least as new as the target project (e.g. Spring uses
- * Java 17 syntax -- run this with JDK 17+, not JDK 8, or javac error-recovers
+ * Java 17 syntax run this with JDK 17+, not JDK 8, or javac error-recovers
  * into a corrupt .vel).
  *
  * How to run it:
@@ -41,7 +41,7 @@
  *   On JDK 9+ the supported Compiler Tree API (com.sun.source.*) is on the
  *   classpath, but this extractor also reads two INTERNAL javac packages (for
  *   the authoritative enum-constant flag, see isEnumConstant), which the module
- *   system encapsulates -- so both javac and java need --add-exports:
+ *   system encapsulates so both javac and java need --add-exports:
  *
  *     EXPORTS="--add-exports jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED \
  *              --add-exports jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED"
@@ -54,7 +54,7 @@
  *
  *   On JDK 8 there is no module system (no --add-exports), but the same classes
  *   live in <JDK>/lib/tools.jar, which is NOT on the default classpath, so add
- *   it instead -- note JDK 8 only parses sources up to Java 8:
+ *   it instead, note JDK 8 only parses sources up to Java 8:
  *
  *         javac -cp "$JAVA_HOME/lib/tools.jar" veltro/extract/java/VeltroJavaExtractor.java
  *         java  -cp "veltro/extract/java:$JAVA_HOME/lib/tools.jar" VeltroJavaExtractor <src_dir> --out out.vel
@@ -244,7 +244,7 @@ public class VeltroJavaExtractor {
      * Whether a field initializer is a plain literal, safe to copy verbatim
      * after the '='.
      *
-     * Anything else -- a method call, a lambda, an anonymous class -- renders
+     * Anything else a method call, a lambda, an anonymous class renders
      * via toString() as arbitrary, often multi-line Java source, which would
      * inject newlines and stray '(' into the line-oriented .vel and corrupt it.
      * (Real example from Spring: a field assigned 'new SomeInterface() { ... }'

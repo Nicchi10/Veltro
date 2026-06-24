@@ -61,12 +61,17 @@ The same architecture is extracted from real code, then rendered to Veltro,
 PlantUML and Mermaid **from one identical model** (so the comparison is fair),
 and counted with `tiktoken` (`o200k_base`).
 
-On whole real projects (`python bench/scale_bench.py <package>`):
+On whole real projects — Python via `bench/scale_bench.py <package>`, Java via
+the [Java extractor](veltro/extract/java):
 
-| project | types | Veltro | Mermaid | PlantUML |
-|---------|-------|--------|---------|----------|
-| [Rich](https://github.com/Textualize/rich) | 173 | 12,792 | +20% | +33% |
-| [Pydantic](https://github.com/pydantic/pydantic) | 360 | 19,885 | +22% | +32% |
+| project | language | types | Veltro | Mermaid | PlantUML |
+|---------|----------|-------|--------|---------|----------|
+| [Rich](https://github.com/Textualize/rich) | Python | 173 | 12,792 | +20% | +33% |
+| [Pydantic](https://github.com/pydantic/pydantic) | Python | 360 | 19,885 | +22% | +32% |
+| [Spring](https://github.com/spring-projects/spring-framework) (spring-beans) | Java | 323 | 41,463 | +22% | +34% |
+
+The Java row is the first cross-language evidence: the token saving holds on
+real enterprise Java, not just Python.
 
 Against every other class-diagram format, on a representative slice of pydantic
 (`python bench/compare_formats.py`, lower = denser):
