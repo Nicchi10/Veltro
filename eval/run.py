@@ -18,7 +18,7 @@ Ollama needs no key, just a running server (and the model pulled).
 
 Run (paid API):
     set ANTHROPIC_API_KEY=...           (Windows)  / export on Unix
-    python eval/run.py pydantic --provider openai --model gpt-4.1-nano
+    python eval/run.py pydantic --provider openai --model gpt-4.1-mini
     python eval/run.py pydantic --repeat 5      # 5 queries per format, for mean +/- std
 
 Run (local, free, via Ollama):
@@ -55,7 +55,7 @@ PROVIDERS = {
     },
     "openai": {
         "env": "OPENAI_API_KEY",
-        "default_model": "gpt-4.1-nano",
+        "default_model": "gpt-4.1-mini",
         "package": "openai",
     },
     "gemini": {
