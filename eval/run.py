@@ -26,9 +26,14 @@ Run (local, free, via Ollama):
     ollama pull qwen2.5:14b
     python eval/run.py pydantic --provider ollama --model qwen2.5:14b --repeat 5
 
-Note: Ollama token counts use the model's own tokenizer, so they are excluded
-from report.py's o200k_base token-cost table; only accuracy is compared. The
-host defaults to http://localhost:11434 (override with $OLLAMA_HOST).
+Run (open/hosted models via OpenRouter, OpenAI-compatible):
+    set OPENROUTER_API_KEY=...
+    python eval/run.py pydantic --provider openrouter --model meta-llama/llama-3.3-70b-instruct --repeat 5
+
+Note: Ollama and OpenRouter token counts use each model's own tokenizer, so they
+are excluded from report.py's o200k_base token-cost table, only accuracy is
+compared. Ollama host defaults to http://localhost:11434 ($OLLAMA_HOST),
+OpenRouter base URL defaults to https://openrouter.ai/api/v1 ($OPENROUTER_BASE_URL).
 """
 
 import argparse
@@ -63,11 +68,19 @@ PROVIDERS = {
         "default_model": "qwen2.5:14b",
         "package": None,         # talked to over plain HTTP, no SDK
     },
+    "openrouter": {
+        "env": "OPENROUTER_API_KEY",
+        "default_model": "meta-llama/llama-3.3-70b-instruct",
+        "package": "openai",     # OpenAI-compatible, reuses the openai SDK
+    },
 }
 
 # Local Ollama server: host from $OLLAMA_HOST or the default port
 OLLAMA_BASE_URL = os.environ.get("OLLAMA_HOST", "http://localhost:11434")
 OLLAMA_TIMEOUT = 600
+
+# OpenRouter's OpenAI-compatible endpoint
+OPENROUTER_BASE_URL = os.environ.get("OPENROUTER_BASE_URL", "https://openrouter.ai/api/v1")
 
 # Each format: the subject file extension and a short legend given to the model
 # PlantUML and Mermaid are widely known, Veltro is not, so it gets a real legend
@@ -206,27 +219,58 @@ def call_anthropic(model: str, system_text: str, user_text: str, temperature: fl
 
     return raw_text, response.usage.input_tokens, response.usage.output_tokens
 
-def call_openai(model: str, system_text: str, user_text: str, temperature: float) -> tuple:
+def _openai_compatible(model: str, system_text: str, user_text: str, base_url=None, api_key=None, temperature=None) -> tuple:
     """
-    Query OpenAI via the official SDK.
 
-    'temperature' is accepted for a uniform backend signature but intentionally
-    not forwarded: the reasoning models (gpt-5.x, o-series) reject a non-default
-    temperature, which would break existing runs.
+    Shared backend for any OpenAI-compatible chat API (OpenAI itself, OpenRouter,
+    and other hosts that expose the same /v1/chat/completions shape).
+
+    'temperature' is forwarded only when given: OpenAI's reasoning models reject a
+    non-default value, so call_openai passes None, while call_openrouter (open
+    models) passes it through to get the run-to-run variance --repeat needs.
+
     """
     from openai import OpenAI
 
-    client = OpenAI()
-    response = client.chat.completions.create(
-        model=model,
-        messages=[
+    if base_url or api_key:
+        client = OpenAI(base_url=base_url, api_key=api_key)
+    else:
+        client = OpenAI()
+
+    kwargs = {
+        "model": model,
+        "messages": [
             {"role": "system", "content": system_text},
             {"role": "user", "content": user_text},
         ],
-    )
+    }
+    if temperature is not None:
+        kwargs["temperature"] = temperature
 
+    response = client.chat.completions.create(**kwargs)
     raw_text = response.choices[0].message.content or ""
     return raw_text, response.usage.prompt_tokens, response.usage.completion_tokens
+
+def call_openai(model: str, system_text: str, user_text: str, temperature: float) -> tuple:
+    """
+    Query OpenAI via the official SDK (temperature not forwarded: see _openai_compatible)
+    """
+    return _openai_compatible(model, system_text, user_text)
+
+def call_openrouter(model: str, system_text: str, user_text: str, temperature: float) -> tuple:
+    """
+    Query an open/hosted model through OpenRouter's OpenAI-compatible API.
+
+    Same code path as OpenAI, just a different base URL and key ($OPENROUTER_API_KEY).
+    'model' is an OpenRouter id, e.g. 'meta-llama/llama-3.3-70b-instruct'. Token
+    counts use that model's own tokenizer, so report.py keeps them out of the
+    o200k_base token-cost table (only OpenAI rows feed it).
+    """
+    return _openai_compatible(
+        model, system_text, user_text,
+        base_url=OPENROUTER_BASE_URL,
+        api_key=os.environ.get("OPENROUTER_API_KEY"),
+        temperature=temperature)
 
 def call_gemini(model_name: str, system_text: str, user_text: str, temperature: float) -> tuple:
     """
@@ -309,6 +353,7 @@ PROVIDER_CALLS = {
     "openai": call_openai,
     "gemini": call_gemini,
     "ollama": call_ollama,
+    "openrouter": call_openrouter,
 }
 
 def detect_provider() -> str:
