@@ -1,0 +1,1168 @@
+{
+  "project": "spring-beans",
+  "provider": "openai",
+  "format": "plantuml",
+  "model": "gpt-4.1-mini",
+  "runs": [
+    {
+      "input_tokens": 56823,
+      "output_tokens": 1212,
+      "answers": {
+        "q1": [
+          "AbstractAutowireCapableBeanFactory",
+          "DefaultListableBeanFactory"
+        ],
+        "q2": [
+          "AbstractBeanDefinition",
+          "ChildBeanDefinition",
+          "GenericBeanDefinition",
+          "RootBeanDefinition"
+        ],
+        "q3": [
+          "AbstractBeanDefinitionParser",
+          "AbstractSingleBeanDefinitionParser",
+          "AbstractSimpleBeanDefinitionParser"
+        ],
+        "q4": [
+          "AbstractBeanDefinitionReader",
+          "GroovyBeanDefinitionReader",
+          "PropertiesBeanDefinitionReader",
+          "XmlBeanDefinitionReader"
+        ],
+        "q5": [
+          "AbstractBeanFactory",
+          "AbstractAutowireCapableBeanFactory",
+          "DefaultListableBeanFactory"
+        ],
+        "q6": [
+          "AbstractComponentDefinition",
+          "BeanComponentDefinition",
+          "CompositeComponentDefinition"
+        ],
+        "q7": [
+          "AbstractFactoryBean",
+          "ListFactoryBean",
+          "MapFactoryBean",
+          "ObjectFactoryCreatingFactoryBean",
+          "PropertiesFactoryBean",
+          "ProviderCreatingFactoryBean",
+          "SetFactoryBean",
+          "YamlMapFactoryBean",
+          "YamlPropertiesFactoryBean"
+        ],
+        "q8": [
+          "AbstractNestablePropertyAccessor",
+          "BeanWrapperImpl",
+          "DirectFieldAccessor"
+        ],
+        "q9": [
+          "AbstractPropertyAccessor",
+          "AbstractNestablePropertyAccessor"
+        ],
+        "q10": [
+          "BeanDefinitionResource"
+        ],
+        "q11": [
+          "InstantiationStrategy",
+          "ParameterNameDiscoverer",
+          "NamedThreadLocal",
+          "ConcurrentMap",
+          "AbstractAutowireCapableBeanFactory",
+          "BeanFactory",
+          "Supplier",
+          "Log",
+          "BeanWrapper",
+          "MutablePropertyValues",
+          "PropertyDescriptor",
+          "RootBeanDefinition",
+          "NamedBeanHolder",
+          "Throwable",
+          "Class",
+          "Method",
+          "Object"
+        ],
+        "q12": [
+          "BeanDefinition",
+          "Object",
+          "ConstructorArgumentValues",
+          "MutablePropertyValues",
+          "MethodOverrides",
+          "Supplier",
+          "String",
+          "Map",
+          "Set",
+          "Boolean",
+          "Class",
+          "AnnotatedElement",
+          "RootBeanDefinition"
+        ],
+        "q13": [
+          "String",
+          "Element",
+          "ParserContext",
+          "BeanDefinition",
+          "BeanDefinitionHolder",
+          "BeanDefinitionParserDelegate",
+          "BeanComponentDefinition",
+          "Node",
+          "List",
+          "Collection",
+          "Throwable",
+          "StringBuilder",
+          "BiPredicate",
+          "Function",
+          "Boolean",
+          "Map",
+          "Object"
+        ],
+        "q14": [
+          "Log",
+          "BeanDefinitionRegistry",
+          "ResourceLoader",
+          "ClassLoader",
+          "Environment",
+          "BeanNameGenerator",
+          "Set",
+          "ThreadLocal",
+          "Set",
+          "Map",
+          "List",
+          "List",
+          "BeanDefinitionDocumentReader",
+          "EntityResolver",
+          "ErrorHandler",
+          "InputSource",
+          "InputStream",
+          "String",
+          "Document",
+          "XmlReaderContext",
+          "NamespaceHandlerResolver"
+        ],
+        "q15": [
+          "BeanFactory",
+          "BeanExpressionResolver",
+          "ClassLoader",
+          "ConversionService",
+          "Set",
+          "Map",
+          "List",
+          "BeanPostProcessor",
+          "BeanPostProcessorCache",
+          "Scope",
+          "ApplicationStartup",
+          "RootBeanDefinition",
+          "ObjectInputStream",
+          "String"
+        ],
+        "q16": [
+          "BeanDefinition",
+          "BeanReference",
+          "String",
+          "Object"
+        ],
+        "q17": [
+          "Log",
+          "BeanFactory",
+          "ClassLoader",
+          "Object",
+          "T"
+        ],
+        "q18": [
+          "Log",
+          "Object",
+          "String",
+          "Map",
+          "Collection",
+          "PropertyTokenHolder",
+          "PropertyHandler",
+          "NotWritablePropertyException",
+          "Collection",
+          "PropertyValue"
+        ],
+        "q19": [
+          "boolean",
+          "int",
+          "Map",
+          "PropertyValue",
+          "PropertyValues",
+          "String",
+          "Object"
+        ],
+        "q20": [
+          "ClassLoader",
+          "Object",
+          "ServiceLoader",
+          "T"
+        ],
+        "q21": "org.springframework.beans",
+        "q22": "org.springframework.beans",
+        "q23": "org.springframework.beans",
+        "q24": "org.springframework.beans",
+        "q25": "org.springframework.beans",
+        "q26": "org.springframework.beans",
+        "q27": "org.springframework.beans",
+        "q28": "org.springframework.beans",
+        "q29": "org.springframework.beans",
+        "q30": "org.springframework.beans",
+        "q31": 34,
+        "q32": 12,
+        "q33": 1,
+        "q34": 6,
+        "q35": 8,
+        "q36": 8,
+        "q37": 1,
+        "q38": 39,
+        "q39": 1,
+        "q40": 6,
+        "q41": [
+          "nestedPropertyAccessors"
+        ],
+        "q42": [],
+        "q43": [],
+        "q44": [],
+        "q45": [],
+        "q46": [
+          "source",
+          "metadataAttributes"
+        ],
+        "q47": [],
+        "q48": [],
+        "q49": [
+          "services",
+          "beans",
+          "sources"
+        ],
+        "q50": []
+      },
+      "raw_text": "{\n  \"q1\": [\n    \"AbstractAutowireCapableBeanFactory\",\n    \"DefaultListableBeanFactory\"\n  ],\n  \"q2\": [\n    \"AbstractBeanDefinition\",\n    \"ChildBeanDefinition\",\n    \"GenericBeanDefinition\",\n    \"RootBeanDefinition\"\n  ],\n  \"q3\": [\n    \"AbstractBeanDefinitionParser\",\n    \"AbstractSingleBeanDefinitionParser\",\n    \"AbstractSimpleBeanDefinitionParser\"\n  ],\n  \"q4\": [\n    \"AbstractBeanDefinitionReader\",\n    \"GroovyBeanDefinitionReader\",\n    \"PropertiesBeanDefinitionReader\",\n    \"XmlBeanDefinitionReader\"\n  ],\n  \"q5\": [\n    \"AbstractBeanFactory\",\n    \"AbstractAutowireCapableBeanFactory\",\n    \"DefaultListableBeanFactory\"\n  ],\n  \"q6\": [\n    \"AbstractComponentDefinition\",\n    \"BeanComponentDefinition\",\n    \"CompositeComponentDefinition\"\n  ],\n  \"q7\": [\n    \"AbstractFactoryBean\",\n    \"ListFactoryBean\",\n    \"MapFactoryBean\",\n    \"ObjectFactoryCreatingFactoryBean\",\n    \"PropertiesFactoryBean\",\n    \"ProviderCreatingFactoryBean\",\n    \"SetFactoryBean\",\n    \"YamlMapFactoryBean\",\n    \"YamlPropertiesFactoryBean\"\n  ],\n  \"q8\": [\n    \"AbstractNestablePropertyAccessor\",\n    \"BeanWrapperImpl\",\n    \"DirectFieldAccessor\"\n  ],\n  \"q9\": [\n    \"AbstractPropertyAccessor\",\n    \"AbstractNestablePropertyAccessor\"\n  ],\n  \"q10\": [\n    \"BeanDefinitionResource\"\n  ],\n  \"q11\": [\n    \"InstantiationStrategy\",\n    \"ParameterNameDiscoverer\",\n    \"NamedThreadLocal\",\n    \"ConcurrentMap\",\n    \"AbstractAutowireCapableBeanFactory\",\n    \"BeanFactory\",\n    \"Supplier\",\n    \"Log\",\n    \"BeanWrapper\",\n    \"MutablePropertyValues\",\n    \"PropertyDescriptor\",\n    \"RootBeanDefinition\",\n    \"NamedBeanHolder\",\n    \"Throwable\",\n    \"Class\",\n    \"Method\",\n    \"Object\"\n  ],\n  \"q12\": [\n    \"BeanDefinition\",\n    \"Object\",\n    \"ConstructorArgumentValues\",\n    \"MutablePropertyValues\",\n    \"MethodOverrides\",\n    \"Supplier\",\n    \"String\",\n    \"Map\",\n    \"Set\",\n    \"Boolean\",\n    \"Class\",\n    \"AnnotatedElement\",\n    \"RootBeanDefinition\"\n  ],\n  \"q13\": [\n    \"String\",\n    \"Element\",\n    \"ParserContext\",\n    \"BeanDefinition\",\n    \"BeanDefinitionHolder\",\n    \"BeanDefinitionParserDelegate\",\n    \"BeanComponentDefinition\",\n    \"Node\",\n    \"List\",\n    \"Collection\",\n    \"Throwable\",\n    \"StringBuilder\",\n    \"BiPredicate\",\n    \"Function\",\n    \"Boolean\",\n    \"Map\",\n    \"Object\"\n  ],\n  \"q14\": [\n    \"Log\",\n    \"BeanDefinitionRegistry\",\n    \"ResourceLoader\",\n    \"ClassLoader\",\n    \"Environment\",\n    \"BeanNameGenerator\",\n    \"Set\",\n    \"ThreadLocal\",\n    \"Set\",\n    \"Map\",\n    \"List\",\n    \"List\",\n    \"BeanDefinitionDocumentReader\",\n    \"EntityResolver\",\n    \"ErrorHandler\",\n    \"InputSource\",\n    \"InputStream\",\n    \"String\",\n    \"Document\",\n    \"XmlReaderContext\",\n    \"NamespaceHandlerResolver\"\n  ],\n  \"q15\": [\n    \"BeanFactory\",\n    \"BeanExpressionResolver\",\n    \"ClassLoader\",\n    \"ConversionService\",\n    \"Set\",\n    \"Map\",\n    \"List\",\n    \"BeanPostProcessor\",\n    \"BeanPostProcessorCache\",\n    \"Scope\",\n    \"ApplicationStartup\",\n    \"RootBeanDefinition\",\n    \"ObjectInputStream\",\n    \"String\"\n  ],\n  \"q16\": [\n    \"BeanDefinition\",\n    \"BeanReference\",\n    \"String\",\n    \"Object\"\n  ],\n  \"q17\": [\n    \"Log\",\n    \"BeanFactory\",\n    \"ClassLoader\",\n    \"Object\",\n    \"T\"\n  ],\n  \"q18\": [\n    \"Log\",\n    \"Object\",\n    \"String\",\n    \"Map\",\n    \"Collection\",\n    \"PropertyTokenHolder\",\n    \"PropertyHandler\",\n    \"NotWritablePropertyException\",\n    \"Collection\",\n    \"PropertyValue\"\n  ],\n  \"q19\": [\n    \"boolean\",\n    \"int\",\n    \"Map\",\n    \"PropertyValue\",\n    \"PropertyValues\",\n    \"String\",\n    \"Object\"\n  ],\n  \"q20\": [\n    \"ClassLoader\",\n    \"Object\",\n    \"ServiceLoader\",\n    \"T\"\n  ],\n  \"q21\": \"org.springframework.beans\",\n  \"q22\": \"org.springframework.beans\",\n  \"q23\": \"org.springframework.beans\",\n  \"q24\": \"org.springframework.beans\",\n  \"q25\": \"org.springframework.beans\",\n  \"q26\": \"org.springframework.beans\",\n  \"q27\": \"org.springframework.beans\",\n  \"q28\": \"org.springframework.beans\",\n  \"q29\": \"org.springframework.beans\",\n  \"q30\": \"org.springframework.beans\",\n  \"q31\": 34,\n  \"q32\": 12,\n  \"q33\": 1,\n  \"q34\": 6,\n  \"q35\": 8,\n  \"q36\": 8,\n  \"q37\": 1,\n  \"q38\": 39,\n  \"q39\": 1,\n  \"q40\": 6,\n  \"q41\": [\n    \"nestedPropertyAccessors\"\n  ],\n  \"q42\": [],\n  \"q43\": [],\n  \"q44\": [],\n  \"q45\": [],\n  \"q46\": [\n    \"source\",\n    \"metadataAttributes\"\n  ],\n  \"q47\": [],\n  \"q48\": [],\n  \"q49\": [\n    \"services\",\n    \"beans\",\n    \"sources\"\n  ],\n  \"q50\": []\n}"
+    },
+    {
+      "input_tokens": 56823,
+      "output_tokens": 785,
+      "answers": {
+        "q1": [
+          "AbstractAutowireCapableBeanFactory",
+          "DefaultListableBeanFactory"
+        ],
+        "q2": [
+          "AbstractBeanDefinition",
+          "ChildBeanDefinition",
+          "GenericBeanDefinition",
+          "AnnotatedGenericBeanDefinition",
+          "RootBeanDefinition"
+        ],
+        "q3": [
+          "AbstractBeanDefinitionParser",
+          "AbstractSingleBeanDefinitionParser",
+          "AbstractSimpleBeanDefinitionParser"
+        ],
+        "q4": [
+          "AbstractBeanDefinitionReader",
+          "GroovyBeanDefinitionReader",
+          "PropertiesBeanDefinitionReader",
+          "XmlBeanDefinitionReader"
+        ],
+        "q5": [
+          "AbstractBeanFactory",
+          "AbstractAutowireCapableBeanFactory",
+          "DefaultListableBeanFactory"
+        ],
+        "q6": [
+          "AbstractComponentDefinition",
+          "CompositeComponentDefinition",
+          "BeanComponentDefinition"
+        ],
+        "q7": [
+          "AbstractFactoryBean",
+          "ListFactoryBean",
+          "MapFactoryBean",
+          "ObjectFactoryCreatingFactoryBean",
+          "ProviderCreatingFactoryBean",
+          "SetFactoryBean",
+          "YamlMapFactoryBean",
+          "YamlPropertiesFactoryBean"
+        ],
+        "q8": [
+          "AbstractNestablePropertyAccessor",
+          "BeanWrapperImpl",
+          "DirectFieldAccessor"
+        ],
+        "q9": [
+          "AbstractPropertyAccessor",
+          "AbstractNestablePropertyAccessor"
+        ],
+        "q10": [
+          "AbstractResource",
+          "BeanDefinitionResource"
+        ],
+        "q11": [
+          "InstantiationStrategy",
+          "ParameterNameDiscoverer",
+          "NamedThreadLocal",
+          "BeanWrapper",
+          "Constructor",
+          "Method",
+          "Map",
+          "Set",
+          "Log",
+          "ConcurrentMap",
+          "Supplier",
+          "Throwable",
+          "Object",
+          "String",
+          "boolean",
+          "int",
+          "Collection",
+          "AbstractBeanFactory"
+        ],
+        "q12": [
+          "BeanDefinition",
+          "Map",
+          "String",
+          "Boolean",
+          "Supplier",
+          "Set",
+          "Function",
+          "Collection",
+          "Object",
+          "Class",
+          "Method",
+          "Throwable",
+          "Annotation",
+          "PropertyDescriptor",
+          "int",
+          "String[]",
+          "ConstructorArgumentValues",
+          "MutablePropertyValues",
+          "MethodOverrides",
+          "BeanDefinitionDefaults",
+          "Resource",
+          "AnnotatedElement"
+        ],
+        "q13": [
+          "BeanDefinitionParser",
+          "BeanDefinitionHolder",
+          "BeanDefinitionRegistry",
+          "BeanDefinitionDefaults",
+          "DocumentDefaultsDefinition",
+          "ParseState",
+          "Set",
+          "List",
+          "String",
+          "Object",
+          "Collection",
+          "Function",
+          "BeanMetadataAttributeAccessor",
+          "Annotation"
+        ],
+        "q14": [
+          "BeanDefinitionRegistry",
+          "ResourceLoader",
+          "ClassLoader",
+          "Environment",
+          "BeanNameGenerator",
+          "Resource",
+          "BeanDefinition",
+          "String",
+          "Set",
+          "Collection",
+          "BeanDefinitionDocumentReader",
+          "BeanDefinitionParserDelegate",
+          "Map",
+          "Log",
+          "InputSource",
+          "int",
+          "ThreadLocal",
+          "EncodedResource"
+        ],
+        "q15": [
+          "BeanFactory",
+          "BeanExpressionResolver",
+          "ConversionService",
+          "PropertyEditorRegistrar",
+          "PropertyEditorRegistry",
+          "TypeConverter",
+          "StringValueResolver",
+          "BeanPostProcessor",
+          "BeanPostProcessorCache",
+          "Scope",
+          "Map",
+          "Set",
+          "List",
+          "Collection",
+          "Lock",
+          "Condition",
+          "ThreadLocal",
+          "Object",
+          "String",
+          "Class",
+          "Throwable",
+          "Annotation",
+          "Supplier",
+          "RootBeanDefinition",
+          "BeanDefinition",
+          "BeansException"
+        ],
+        "q16": [
+          "BeanDefinition",
+          "BeanReference",
+          "String",
+          "Object",
+          "BeanDefinitionHolder",
+          "BeanComponentDefinition"
+        ],
+        "q17": [
+          "Log",
+          "BeanFactory",
+          "ClassLoader",
+          "Object",
+          "Throwable",
+          "Supplier",
+          "T"
+        ],
+        "q18": [
+          "Log",
+          "Object",
+          "String",
+          "Map",
+          "Collection",
+          "PropertyTokenHolder",
+          "PropertyHandler",
+          "NotWritablePropertyException"
+        ],
+        "q19": [
+          "boolean",
+          "int",
+          "Map",
+          "PropertyValues",
+          "String",
+          "Object",
+          "Class",
+          "TypeDescriptor"
+        ],
+        "q20": [
+          "Class",
+          "ClassLoader",
+          "Object"
+        ],
+        "q21": "org.springframework.beans",
+        "q22": "org.springframework.beans",
+        "q23": "org.springframework.beans",
+        "q24": "org.springframework.beans",
+        "q25": "org.springframework.beans",
+        "q26": "org.springframework.beans",
+        "q27": "org.springframework.beans",
+        "q28": "org.springframework.beans",
+        "q29": "org.springframework.beans",
+        "q30": "org.springframework.beans",
+        "q31": 27,
+        "q32": 18,
+        "q33": 1,
+        "q34": 5,
+        "q35": 8,
+        "q36": 7,
+        "q37": 1,
+        "q38": 27,
+        "q39": 1,
+        "q40": 6,
+        "q41": [
+          "nestedPropertyAccessors"
+        ],
+        "q42": [],
+        "q43": [],
+        "q44": [],
+        "q45": [],
+        "q46": [
+          "metadataAttribute"
+        ],
+        "q47": [],
+        "q48": [
+          "unknownEditorTypes",
+          "DEFAULT_TYPE_VALUES"
+        ],
+        "q49": [
+          "services",
+          "beans",
+          "sources"
+        ],
+        "q50": []
+      },
+      "raw_text": "{\"q1\":[\"AbstractAutowireCapableBeanFactory\",\"DefaultListableBeanFactory\"],\"q2\":[\"AbstractBeanDefinition\",\"ChildBeanDefinition\",\"GenericBeanDefinition\",\"AnnotatedGenericBeanDefinition\",\"RootBeanDefinition\"],\"q3\":[\"AbstractBeanDefinitionParser\",\"AbstractSingleBeanDefinitionParser\",\"AbstractSimpleBeanDefinitionParser\"],\"q4\":[\"AbstractBeanDefinitionReader\",\"GroovyBeanDefinitionReader\",\"PropertiesBeanDefinitionReader\",\"XmlBeanDefinitionReader\"],\"q5\":[\"AbstractBeanFactory\",\"AbstractAutowireCapableBeanFactory\",\"DefaultListableBeanFactory\"],\"q6\":[\"AbstractComponentDefinition\",\"CompositeComponentDefinition\",\"BeanComponentDefinition\"],\"q7\":[\"AbstractFactoryBean\",\"ListFactoryBean\",\"MapFactoryBean\",\"ObjectFactoryCreatingFactoryBean\",\"ProviderCreatingFactoryBean\",\"SetFactoryBean\",\"YamlMapFactoryBean\",\"YamlPropertiesFactoryBean\"],\"q8\":[\"AbstractNestablePropertyAccessor\",\"BeanWrapperImpl\",\"DirectFieldAccessor\"],\"q9\":[\"AbstractPropertyAccessor\",\"AbstractNestablePropertyAccessor\"],\"q10\":[\"AbstractResource\",\"BeanDefinitionResource\"],\"q11\":[\"InstantiationStrategy\",\"ParameterNameDiscoverer\",\"NamedThreadLocal\",\"BeanWrapper\",\"Constructor\",\"Method\",\"Map\",\"Set\",\"Log\",\"ConcurrentMap\",\"Supplier\",\"Throwable\",\"Object\",\"String\",\"boolean\",\"int\",\"Collection\",\"AbstractBeanFactory\"],\"q12\":[\"BeanDefinition\",\"Map\",\"String\",\"Boolean\",\"Supplier\",\"Set\",\"Function\",\"Collection\",\"Object\",\"Class\",\"Method\",\"Throwable\",\"Annotation\",\"PropertyDescriptor\",\"int\",\"String[]\",\"ConstructorArgumentValues\",\"MutablePropertyValues\",\"MethodOverrides\",\"BeanDefinitionDefaults\",\"Resource\",\"AnnotatedElement\"],\"q13\":[\"BeanDefinitionParser\",\"BeanDefinitionHolder\",\"BeanDefinitionRegistry\",\"BeanDefinitionDefaults\",\"DocumentDefaultsDefinition\",\"ParseState\",\"Set\",\"List\",\"String\",\"Object\",\"Collection\",\"Function\",\"BeanMetadataAttributeAccessor\",\"Annotation\"],\"q14\":[\"BeanDefinitionRegistry\",\"ResourceLoader\",\"ClassLoader\",\"Environment\",\"BeanNameGenerator\",\"Resource\",\"BeanDefinition\",\"String\",\"Set\",\"Collection\",\"BeanDefinitionDocumentReader\",\"BeanDefinitionParserDelegate\",\"Map\",\"Log\",\"InputSource\",\"int\",\"ThreadLocal\",\"EncodedResource\"],\"q15\":[\"BeanFactory\",\"BeanExpressionResolver\",\"ConversionService\",\"PropertyEditorRegistrar\",\"PropertyEditorRegistry\",\"TypeConverter\",\"StringValueResolver\",\"BeanPostProcessor\",\"BeanPostProcessorCache\",\"Scope\",\"Map\",\"Set\",\"List\",\"Collection\",\"Lock\",\"Condition\",\"ThreadLocal\",\"Object\",\"String\",\"Class\",\"Throwable\",\"Annotation\",\"Supplier\",\"RootBeanDefinition\",\"BeanDefinition\",\"BeansException\"],\"q16\":[\"BeanDefinition\",\"BeanReference\",\"String\",\"Object\",\"BeanDefinitionHolder\",\"BeanComponentDefinition\"],\"q17\":[\"Log\",\"BeanFactory\",\"ClassLoader\",\"Object\",\"Throwable\",\"Supplier\",\"T\"],\"q18\":[\"Log\",\"Object\",\"String\",\"Map\",\"Collection\",\"PropertyTokenHolder\",\"PropertyHandler\",\"NotWritablePropertyException\"],\"q19\":[\"boolean\",\"int\",\"Map\",\"PropertyValues\",\"String\",\"Object\",\"Class\",\"TypeDescriptor\"],\"q20\":[\"Class\",\"ClassLoader\",\"Object\"],\"q21\":\"org.springframework.beans\",\"q22\":\"org.springframework.beans\",\"q23\":\"org.springframework.beans\",\"q24\":\"org.springframework.beans\",\"q25\":\"org.springframework.beans\",\"q26\":\"org.springframework.beans\",\"q27\":\"org.springframework.beans\",\"q28\":\"org.springframework.beans\",\"q29\":\"org.springframework.beans\",\"q30\":\"org.springframework.beans\",\"q31\":27,\"q32\":18,\"q33\":1,\"q34\":5,\"q35\":8,\"q36\":7,\"q37\":1,\"q38\":27,\"q39\":1,\"q40\":6,\"q41\":[\"nestedPropertyAccessors\"],\"q42\":[],\"q43\":[],\"q44\":[],\"q45\":[],\"q46\":[\"metadataAttribute\"],\"q47\":[],\"q48\":[\"unknownEditorTypes\",\"DEFAULT_TYPE_VALUES\"],\"q49\":[\"services\",\"beans\",\"sources\"],\"q50\":[]}"
+    },
+    {
+      "input_tokens": 56823,
+      "output_tokens": 917,
+      "answers": {
+        "q1": [
+          "AbstractAutowireCapableBeanFactory",
+          "DefaultListableBeanFactory"
+        ],
+        "q2": [
+          "AbstractBeanDefinition",
+          "ChildBeanDefinition",
+          "GenericBeanDefinition",
+          "RootBeanDefinition"
+        ],
+        "q3": [
+          "AbstractBeanDefinitionParser",
+          "AbstractSingleBeanDefinitionParser",
+          "AbstractSimpleBeanDefinitionParser"
+        ],
+        "q4": [
+          "AbstractBeanDefinitionReader",
+          "GroovyBeanDefinitionReader",
+          "PropertiesBeanDefinitionReader",
+          "XmlBeanDefinitionReader"
+        ],
+        "q5": [
+          "AbstractBeanFactory",
+          "AbstractAutowireCapableBeanFactory",
+          "DefaultListableBeanFactory"
+        ],
+        "q6": [
+          "AbstractComponentDefinition",
+          "BeanComponentDefinition",
+          "CompositeComponentDefinition"
+        ],
+        "q7": [
+          "AbstractFactoryBean",
+          "ListFactoryBean",
+          "MapFactoryBean",
+          "ObjectFactoryCreatingFactoryBean",
+          "ProviderCreatingFactoryBean",
+          "SetFactoryBean",
+          "YamlMapFactoryBean",
+          "YamlPropertiesFactoryBean"
+        ],
+        "q8": [
+          "AbstractNestablePropertyAccessor",
+          "BeanWrapperImpl",
+          "DirectFieldAccessor"
+        ],
+        "q9": [
+          "AbstractPropertyAccessor"
+        ],
+        "q10": [
+          "AbstractResource",
+          "BeanDefinitionResource"
+        ],
+        "q11": [
+          "InstantiationStrategy",
+          "ParameterNameDiscoverer",
+          "NamedThreadLocal",
+          "BeanWrapper",
+          "Constructor",
+          "Method",
+          "Map",
+          "Comparator",
+          "Set",
+          "Boolean",
+          "Supplier",
+          "Log",
+          "Supplier"
+        ],
+        "q12": [
+          "BeanDefinitionDefaults",
+          "String",
+          "Map",
+          "Supplier",
+          "Set",
+          "Supplier",
+          "ClassLoader",
+          "Member",
+          "Method"
+        ],
+        "q13": [
+          "Log",
+          "String",
+          "BeanDefinitionHolder",
+          "BeanDefinitionRegistry",
+          "Element",
+          "ParserContext",
+          "Set",
+          "BeanComponentDefinition",
+          "BeanDefinition",
+          "Node"
+        ],
+        "q14": [
+          "Log",
+          "BeanDefinitionRegistry",
+          "ResourceLoader",
+          "ClassLoader",
+          "Environment",
+          "PropertyEditorRegistrar",
+          "Resource",
+          "BeanDefinitionDocumentReader",
+          "EntityResolver",
+          "ProblemReporter",
+          "ReaderEventListener",
+          "SourceExtractor",
+          "NamespaceHandlerResolver",
+          "ErrorHandler",
+          "XmlValidationModeDetector",
+          "ThreadLocal",
+          "Set",
+          "EncodedResource"
+        ],
+        "q15": [
+          "BeanFactory",
+          "ClassLoader",
+          "BeanExpressionResolver",
+          "ConversionService",
+          "PropertyEditorRegistrar",
+          "StringValueResolver",
+          "BeanPostProcessor",
+          "BeanPostProcessorCache",
+          "Scope",
+          "ApplicationStartup",
+          "Map",
+          "Set",
+          "Supplier",
+          "String",
+          "RootBeanDefinition",
+          "Supplier"
+        ],
+        "q16": [
+          "BeanDefinition",
+          "BeanReference"
+        ],
+        "q17": [
+          "Log",
+          "BeanFactory",
+          "TypeConverter",
+          "ClassLoader",
+          "Boolean",
+          "T"
+        ],
+        "q18": [
+          "Log",
+          "Object",
+          "String",
+          "Map",
+          "Collection",
+          "PropertyTokenHolder",
+          "PropertyValue",
+          "Collection",
+          "StringBuilder"
+        ],
+        "q19": [
+          "boolean",
+          "int",
+          "Map",
+          "PropertyValue",
+          "PropertyValues",
+          "String",
+          "Object",
+          "Class",
+          "TypeDescriptor"
+        ],
+        "q20": [
+          "Class",
+          "ClassLoader",
+          "Object",
+          "ServiceLoader"
+        ],
+        "q21": "org.springframework.beans",
+        "q22": "org.springframework.beans",
+        "q23": "org.springframework.beans",
+        "q24": "org.springframework.beans",
+        "q25": "org.springframework.beans",
+        "q26": "org.springframework.beans",
+        "q27": "org.springframework.beans",
+        "q28": "org.springframework.beans",
+        "q29": "org.springframework.beans",
+        "q30": "org.springframework.beans",
+        "q31": 25,
+        "q32": 14,
+        "q33": 1,
+        "q34": 5,
+        "q35": 7,
+        "q36": 7,
+        "q37": 1,
+        "q38": 27,
+        "q39": 1,
+        "q40": 7,
+        "q41": [
+          "nestedPropertyAccessors"
+        ],
+        "q42": [],
+        "q43": [],
+        "q44": [],
+        "q45": [],
+        "q46": [
+          "source",
+          "metadataAttributeList"
+        ],
+        "q47": [],
+        "q48": [
+          "unknownEditorTypes",
+          "DEFAULT_TYPE_VALUES"
+        ],
+        "q49": [],
+        "q50": []
+      },
+      "raw_text": "{\n  \"q1\": [\"AbstractAutowireCapableBeanFactory\", \"DefaultListableBeanFactory\"],\n  \"q2\": [\"AbstractBeanDefinition\", \"ChildBeanDefinition\", \"GenericBeanDefinition\", \"RootBeanDefinition\"],\n  \"q3\": [\"AbstractBeanDefinitionParser\", \"AbstractSingleBeanDefinitionParser\", \"AbstractSimpleBeanDefinitionParser\"],\n  \"q4\": [\"AbstractBeanDefinitionReader\", \"GroovyBeanDefinitionReader\", \"PropertiesBeanDefinitionReader\", \"XmlBeanDefinitionReader\"],\n  \"q5\": [\"AbstractBeanFactory\", \"AbstractAutowireCapableBeanFactory\", \"DefaultListableBeanFactory\"],\n  \"q6\": [\"AbstractComponentDefinition\", \"BeanComponentDefinition\", \"CompositeComponentDefinition\"],\n  \"q7\": [\"AbstractFactoryBean\", \"ListFactoryBean\", \"MapFactoryBean\", \"ObjectFactoryCreatingFactoryBean\", \"ProviderCreatingFactoryBean\", \"SetFactoryBean\", \"YamlMapFactoryBean\", \"YamlPropertiesFactoryBean\"],\n  \"q8\": [\"AbstractNestablePropertyAccessor\", \"BeanWrapperImpl\", \"DirectFieldAccessor\"],\n  \"q9\": [\"AbstractPropertyAccessor\"],\n  \"q10\": [\"AbstractResource\", \"BeanDefinitionResource\"],\n  \"q11\": [\"InstantiationStrategy\", \"ParameterNameDiscoverer\", \"NamedThreadLocal\", \"BeanWrapper\", \"Constructor\", \"Method\", \"Map\", \"Comparator\", \"Set\", \"Boolean\", \"Supplier\", \"Log\", \"Supplier\"],\n  \"q12\": [\"BeanDefinitionDefaults\", \"String\", \"Map\", \"Supplier\", \"Set\", \"Supplier\", \"ClassLoader\", \"Member\", \"Method\"],\n  \"q13\": [\"Log\", \"String\", \"BeanDefinitionHolder\", \"BeanDefinitionRegistry\", \"Element\", \"ParserContext\", \"Set\", \"BeanComponentDefinition\", \"BeanDefinition\", \"Node\"],\n  \"q14\": [\"Log\", \"BeanDefinitionRegistry\", \"ResourceLoader\", \"ClassLoader\", \"Environment\", \"PropertyEditorRegistrar\", \"Resource\", \"BeanDefinitionDocumentReader\", \"EntityResolver\", \"ProblemReporter\", \"ReaderEventListener\", \"SourceExtractor\", \"NamespaceHandlerResolver\", \"ErrorHandler\", \"XmlValidationModeDetector\", \"ThreadLocal\", \"Set\", \"EncodedResource\"],\n  \"q15\": [\"BeanFactory\", \"ClassLoader\", \"BeanExpressionResolver\", \"ConversionService\", \"PropertyEditorRegistrar\", \"StringValueResolver\", \"BeanPostProcessor\", \"BeanPostProcessorCache\", \"Scope\", \"ApplicationStartup\", \"Map\", \"Set\", \"Supplier\", \"String\", \"RootBeanDefinition\", \"Supplier\"],\n  \"q16\": [\"BeanDefinition\", \"BeanReference\"],\n  \"q17\": [\"Log\", \"BeanFactory\", \"TypeConverter\", \"ClassLoader\", \"Boolean\", \"T\"],\n  \"q18\": [\"Log\", \"Object\", \"String\", \"Map\", \"Collection\", \"PropertyTokenHolder\", \"PropertyValue\", \"Collection\", \"StringBuilder\"],\n  \"q19\": [\"boolean\", \"int\", \"Map\", \"PropertyValue\", \"PropertyValues\", \"String\", \"Object\", \"Class\", \"TypeDescriptor\"],\n  \"q20\": [\"Class\", \"ClassLoader\", \"Object\", \"ServiceLoader\"],\n  \"q21\": \"org.springframework.beans\",\n  \"q22\": \"org.springframework.beans\",\n  \"q23\": \"org.springframework.beans\",\n  \"q24\": \"org.springframework.beans\",\n  \"q25\": \"org.springframework.beans\",\n  \"q26\": \"org.springframework.beans\",\n  \"q27\": \"org.springframework.beans\",\n  \"q28\": \"org.springframework.beans\",\n  \"q29\": \"org.springframework.beans\",\n  \"q30\": \"org.springframework.beans\",\n  \"q31\": 25,\n  \"q32\": 14,\n  \"q33\": 1,\n  \"q34\": 5,\n  \"q35\": 7,\n  \"q36\": 7,\n  \"q37\": 1,\n  \"q38\": 27,\n  \"q39\": 1,\n  \"q40\": 7,\n  \"q41\": [\"nestedPropertyAccessors\"],\n  \"q42\": [],\n  \"q43\": [],\n  \"q44\": [],\n  \"q45\": [],\n  \"q46\": [\"source\", \"metadataAttributeList\"],\n  \"q47\": [],\n  \"q48\": [\"unknownEditorTypes\", \"DEFAULT_TYPE_VALUES\"],\n  \"q49\": [],\n  \"q50\": []\n}"
+    },
+    {
+      "input_tokens": 56823,
+      "output_tokens": 1065,
+      "answers": {
+        "q1": [
+          "AbstractAutowireCapableBeanFactory"
+        ],
+        "q2": [
+          "GenericBeanDefinition",
+          "AnnotatedGenericBeanDefinition",
+          "ChildBeanDefinition",
+          "RootBeanDefinition"
+        ],
+        "q3": [
+          "AbstractSingleBeanDefinitionParser",
+          "AbstractSimpleBeanDefinitionParser"
+        ],
+        "q4": [
+          "GroovyBeanDefinitionReader",
+          "PropertiesBeanDefinitionReader",
+          "XmlBeanDefinitionReader"
+        ],
+        "q5": [
+          "AbstractAutowireCapableBeanFactory",
+          "DefaultListableBeanFactory"
+        ],
+        "q6": [
+          "CompositeComponentDefinition",
+          "BeanComponentDefinition"
+        ],
+        "q7": [
+          "ListFactoryBean",
+          "MapFactoryBean",
+          "AbstractFactoryBean",
+          "FieldRetrievingFactoryBean",
+          "MethodInvokingFactoryBean",
+          "ObjectFactoryCreatingFactoryBean",
+          "PropertiesFactoryBean",
+          "ProviderCreatingFactoryBean",
+          "SetFactoryBean",
+          "YamlMapFactoryBean",
+          "YamlPropertiesFactoryBean"
+        ],
+        "q8": [
+          "BeanWrapperImpl",
+          "DirectFieldAccessor",
+          "AbstractNestablePropertyAccessor"
+        ],
+        "q9": [
+          "AbstractPropertyAccessor"
+        ],
+        "q10": [],
+        "q11": [
+          "InstantiationStrategy",
+          "ParameterNameDiscoverer",
+          "NamedThreadLocal",
+          "ConcurrentMap",
+          "BeanWrapper",
+          "Method",
+          "Log",
+          "AbstractAutowireCapableBeanFactory",
+          "BeanFactory"
+        ],
+        "q12": [
+          "String",
+          "Boolean",
+          "Class",
+          "ConstructorArgumentValues",
+          "MutablePropertyValues",
+          "Map",
+          "AutowireCandidateQualifier",
+          "Supplier",
+          "Resource",
+          "Object"
+        ],
+        "q13": [
+          "String",
+          "BeanDefinitionHolder",
+          "BeanDefinitionRegistry",
+          "AbstractBeanDefinition",
+          "Map",
+          "DocumentDefaultsDefinition",
+          "Set",
+          "BeanComponentDefinition",
+          "Collection",
+          "MergedAnnotation",
+          "Log"
+        ],
+        "q14": [
+          "Log",
+          "BeanDefinitionRegistry",
+          "ResourceLoader",
+          "ClassLoader",
+          "Environment",
+          "BeanNameGenerator",
+          "Resource",
+          "InputSource",
+          "BeanDefinitionDocumentReader"
+        ],
+        "q15": [
+          "BeanFactory",
+          "BeanExpressionResolver",
+          "ConversionService",
+          "PropertyEditorRegistrar",
+          "StringValueResolver",
+          "BeanPostProcessor",
+          "BeanPostProcessorCache",
+          "Scope",
+          "RootBeanDefinition",
+          "Set",
+          "TypeConverter",
+          "String",
+          "Object",
+          "BeanWrapper",
+          "List",
+          "Collection",
+          "Supplier",
+          "NamedThreadLocal",
+          "Boolean",
+          "Map",
+          "Comparator",
+          "Throwable",
+          "Logger",
+          "CopyOnWriteArrayList"
+        ],
+        "q16": [
+          "BeanDefinition",
+          "BeanReference"
+        ],
+        "q17": [
+          "Log",
+          "BeanFactory",
+          "ClassLoader",
+          "InitializingBean",
+          "DisposableBean",
+          "Object",
+          "Supplier",
+          "Boolean"
+        ],
+        "q18": [
+          "Log",
+          "Object",
+          "String",
+          "Map",
+          "Properties",
+          "Collection"
+        ],
+        "q19": [
+          "PropertyValue",
+          "Map",
+          "Set",
+          "String",
+          "List"
+        ],
+        "q20": [
+          "Class",
+          "ClassLoader",
+          "ServiceLoader",
+          "Object"
+        ],
+        "q21": "org.springframework.beans",
+        "q22": "org.springframework.beans",
+        "q23": "org.springframework.beans",
+        "q24": "org.springframework.beans",
+        "q25": "org.springframework.beans",
+        "q26": "org.springframework.beans",
+        "q27": "org.springframework.beans",
+        "q28": "org.springframework.beans",
+        "q29": "org.springframework.beans",
+        "q30": "org.springframework.beans",
+        "q31": 26,
+        "q32": 12,
+        "q33": 1,
+        "q34": 5,
+        "q35": 8,
+        "q36": 7,
+        "q37": 1,
+        "q38": 35,
+        "q39": 1,
+        "q40": 6,
+        "q41": [
+          "nestedPropertyAccessors"
+        ],
+        "q42": [],
+        "q43": [],
+        "q44": [],
+        "q45": [],
+        "q46": [
+          "metadataAttribute"
+        ],
+        "q47": [],
+        "q48": [
+          "unknownEditorTypes",
+          "DEFAULT_TYPE_VALUES"
+        ],
+        "q49": [],
+        "q50": []
+      },
+      "raw_text": "{\n  \"q1\": [\n    \"AbstractAutowireCapableBeanFactory\"\n  ],\n  \"q2\": [\n    \"GenericBeanDefinition\",\n    \"AnnotatedGenericBeanDefinition\",\n    \"ChildBeanDefinition\",\n    \"RootBeanDefinition\"\n  ],\n  \"q3\": [\n    \"AbstractSingleBeanDefinitionParser\",\n    \"AbstractSimpleBeanDefinitionParser\"\n  ],\n  \"q4\": [\n    \"GroovyBeanDefinitionReader\",\n    \"PropertiesBeanDefinitionReader\",\n    \"XmlBeanDefinitionReader\"\n  ],\n  \"q5\": [\n    \"AbstractAutowireCapableBeanFactory\",\n    \"DefaultListableBeanFactory\"\n  ],\n  \"q6\": [\n    \"CompositeComponentDefinition\",\n    \"BeanComponentDefinition\"\n  ],\n  \"q7\": [\n    \"ListFactoryBean\",\n    \"MapFactoryBean\",\n    \"AbstractFactoryBean\",\n    \"FieldRetrievingFactoryBean\",\n    \"MethodInvokingFactoryBean\",\n    \"ObjectFactoryCreatingFactoryBean\",\n    \"PropertiesFactoryBean\",\n    \"ProviderCreatingFactoryBean\",\n    \"SetFactoryBean\",\n    \"YamlMapFactoryBean\",\n    \"YamlPropertiesFactoryBean\"\n  ],\n  \"q8\": [\n    \"BeanWrapperImpl\",\n    \"DirectFieldAccessor\",\n    \"AbstractNestablePropertyAccessor\"\n  ],\n  \"q9\": [\n    \"AbstractPropertyAccessor\"\n  ],\n  \"q10\": [],\n  \"q11\": [\n    \"InstantiationStrategy\",\n    \"ParameterNameDiscoverer\",\n    \"NamedThreadLocal\",\n    \"ConcurrentMap\",\n    \"BeanWrapper\",\n    \"Method\",\n    \"Log\",\n    \"AbstractAutowireCapableBeanFactory\",\n    \"BeanFactory\"\n  ],\n  \"q12\": [\n    \"String\",\n    \"Boolean\",\n    \"Class\",\n    \"ConstructorArgumentValues\",\n    \"MutablePropertyValues\",\n    \"Map\",\n    \"AutowireCandidateQualifier\",\n    \"Supplier\",\n    \"Resource\",\n    \"Object\"\n  ],\n  \"q13\": [\n    \"String\",\n    \"BeanDefinitionHolder\",\n    \"BeanDefinitionRegistry\",\n    \"AbstractBeanDefinition\",\n    \"Map\",\n    \"DocumentDefaultsDefinition\",\n    \"Set\",\n    \"BeanComponentDefinition\",\n    \"Collection\",\n    \"MergedAnnotation\",\n    \"Log\"\n  ],\n  \"q14\": [\n    \"Log\",\n    \"BeanDefinitionRegistry\",\n    \"ResourceLoader\",\n    \"ClassLoader\",\n    \"Environment\",\n    \"BeanNameGenerator\",\n    \"Resource\",\n    \"InputSource\",\n    \"BeanDefinitionDocumentReader\"\n  ],\n  \"q15\": [\n    \"BeanFactory\",\n    \"BeanExpressionResolver\",\n    \"ConversionService\",\n    \"PropertyEditorRegistrar\",\n    \"StringValueResolver\",\n    \"BeanPostProcessor\",\n    \"BeanPostProcessorCache\",\n    \"Scope\",\n    \"RootBeanDefinition\",\n    \"Set\",\n    \"TypeConverter\",\n    \"String\",\n    \"Object\",\n    \"BeanWrapper\",\n    \"List\",\n    \"Collection\",\n    \"Supplier\",\n    \"NamedThreadLocal\",\n    \"Boolean\",\n    \"Map\",\n    \"Comparator\",\n    \"Throwable\",\n    \"Logger\",\n    \"CopyOnWriteArrayList\"\n  ],\n  \"q16\": [\n    \"BeanDefinition\",\n    \"BeanReference\"\n  ],\n  \"q17\": [\n    \"Log\",\n    \"BeanFactory\",\n    \"ClassLoader\",\n    \"InitializingBean\",\n    \"DisposableBean\",\n    \"Object\",\n    \"Supplier\",\n    \"Boolean\"\n  ],\n  \"q18\": [\n    \"Log\",\n    \"Object\",\n    \"String\",\n    \"Map\",\n    \"Properties\",\n    \"Collection\"\n  ],\n  \"q19\": [\n    \"PropertyValue\",\n    \"Map\",\n    \"Set\",\n    \"String\",\n    \"List\"\n  ],\n  \"q20\": [\n    \"Class\",\n    \"ClassLoader\",\n    \"ServiceLoader\",\n    \"Object\"\n  ],\n  \"q21\": \"org.springframework.beans\",\n  \"q22\": \"org.springframework.beans\",\n  \"q23\": \"org.springframework.beans\",\n  \"q24\": \"org.springframework.beans\",\n  \"q25\": \"org.springframework.beans\",\n  \"q26\": \"org.springframework.beans\",\n  \"q27\": \"org.springframework.beans\",\n  \"q28\": \"org.springframework.beans\",\n  \"q29\": \"org.springframework.beans\",\n  \"q30\": \"org.springframework.beans\",\n  \"q31\": 26,\n  \"q32\": 12,\n  \"q33\": 1,\n  \"q34\": 5,\n  \"q35\": 8,\n  \"q36\": 7,\n  \"q37\": 1,\n  \"q38\": 35,\n  \"q39\": 1,\n  \"q40\": 6,\n  \"q41\": [\n    \"nestedPropertyAccessors\"\n  ],\n  \"q42\": [],\n  \"q43\": [],\n  \"q44\": [],\n  \"q45\": [],\n  \"q46\": [\n    \"metadataAttribute\"\n  ],\n  \"q47\": [],\n  \"q48\": [\n    \"unknownEditorTypes\",\n    \"DEFAULT_TYPE_VALUES\"\n  ],\n  \"q49\": [],\n  \"q50\": []\n}"
+    },
+    {
+      "input_tokens": 56823,
+      "output_tokens": 1101,
+      "answers": {
+        "q1": [
+          "AbstractAutowireCapableBeanFactory",
+          "DefaultListableBeanFactory"
+        ],
+        "q2": [
+          "AbstractBeanDefinition",
+          "ChildBeanDefinition",
+          "GenericBeanDefinition",
+          "RootBeanDefinition",
+          "AnnotatedGenericBeanDefinition"
+        ],
+        "q3": [
+          "AbstractBeanDefinitionParser",
+          "AbstractSingleBeanDefinitionParser",
+          "AbstractSimpleBeanDefinitionParser"
+        ],
+        "q4": [
+          "AbstractBeanDefinitionReader",
+          "GroovyBeanDefinitionReader",
+          "PropertiesBeanDefinitionReader",
+          "XmlBeanDefinitionReader"
+        ],
+        "q5": [
+          "AbstractBeanFactory",
+          "AbstractAutowireCapableBeanFactory",
+          "DefaultListableBeanFactory"
+        ],
+        "q6": [
+          "AbstractComponentDefinition",
+          "CompositeComponentDefinition",
+          "BeanComponentDefinition"
+        ],
+        "q7": [
+          "AbstractFactoryBean",
+          "ListFactoryBean",
+          "MapFactoryBean",
+          "ObjectFactoryCreatingFactoryBean",
+          "ProviderCreatingFactoryBean",
+          "PropertiesFactoryBean",
+          "YamlMapFactoryBean",
+          "YamlPropertiesFactoryBean",
+          "FieldRetrievingFactoryBean",
+          "MethodInvokingFactoryBean",
+          "ServiceFactoryBean",
+          "ServiceListFactoryBean",
+          "ServiceLoaderFactoryBean",
+          "SetFactoryBean",
+          "MethodInvokingBean"
+        ],
+        "q8": [
+          "AbstractNestablePropertyAccessor",
+          "BeanWrapperImpl",
+          "DirectFieldAccessor"
+        ],
+        "q9": [
+          "AbstractPropertyAccessor"
+        ],
+        "q10": [
+          "AbstractResource",
+          "BeanDefinitionResource"
+        ],
+        "q11": [
+          "InstantiationStrategy",
+          "ParameterNameDiscoverer",
+          "Lock",
+          "NamedThreadLocal",
+          "ConcurrentMap",
+          "Logger",
+          "Supplier",
+          "BeanFactory",
+          "MutablePropertyValues",
+          "PropertyValues",
+          "BeanWrapper",
+          "PropertyDescriptor",
+          "Set",
+          "Consumer",
+          "List",
+          "Method",
+          "String",
+          "Throwable",
+          "Object",
+          "Boolean",
+          "CompletableFuture",
+          "Comparator",
+          "Condition",
+          "ThreadLocal",
+          "ObjectFactory",
+          "SettableBeanPostProcessor",
+          "BeanPostProcessorCache",
+          "Collection",
+          "Predicate"
+        ],
+        "q12": [
+          "Object",
+          "String",
+          "Boolean",
+          "Map",
+          "Set",
+          "Supplier",
+          "ConstructorArgumentValues",
+          "MutablePropertyValues",
+          "MethodOverrides",
+          "BeanDefinition",
+          "AutowireCandidateQualifier",
+          "AnnotatedElement",
+          "RootBeanDefinition",
+          "Class",
+          "Throwable",
+          "Annotation",
+          "Object",
+          "String",
+          "Set"
+        ],
+        "q13": [
+          "BeanDefinition",
+          "AbstractBeanDefinition",
+          "BeanDefinitionHolder",
+          "String",
+          "Int",
+          "Element",
+          "ParserContext",
+          "BeanDefinitionRegistry",
+          "Log",
+          "Node"
+        ],
+        "q14": [
+          "BeanDefinitionRegistry",
+          "ResourceLoader",
+          "ClassLoader",
+          "Environment",
+          "BeanNameGenerator",
+          "ProblemReporter",
+          "ReaderEventListener",
+          "SourceExtractor",
+          "NamespaceHandlerResolver",
+          "EntityResolver",
+          "ErrorHandler",
+          "XmlValidationModeDetector",
+          "ThreadLocal",
+          "Set",
+          "EncodedResource",
+          "InputSource",
+          "Document"
+        ],
+        "q15": [
+          "BeanFactory",
+          "BeanClassLoaderAware",
+          "String",
+          "Boolean",
+          "List",
+          "PropertyEditorRegistrar",
+          "Map",
+          "List",
+          "Scope",
+          "ApplicationStartup",
+          "Set",
+          "RootBeanDefinition",
+          "Lock",
+          "Condition",
+          "ThreadLocal",
+          "Object"
+        ],
+        "q16": [
+          "BeanDefinition",
+          "BeanReference",
+          "String",
+          "Object",
+          "BeanDefinitionHolder",
+          "BeanComponentDefinition",
+          "CompositeComponentDefinition"
+        ],
+        "q17": [
+          "Log",
+          "BeanFactory",
+          "ClassLoader",
+          "TypeConverter",
+          "Object",
+          "Boolean",
+          "String",
+          "Set",
+          "T"
+        ],
+        "q18": [
+          "Log",
+          "Object",
+          "String",
+          "Map",
+          "Collection",
+          "PropertyTokenHolder",
+          "PropertyValue",
+          "PropertyHandler",
+          "TypeDescriptor",
+          "Collection"
+        ],
+        "q19": [
+          "Boolean",
+          "Int",
+          "Map",
+          "PropertyValues",
+          "String",
+          "Object",
+          "Class"
+        ],
+        "q20": [
+          "Class",
+          "ClassLoader",
+          "Log",
+          "ServiceLoader",
+          "Object"
+        ],
+        "q21": "org.springframework.beans",
+        "q22": "org.springframework.beans",
+        "q23": "org.springframework.beans",
+        "q24": "org.springframework.beans",
+        "q25": "org.springframework.beans",
+        "q26": "org.springframework.beans",
+        "q27": "org.springframework.beans",
+        "q28": "org.springframework.beans",
+        "q29": "org.springframework.beans",
+        "q30": "org.springframework.beans",
+        "q31": 28,
+        "q32": 15,
+        "q33": 1,
+        "q34": 6,
+        "q35": 8,
+        "q36": 8,
+        "q37": 1,
+        "q38": 28,
+        "q39": 1,
+        "q40": 6,
+        "q41": [
+          "nestedPropertyAccessors"
+        ],
+        "q42": [],
+        "q43": [],
+        "q44": [],
+        "q45": [],
+        "q46": [
+          "source",
+          "metadataAttributeList",
+          "attributes",
+          "metadata"
+        ],
+        "q47": [],
+        "q48": [
+          "unknownEditorTypes",
+          "DEFAULT_TYPE_VALUES"
+        ],
+        "q49": [
+          "services",
+          "beans",
+          "sources"
+        ],
+        "q50": []
+      },
+      "raw_text": "{\n  \"q1\": [\"AbstractAutowireCapableBeanFactory\", \"DefaultListableBeanFactory\"],\n  \"q2\": [\"AbstractBeanDefinition\", \"ChildBeanDefinition\", \"GenericBeanDefinition\", \"RootBeanDefinition\", \"AnnotatedGenericBeanDefinition\"],\n  \"q3\": [\"AbstractBeanDefinitionParser\", \"AbstractSingleBeanDefinitionParser\", \"AbstractSimpleBeanDefinitionParser\"],\n  \"q4\": [\"AbstractBeanDefinitionReader\", \"GroovyBeanDefinitionReader\", \"PropertiesBeanDefinitionReader\", \"XmlBeanDefinitionReader\"],\n  \"q5\": [\"AbstractBeanFactory\", \"AbstractAutowireCapableBeanFactory\", \"DefaultListableBeanFactory\"],\n  \"q6\": [\"AbstractComponentDefinition\", \"CompositeComponentDefinition\", \"BeanComponentDefinition\"],\n  \"q7\": [\"AbstractFactoryBean\", \"ListFactoryBean\", \"MapFactoryBean\", \"ObjectFactoryCreatingFactoryBean\", \"ProviderCreatingFactoryBean\", \"PropertiesFactoryBean\", \"YamlMapFactoryBean\", \"YamlPropertiesFactoryBean\", \"FieldRetrievingFactoryBean\", \"MethodInvokingFactoryBean\", \"ServiceFactoryBean\", \"ServiceListFactoryBean\", \"ServiceLoaderFactoryBean\", \"SetFactoryBean\", \"MethodInvokingBean\"],\n  \"q8\": [\"AbstractNestablePropertyAccessor\", \"BeanWrapperImpl\", \"DirectFieldAccessor\"],\n  \"q9\": [\"AbstractPropertyAccessor\"],\n  \"q10\": [\"AbstractResource\", \"BeanDefinitionResource\"],\n  \"q11\": [\"InstantiationStrategy\", \"ParameterNameDiscoverer\", \"Lock\", \"NamedThreadLocal\", \"ConcurrentMap\", \"Logger\", \"Supplier\", \"BeanFactory\", \"MutablePropertyValues\", \"PropertyValues\", \"BeanWrapper\", \"PropertyDescriptor\", \"Set\", \"Consumer\", \"List\", \"Method\", \"String\", \"Throwable\", \"Object\", \"Boolean\", \"CompletableFuture\", \"Comparator\", \"Condition\", \"ThreadLocal\", \"ObjectFactory\", \"SettableBeanPostProcessor\", \"BeanPostProcessorCache\", \"Collection\", \"Predicate\"],\n  \"q12\": [\"Object\", \"String\", \"Boolean\", \"Map\", \"Set\", \"Supplier\", \"ConstructorArgumentValues\", \"MutablePropertyValues\", \"MethodOverrides\", \"BeanDefinition\", \"AutowireCandidateQualifier\", \"AnnotatedElement\", \"RootBeanDefinition\", \"Class\", \"Throwable\", \"Annotation\", \"Object\", \"String\", \"Set\"],\n  \"q13\": [\"BeanDefinition\", \"AbstractBeanDefinition\", \"BeanDefinitionHolder\", \"String\", \"Int\", \"Element\", \"ParserContext\", \"BeanDefinitionRegistry\", \"Log\", \"Node\"],\n  \"q14\": [\"BeanDefinitionRegistry\", \"ResourceLoader\", \"ClassLoader\", \"Environment\", \"BeanNameGenerator\", \"ProblemReporter\", \"ReaderEventListener\", \"SourceExtractor\", \"NamespaceHandlerResolver\", \"EntityResolver\", \"ErrorHandler\", \"XmlValidationModeDetector\", \"ThreadLocal\", \"Set\", \"EncodedResource\", \"InputSource\", \"Document\"],\n  \"q15\": [\"BeanFactory\", \"BeanClassLoaderAware\", \"String\", \"Boolean\", \"List\", \"PropertyEditorRegistrar\", \"Map\", \"List\", \"Scope\", \"ApplicationStartup\", \"Set\", \"RootBeanDefinition\", \"Lock\", \"Condition\", \"ThreadLocal\", \"Object\"],\n  \"q16\": [\"BeanDefinition\", \"BeanReference\", \"String\", \"Object\", \"BeanDefinitionHolder\", \"BeanComponentDefinition\", \"CompositeComponentDefinition\"],\n  \"q17\": [\"Log\", \"BeanFactory\", \"ClassLoader\", \"TypeConverter\", \"Object\", \"Boolean\", \"String\", \"Set\", \"T\"],\n  \"q18\": [\"Log\", \"Object\", \"String\", \"Map\", \"Collection\", \"PropertyTokenHolder\", \"PropertyValue\", \"PropertyHandler\", \"TypeDescriptor\", \"Collection\"],\n  \"q19\": [\"Boolean\", \"Int\", \"Map\", \"PropertyValues\", \"String\", \"Object\", \"Class\"],\n  \"q20\": [\"Class\", \"ClassLoader\", \"Log\", \"ServiceLoader\", \"Object\"],\n  \"q21\": \"org.springframework.beans\",\n  \"q22\": \"org.springframework.beans\",\n  \"q23\": \"org.springframework.beans\",\n  \"q24\": \"org.springframework.beans\",\n  \"q25\": \"org.springframework.beans\",\n  \"q26\": \"org.springframework.beans\",\n  \"q27\": \"org.springframework.beans\",\n  \"q28\": \"org.springframework.beans\",\n  \"q29\": \"org.springframework.beans\",\n  \"q30\": \"org.springframework.beans\",\n  \"q31\": 28,\n  \"q32\": 15,\n  \"q33\": 1,\n  \"q34\": 6,\n  \"q35\": 8,\n  \"q36\": 8,\n  \"q37\": 1,\n  \"q38\": 28,\n  \"q39\": 1,\n  \"q40\": 6,\n  \"q41\": [\"nestedPropertyAccessors\"],\n  \"q42\": [],\n  \"q43\": [],\n  \"q44\": [],\n  \"q45\": [],\n  \"q46\": [\"source\", \"metadataAttributeList\", \"attributes\", \"metadata\"],\n  \"q47\": [],\n  \"q48\": [\"unknownEditorTypes\", \"DEFAULT_TYPE_VALUES\"],\n  \"q49\": [\"services\", \"beans\", \"sources\"],\n  \"q50\": []\n}"
+    }
+  ]
+}

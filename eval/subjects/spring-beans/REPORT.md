@@ -8,23 +8,27 @@ Generated from `eval/leaderboard.csv` by `eval/report.py`. Columns are model (pr
 
 | format | tokens | vs Veltro |
 |---|---|---|
+| veltro | 42792 | - |
+| mermaid | 51648 | +21% |
+| plantuml | 56823 | +33% |
+| d2 | 58450 | +37% |
 
 ### Exact accuracy (mean +/- std)
 
-| format | claude-opus-4-8 (anthropic) |
-|---|---|
-| veltro | 76+/-2% |
-| mermaid | 70+/-1% |
-| plantuml | 69+/-2% |
-| d2 | 80+/-1% |
+| format | claude-opus-4-8 (anthropic) | gpt-4.1-mini (openai) |
+|---|---|---|
+| veltro | 76+/-2% | 41+/-1% |
+| mermaid | 70+/-1% | 51+/-5% |
+| plantuml | 69+/-2% | 46+/-2% |
+| d2 | 80+/-1% | 60+/-10% |
 
 ### List-question F1 (mean +/- std)
 
-| format | claude-opus-4-8 (anthropic) |
-|---|---|
-| veltro | 0.81+/-0.02 |
-| mermaid | 0.63+/-0.05 |
-| plantuml | 0.62+/-0.02 |
-| d2 | 0.85 |
+| format | claude-opus-4-8 (anthropic) | gpt-4.1-mini (openai) |
+|---|---|---|
+| veltro | 0.81+/-0.02 | 0.40+/-0.05 |
+| mermaid | 0.63+/-0.05 | 0.42+/-0.07 |
+| plantuml | 0.62+/-0.02 | 0.34+/-0.04 |
+| d2 | 0.85 | 0.65+/-0.06 |
 
 Legend: `-` = combination not tested (not a zero). `*` = contaminated run (pre-fix or weak model), indicative only. Cells without `+/-` are single runs (n=1, no variance).
