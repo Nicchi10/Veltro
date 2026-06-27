@@ -327,7 +327,8 @@ def extract_method(node, class_name: str, inside_interface: bool) -> str:
     line = member_prefix(name, marker, is_static) + "(" + ", ".join(arguments) + ")"
 
     if not is_constructor:
-        return_type = csharp_type_to_veltro(field_text(node, "type"))
+        # A method's return type is the 'returns' field in tree-sitter-c-sharp fall back to 'type' for grammar versions that name it differently
+        return_type = csharp_type_to_veltro(field_text(node, "returns") or field_text(node, "type"))
         if return_type and return_type != "void":
             line += " " + return_type
     return line
