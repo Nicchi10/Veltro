@@ -214,7 +214,12 @@ def safe_default(value_text: str) -> str:
 
     """
     value_text = value_text.strip()
-    if not value_text or "\n" in value_text or "{" in value_text:
+    if not value_text or "\n" in value_text:
+        return ""
+    # Braces/parens in a default break the line-oriented .vel: '(' makes the
+    # parser read the field line as a method (the char literal '(' is the real
+    # case that bit us on Orleans), and '{' starts an object initializer.
+    if any(char in value_text for char in "(){}"):
         return ""
     return value_text
 
