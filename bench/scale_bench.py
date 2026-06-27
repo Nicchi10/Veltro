@@ -2,16 +2,20 @@
 
 bench/scale_bench.py
 
-End-to-end token benchmark on a real Python project.
+End-to-end token benchmark on a real project.
 
 Pipeline:  project source  --extract-->  .vel  --parse-->  model  --export-->  PlantUML + Mermaid
 
 All three artefacts come from the *same* model, so the comparison is fair:
 identical types, members and relations. We then count tokens with tiktoken.
 
+The input is either a Python package directory (extracted here with the Python
+AST extractor) or an already-extracted '.vel' file (e.g. produced by the Java or
+C# extractor), so the same command reproduces every row of the README table.
+
 Run:
-    python bench/scale_bench.py <package_dir> [--out-dir build]
-    python bench/scale_bench.py "C:/.../rich/rich"
+    python bench/scale_bench.py <package_dir>      # extract a Python package
+    python bench/scale_bench.py examples/spring-beans.vel   # a pre-extracted .vel
 """
 
 import argparse
@@ -37,15 +41,55 @@ def count_tokens(text: str, encoder_name: str) -> int:
     return len(encoder.encode(text))
 
 
+def load_vel(source: str):
+    """
+
+    Get the (name, vel_text) for a source that is either a Python package
+    directory (extracted here) or an existing '.vel' file (read as-is).
+
+    Args:
+        source (str): a package directory or a path ending in '.vel'
+
+    Returns:
+        (name, vel_text)
+
+    """
+    if os.path.isdir(source):
+        vel_text, _stats = extract_project(source)
+        name = os.path.basename(os.path.normpath(source))
+    else:
+        with open(source, encoding="utf-8") as vel_file:
+            vel_text = vel_file.read()
+        name = os.path.splitext(os.path.basename(source))[0]
+    return name, vel_text
+
+
+def count_kinds(model: dict) -> tuple:
+    """
+    Count classes / interfaces / enums and distinct modules in a parsed model
+    """
+    classes = interfaces = enums = 0
+    modules = set()
+    for node in model["nodes"]:
+        modules.add(node["module"])
+        if node["kind"] == "class":
+            classes += 1
+        elif node["kind"] == "interface":
+            interfaces += 1
+        elif node["kind"] == "enum":
+            enums += 1
+    return classes, interfaces, enums, len(modules)
+
+
 def main(argv=None):
-    parser = argparse.ArgumentParser(
-        description="Token benchmark of Veltro vs PlantUML vs Mermaid on a real project")
-    parser.add_argument("package", help="path to the Python package directory")
+    parser = argparse.ArgumentParser(description="Token benchmark of Veltro vs PlantUML vs Mermaid on a real project")
+    parser.add_argument("source", help="a Python package directory or a .vel file")
     parser.add_argument("--out-dir", default="build", help="where to write the three artefacts (default: build)")
     arguments = parser.parse_args(argv)
 
-    # 1. Extract -> .vel, 2. parse -> model, 3. export the other two formats
-    vel_text, stats = extract_project(arguments.package)
+    # 1. Load -> .vel (extract a package, or read a pre-extracted .vel),
+    # 2. parse -> model, 3. export the other two formats from that same model
+    name, vel_text = load_vel(arguments.source)
     model = parse_text(vel_text)
     plantuml_text = export_plantuml(model)
     mermaid_text = export_mermaid(model)
@@ -58,16 +102,16 @@ def main(argv=None):
 
     # Write them out so they can be inspected
     os.makedirs(arguments.out_dir, exist_ok=True)
-    base = os.path.basename(os.path.normpath(arguments.package))
     extensions = {"Veltro": ".vel", "PlantUML": ".puml", "Mermaid": ".mmd"}
     for label, text in artefacts.items():
-        path = os.path.join(arguments.out_dir, base + extensions[label])
+        path = os.path.join(arguments.out_dir, name + extensions[label])
         with open(path, "w", encoding="utf-8", newline="\n") as out_file:
             out_file.write(text)
 
-    seen_types = stats["class"] + stats["interface"] + stats["enum"]
-    print(f"project: {base}")
-    print(f"modules: {stats['modules']}  types: {seen_types}  ({stats['class']} classes, {stats['interface']} interfaces, {stats['enum']} enums)")
+    classes, interfaces, enums, module_count = count_kinds(model)
+    seen_types = classes + interfaces + enums
+    print(f"project: {name}")
+    print(f"modules: {module_count}  types: {seen_types}  ({classes} classes, {interfaces} interfaces, {enums} enums)")
 
     for encoder_name in ENCODERS:
         veltro_tokens = count_tokens(vel_text, encoder_name)
