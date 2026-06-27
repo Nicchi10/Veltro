@@ -462,23 +462,25 @@ def collect(node, namespace: str, modules: dict, edges: list, stats: dict) -> No
         stats (dict): counts per kind (modified in place)
 
     """
-    if node.type in NAMESPACE_DECLARATIONS:
-        inner = namespace_name(node, namespace)
-        body = node.child_by_field_name("body")
-        children = body.children if body is not None else node.children
-        for child in children:
-            collect(child, inner, modules, edges, stats)
-        return
-
-    if node.type in TYPE_DECLARATIONS:
-        kind = TYPE_DECLARATIONS[node.type]
-        stats[kind] = stats.get(kind, 0) + 1
-        module_lines = modules.setdefault(namespace or "global", [])
-        module_lines.extend(extract_type(node, edges))
-        return
-
+    # A braced 'namespace Foo { ... }' applies to its body. A file-scoped
+    # 'namespace Foo;' has NO body: its types are the SIBLINGS that follow it,
+    # so it sets the namespace for the rest of this node's children.
+    current = namespace
     for child in node.children:
-        collect(child, namespace, modules, edges, stats)
+        if child.type == "file_scoped_namespace_declaration":
+            current = namespace_name(child, namespace)
+            collect(child, current, modules, edges, stats)
+        elif child.type == "namespace_declaration":
+            inner = namespace_name(child, namespace)
+            body = child.child_by_field_name("body")
+            collect(body if body is not None else child, inner, modules, edges, stats)
+        elif child.type in TYPE_DECLARATIONS:
+            kind = TYPE_DECLARATIONS[child.type]
+            stats[kind] = stats.get(kind, 0) + 1
+            module_lines = modules.setdefault(current or "global", [])
+            module_lines.extend(extract_type(child, edges))
+        else:
+            collect(child, current, modules, edges, stats)
 
 def render_vel(modules: dict, edges: list) -> str:
     """
