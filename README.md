@@ -102,14 +102,29 @@ onto a single unreadable line to compete.
 Fewer tokens are worthless if the model reads the diagram worse. So we test it:
 50 structural questions whose answers are facts derived from the type graph
 (automatic, deterministic scoring), asked of the same architecture rendered in
-each format. Run across four model tiers (see [`eval/`](eval) and the generated
-per-project report, e.g. [`eval/subjects/pydantic/REPORT.md`](eval/subjects/pydantic/REPORT.md)).
+each format, across several model tiers and three languages (see [`eval/`](eval)
+and the per-project reports, e.g. [`eval/subjects/pydantic/REPORT.md`](eval/subjects/pydantic/REPORT.md)).
 
-The honest result: the accuracy ranking shuffles by model and the formats
-sit in overlapping bands, there is no robust comprehension winner. Which
-is the point: **the token savings cost no measurable comprehension.** Veltro
-reads as well as PlantUML/Mermaid/D2 while being the cheapest. We do not claim
-"Veltro is understood better", only "as well, for fewer tokens".
+The honest result: there is **no robust comprehension winner**: the ranking
+shuffles by model and the formats sit in overlapping bands. Veltro reads as
+well as PlantUML/Mermaid/D2 (matched on partial-credit F1) while being the
+cheapest. We do not claim "Veltro is understood better", only "as well, for
+fewer tokens".
+
+One caveat we keep in the open rather than bury: on the strictest metric (exact
+set-match) Veltro can trail by a few points. It is the flip side of the token
+win, Veltro factors relations into a `rel` block instead of repeating them on
+every type, which saves tokens but makes a type's relations less local, so a
+weaker model on relation-heavy code occasionally misses one. The gap closes on a
+capable model and under partial-credit scoring.
+
+A note on the playing field. The model has seen vast amounts of PlantUML
+and Mermaid in training and none of Veltro. It reads Veltro only from a
+one-paragraph legend, while the others enjoy a home-field advantage. Reaching
+parity despite that handicap is the real result here. It is reasonable to
+expect that familiarity (few-shot examples, or fine-tuning) would lift Veltro's
+comprehension further, but we have not measured this, and make no claim
+about it.
 
 ### Reproduce it
 
@@ -138,19 +153,23 @@ The examples are not hand-written: they are **extracted from real projects**
 ## Repository layout
 
 ```
-veltro/                   the Python package
-  parser.py               .vel  ->  type-graph model (the ONE parser, format is language-agnostic)
-  extract/python_ast.py   Python source  ->  .vel  (AST extractor; one per source language)
-  export/                 model  ->  PlantUML / Mermaid / D2 (fair benchmarking, the Rosetta way out)
-  __main__.py             CLI: parse a .vel, validate it, write the JSON model
-model.schema.json         the type-graph contract (nodes + edges) shared by every piece
-SPEC.md                   the .vel language specification
-examples/                 real architectures extracted to .vel (e.g. pydantic.vel)
-bench/                    token benchmarks + the vendored PlantUML sample
-  formats/                the same slice encoded in 7 formats, for the ranking
-eval/                     LLM comprehension eval: generate/run/score/report
-  leaderboard.csv         the editable results dataset -> per-project subjects/<name>/REPORT.md (see eval/README.md)
-tests/                    unit tests (parser, extractor, exporters, scorer)
+veltro/                        the Python package
+  |--- parser.py               .vel  ->  type-graph model (the ONE parser, format is language-agnostic)
+  |--- export/                 model  ->  PlantUML / Mermaid / D2 (fair benchmarking, the Rosetta way out)
+  |--- extract/                repository -> .vel file (cover more languages)
+  |--- __main__.py             CLI: parse a .vel, validate it, write the JSON model
+model.schema.json              the type-graph contract (nodes + edges) shared by every piece
+SPEC.md                        the .vel language specification
+examples/                      real architectures extracted to .vel (e.g. pydantic.vel)
+bench/                         token benchmarks + the vendored PlantUML sample
+  |--- formats/                the same slice encoded in 7 formats, for the ranking
+eval/                          LLM comprehension eval: generate/run/score/report (see eval/README.md)
+  |--- leaderboard.csv         the editable results dataset -> per-project subjects/<name>/REPORT.md 
+  |--- results/                a .json for each repo and the responses to the questions
+  |--- subjects/               the rendered diagrams (vel/puml/mmd/d2) + questions.json + REPORT.md
+tests/                         unit tests (parser, extractor, exporters, scorer)
+conformance/                   the parser rules for every parser implementations
+grammars/                      the canonical, editor-agnostic definition of how Veltro source is tokenised for colour
 ```
 
 The funnel: many extractors feed one format, and from there everything is single.
@@ -163,7 +182,7 @@ extract_java   |
 
 ## Status
 
-`v0` - working today:
+`v0.1` - working today:
 
 | Piece | Role |
 |-------|------|
@@ -171,18 +190,23 @@ extract_java   |
 | [`model.schema.json`](model.schema.json) | The intermediate type-graph schema (single source of truth) |
 | [`veltro/parser.py`](veltro/parser.py) | `.vel` -> model, with schema validation |
 | [`veltro/extract/python_ast.py`](veltro/extract/python_ast.py) | Python source -> `.vel` (deterministic, no LLM) |
+| [`veltro/extract/tree_sitter_csharp.py`](veltro/extract/tree_sitter_csharp.py) | C# source -> `.vel` (deterministic, no LLM) |
+| [`veltro/extract/java/VeltroJavaExtractor.java`](veltro/extract/java/VeltroJavaExtractor.java) | Java source -> `.vel` (deterministic, no LLM) |
 | [`veltro/export/`](veltro/export) | model -> PlantUML / Mermaid / D2 |
 | [`examples/pydantic.vel`](examples/pydantic.vel) | Pydantic's architecture, extracted to `.vel` |
 | [`eval/`](eval) | comprehension eval (OpenAI / Anthropic APIs) + token/accuracy leaderboard |
 
 ## Roadmap
 
-- [x] **LLM comprehension eval** built and run (OpenAI + Anthropic APIs),
-      across four model tiers and four formats. Result so far: comparable
+- [x] **LLM comprehension eval** built and run (OpenAI + Anthropic APIs + Ollama...),
+      across multiple models, n languages and four formats. Result so far: comparable
       comprehension, fewer tokens. See [`eval/`](eval)
-- [ ] **Java extractor** (Kafka, Spring) so people lick their fingers
+- [x] **Java extractor** (Kafka, Spring) so people lick their fingers
+- [x] **C# extractor** (MediatR, Orleans) via tree-sitter
+- [ ] **JS/TS extractor** to complete the picture
+- [ ] **few-shot test** If the LLM knew Veltro, would it be more accurate?
 - [ ] **VS Code extension** (and other IDEs) once the gain is clear
-- [ ] **Parser in TypeScript / Rust** (the reference parser is Python today)
+- [ ] **Parser in TypeScript** (the reference parser is Python today)
 - [ ] **The viewer**: WebGL graph, semantic zoom, click-to-highlight
 - [ ] **PlantUML / Mermaid -> Veltro** translator (the inbound Rosetta direction)
 
