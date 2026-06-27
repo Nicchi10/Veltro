@@ -2,3 +2,5 @@ jsonschema>=4.0
 tiktoken>=0.5       
 openai>=1.0
 anthropic         
+tree_sitter
+tree_sitter_c_sharp
