@@ -61,8 +61,10 @@ The same architecture is extracted from real code, then rendered to Veltro,
 PlantUML and Mermaid **from one identical model** (so the comparison is fair),
 and counted with `tiktoken` (`o200k_base`).
 
-On whole real projects — Python via `bench/scale_bench.py <package>`, Java via
-the [Java extractor](veltro/extract/java):
+On whole real projects, extracted then tokenised with one command per row
+(`python bench/scale_bench.py <package-or-.vel>`): Python via the AST extractor,
+Java via the [Java extractor](veltro/extract/java), C# via the
+[tree-sitter extractor](veltro/extract/tree_sitter_csharp.py):
 
 | project | language | types | Veltro | Mermaid | PlantUML |
 |---------|----------|-------|--------|---------|----------|
@@ -70,10 +72,12 @@ the [Java extractor](veltro/extract/java):
 | [Pydantic](https://github.com/pydantic/pydantic) | Python | 360 | 19,885 | +22% | +32% |
 | [Spring](https://github.com/spring-projects/spring-framework) (spring-beans) | Java | 323 | 41,463 | +22% | +34% |
 | [Kafka](https://github.com/apache/kafka) (clients) | Java | 1,287 | 174,594 | +13% | +32% |
+| [MediatR](https://github.com/jbogard/MediatR) | C# | 220 | 8,529 | +30% | +37% |
+| [Orleans](https://github.com/dotnet/orleans) | C# | 7,848 | 687,417 | +21% | +27% |
 
-The two Java rows are cross-language evidence: the token saving holds on real
-enterprise Java (Spring, Kafka), not just Python and on Kafka it scales to
-~1,300 types without breaking down.
+The Java and C# rows are cross-language evidence: the token saving holds on real
+Python, Java and C# code, not a single ecosystem and on Orleans it scales to
+**~7,800 types** without breaking down.
 
 Against every other class-diagram format, on a representative slice of pydantic
 (`python bench/compare_formats.py`, lower = denser):
