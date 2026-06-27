@@ -1,0 +1,762 @@
+{
+  "project": "MediatR",
+  "provider": "openai",
+  "format": "veltro",
+  "model": "gpt-4.1-mini",
+  "runs": [
+    {
+      "input_tokens": 10096,
+      "output_tokens": 793,
+      "answers": {
+        "q1": [
+          "AutoFacDependencyInjectionTests",
+          "DryIocDependencyInjectionTests",
+          "LamarDependencyInjectionTests",
+          "LightInjectDependencyInjectionTests",
+          "MicrosoftDependencyInjectionTests",
+          "StashBoxDependencyInjectionTests"
+        ],
+        "q2": [
+          "GenericRequestHandlerTests"
+        ],
+        "q3": [
+          "AutoFacServiceProviderFixture",
+          "DryIocServiceProviderFixture",
+          "LamarServiceProviderFixture",
+          "LightInjectServiceProviderFixture",
+          "MicrosoftServiceProviderFixture",
+          "StashBoxServiceProviderFixture"
+        ],
+        "q4": [
+          "ForbiddenException",
+          "ResourceNotFoundException"
+        ],
+        "q5": [
+          "IRequest",
+          "IRequest",
+          "Ping",
+          "DerivedPing",
+          "Ding",
+          "InternalPing",
+          "InternalVoidPing",
+          "PrivatePing",
+          "PrivateVoidPing",
+          "PublicPing",
+          "PublicVoidPing",
+          "DuplicateTest",
+          "OpenGenericVoidRequest",
+          "OpenGenericReturnTypeRequest",
+          "GenericPing",
+          "VoidGenericPing",
+          "Foo"
+        ],
+        "q6": [
+          "IMediator",
+          "CustomMediator",
+          "Mediator",
+          "MyCustomMediator"
+        ],
+        "q7": [
+          "INotification",
+          "Pinged",
+          "Ponged",
+          "Ding",
+          "Pinged"
+        ],
+        "q8": [
+          "INotificationHandler",
+          "GenericHandler",
+          "PingedHandler",
+          "PongedHandler",
+          "ConstrainedPingedHandler",
+          "PingedAlsoHandler",
+          "AsyncPingedHandler",
+          "SyncPingedHandler",
+          "PingedAlsoOpenHandler",
+          "NotificationHandler"
+        ],
+        "q9": [
+          "INotificationPublisher",
+          "ForeachAwaitPublisher",
+          "TaskWhenAllPublisher"
+        ],
+        "q10": [
+          "IPipelineBehavior",
+          "GenericPipelineBehavior",
+          "RequestExceptionActionProcessorBehavior",
+          "RequestExceptionProcessorBehavior",
+          "RequestPostProcessorBehavior",
+          "RequestPreProcessorBehavior"
+        ],
+        "q11": [
+          "IRequestExceptionHandler"
+        ],
+        "q12": [
+          "INotificationHandler"
+        ],
+        "q13": [
+          "BaseAssemblyResolutionTests"
+        ],
+        "q14": [
+          "BaseServiceProviderFixture"
+        ],
+        "q15": [
+          "IClassFixture"
+        ],
+        "q16": [
+          "IMediator",
+          "Ping",
+          "Pinged"
+        ],
+        "q17": [
+          "ITypeArgument"
+        ],
+        "q18": [
+          "Exception"
+        ],
+        "q19": [
+          "IRequestExceptionHandler"
+        ],
+        "q20": [
+          "INotificationHandler"
+        ],
+        "q21": "MediatR.Benchmarks",
+        "q22": "MediatR.Benchmarks",
+        "q23": "MediatR.Benchmarks",
+        "q24": "MediatR.DependencyInjectionTests.Abstractions",
+        "q25": "MediatR.DependencyInjectionTests.Abstractions",
+        "q26": "MediatR.DependencyInjectionTests",
+        "q27": "MediatR.DependencyInjectionTests.Contracts.Requests",
+        "q28": "MediatR.DependencyInjectionTests.Contracts.Requests",
+        "q29": "MediatR.DependencyInjectionTests.Contracts.Requests",
+        "q30": "MediatR.DependencyInjectionTests.Contracts.Requests",
+        "q31": 3,
+        "q32": 4,
+        "q33": 0,
+        "q34": 11,
+        "q35": 0,
+        "q36": 1,
+        "q37": 0,
+        "q38": 0,
+        "q39": 0,
+        "q40": 0,
+        "q41": [
+          "_mediator",
+          "_request",
+          "_notification"
+        ],
+        "q42": [],
+        "q43": [],
+        "q44": [],
+        "q45": [],
+        "q46": [],
+        "q47": [],
+        "q48": [],
+        "q49": [],
+        "q50": []
+      },
+      "raw_text": "{\n  \"q1\": [\"AutoFacDependencyInjectionTests\", \"DryIocDependencyInjectionTests\", \"LamarDependencyInjectionTests\", \"LightInjectDependencyInjectionTests\", \"MicrosoftDependencyInjectionTests\", \"StashBoxDependencyInjectionTests\"],\n  \"q2\": [\"GenericRequestHandlerTests\"],\n  \"q3\": [\"AutoFacServiceProviderFixture\", \"DryIocServiceProviderFixture\", \"LamarServiceProviderFixture\", \"LightInjectServiceProviderFixture\", \"MicrosoftServiceProviderFixture\", \"StashBoxServiceProviderFixture\"],\n  \"q4\": [\"ForbiddenException\", \"ResourceNotFoundException\"],\n  \"q5\": [\"IRequest\", \"IRequest\", \"Ping\", \"DerivedPing\", \"Ding\", \"InternalPing\", \"InternalVoidPing\", \"PrivatePing\", \"PrivateVoidPing\", \"PublicPing\", \"PublicVoidPing\", \"DuplicateTest\", \"OpenGenericVoidRequest\", \"OpenGenericReturnTypeRequest\", \"GenericPing\", \"VoidGenericPing\", \"Foo\"],\n  \"q6\": [\"IMediator\", \"CustomMediator\", \"Mediator\", \"MyCustomMediator\"],\n  \"q7\": [\"INotification\", \"Pinged\", \"Ponged\", \"Ding\", \"Pinged\"],\n  \"q8\": [\"INotificationHandler\", \"GenericHandler\", \"PingedHandler\", \"PongedHandler\", \"ConstrainedPingedHandler\", \"PingedAlsoHandler\", \"AsyncPingedHandler\", \"SyncPingedHandler\", \"PingedAlsoOpenHandler\", \"NotificationHandler\"],\n  \"q9\": [\"INotificationPublisher\", \"ForeachAwaitPublisher\", \"TaskWhenAllPublisher\"],\n  \"q10\": [\"IPipelineBehavior\", \"GenericPipelineBehavior\", \"RequestExceptionActionProcessorBehavior\", \"RequestExceptionProcessorBehavior\", \"RequestPostProcessorBehavior\", \"RequestPreProcessorBehavior\"],\n  \"q11\": [\"IRequestExceptionHandler\"],\n  \"q12\": [\"INotificationHandler\"],\n  \"q13\": [\"BaseAssemblyResolutionTests\"],\n  \"q14\": [\"BaseServiceProviderFixture\"],\n  \"q15\": [\"IClassFixture\"],\n  \"q16\": [\"IMediator\", \"Ping\", \"Pinged\"],\n  \"q17\": [\"ITypeArgument\"],\n  \"q18\": [\"Exception\"],\n  \"q19\": [\"IRequestExceptionHandler\"],\n  \"q20\": [\"INotificationHandler\"],\n  \"q21\": \"MediatR.Benchmarks\",\n  \"q22\": \"MediatR.Benchmarks\",\n  \"q23\": \"MediatR.Benchmarks\",\n  \"q24\": \"MediatR.DependencyInjectionTests.Abstractions\",\n  \"q25\": \"MediatR.DependencyInjectionTests.Abstractions\",\n  \"q26\": \"MediatR.DependencyInjectionTests\",\n  \"q27\": \"MediatR.DependencyInjectionTests.Contracts.Requests\",\n  \"q28\": \"MediatR.DependencyInjectionTests.Contracts.Requests\",\n  \"q29\": \"MediatR.DependencyInjectionTests.Contracts.Requests\",\n  \"q30\": \"MediatR.DependencyInjectionTests.Contracts.Requests\",\n  \"q31\": 3,\n  \"q32\": 4,\n  \"q33\": 0,\n  \"q34\": 11,\n  \"q35\": 0,\n  \"q36\": 1,\n  \"q37\": 0,\n  \"q38\": 0,\n  \"q39\": 0,\n  \"q40\": 0,\n  \"q41\": [\"_mediator\", \"_request\", \"_notification\"],\n  \"q42\": [],\n  \"q43\": [],\n  \"q44\": [],\n  \"q45\": [],\n  \"q46\": [],\n  \"q47\": [],\n  \"q48\": [],\n  \"q49\": [],\n  \"q50\": []\n}"
+    },
+    {
+      "input_tokens": 10096,
+      "output_tokens": 839,
+      "answers": {
+        "q1": [
+          "AutoFacDependencyInjectionTests",
+          "DryIocDependencyInjectionTests",
+          "LamarDependencyInjectionTests",
+          "LightInjectDependencyInjectionTests",
+          "MicrosoftDependencyInjectionTests",
+          "StashBoxDependencyInjectionTests"
+        ],
+        "q2": [
+          "GenericRequestHandlerTests"
+        ],
+        "q3": [
+          "AutoFacServiceProviderFixture",
+          "DryIocServiceProviderFixture",
+          "LamarServiceProviderFixture",
+          "LightInjectServiceProviderFixture",
+          "MicrosoftServiceProviderFixture",
+          "StashBoxServiceProviderFixture"
+        ],
+        "q4": [
+          "ForbiddenException",
+          "ResourceNotFoundException"
+        ],
+        "q5": [
+          "IRequest",
+          "IRequest"
+        ],
+        "q6": [
+          "CustomMediator",
+          "IMediator",
+          "Mediator",
+          "MyCustomMediator"
+        ],
+        "q7": [
+          "INotification",
+          "Ding",
+          "Pinged",
+          "Pinged"
+        ],
+        "q8": [
+          "AsyncPingedHandler",
+          "ConstrainedPingedHandler",
+          "GenericHandler",
+          "NotificationHandler",
+          "PingedHandler",
+          "PingedAlsoHandler",
+          "PingedAlsoOpenHandler",
+          "PongedHandler",
+          "SyncPingedHandler"
+        ],
+        "q9": [
+          "ForeachAwaitPublisher",
+          "TaskWhenAllPublisher",
+          "INotificationPublisher"
+        ],
+        "q10": [
+          "GenericPipelineBehavior",
+          "RequestExceptionActionProcessorBehavior",
+          "RequestExceptionProcessorBehavior",
+          "RequestPostProcessorBehavior",
+          "RequestPreProcessorBehavior",
+          "IPipelineBehavior"
+        ],
+        "q11": [
+          "AccessDeniedExceptionHandler",
+          "IRequestExceptionHandler",
+          "PingResource",
+          "ForbiddenException",
+          "RequestExceptionHandlerState",
+          "Pong",
+          "CancellationToken"
+        ],
+        "q12": [
+          "AsyncPingedHandler",
+          "INotificationHandler",
+          "Pinged",
+          "CancellationToken"
+        ],
+        "q13": [
+          "AutoFacDependencyInjectionTests",
+          "BaseAssemblyResolutionTests"
+        ],
+        "q14": [
+          "AutoFacServiceProviderFixture",
+          "BaseServiceProviderFixture",
+          "IServiceProvider"
+        ],
+        "q15": [
+          "BaseAssemblyResolutionTests",
+          "IClassFixture",
+          "IServiceProvider"
+        ],
+        "q16": [
+          "Benchmarks",
+          "IMediator",
+          "Ping",
+          "Pinged"
+        ],
+        "q17": [
+          "ConcreteTypeArgument",
+          "ITypeArgument"
+        ],
+        "q18": [
+          "ConnectionException",
+          "Exception"
+        ],
+        "q19": [
+          "ConnectionExceptionHandler",
+          "IRequestExceptionHandler",
+          "PingResource",
+          "ConnectionException",
+          "RequestExceptionHandlerState",
+          "Pong",
+          "CancellationToken"
+        ],
+        "q20": [
+          "ConstrainedPingedHandler",
+          "INotificationHandler",
+          "CancellationToken"
+        ],
+        "q21": "MediatR.Benchmarks",
+        "q22": "MediatR.Benchmarks",
+        "q23": "MediatR.Benchmarks",
+        "q24": "MediatR.DependencyInjectionTests.Abstractions",
+        "q25": "MediatR.DependencyInjectionTests.Abstractions",
+        "q26": "MediatR.DependencyInjectionTests",
+        "q27": "MediatR.DependencyInjectionTests.Contracts.Requests",
+        "q28": "MediatR.DependencyInjectionTests.Contracts.Requests",
+        "q29": "MediatR.DependencyInjectionTests.Contracts.Requests",
+        "q30": "MediatR.DependencyInjectionTests.Contracts.Requests",
+        "q31": 3,
+        "q32": 3,
+        "q33": 0,
+        "q34": 9,
+        "q35": 0,
+        "q36": 1,
+        "q37": 0,
+        "q38": 0,
+        "q39": 0,
+        "q40": 0,
+        "q41": [
+          "_mediator",
+          "_request",
+          "_notification"
+        ],
+        "q42": [],
+        "q43": [],
+        "q44": [],
+        "q45": [],
+        "q46": [],
+        "q47": [],
+        "q48": [],
+        "q49": [],
+        "q50": []
+      },
+      "raw_text": "{\n  \"q1\": [\"AutoFacDependencyInjectionTests\", \"DryIocDependencyInjectionTests\", \"LamarDependencyInjectionTests\", \"LightInjectDependencyInjectionTests\", \"MicrosoftDependencyInjectionTests\", \"StashBoxDependencyInjectionTests\"],\n  \"q2\": [\"GenericRequestHandlerTests\"],\n  \"q3\": [\"AutoFacServiceProviderFixture\", \"DryIocServiceProviderFixture\", \"LamarServiceProviderFixture\", \"LightInjectServiceProviderFixture\", \"MicrosoftServiceProviderFixture\", \"StashBoxServiceProviderFixture\"],\n  \"q4\": [\"ForbiddenException\", \"ResourceNotFoundException\"],\n  \"q5\": [\"IRequest\", \"IRequest\"],\n  \"q6\": [\"CustomMediator\", \"IMediator\", \"Mediator\", \"MyCustomMediator\"],\n  \"q7\": [\"INotification\", \"Ding\", \"Pinged\", \"Pinged\"],\n  \"q8\": [\"AsyncPingedHandler\", \"ConstrainedPingedHandler\", \"GenericHandler\", \"NotificationHandler\", \"PingedHandler\", \"PingedAlsoHandler\", \"PingedAlsoOpenHandler\", \"PongedHandler\", \"SyncPingedHandler\"],\n  \"q9\": [\"ForeachAwaitPublisher\", \"TaskWhenAllPublisher\", \"INotificationPublisher\"],\n  \"q10\": [\"GenericPipelineBehavior\", \"RequestExceptionActionProcessorBehavior\", \"RequestExceptionProcessorBehavior\", \"RequestPostProcessorBehavior\", \"RequestPreProcessorBehavior\", \"IPipelineBehavior\"],\n  \"q11\": [\"AccessDeniedExceptionHandler\", \"IRequestExceptionHandler\", \"PingResource\", \"ForbiddenException\", \"RequestExceptionHandlerState\", \"Pong\", \"CancellationToken\"],\n  \"q12\": [\"AsyncPingedHandler\", \"INotificationHandler\", \"Pinged\", \"CancellationToken\"],\n  \"q13\": [\"AutoFacDependencyInjectionTests\", \"BaseAssemblyResolutionTests\"],\n  \"q14\": [\"AutoFacServiceProviderFixture\", \"BaseServiceProviderFixture\", \"IServiceProvider\"],\n  \"q15\": [\"BaseAssemblyResolutionTests\", \"IClassFixture\", \"IServiceProvider\"],\n  \"q16\": [\"Benchmarks\", \"IMediator\", \"Ping\", \"Pinged\"],\n  \"q17\": [\"ConcreteTypeArgument\", \"ITypeArgument\"],\n  \"q18\": [\"ConnectionException\", \"Exception\"],\n  \"q19\": [\"ConnectionExceptionHandler\", \"IRequestExceptionHandler\", \"PingResource\", \"ConnectionException\", \"RequestExceptionHandlerState\", \"Pong\", \"CancellationToken\"],\n  \"q20\": [\"ConstrainedPingedHandler\", \"INotificationHandler\", \"CancellationToken\"],\n  \"q21\": \"MediatR.Benchmarks\",\n  \"q22\": \"MediatR.Benchmarks\",\n  \"q23\": \"MediatR.Benchmarks\",\n  \"q24\": \"MediatR.DependencyInjectionTests.Abstractions\",\n  \"q25\": \"MediatR.DependencyInjectionTests.Abstractions\",\n  \"q26\": \"MediatR.DependencyInjectionTests\",\n  \"q27\": \"MediatR.DependencyInjectionTests.Contracts.Requests\",\n  \"q28\": \"MediatR.DependencyInjectionTests.Contracts.Requests\",\n  \"q29\": \"MediatR.DependencyInjectionTests.Contracts.Requests\",\n  \"q30\": \"MediatR.DependencyInjectionTests.Contracts.Requests\",\n  \"q31\": 3,\n  \"q32\": 3,\n  \"q33\": 0,\n  \"q34\": 9,\n  \"q35\": 0,\n  \"q36\": 1,\n  \"q37\": 0,\n  \"q38\": 0,\n  \"q39\": 0,\n  \"q40\": 0,\n  \"q41\": [\"_mediator\", \"_request\", \"_notification\"],\n  \"q42\": [],\n  \"q43\": [],\n  \"q44\": [],\n  \"q45\": [],\n  \"q46\": [],\n  \"q47\": [],\n  \"q48\": [],\n  \"q49\": [],\n  \"q50\": []\n}"
+    },
+    {
+      "input_tokens": 10096,
+      "output_tokens": 594,
+      "answers": {
+        "q1": [
+          "AutoFacDependencyInjectionTests",
+          "DryIocDependencyInjectionTests",
+          "LamarDependencyInjectionTests",
+          "LightInjectDependencyInjectionTests",
+          "MicrosoftDependencyInjectionTests",
+          "StashBoxDependencyInjectionTests"
+        ],
+        "q2": [
+          "GenericRequestHandlerTests"
+        ],
+        "q3": [
+          "AutoFacServiceProviderFixture",
+          "DryIocServiceProviderFixture",
+          "LamarServiceProviderFixture",
+          "LightInjectServiceProviderFixture",
+          "MicrosoftServiceProviderFixture",
+          "StashBoxServiceProviderFixture"
+        ],
+        "q4": [
+          "ForbiddenException",
+          "ResourceNotFoundException"
+        ],
+        "q5": [
+          "IRequest",
+          "IRequest"
+        ],
+        "q6": [
+          "IMediator",
+          "CustomMediator",
+          "Mediator",
+          "MyCustomMediator"
+        ],
+        "q7": [
+          "INotification",
+          "Pinged",
+          "Ponged",
+          "Ding",
+          "Pinged",
+          "Pinged"
+        ],
+        "q8": [
+          "INotificationHandler",
+          "GenericHandler",
+          "PingedHandler",
+          "PongedHandler",
+          "ConstrainedPingedHandler",
+          "PingedAlsoHandler",
+          "AsyncPingedHandler",
+          "SyncPingedHandler",
+          "NotificationHandler",
+          "PingedHandler",
+          "PingedAlsoHandler",
+          "PingedAlsoOpenHandler"
+        ],
+        "q9": [
+          "INotificationPublisher",
+          "ForeachAwaitPublisher",
+          "TaskWhenAllPublisher"
+        ],
+        "q10": [
+          "IPipelineBehavior",
+          "GenericPipelineBehavior",
+          "RequestExceptionActionProcessorBehavior",
+          "RequestExceptionProcessorBehavior",
+          "RequestPostProcessorBehavior",
+          "RequestPreProcessorBehavior",
+          "GenericPipelineBehavior"
+        ],
+        "q11": [
+          "IRequestExceptionHandler"
+        ],
+        "q12": [
+          "INotificationHandler"
+        ],
+        "q13": [
+          "BaseAssemblyResolutionTests"
+        ],
+        "q14": [
+          "BaseServiceProviderFixture"
+        ],
+        "q15": [
+          "IClassFixture"
+        ],
+        "q16": [
+          "IMediator",
+          "Ping",
+          "Pinged"
+        ],
+        "q17": [
+          "ITypeArgument"
+        ],
+        "q18": [
+          "Exception"
+        ],
+        "q19": [
+          "IRequestExceptionHandler"
+        ],
+        "q20": [
+          "INotificationHandler"
+        ],
+        "q21": "MediatR.Benchmarks",
+        "q22": "MediatR.Benchmarks",
+        "q23": "MediatR.Benchmarks",
+        "q24": "MediatR.DependencyInjectionTests.Abstractions",
+        "q25": "MediatR.DependencyInjectionTests.Abstractions",
+        "q26": "MediatR.DependencyInjectionTests",
+        "q27": "MediatR.DependencyInjectionTests.Contracts.Requests",
+        "q28": "MediatR.DependencyInjectionTests.Contracts.Requests",
+        "q29": "MediatR.DependencyInjectionTests.Contracts.Requests",
+        "q30": "MediatR.DependencyInjectionTests.Contracts.Requests",
+        "q31": 3,
+        "q32": 6,
+        "q33": 3,
+        "q34": 10,
+        "q35": 1,
+        "q36": 1,
+        "q37": 0,
+        "q38": 0,
+        "q39": 0,
+        "q40": 0,
+        "q41": [
+          "_mediator",
+          "_request",
+          "_notification"
+        ],
+        "q42": [
+          "_saveLocation"
+        ],
+        "q43": [],
+        "q44": [
+          "_provider",
+          "_services"
+        ],
+        "q45": [],
+        "q46": [],
+        "q47": [],
+        "q48": [],
+        "q49": [],
+        "q50": []
+      },
+      "raw_text": "{\"q1\":[\"AutoFacDependencyInjectionTests\",\"DryIocDependencyInjectionTests\",\"LamarDependencyInjectionTests\",\"LightInjectDependencyInjectionTests\",\"MicrosoftDependencyInjectionTests\",\"StashBoxDependencyInjectionTests\"],\"q2\":[\"GenericRequestHandlerTests\"],\"q3\":[\"AutoFacServiceProviderFixture\",\"DryIocServiceProviderFixture\",\"LamarServiceProviderFixture\",\"LightInjectServiceProviderFixture\",\"MicrosoftServiceProviderFixture\",\"StashBoxServiceProviderFixture\"],\"q4\":[\"ForbiddenException\",\"ResourceNotFoundException\"],\"q5\":[\"IRequest\",\"IRequest\"],\"q6\":[\"IMediator\",\"CustomMediator\",\"Mediator\",\"MyCustomMediator\"],\"q7\":[\"INotification\",\"Pinged\",\"Ponged\",\"Ding\",\"Pinged\",\"Pinged\"],\"q8\":[\"INotificationHandler\",\"GenericHandler\",\"PingedHandler\",\"PongedHandler\",\"ConstrainedPingedHandler\",\"PingedAlsoHandler\",\"AsyncPingedHandler\",\"SyncPingedHandler\",\"NotificationHandler\",\"PingedHandler\",\"PingedAlsoHandler\",\"PingedAlsoOpenHandler\"],\"q9\":[\"INotificationPublisher\",\"ForeachAwaitPublisher\",\"TaskWhenAllPublisher\"],\"q10\":[\"IPipelineBehavior\",\"GenericPipelineBehavior\",\"RequestExceptionActionProcessorBehavior\",\"RequestExceptionProcessorBehavior\",\"RequestPostProcessorBehavior\",\"RequestPreProcessorBehavior\",\"GenericPipelineBehavior\"],\"q11\":[\"IRequestExceptionHandler\"],\"q12\":[\"INotificationHandler\"],\"q13\":[\"BaseAssemblyResolutionTests\"],\"q14\":[\"BaseServiceProviderFixture\"],\"q15\":[\"IClassFixture\"],\"q16\":[\"IMediator\",\"Ping\",\"Pinged\"],\"q17\":[\"ITypeArgument\"],\"q18\":[\"Exception\"],\"q19\":[\"IRequestExceptionHandler\"],\"q20\":[\"INotificationHandler\"],\"q21\":\"MediatR.Benchmarks\",\"q22\":\"MediatR.Benchmarks\",\"q23\":\"MediatR.Benchmarks\",\"q24\":\"MediatR.DependencyInjectionTests.Abstractions\",\"q25\":\"MediatR.DependencyInjectionTests.Abstractions\",\"q26\":\"MediatR.DependencyInjectionTests\",\"q27\":\"MediatR.DependencyInjectionTests.Contracts.Requests\",\"q28\":\"MediatR.DependencyInjectionTests.Contracts.Requests\",\"q29\":\"MediatR.DependencyInjectionTests.Contracts.Requests\",\"q30\":\"MediatR.DependencyInjectionTests.Contracts.Requests\",\"q31\":3,\"q32\":6,\"q33\":3,\"q34\":10,\"q35\":1,\"q36\":1,\"q37\":0,\"q38\":0,\"q39\":0,\"q40\":0,\"q41\":[\"_mediator\",\"_request\",\"_notification\"],\"q42\":[\"_saveLocation\"],\"q43\":[],\"q44\":[\"_provider\",\"_services\"],\"q45\":[],\"q46\":[],\"q47\":[],\"q48\":[],\"q49\":[],\"q50\":[]}"
+    },
+    {
+      "input_tokens": 10096,
+      "output_tokens": 595,
+      "answers": {
+        "q1": [
+          "AutoFacDependencyInjectionTests",
+          "DryIocDependencyInjectionTests",
+          "LamarDependencyInjectionTests",
+          "LightInjectDependencyInjectionTests",
+          "MicrosoftDependencyInjectionTests",
+          "StashBoxDependencyInjectionTests"
+        ],
+        "q2": [
+          "GenericRequestHandlerTests"
+        ],
+        "q3": [
+          "AutoFacServiceProviderFixture",
+          "DryIocServiceProviderFixture",
+          "LamarServiceProviderFixture",
+          "LightInjectServiceProviderFixture",
+          "MicrosoftServiceProviderFixture",
+          "StashBoxServiceProviderFixture"
+        ],
+        "q4": [
+          "ForbiddenException",
+          "ResourceNotFoundException"
+        ],
+        "q5": [
+          "IRequest",
+          "IRequest"
+        ],
+        "q6": [
+          "CustomMediator",
+          "IMediator",
+          "Mediator",
+          "MyCustomMediator"
+        ],
+        "q7": [
+          "Pinged",
+          "Ponged",
+          "Ding",
+          "Pinged",
+          "Pinged",
+          "Pinged",
+          "Ding"
+        ],
+        "q8": [
+          "GenericHandler",
+          "PingedHandler",
+          "PongedHandler",
+          "ConstrainedPingedHandler",
+          "PingedAlsoHandler",
+          "AsyncPingedHandler",
+          "PingedHandler",
+          "PingedAlsoHandler",
+          "PingedAlsoOpenHandler",
+          "NotificationHandler"
+        ],
+        "q9": [
+          "ForeachAwaitPublisher",
+          "TaskWhenAllPublisher",
+          "INotificationPublisher"
+        ],
+        "q10": [
+          "GenericPipelineBehavior",
+          "RequestExceptionActionProcessorBehavior",
+          "RequestExceptionProcessorBehavior",
+          "RequestPostProcessorBehavior",
+          "RequestPreProcessorBehavior",
+          "GenericPipelineBehavior",
+          "IPipelineBehavior"
+        ],
+        "q11": [
+          "IRequestExceptionHandler"
+        ],
+        "q12": [
+          "INotificationHandler"
+        ],
+        "q13": [
+          "BaseAssemblyResolutionTests"
+        ],
+        "q14": [
+          "BaseServiceProviderFixture"
+        ],
+        "q15": [
+          "IClassFixture"
+        ],
+        "q16": [
+          "IMediator",
+          "Ping",
+          "Pinged"
+        ],
+        "q17": [
+          "ITypeArgument"
+        ],
+        "q18": [
+          "Exception"
+        ],
+        "q19": [
+          "IRequestExceptionHandler"
+        ],
+        "q20": [
+          "INotificationHandler"
+        ],
+        "q21": "MediatR.Benchmarks",
+        "q22": "MediatR.Benchmarks",
+        "q23": "MediatR.Benchmarks",
+        "q24": "MediatR.DependencyInjectionTests.Abstractions",
+        "q25": "MediatR.DependencyInjectionTests.Abstractions",
+        "q26": "MediatR.DependencyInjectionTests",
+        "q27": "MediatR.DependencyInjectionTests.Contracts.Requests",
+        "q28": "MediatR.DependencyInjectionTests.Contracts.Requests",
+        "q29": "MediatR.DependencyInjectionTests.Contracts.Requests",
+        "q30": "MediatR.DependencyInjectionTests.Contracts.Requests",
+        "q31": 3,
+        "q32": 5,
+        "q33": 3,
+        "q34": 11,
+        "q35": 1,
+        "q36": 1,
+        "q37": 0,
+        "q38": 0,
+        "q39": 0,
+        "q40": 0,
+        "q41": [
+          "_mediator",
+          "_request",
+          "_notification"
+        ],
+        "q42": [
+          "Ids",
+          "Exporters",
+          "Analysers"
+        ],
+        "q43": [],
+        "q44": [
+          "_provider",
+          "_services"
+        ],
+        "q45": [
+          "Provider"
+        ],
+        "q46": [
+          "Provider"
+        ],
+        "q47": [],
+        "q48": [],
+        "q49": [],
+        "q50": []
+      },
+      "raw_text": "{\"q1\":[\"AutoFacDependencyInjectionTests\",\"DryIocDependencyInjectionTests\",\"LamarDependencyInjectionTests\",\"LightInjectDependencyInjectionTests\",\"MicrosoftDependencyInjectionTests\",\"StashBoxDependencyInjectionTests\"],\"q2\":[\"GenericRequestHandlerTests\"],\"q3\":[\"AutoFacServiceProviderFixture\",\"DryIocServiceProviderFixture\",\"LamarServiceProviderFixture\",\"LightInjectServiceProviderFixture\",\"MicrosoftServiceProviderFixture\",\"StashBoxServiceProviderFixture\"],\"q4\":[\"ForbiddenException\",\"ResourceNotFoundException\"],\"q5\":[\"IRequest\",\"IRequest\"],\"q6\":[\"CustomMediator\",\"IMediator\",\"Mediator\",\"MyCustomMediator\"],\"q7\":[\"Pinged\",\"Ponged\",\"Ding\",\"Pinged\",\"Pinged\",\"Pinged\",\"Ding\"],\"q8\":[\"GenericHandler\",\"PingedHandler\",\"PongedHandler\",\"ConstrainedPingedHandler\",\"PingedAlsoHandler\",\"AsyncPingedHandler\",\"PingedHandler\",\"PingedAlsoHandler\",\"PingedAlsoOpenHandler\",\"NotificationHandler\"],\"q9\":[\"ForeachAwaitPublisher\",\"TaskWhenAllPublisher\",\"INotificationPublisher\"],\"q10\":[\"GenericPipelineBehavior\",\"RequestExceptionActionProcessorBehavior\",\"RequestExceptionProcessorBehavior\",\"RequestPostProcessorBehavior\",\"RequestPreProcessorBehavior\",\"GenericPipelineBehavior\",\"IPipelineBehavior\"],\"q11\":[\"IRequestExceptionHandler\"],\"q12\":[\"INotificationHandler\"],\"q13\":[\"BaseAssemblyResolutionTests\"],\"q14\":[\"BaseServiceProviderFixture\"],\"q15\":[\"IClassFixture\"],\"q16\":[\"IMediator\",\"Ping\",\"Pinged\"],\"q17\":[\"ITypeArgument\"],\"q18\":[\"Exception\"],\"q19\":[\"IRequestExceptionHandler\"],\"q20\":[\"INotificationHandler\"],\"q21\":\"MediatR.Benchmarks\",\"q22\":\"MediatR.Benchmarks\",\"q23\":\"MediatR.Benchmarks\",\"q24\":\"MediatR.DependencyInjectionTests.Abstractions\",\"q25\":\"MediatR.DependencyInjectionTests.Abstractions\",\"q26\":\"MediatR.DependencyInjectionTests\",\"q27\":\"MediatR.DependencyInjectionTests.Contracts.Requests\",\"q28\":\"MediatR.DependencyInjectionTests.Contracts.Requests\",\"q29\":\"MediatR.DependencyInjectionTests.Contracts.Requests\",\"q30\":\"MediatR.DependencyInjectionTests.Contracts.Requests\",\"q31\":3,\"q32\":5,\"q33\":3,\"q34\":11,\"q35\":1,\"q36\":1,\"q37\":0,\"q38\":0,\"q39\":0,\"q40\":0,\"q41\":[\"_mediator\",\"_request\",\"_notification\"],\"q42\":[\"Ids\",\"Exporters\",\"Analysers\"],\"q43\":[],\"q44\":[\"_provider\",\"_services\"],\"q45\":[\"Provider\"],\"q46\":[\"Provider\"],\"q47\":[],\"q48\":[],\"q49\":[],\"q50\":[]}"
+    },
+    {
+      "input_tokens": 10096,
+      "output_tokens": 580,
+      "answers": {
+        "q1": [
+          "AutoFacDependencyInjectionTests",
+          "DryIocDependencyInjectionTests",
+          "LamarDependencyInjectionTests",
+          "LightInjectDependencyInjectionTests",
+          "MicrosoftDependencyInjectionTests",
+          "StashBoxDependencyInjectionTests"
+        ],
+        "q2": [
+          "GenericRequestHandlerTests"
+        ],
+        "q3": [
+          "AutoFacServiceProviderFixture",
+          "DryIocServiceProviderFixture",
+          "LamarServiceProviderFixture",
+          "LightInjectServiceProviderFixture",
+          "MicrosoftServiceProviderFixture",
+          "StashBoxServiceProviderFixture"
+        ],
+        "q4": [
+          "ForbiddenException",
+          "ResourceNotFoundException"
+        ],
+        "q5": [
+          "IRequest",
+          "IRequest"
+        ],
+        "q6": [
+          "CustomMediator",
+          "IMediator",
+          "Mediator",
+          "MyCustomMediator"
+        ],
+        "q7": [
+          "Ding",
+          "Pinged",
+          "Ponged",
+          "Pinged",
+          "Ding",
+          "Pinged",
+          "PingedAlsoHandler",
+          "PingedAlsoOpenHandler",
+          "PingedHandler"
+        ],
+        "q8": [
+          "GenericHandler",
+          "PingedHandler",
+          "PongedHandler",
+          "ConstrainedPingedHandler",
+          "PingedAlsoHandler",
+          "AsyncPingedHandler",
+          "SyncPingedHandler",
+          "NotificationHandler",
+          "PingedHandler",
+          "PingedAlsoHandler",
+          "PingedAlsoOpenHandler"
+        ],
+        "q9": [
+          "ForeachAwaitPublisher",
+          "TaskWhenAllPublisher"
+        ],
+        "q10": [
+          "GenericPipelineBehavior",
+          "RequestExceptionActionProcessorBehavior",
+          "RequestExceptionProcessorBehavior",
+          "RequestPostProcessorBehavior",
+          "RequestPreProcessorBehavior",
+          "GenericPipelineBehavior"
+        ],
+        "q11": [
+          "IRequestExceptionHandler"
+        ],
+        "q12": [
+          "INotificationHandler"
+        ],
+        "q13": [
+          "BaseAssemblyResolutionTests"
+        ],
+        "q14": [
+          "BaseServiceProviderFixture"
+        ],
+        "q15": [
+          "IClassFixture"
+        ],
+        "q16": [
+          "IMediator",
+          "Ping",
+          "Pinged"
+        ],
+        "q17": [
+          "ITypeArgument"
+        ],
+        "q18": [
+          "Exception"
+        ],
+        "q19": [
+          "IRequestExceptionHandler"
+        ],
+        "q20": [
+          "INotificationHandler"
+        ],
+        "q21": "MediatR.Benchmarks",
+        "q22": "MediatR.Benchmarks",
+        "q23": "MediatR.Benchmarks",
+        "q24": "MediatR.DependencyInjectionTests.Abstractions",
+        "q25": "MediatR.DependencyInjectionTests.Abstractions",
+        "q26": "MediatR.DependencyInjectionTests",
+        "q27": "MediatR.DependencyInjectionTests.Contracts.Requests",
+        "q28": "MediatR.DependencyInjectionTests.Contracts.Requests",
+        "q29": "MediatR.DependencyInjectionTests.Contracts.Requests",
+        "q30": "MediatR.DependencyInjectionTests.Contracts.Requests",
+        "q31": 3,
+        "q32": 5,
+        "q33": 1,
+        "q34": 10,
+        "q35": 0,
+        "q36": 1,
+        "q37": 0,
+        "q38": 0,
+        "q39": 0,
+        "q40": 0,
+        "q41": [
+          "_request",
+          "_notification"
+        ],
+        "q42": [],
+        "q43": [],
+        "q44": [],
+        "q45": [],
+        "q46": [],
+        "q47": [],
+        "q48": [],
+        "q49": [],
+        "q50": []
+      },
+      "raw_text": "{\"q1\":[\"AutoFacDependencyInjectionTests\",\"DryIocDependencyInjectionTests\",\"LamarDependencyInjectionTests\",\"LightInjectDependencyInjectionTests\",\"MicrosoftDependencyInjectionTests\",\"StashBoxDependencyInjectionTests\"],\"q2\":[\"GenericRequestHandlerTests\"],\"q3\":[\"AutoFacServiceProviderFixture\",\"DryIocServiceProviderFixture\",\"LamarServiceProviderFixture\",\"LightInjectServiceProviderFixture\",\"MicrosoftServiceProviderFixture\",\"StashBoxServiceProviderFixture\"],\"q4\":[\"ForbiddenException\",\"ResourceNotFoundException\"],\"q5\":[\"IRequest\",\"IRequest\"],\"q6\":[\"CustomMediator\",\"IMediator\",\"Mediator\",\"MyCustomMediator\"],\"q7\":[\"Ding\",\"Pinged\",\"Ponged\",\"Pinged\",\"Ding\",\"Pinged\",\"PingedAlsoHandler\",\"PingedAlsoOpenHandler\",\"PingedHandler\"],\"q8\":[\"GenericHandler\",\"PingedHandler\",\"PongedHandler\",\"ConstrainedPingedHandler\",\"PingedAlsoHandler\",\"AsyncPingedHandler\",\"SyncPingedHandler\",\"NotificationHandler\",\"PingedHandler\",\"PingedAlsoHandler\",\"PingedAlsoOpenHandler\"],\"q9\":[\"ForeachAwaitPublisher\",\"TaskWhenAllPublisher\"],\"q10\":[\"GenericPipelineBehavior\",\"RequestExceptionActionProcessorBehavior\",\"RequestExceptionProcessorBehavior\",\"RequestPostProcessorBehavior\",\"RequestPreProcessorBehavior\",\"GenericPipelineBehavior\"],\"q11\":[\"IRequestExceptionHandler\"],\"q12\":[\"INotificationHandler\"],\"q13\":[\"BaseAssemblyResolutionTests\"],\"q14\":[\"BaseServiceProviderFixture\"],\"q15\":[\"IClassFixture\"],\"q16\":[\"IMediator\",\"Ping\",\"Pinged\"],\"q17\":[\"ITypeArgument\"],\"q18\":[\"Exception\"],\"q19\":[\"IRequestExceptionHandler\"],\"q20\":[\"INotificationHandler\"],\"q21\":\"MediatR.Benchmarks\",\"q22\":\"MediatR.Benchmarks\",\"q23\":\"MediatR.Benchmarks\",\"q24\":\"MediatR.DependencyInjectionTests.Abstractions\",\"q25\":\"MediatR.DependencyInjectionTests.Abstractions\",\"q26\":\"MediatR.DependencyInjectionTests\",\"q27\":\"MediatR.DependencyInjectionTests.Contracts.Requests\",\"q28\":\"MediatR.DependencyInjectionTests.Contracts.Requests\",\"q29\":\"MediatR.DependencyInjectionTests.Contracts.Requests\",\"q30\":\"MediatR.DependencyInjectionTests.Contracts.Requests\",\"q31\":3,\"q32\":5,\"q33\":1,\"q34\":10,\"q35\":0,\"q36\":1,\"q37\":0,\"q38\":0,\"q39\":0,\"q40\":0,\"q41\":[\"_request\",\"_notification\"],\"q42\":[],\"q43\":[],\"q44\":[],\"q45\":[],\"q46\":[],\"q47\":[],\"q48\":[],\"q49\":[],\"q50\":[]}"
+    }
+  ]
+}

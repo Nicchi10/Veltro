@@ -1,0 +1,764 @@
+{
+  "project": "MediatR",
+  "provider": "openai",
+  "format": "d2",
+  "model": "gpt-4.1-mini",
+  "runs": [
+    {
+      "input_tokens": 16055,
+      "output_tokens": 1222,
+      "answers": {
+        "q1": [
+          "MediatR.DependencyInjectionTests.AutoFacDependencyInjectionTests",
+          "MediatR.DependencyInjectionTests.DryIocDependencyInjectionTests",
+          "MediatR.DependencyInjectionTests.LamarDependencyInjectionTests",
+          "MediatR.DependencyInjectionTests.LightInjectDependencyInjectionTests",
+          "MediatR.DependencyInjectionTests.MicrosoftDependencyInjectionTests",
+          "MediatR.DependencyInjectionTests.StashBoxDependencyInjectionTests"
+        ],
+        "q2": [
+          "MediatR.Tests.GenericRequestHandlerTests"
+        ],
+        "q3": [
+          "MediatR.DependencyInjectionTests.Providers.AutoFacServiceProviderFixture",
+          "MediatR.DependencyInjectionTests.Providers.DryIocServiceProviderFixture",
+          "MediatR.DependencyInjectionTests.Providers.LamarServiceProviderFixture",
+          "MediatR.DependencyInjectionTests.Providers.LightInjectServiceProviderFixture",
+          "MediatR.DependencyInjectionTests.Providers.MicrosoftServiceProviderFixture",
+          "MediatR.DependencyInjectionTests.Providers.StashBoxServiceProviderFixture"
+        ],
+        "q4": [
+          "MediatR.Examples.ExceptionHandler.ForbiddenException",
+          "MediatR.Examples.ExceptionHandler.ResourceNotFoundException"
+        ],
+        "q5": [
+          "MediatR.Examples.Jing",
+          "Ping",
+          "MediatR.Extensions.Microsoft.DependencyInjection.Tests.InternalPing",
+          "MediatR.DependencyInjectionTests.Contracts.Requests.InternalVoidPing",
+          "MediatR.DependencyInjectionTests.Contracts.Requests.PrivatePing",
+          "MediatR.DependencyInjectionTests.Contracts.Requests.PrivateVoidPing",
+          "MediatR.DependencyInjectionTests.Contracts.Requests.PublicPing",
+          "MediatR.DependencyInjectionTests.Contracts.Requests.PublicVoidPing",
+          "MediatR.Extensions.Microsoft.DependencyInjection.Tests.Zing",
+          "Ding",
+          "MediatR.Extensions.Microsoft.DependencyInjection.Tests.DuplicateTest",
+          "MediatR.Extensions.Microsoft.DependencyInjection.Tests.OpenGenericVoidRequest",
+          "MediatR.Extensions.Microsoft.DependencyInjection.Tests.OpenGenericReturnTypeRequest",
+          "MediatR.Extensions.Microsoft.DependencyInjection.Tests.GenericPing",
+          "MediatR.Extensions.Microsoft.DependencyInjection.Tests.VoidGenericPing",
+          "MediatR.Extensions.Microsoft.DependencyInjection.Tests.Included.Foo"
+        ],
+        "q6": [
+          "MediatR.Mediator",
+          "MediatR.Examples.PublishStrategies.CustomMediator",
+          "MediatR.Extensions.Microsoft.DependencyInjection.Tests.MyCustomMediator"
+        ],
+        "q7": [
+          "Pinged",
+          "MediatR.Examples.Ponged",
+          "Pinged",
+          "Ding"
+        ],
+        "q8": [
+          "MediatR.Examples.GenericHandler",
+          "PingedHandler",
+          "MediatR.Examples.PongedHandler",
+          "MediatR.Examples.ConstrainedPingedHandler",
+          "PingedAlsoHandler",
+          "MediatR.Examples.PublishStrategies.AsyncPingedHandler",
+          "MediatR.Examples.PublishStrategies.SyncPingedHandler",
+          "MediatR.Extensions.Microsoft.DependencyInjection.Tests.GenericHandler",
+          "PingedHandler",
+          "PingedAlsoHandler",
+          "MediatR.Extensions.Microsoft.DependencyInjection.Tests.PingedAlsoOpenHandler"
+        ],
+        "q9": [
+          "MediatR.NotificationPublishers.ForeachAwaitPublisher",
+          "MediatR.NotificationPublishers.TaskWhenAllPublisher"
+        ],
+        "q10": [
+          "MediatR.Examples.GenericPipelineBehavior",
+          "MediatR.Benchmarks.GenericPipelineBehavior",
+          "MediatR.Pipeline.RequestExceptionActionProcessorBehavior",
+          "MediatR.Pipeline.RequestExceptionProcessorBehavior",
+          "MediatR.Pipeline.RequestPostProcessorBehavior",
+          "MediatR.Pipeline.RequestPreProcessorBehavior",
+          "GenericPipelineBehavior"
+        ],
+        "q11": [
+          "MediatR.Pipeline.IRequestExceptionHandler"
+        ],
+        "q12": [
+          "MediatR.INotificationHandler"
+        ],
+        "q13": [
+          "MediatR.DependencyInjectionTests.Abstractions.BaseAssemblyResolutionTests"
+        ],
+        "q14": [
+          "MediatR.DependencyInjectionTests.Abstractions.BaseServiceProviderFixture"
+        ],
+        "q15": [
+          "IClassFixture"
+        ],
+        "q16": [],
+        "q17": [
+          "MediatR.Extensions.Microsoft.DependencyInjection.Tests.ITypeArgument"
+        ],
+        "q18": [
+          "Exception"
+        ],
+        "q19": [
+          "MediatR.Pipeline.IRequestExceptionHandler"
+        ],
+        "q20": [
+          "MediatR.INotificationHandler"
+        ],
+        "q21": "MediatR.Benchmarks",
+        "q22": "MediatR.Benchmarks",
+        "q23": "MediatR.Benchmarks",
+        "q24": "MediatR.DependencyInjectionTests.Abstractions",
+        "q25": "MediatR.DependencyInjectionTests.Abstractions",
+        "q26": "MediatR.DependencyInjectionTests",
+        "q27": "MediatR.DependencyInjectionTests.Contracts.Requests",
+        "q28": "MediatR.DependencyInjectionTests.Contracts.Requests",
+        "q29": "MediatR.DependencyInjectionTests.Contracts.Requests",
+        "q30": "MediatR.DependencyInjectionTests.Contracts.Requests",
+        "q31": 3,
+        "q32": 8,
+        "q33": 2,
+        "q34": 7,
+        "q35": 1,
+        "q36": 1,
+        "q37": 0,
+        "q38": 0,
+        "q39": 0,
+        "q40": 0,
+        "q41": [],
+        "q42": [
+          "Ids",
+          "Exporters",
+          "Analysers"
+        ],
+        "q43": [],
+        "q44": [],
+        "q45": [],
+        "q46": [],
+        "q47": [],
+        "q48": [],
+        "q49": [],
+        "q50": []
+      },
+      "raw_text": "{\n  \"q1\": [\"MediatR.DependencyInjectionTests.AutoFacDependencyInjectionTests\", \"MediatR.DependencyInjectionTests.DryIocDependencyInjectionTests\", \"MediatR.DependencyInjectionTests.LamarDependencyInjectionTests\", \"MediatR.DependencyInjectionTests.LightInjectDependencyInjectionTests\", \"MediatR.DependencyInjectionTests.MicrosoftDependencyInjectionTests\", \"MediatR.DependencyInjectionTests.StashBoxDependencyInjectionTests\"],\n  \"q2\": [\"MediatR.Tests.GenericRequestHandlerTests\"],\n  \"q3\": [\"MediatR.DependencyInjectionTests.Providers.AutoFacServiceProviderFixture\", \"MediatR.DependencyInjectionTests.Providers.DryIocServiceProviderFixture\", \"MediatR.DependencyInjectionTests.Providers.LamarServiceProviderFixture\", \"MediatR.DependencyInjectionTests.Providers.LightInjectServiceProviderFixture\", \"MediatR.DependencyInjectionTests.Providers.MicrosoftServiceProviderFixture\", \"MediatR.DependencyInjectionTests.Providers.StashBoxServiceProviderFixture\"],\n  \"q4\": [\"MediatR.Examples.ExceptionHandler.ForbiddenException\", \"MediatR.Examples.ExceptionHandler.ResourceNotFoundException\"],\n  \"q5\": [\"MediatR.Examples.Jing\", \"Ping\", \"MediatR.Extensions.Microsoft.DependencyInjection.Tests.InternalPing\", \"MediatR.DependencyInjectionTests.Contracts.Requests.InternalVoidPing\", \"MediatR.DependencyInjectionTests.Contracts.Requests.PrivatePing\", \"MediatR.DependencyInjectionTests.Contracts.Requests.PrivateVoidPing\", \"MediatR.DependencyInjectionTests.Contracts.Requests.PublicPing\", \"MediatR.DependencyInjectionTests.Contracts.Requests.PublicVoidPing\", \"MediatR.Extensions.Microsoft.DependencyInjection.Tests.Zing\", \"Ding\", \"MediatR.Extensions.Microsoft.DependencyInjection.Tests.DuplicateTest\", \"MediatR.Extensions.Microsoft.DependencyInjection.Tests.OpenGenericVoidRequest\", \"MediatR.Extensions.Microsoft.DependencyInjection.Tests.OpenGenericReturnTypeRequest\", \"MediatR.Extensions.Microsoft.DependencyInjection.Tests.GenericPing\", \"MediatR.Extensions.Microsoft.DependencyInjection.Tests.VoidGenericPing\", \"MediatR.Extensions.Microsoft.DependencyInjection.Tests.Included.Foo\"],\n  \"q6\": [\"MediatR.Mediator\", \"MediatR.Examples.PublishStrategies.CustomMediator\", \"MediatR.Extensions.Microsoft.DependencyInjection.Tests.MyCustomMediator\"],\n  \"q7\": [\"Pinged\", \"MediatR.Examples.Ponged\", \"Pinged\", \"Ding\"],\n  \"q8\": [\"MediatR.Examples.GenericHandler\", \"PingedHandler\", \"MediatR.Examples.PongedHandler\", \"MediatR.Examples.ConstrainedPingedHandler\", \"PingedAlsoHandler\", \"MediatR.Examples.PublishStrategies.AsyncPingedHandler\", \"MediatR.Examples.PublishStrategies.SyncPingedHandler\", \"MediatR.Extensions.Microsoft.DependencyInjection.Tests.GenericHandler\", \"PingedHandler\", \"PingedAlsoHandler\", \"MediatR.Extensions.Microsoft.DependencyInjection.Tests.PingedAlsoOpenHandler\"],\n  \"q9\": [\"MediatR.NotificationPublishers.ForeachAwaitPublisher\", \"MediatR.NotificationPublishers.TaskWhenAllPublisher\"],\n  \"q10\": [\"MediatR.Examples.GenericPipelineBehavior\", \"MediatR.Benchmarks.GenericPipelineBehavior\", \"MediatR.Pipeline.RequestExceptionActionProcessorBehavior\", \"MediatR.Pipeline.RequestExceptionProcessorBehavior\", \"MediatR.Pipeline.RequestPostProcessorBehavior\", \"MediatR.Pipeline.RequestPreProcessorBehavior\", \"GenericPipelineBehavior\"],\n  \"q11\": [\"MediatR.Pipeline.IRequestExceptionHandler\"],\n  \"q12\": [\"MediatR.INotificationHandler\"],\n  \"q13\": [\"MediatR.DependencyInjectionTests.Abstractions.BaseAssemblyResolutionTests\"],\n  \"q14\": [\"MediatR.DependencyInjectionTests.Abstractions.BaseServiceProviderFixture\"],\n  \"q15\": [\"IClassFixture\"],\n  \"q16\": [],\n  \"q17\": [\"MediatR.Extensions.Microsoft.DependencyInjection.Tests.ITypeArgument\"],\n  \"q18\": [\"Exception\"],\n  \"q19\": [\"MediatR.Pipeline.IRequestExceptionHandler\"],\n  \"q20\": [\"MediatR.INotificationHandler\"],\n  \"q21\": \"MediatR.Benchmarks\",\n  \"q22\": \"MediatR.Benchmarks\",\n  \"q23\": \"MediatR.Benchmarks\",\n  \"q24\": \"MediatR.DependencyInjectionTests.Abstractions\",\n  \"q25\": \"MediatR.DependencyInjectionTests.Abstractions\",\n  \"q26\": \"MediatR.DependencyInjectionTests\",\n  \"q27\": \"MediatR.DependencyInjectionTests.Contracts.Requests\",\n  \"q28\": \"MediatR.DependencyInjectionTests.Contracts.Requests\",\n  \"q29\": \"MediatR.DependencyInjectionTests.Contracts.Requests\",\n  \"q30\": \"MediatR.DependencyInjectionTests.Contracts.Requests\",\n  \"q31\": 3,\n  \"q32\": 8,\n  \"q33\": 2,\n  \"q34\": 7,\n  \"q35\": 1,\n  \"q36\": 1,\n  \"q37\": 0,\n  \"q38\": 0,\n  \"q39\": 0,\n  \"q40\": 0,\n  \"q41\": [],\n  \"q42\": [\"Ids\", \"Exporters\", \"Analysers\"],\n  \"q43\": [],\n  \"q44\": [],\n  \"q45\": [],\n  \"q46\": [],\n  \"q47\": [],\n  \"q48\": [],\n  \"q49\": [],\n  \"q50\": []\n}"
+    },
+    {
+      "input_tokens": 16055,
+      "output_tokens": 1412,
+      "answers": {
+        "q1": [
+          "MediatR.DependencyInjectionTests.AutoFacDependencyInjectionTests",
+          "MediatR.DependencyInjectionTests.DryIocDependencyInjectionTests",
+          "MediatR.DependencyInjectionTests.LamarDependencyInjectionTests",
+          "MediatR.DependencyInjectionTests.LightInjectDependencyInjectionTests",
+          "MediatR.DependencyInjectionTests.MicrosoftDependencyInjectionTests",
+          "MediatR.DependencyInjectionTests.StashBoxDependencyInjectionTests"
+        ],
+        "q2": [
+          "MediatR.Tests.GenericRequestHandlerTests"
+        ],
+        "q3": [
+          "MediatR.DependencyInjectionTests.Providers.AutoFacServiceProviderFixture",
+          "MediatR.DependencyInjectionTests.Providers.DryIocServiceProviderFixture",
+          "MediatR.DependencyInjectionTests.Providers.LamarServiceProviderFixture",
+          "MediatR.DependencyInjectionTests.Providers.LightInjectServiceProviderFixture",
+          "MediatR.DependencyInjectionTests.Providers.MicrosoftServiceProviderFixture",
+          "MediatR.DependencyInjectionTests.Providers.StashBoxServiceProviderFixture"
+        ],
+        "q4": [
+          "MediatR.Examples.ExceptionHandler.ForbiddenException",
+          "MediatR.Examples.ExceptionHandler.ResourceNotFoundException"
+        ],
+        "q5": [
+          "MediatR.Examples.Jing",
+          "Ping",
+          "InternalPing",
+          "MediatR.DependencyInjectionTests.Contracts.Requests.InternalVoidPing",
+          "MediatR.DependencyInjectionTests.Contracts.Requests.PrivatePing",
+          "MediatR.DependencyInjectionTests.Contracts.Requests.PrivateVoidPing",
+          "MediatR.DependencyInjectionTests.Contracts.Requests.PublicPing",
+          "MediatR.DependencyInjectionTests.Contracts.Requests.PublicVoidPing",
+          "MediatR.Extensions.Microsoft.DependencyInjection.Tests.Ding",
+          "MediatR.Extensions.Microsoft.DependencyInjection.Tests.Zing",
+          "MediatR.Extensions.Microsoft.DependencyInjection.Tests.DuplicateTest",
+          "MediatR.Extensions.Microsoft.DependencyInjection.Tests.OpenGenericVoidRequest",
+          "MediatR.Extensions.Microsoft.DependencyInjection.Tests.OpenGenericReturnTypeRequest",
+          "MediatR.Extensions.Microsoft.DependencyInjection.Tests.GenericPing",
+          "MediatR.Extensions.Microsoft.DependencyInjection.Tests.VoidGenericPing",
+          "MediatR.Extensions.Microsoft.DependencyInjection.Tests.Included.Foo"
+        ],
+        "q6": [
+          "MediatR.Mediator",
+          "MediatR.Examples.PublishStrategies.CustomMediator",
+          "MediatR.Extensions.Microsoft.DependencyInjection.Tests.MyCustomMediator"
+        ],
+        "q7": [
+          "Pinged",
+          "MediatR.Examples.Ponged",
+          "MediatR.DependencyInjectionTests.Contracts.Notifications.Ding",
+          "MediatR.Extensions.Microsoft.DependencyInjection.Tests.Pinged",
+          "Ding"
+        ],
+        "q8": [
+          "MediatR.Examples.GenericHandler",
+          "PingedHandler",
+          "MediatR.Examples.PongedHandler",
+          "MediatR.Examples.ConstrainedPingedHandler",
+          "PingedAlsoHandler",
+          "MediatR.Examples.PublishStrategies.AsyncPingedHandler",
+          "MediatR.Examples.PublishStrategies.SyncPingedHandler",
+          "GenericHandler",
+          "PingedHandler",
+          "PingedAlsoHandler",
+          "MediatR.Extensions.Microsoft.DependencyInjection.Tests.GenericHandler",
+          "MediatR.Extensions.Microsoft.DependencyInjection.Tests.PingedHandler",
+          "MediatR.Extensions.Microsoft.DependencyInjection.Tests.PingedAlsoHandler",
+          "MediatR.Extensions.Microsoft.DependencyInjection.Tests.PingedAlsoOpenHandler"
+        ],
+        "q9": [
+          "MediatR.NotificationPublishers.ForeachAwaitPublisher",
+          "MediatR.NotificationPublishers.TaskWhenAllPublisher"
+        ],
+        "q10": [
+          "GenericPipelineBehavior",
+          "MediatR.Benchmarks.GenericPipelineBehavior",
+          "MediatR.Pipeline.RequestExceptionActionProcessorBehavior",
+          "MediatR.Pipeline.RequestExceptionProcessorBehavior",
+          "MediatR.Pipeline.RequestPostProcessorBehavior",
+          "MediatR.Pipeline.RequestPreProcessorBehavior"
+        ],
+        "q11": [
+          "MediatR.Pipeline.IRequestExceptionHandler"
+        ],
+        "q12": [
+          "MediatR.INotificationHandler"
+        ],
+        "q13": [
+          "MediatR.DependencyInjectionTests.Abstractions.BaseAssemblyResolutionTests"
+        ],
+        "q14": [
+          "MediatR.DependencyInjectionTests.Abstractions.BaseServiceProviderFixture"
+        ],
+        "q15": [
+          "IClassFixture"
+        ],
+        "q16": [],
+        "q17": [
+          "MediatR.Extensions.Microsoft.DependencyInjection.Tests.ITypeArgument"
+        ],
+        "q18": [
+          "Exception"
+        ],
+        "q19": [
+          "MediatR.Pipeline.IRequestExceptionHandler"
+        ],
+        "q20": [
+          "MediatR.INotificationHandler"
+        ],
+        "q21": "MediatR.Benchmarks",
+        "q22": "MediatR.Benchmarks",
+        "q23": "MediatR.Benchmarks",
+        "q24": "MediatR.DependencyInjectionTests.Abstractions",
+        "q25": "MediatR.DependencyInjectionTests.Abstractions",
+        "q26": "MediatR.DependencyInjectionTests",
+        "q27": "MediatR.DependencyInjectionTests.Contracts.Requests",
+        "q28": "MediatR.DependencyInjectionTests.Contracts.Requests",
+        "q29": "MediatR.DependencyInjectionTests.Contracts.Requests",
+        "q30": "MediatR.DependencyInjectionTests.Contracts.Requests",
+        "q31": 3,
+        "q32": 8,
+        "q33": 2,
+        "q34": 10,
+        "q35": 1,
+        "q36": 1,
+        "q37": 0,
+        "q38": 0,
+        "q39": 0,
+        "q40": 1,
+        "q41": [],
+        "q42": [
+          "Ids",
+          "Exporters",
+          "Analysers"
+        ],
+        "q43": [
+          "Config"
+        ],
+        "q44": [],
+        "q45": [],
+        "q46": [],
+        "q47": [],
+        "q48": [],
+        "q49": [],
+        "q50": []
+      },
+      "raw_text": "{\n  \"q1\": [\n    \"MediatR.DependencyInjectionTests.AutoFacDependencyInjectionTests\",\n    \"MediatR.DependencyInjectionTests.DryIocDependencyInjectionTests\",\n    \"MediatR.DependencyInjectionTests.LamarDependencyInjectionTests\",\n    \"MediatR.DependencyInjectionTests.LightInjectDependencyInjectionTests\",\n    \"MediatR.DependencyInjectionTests.MicrosoftDependencyInjectionTests\",\n    \"MediatR.DependencyInjectionTests.StashBoxDependencyInjectionTests\"\n  ],\n  \"q2\": [\n    \"MediatR.Tests.GenericRequestHandlerTests\"\n  ],\n  \"q3\": [\n    \"MediatR.DependencyInjectionTests.Providers.AutoFacServiceProviderFixture\",\n    \"MediatR.DependencyInjectionTests.Providers.DryIocServiceProviderFixture\",\n    \"MediatR.DependencyInjectionTests.Providers.LamarServiceProviderFixture\",\n    \"MediatR.DependencyInjectionTests.Providers.LightInjectServiceProviderFixture\",\n    \"MediatR.DependencyInjectionTests.Providers.MicrosoftServiceProviderFixture\",\n    \"MediatR.DependencyInjectionTests.Providers.StashBoxServiceProviderFixture\"\n  ],\n  \"q4\": [\n    \"MediatR.Examples.ExceptionHandler.ForbiddenException\",\n    \"MediatR.Examples.ExceptionHandler.ResourceNotFoundException\"\n  ],\n  \"q5\": [\n    \"MediatR.Examples.Jing\",\n    \"Ping\",\n    \"InternalPing\",\n    \"MediatR.DependencyInjectionTests.Contracts.Requests.InternalVoidPing\",\n    \"MediatR.DependencyInjectionTests.Contracts.Requests.PrivatePing\",\n    \"MediatR.DependencyInjectionTests.Contracts.Requests.PrivateVoidPing\",\n    \"MediatR.DependencyInjectionTests.Contracts.Requests.PublicPing\",\n    \"MediatR.DependencyInjectionTests.Contracts.Requests.PublicVoidPing\",\n    \"MediatR.Extensions.Microsoft.DependencyInjection.Tests.Ding\",\n    \"MediatR.Extensions.Microsoft.DependencyInjection.Tests.Zing\",\n    \"MediatR.Extensions.Microsoft.DependencyInjection.Tests.DuplicateTest\",\n    \"MediatR.Extensions.Microsoft.DependencyInjection.Tests.OpenGenericVoidRequest\",\n    \"MediatR.Extensions.Microsoft.DependencyInjection.Tests.OpenGenericReturnTypeRequest\",\n    \"MediatR.Extensions.Microsoft.DependencyInjection.Tests.GenericPing\",\n    \"MediatR.Extensions.Microsoft.DependencyInjection.Tests.VoidGenericPing\",\n    \"MediatR.Extensions.Microsoft.DependencyInjection.Tests.Included.Foo\"\n  ],\n  \"q6\": [\n    \"MediatR.Mediator\",\n    \"MediatR.Examples.PublishStrategies.CustomMediator\",\n    \"MediatR.Extensions.Microsoft.DependencyInjection.Tests.MyCustomMediator\"\n  ],\n  \"q7\": [\n    \"Pinged\",\n    \"MediatR.Examples.Ponged\",\n    \"MediatR.DependencyInjectionTests.Contracts.Notifications.Ding\",\n    \"MediatR.Extensions.Microsoft.DependencyInjection.Tests.Pinged\",\n    \"Ding\"\n  ],\n  \"q8\": [\n    \"MediatR.Examples.GenericHandler\",\n    \"PingedHandler\",\n    \"MediatR.Examples.PongedHandler\",\n    \"MediatR.Examples.ConstrainedPingedHandler\",\n    \"PingedAlsoHandler\",\n    \"MediatR.Examples.PublishStrategies.AsyncPingedHandler\",\n    \"MediatR.Examples.PublishStrategies.SyncPingedHandler\",\n    \"GenericHandler\",\n    \"PingedHandler\",\n    \"PingedAlsoHandler\",\n    \"MediatR.Extensions.Microsoft.DependencyInjection.Tests.GenericHandler\",\n    \"MediatR.Extensions.Microsoft.DependencyInjection.Tests.PingedHandler\",\n    \"MediatR.Extensions.Microsoft.DependencyInjection.Tests.PingedAlsoHandler\",\n    \"MediatR.Extensions.Microsoft.DependencyInjection.Tests.PingedAlsoOpenHandler\"\n  ],\n  \"q9\": [\n    \"MediatR.NotificationPublishers.ForeachAwaitPublisher\",\n    \"MediatR.NotificationPublishers.TaskWhenAllPublisher\"\n  ],\n  \"q10\": [\n    \"GenericPipelineBehavior\",\n    \"MediatR.Benchmarks.GenericPipelineBehavior\",\n    \"MediatR.Pipeline.RequestExceptionActionProcessorBehavior\",\n    \"MediatR.Pipeline.RequestExceptionProcessorBehavior\",\n    \"MediatR.Pipeline.RequestPostProcessorBehavior\",\n    \"MediatR.Pipeline.RequestPreProcessorBehavior\"\n  ],\n  \"q11\": [\n    \"MediatR.Pipeline.IRequestExceptionHandler\"\n  ],\n  \"q12\": [\n    \"MediatR.INotificationHandler\"\n  ],\n  \"q13\": [\n    \"MediatR.DependencyInjectionTests.Abstractions.BaseAssemblyResolutionTests\"\n  ],\n  \"q14\": [\n    \"MediatR.DependencyInjectionTests.Abstractions.BaseServiceProviderFixture\"\n  ],\n  \"q15\": [\n    \"IClassFixture\"\n  ],\n  \"q16\": [],\n  \"q17\": [\n    \"MediatR.Extensions.Microsoft.DependencyInjection.Tests.ITypeArgument\"\n  ],\n  \"q18\": [\n    \"Exception\"\n  ],\n  \"q19\": [\n    \"MediatR.Pipeline.IRequestExceptionHandler\"\n  ],\n  \"q20\": [\n    \"MediatR.INotificationHandler\"\n  ],\n  \"q21\": \"MediatR.Benchmarks\",\n  \"q22\": \"MediatR.Benchmarks\",\n  \"q23\": \"MediatR.Benchmarks\",\n  \"q24\": \"MediatR.DependencyInjectionTests.Abstractions\",\n  \"q25\": \"MediatR.DependencyInjectionTests.Abstractions\",\n  \"q26\": \"MediatR.DependencyInjectionTests\",\n  \"q27\": \"MediatR.DependencyInjectionTests.Contracts.Requests\",\n  \"q28\": \"MediatR.DependencyInjectionTests.Contracts.Requests\",\n  \"q29\": \"MediatR.DependencyInjectionTests.Contracts.Requests\",\n  \"q30\": \"MediatR.DependencyInjectionTests.Contracts.Requests\",\n  \"q31\": 3,\n  \"q32\": 8,\n  \"q33\": 2,\n  \"q34\": 10,\n  \"q35\": 1,\n  \"q36\": 1,\n  \"q37\": 0,\n  \"q38\": 0,\n  \"q39\": 0,\n  \"q40\": 1,\n  \"q41\": [],\n  \"q42\": [\n    \"Ids\",\n    \"Exporters\",\n    \"Analysers\"\n  ],\n  \"q43\": [\n    \"Config\"\n  ],\n  \"q44\": [],\n  \"q45\": [],\n  \"q46\": [],\n  \"q47\": [],\n  \"q48\": [],\n  \"q49\": [],\n  \"q50\": []\n}"
+    },
+    {
+      "input_tokens": 16055,
+      "output_tokens": 1432,
+      "answers": {
+        "q1": [
+          "MediatR.DependencyInjectionTests.AutoFacDependencyInjectionTests",
+          "MediatR.DependencyInjectionTests.DryIocDependencyInjectionTests",
+          "MediatR.DependencyInjectionTests.LamarDependencyInjectionTests",
+          "MediatR.DependencyInjectionTests.LightInjectDependencyInjectionTests",
+          "MediatR.DependencyInjectionTests.MicrosoftDependencyInjectionTests",
+          "MediatR.DependencyInjectionTests.StashBoxDependencyInjectionTests"
+        ],
+        "q2": [
+          "MediatR.Tests.GenericRequestHandlerTests"
+        ],
+        "q3": [
+          "MediatR.DependencyInjectionTests.Providers.AutoFacServiceProviderFixture",
+          "MediatR.DependencyInjectionTests.Providers.DryIocServiceProviderFixture",
+          "MediatR.DependencyInjectionTests.Providers.LamarServiceProviderFixture",
+          "MediatR.DependencyInjectionTests.Providers.LightInjectServiceProviderFixture",
+          "MediatR.DependencyInjectionTests.Providers.MicrosoftServiceProviderFixture",
+          "MediatR.DependencyInjectionTests.Providers.StashBoxServiceProviderFixture"
+        ],
+        "q4": [
+          "MediatR.Examples.ExceptionHandler.ForbiddenException",
+          "MediatR.Examples.ExceptionHandler.ResourceNotFoundException"
+        ],
+        "q5": [
+          "MediatR.Examples.Jing",
+          "Ping",
+          "InternalPing",
+          "MediatR.DependencyInjectionTests.Contracts.Requests.InternalVoidPing",
+          "MediatR.DependencyInjectionTests.Contracts.Requests.PrivatePing",
+          "MediatR.DependencyInjectionTests.Contracts.Requests.PrivateVoidPing",
+          "MediatR.DependencyInjectionTests.Contracts.Requests.PublicPing",
+          "MediatR.DependencyInjectionTests.Contracts.Requests.PublicVoidPing",
+          "MediatR.Extensions.Microsoft.DependencyInjection.Tests.Ding",
+          "MediatR.Extensions.Microsoft.DependencyInjection.Tests.GenericPing",
+          "MediatR.Extensions.Microsoft.DependencyInjection.Tests.InternalPing",
+          "MediatR.Extensions.Microsoft.DependencyInjection.Tests.OpenGenericVoidRequest",
+          "MediatR.Extensions.Microsoft.DependencyInjection.Tests.OpenGenericReturnTypeRequest",
+          "MediatR.Extensions.Microsoft.DependencyInjection.Tests.VoidGenericPing",
+          "MediatR.Extensions.Microsoft.DependencyInjection.Tests.Included.Foo",
+          "Ding",
+          "Ping",
+          "MediatR.Extensions.Microsoft.DependencyInjection.Tests.DuplicateTest",
+          "Zing"
+        ],
+        "q6": [
+          "MediatR.Mediator",
+          "MediatR.Examples.PublishStrategies.CustomMediator",
+          "MediatR.Extensions.Microsoft.DependencyInjection.Tests.MyCustomMediator"
+        ],
+        "q7": [
+          "Pinged",
+          "MediatR.Examples.Ponged",
+          "MediatR.Examples.Pinged",
+          "MediatR.Extensions.Microsoft.DependencyInjection.Tests.Ding",
+          "MediatR.Extensions.Microsoft.DependencyInjection.Tests.Pinged",
+          "MediatR.Extensions.Microsoft.DependencyInjection.Tests.DerivedPing",
+          "MediatR.Extensions.Microsoft.DependencyInjection.Tests.Pinged"
+        ],
+        "q8": [
+          "GenericHandler",
+          "PingedHandler",
+          "MediatR.Examples.PongedHandler",
+          "MediatR.Examples.ConstrainedPingedHandler",
+          "PingedAlsoHandler",
+          "MediatR.Examples.PublishStrategies.AsyncPingedHandler",
+          "MediatR.Examples.PublishStrategies.SyncPingedHandler",
+          "GenericHandler",
+          "PingedHandler",
+          "PingedAlsoHandler",
+          "MediatR.Extensions.Microsoft.DependencyInjection.Tests.PingedAlsoOpenHandler"
+        ],
+        "q9": [
+          "MediatR.NotificationPublishers.ForeachAwaitPublisher",
+          "MediatR.NotificationPublishers.TaskWhenAllPublisher"
+        ],
+        "q10": [
+          "GenericPipelineBehavior",
+          "MediatR.Benchmarks.GenericPipelineBehavior",
+          "MediatR.Pipeline.RequestExceptionActionProcessorBehavior",
+          "MediatR.Pipeline.RequestExceptionProcessorBehavior",
+          "MediatR.Pipeline.RequestPostProcessorBehavior",
+          "MediatR.Pipeline.RequestPreProcessorBehavior",
+          "GenericPipelineBehavior",
+          "GenericRequestPostProcessor",
+          "GenericRequestPreProcessor"
+        ],
+        "q11": [
+          "MediatR.Pipeline.IRequestExceptionHandler"
+        ],
+        "q12": [
+          "MediatR.INotificationHandler"
+        ],
+        "q13": [
+          "MediatR.DependencyInjectionTests.Abstractions.BaseAssemblyResolutionTests"
+        ],
+        "q14": [
+          "MediatR.DependencyInjectionTests.Abstractions.BaseServiceProviderFixture"
+        ],
+        "q15": [
+          "IClassFixture"
+        ],
+        "q16": [],
+        "q17": [
+          "MediatR.Extensions.Microsoft.DependencyInjection.Tests.ITypeArgument"
+        ],
+        "q18": [
+          "Exception"
+        ],
+        "q19": [
+          "MediatR.Pipeline.IRequestExceptionHandler"
+        ],
+        "q20": [
+          "MediatR.INotificationHandler"
+        ],
+        "q21": "MediatR.Benchmarks",
+        "q22": "MediatR.Benchmarks",
+        "q23": "MediatR.Benchmarks",
+        "q24": "MediatR.DependencyInjectionTests.Abstractions",
+        "q25": "MediatR.DependencyInjectionTests.Abstractions",
+        "q26": "MediatR.DependencyInjectionTests.AutoFac",
+        "q27": "MediatR.DependencyInjectionTests.Contracts.Requests",
+        "q28": "MediatR.DependencyInjectionTests.Contracts.Requests",
+        "q29": "MediatR.DependencyInjectionTests.Contracts.Requests",
+        "q30": "MediatR.DependencyInjectionTests.Contracts.Requests",
+        "q31": 3,
+        "q32": 9,
+        "q33": 2,
+        "q34": 0,
+        "q35": 1,
+        "q36": 1,
+        "q37": 0,
+        "q38": 0,
+        "q39": 0,
+        "q40": 0,
+        "q41": [],
+        "q42": [
+          "Ids",
+          "Exporters",
+          "Analysers"
+        ],
+        "q43": [
+          "Config"
+        ],
+        "q44": [],
+        "q45": [],
+        "q46": [],
+        "q47": [],
+        "q48": [],
+        "q49": [],
+        "q50": []
+      },
+      "raw_text": "{\n  \"q1\": [\n    \"MediatR.DependencyInjectionTests.AutoFacDependencyInjectionTests\",\n    \"MediatR.DependencyInjectionTests.DryIocDependencyInjectionTests\",\n    \"MediatR.DependencyInjectionTests.LamarDependencyInjectionTests\",\n    \"MediatR.DependencyInjectionTests.LightInjectDependencyInjectionTests\",\n    \"MediatR.DependencyInjectionTests.MicrosoftDependencyInjectionTests\",\n    \"MediatR.DependencyInjectionTests.StashBoxDependencyInjectionTests\"\n  ],\n  \"q2\": [\n    \"MediatR.Tests.GenericRequestHandlerTests\"\n  ],\n  \"q3\": [\n    \"MediatR.DependencyInjectionTests.Providers.AutoFacServiceProviderFixture\",\n    \"MediatR.DependencyInjectionTests.Providers.DryIocServiceProviderFixture\",\n    \"MediatR.DependencyInjectionTests.Providers.LamarServiceProviderFixture\",\n    \"MediatR.DependencyInjectionTests.Providers.LightInjectServiceProviderFixture\",\n    \"MediatR.DependencyInjectionTests.Providers.MicrosoftServiceProviderFixture\",\n    \"MediatR.DependencyInjectionTests.Providers.StashBoxServiceProviderFixture\"\n  ],\n  \"q4\": [\n    \"MediatR.Examples.ExceptionHandler.ForbiddenException\",\n    \"MediatR.Examples.ExceptionHandler.ResourceNotFoundException\"\n  ],\n  \"q5\": [\n    \"MediatR.Examples.Jing\",\n    \"Ping\",\n    \"InternalPing\",\n    \"MediatR.DependencyInjectionTests.Contracts.Requests.InternalVoidPing\",\n    \"MediatR.DependencyInjectionTests.Contracts.Requests.PrivatePing\",\n    \"MediatR.DependencyInjectionTests.Contracts.Requests.PrivateVoidPing\",\n    \"MediatR.DependencyInjectionTests.Contracts.Requests.PublicPing\",\n    \"MediatR.DependencyInjectionTests.Contracts.Requests.PublicVoidPing\",\n    \"MediatR.Extensions.Microsoft.DependencyInjection.Tests.Ding\",\n    \"MediatR.Extensions.Microsoft.DependencyInjection.Tests.GenericPing\",\n    \"MediatR.Extensions.Microsoft.DependencyInjection.Tests.InternalPing\",\n    \"MediatR.Extensions.Microsoft.DependencyInjection.Tests.OpenGenericVoidRequest\",\n    \"MediatR.Extensions.Microsoft.DependencyInjection.Tests.OpenGenericReturnTypeRequest\",\n    \"MediatR.Extensions.Microsoft.DependencyInjection.Tests.VoidGenericPing\",\n    \"MediatR.Extensions.Microsoft.DependencyInjection.Tests.Included.Foo\",\n    \"Ding\",\n    \"Ping\",\n    \"MediatR.Extensions.Microsoft.DependencyInjection.Tests.DuplicateTest\",\n    \"Zing\"\n  ],\n  \"q6\": [\n    \"MediatR.Mediator\",\n    \"MediatR.Examples.PublishStrategies.CustomMediator\",\n    \"MediatR.Extensions.Microsoft.DependencyInjection.Tests.MyCustomMediator\"\n  ],\n  \"q7\": [\n    \"Pinged\",\n    \"MediatR.Examples.Ponged\",\n    \"MediatR.Examples.Pinged\",\n    \"MediatR.Extensions.Microsoft.DependencyInjection.Tests.Ding\",\n    \"MediatR.Extensions.Microsoft.DependencyInjection.Tests.Pinged\",\n    \"MediatR.Extensions.Microsoft.DependencyInjection.Tests.DerivedPing\",\n    \"MediatR.Extensions.Microsoft.DependencyInjection.Tests.Pinged\"\n  ],\n  \"q8\": [\n    \"GenericHandler\",\n    \"PingedHandler\",\n    \"MediatR.Examples.PongedHandler\",\n    \"MediatR.Examples.ConstrainedPingedHandler\",\n    \"PingedAlsoHandler\",\n    \"MediatR.Examples.PublishStrategies.AsyncPingedHandler\",\n    \"MediatR.Examples.PublishStrategies.SyncPingedHandler\",\n    \"GenericHandler\",\n    \"PingedHandler\",\n    \"PingedAlsoHandler\",\n    \"MediatR.Extensions.Microsoft.DependencyInjection.Tests.PingedAlsoOpenHandler\"\n  ],\n  \"q9\": [\n    \"MediatR.NotificationPublishers.ForeachAwaitPublisher\",\n    \"MediatR.NotificationPublishers.TaskWhenAllPublisher\"\n  ],\n  \"q10\": [\n    \"GenericPipelineBehavior\",\n    \"MediatR.Benchmarks.GenericPipelineBehavior\",\n    \"MediatR.Pipeline.RequestExceptionActionProcessorBehavior\",\n    \"MediatR.Pipeline.RequestExceptionProcessorBehavior\",\n    \"MediatR.Pipeline.RequestPostProcessorBehavior\",\n    \"MediatR.Pipeline.RequestPreProcessorBehavior\",\n    \"GenericPipelineBehavior\",\n    \"GenericRequestPostProcessor\",\n    \"GenericRequestPreProcessor\"\n  ],\n  \"q11\": [\n    \"MediatR.Pipeline.IRequestExceptionHandler\"\n  ],\n  \"q12\": [\n    \"MediatR.INotificationHandler\"\n  ],\n  \"q13\": [\n    \"MediatR.DependencyInjectionTests.Abstractions.BaseAssemblyResolutionTests\"\n  ],\n  \"q14\": [\n    \"MediatR.DependencyInjectionTests.Abstractions.BaseServiceProviderFixture\"\n  ],\n  \"q15\": [\n    \"IClassFixture\"\n  ],\n  \"q16\": [],\n  \"q17\": [\n    \"MediatR.Extensions.Microsoft.DependencyInjection.Tests.ITypeArgument\"\n  ],\n  \"q18\": [\n    \"Exception\"\n  ],\n  \"q19\": [\n    \"MediatR.Pipeline.IRequestExceptionHandler\"\n  ],\n  \"q20\": [\n    \"MediatR.INotificationHandler\"\n  ],\n  \"q21\": \"MediatR.Benchmarks\",\n  \"q22\": \"MediatR.Benchmarks\",\n  \"q23\": \"MediatR.Benchmarks\",\n  \"q24\": \"MediatR.DependencyInjectionTests.Abstractions\",\n  \"q25\": \"MediatR.DependencyInjectionTests.Abstractions\",\n  \"q26\": \"MediatR.DependencyInjectionTests.AutoFac\",\n  \"q27\": \"MediatR.DependencyInjectionTests.Contracts.Requests\",\n  \"q28\": \"MediatR.DependencyInjectionTests.Contracts.Requests\",\n  \"q29\": \"MediatR.DependencyInjectionTests.Contracts.Requests\",\n  \"q30\": \"MediatR.DependencyInjectionTests.Contracts.Requests\",\n  \"q31\": 3,\n  \"q32\": 9,\n  \"q33\": 2,\n  \"q34\": 0,\n  \"q35\": 1,\n  \"q36\": 1,\n  \"q37\": 0,\n  \"q38\": 0,\n  \"q39\": 0,\n  \"q40\": 0,\n  \"q41\": [],\n  \"q42\": [\n    \"Ids\",\n    \"Exporters\",\n    \"Analysers\"\n  ],\n  \"q43\": [\n    \"Config\"\n  ],\n  \"q44\": [],\n  \"q45\": [],\n  \"q46\": [],\n  \"q47\": [],\n  \"q48\": [],\n  \"q49\": [],\n  \"q50\": []\n}"
+    },
+    {
+      "input_tokens": 16055,
+      "output_tokens": 1414,
+      "answers": {
+        "q1": [
+          "MediatR.DependencyInjectionTests.AutoFacDependencyInjectionTests",
+          "MediatR.DependencyInjectionTests.DryIocDependencyInjectionTests",
+          "MediatR.DependencyInjectionTests.LamarDependencyInjectionTests",
+          "MediatR.DependencyInjectionTests.LightInjectDependencyInjectionTests",
+          "MediatR.DependencyInjectionTests.MicrosoftDependencyInjectionTests",
+          "MediatR.DependencyInjectionTests.StashBoxDependencyInjectionTests"
+        ],
+        "q2": [
+          "MediatR.Tests.GenericRequestHandlerTests"
+        ],
+        "q3": [
+          "MediatR.DependencyInjectionTests.Providers.AutoFacServiceProviderFixture",
+          "MediatR.DependencyInjectionTests.Providers.DryIocServiceProviderFixture",
+          "MediatR.DependencyInjectionTests.Providers.LamarServiceProviderFixture",
+          "MediatR.DependencyInjectionTests.Providers.LightInjectServiceProviderFixture",
+          "MediatR.DependencyInjectionTests.Providers.MicrosoftServiceProviderFixture",
+          "MediatR.DependencyInjectionTests.Providers.StashBoxServiceProviderFixture"
+        ],
+        "q4": [
+          "MediatR.Examples.ExceptionHandler.ForbiddenException",
+          "MediatR.Examples.ExceptionHandler.ResourceNotFoundException"
+        ],
+        "q5": [
+          "MediatR.Examples.Jing",
+          "Ping",
+          "MediatR.Extensions.Microsoft.DependencyInjection.Tests.Ding",
+          "MediatR.Extensions.Microsoft.DependencyInjection.Tests.InternalPing",
+          "MediatR.DependencyInjectionTests.Contracts.Requests.InternalVoidPing",
+          "MediatR.DependencyInjectionTests.Contracts.Requests.PrivatePing",
+          "MediatR.DependencyInjectionTests.Contracts.Requests.PrivateVoidPing",
+          "MediatR.DependencyInjectionTests.Contracts.Requests.PublicPing",
+          "MediatR.DependencyInjectionTests.Contracts.Requests.PublicVoidPing",
+          "MediatR.Extensions.Microsoft.DependencyInjection.Tests.Zing",
+          "MediatR.Extensions.Microsoft.DependencyInjection.Tests.DuplicateTest",
+          "MediatR.Extensions.Microsoft.DependencyInjection.Tests.OpenGenericVoidRequest",
+          "MediatR.Extensions.Microsoft.DependencyInjection.Tests.OpenGenericReturnTypeRequest",
+          "MediatR.Extensions.Microsoft.DependencyInjection.Tests.GenericPing",
+          "MediatR.Extensions.Microsoft.DependencyInjection.Tests.VoidGenericPing",
+          "MediatR.Extensions.Microsoft.DependencyInjection.Tests.Included.Foo"
+        ],
+        "q6": [
+          "MediatR.Mediator",
+          "MediatR.Examples.PublishStrategies.CustomMediator",
+          "MediatR.Extensions.Microsoft.DependencyInjection.Tests.MyCustomMediator"
+        ],
+        "q7": [
+          "Pinged",
+          "MediatR.Examples.Ponged",
+          "MediatR.Extensions.Microsoft.DependencyInjection.Tests.Ding",
+          "MediatR.Extensions.Microsoft.DependencyInjection.Tests.Pinged",
+          "MediatR.DependencyInjectionTests.Contracts.Notifications.Ding"
+        ],
+        "q8": [
+          "MediatR.Examples.GenericHandler",
+          "PingedHandler",
+          "MediatR.Examples.PongedHandler",
+          "MediatR.Examples.ConstrainedPingedHandler",
+          "PingedAlsoHandler",
+          "MediatR.Examples.PublishStrategies.AsyncPingedHandler",
+          "MediatR.Examples.PublishStrategies.SyncPingedHandler",
+          "GenericHandler",
+          "PingedHandler",
+          "PingedAlsoHandler",
+          "MediatR.Extensions.Microsoft.DependencyInjection.Tests.GenericHandler",
+          "MediatR.Extensions.Microsoft.DependencyInjection.Tests.PingedHandler",
+          "MediatR.Extensions.Microsoft.DependencyInjection.Tests.PingedAlsoHandler",
+          "MediatR.Extensions.Microsoft.DependencyInjection.Tests.PingedAlsoOpenHandler"
+        ],
+        "q9": [
+          "MediatR.NotificationPublishers.ForeachAwaitPublisher",
+          "MediatR.NotificationPublishers.TaskWhenAllPublisher"
+        ],
+        "q10": [
+          "GenericPipelineBehavior",
+          "MediatR.Pipeline.RequestExceptionActionProcessorBehavior",
+          "MediatR.Pipeline.RequestExceptionProcessorBehavior",
+          "MediatR.Pipeline.RequestPostProcessorBehavior",
+          "MediatR.Pipeline.RequestPreProcessorBehavior",
+          "MediatR.Benchmarks.GenericPipelineBehavior"
+        ],
+        "q11": [
+          "MediatR.Pipeline.IRequestExceptionHandler"
+        ],
+        "q12": [
+          "MediatR.INotificationHandler"
+        ],
+        "q13": [
+          "MediatR.DependencyInjectionTests.Abstractions.BaseAssemblyResolutionTests"
+        ],
+        "q14": [
+          "MediatR.DependencyInjectionTests.Abstractions.BaseServiceProviderFixture"
+        ],
+        "q15": [
+          "IClassFixture"
+        ],
+        "q16": [],
+        "q17": [],
+        "q18": [
+          "Exception"
+        ],
+        "q19": [
+          "MediatR.Pipeline.IRequestExceptionHandler"
+        ],
+        "q20": [
+          "MediatR.INotificationHandler"
+        ],
+        "q21": "MediatR.Benchmarks",
+        "q22": "MediatR.Benchmarks",
+        "q23": "MediatR.Benchmarks",
+        "q24": "MediatR.DependencyInjectionTests.Abstractions",
+        "q25": "MediatR.DependencyInjectionTests.Abstractions",
+        "q26": "MediatR.DependencyInjectionTests",
+        "q27": "MediatR.DependencyInjectionTests.Contracts.Requests",
+        "q28": "MediatR.DependencyInjectionTests.Contracts.Requests",
+        "q29": "MediatR.DependencyInjectionTests.Contracts.Requests",
+        "q30": "MediatR.DependencyInjectionTests.Contracts.Requests",
+        "q31": 3,
+        "q32": 9,
+        "q33": 2,
+        "q34": 0,
+        "q35": 1,
+        "q36": 1,
+        "q37": 0,
+        "q38": 0,
+        "q39": 0,
+        "q40": 0,
+        "q41": [],
+        "q42": [
+          "Ids",
+          "Exporters",
+          "Analysers"
+        ],
+        "q43": [
+          "Config"
+        ],
+        "q44": [],
+        "q45": [],
+        "q46": [],
+        "q47": [],
+        "q48": [],
+        "q49": [],
+        "q50": []
+      },
+      "raw_text": "{\n  \"q1\": [\n    \"MediatR.DependencyInjectionTests.AutoFacDependencyInjectionTests\",\n    \"MediatR.DependencyInjectionTests.DryIocDependencyInjectionTests\",\n    \"MediatR.DependencyInjectionTests.LamarDependencyInjectionTests\",\n    \"MediatR.DependencyInjectionTests.LightInjectDependencyInjectionTests\",\n    \"MediatR.DependencyInjectionTests.MicrosoftDependencyInjectionTests\",\n    \"MediatR.DependencyInjectionTests.StashBoxDependencyInjectionTests\"\n  ],\n  \"q2\": [\n    \"MediatR.Tests.GenericRequestHandlerTests\"\n  ],\n  \"q3\": [\n    \"MediatR.DependencyInjectionTests.Providers.AutoFacServiceProviderFixture\",\n    \"MediatR.DependencyInjectionTests.Providers.DryIocServiceProviderFixture\",\n    \"MediatR.DependencyInjectionTests.Providers.LamarServiceProviderFixture\",\n    \"MediatR.DependencyInjectionTests.Providers.LightInjectServiceProviderFixture\",\n    \"MediatR.DependencyInjectionTests.Providers.MicrosoftServiceProviderFixture\",\n    \"MediatR.DependencyInjectionTests.Providers.StashBoxServiceProviderFixture\"\n  ],\n  \"q4\": [\n    \"MediatR.Examples.ExceptionHandler.ForbiddenException\",\n    \"MediatR.Examples.ExceptionHandler.ResourceNotFoundException\"\n  ],\n  \"q5\": [\n    \"MediatR.Examples.Jing\",\n    \"Ping\",\n    \"MediatR.Extensions.Microsoft.DependencyInjection.Tests.Ding\",\n    \"MediatR.Extensions.Microsoft.DependencyInjection.Tests.InternalPing\",\n    \"MediatR.DependencyInjectionTests.Contracts.Requests.InternalVoidPing\",\n    \"MediatR.DependencyInjectionTests.Contracts.Requests.PrivatePing\",\n    \"MediatR.DependencyInjectionTests.Contracts.Requests.PrivateVoidPing\",\n    \"MediatR.DependencyInjectionTests.Contracts.Requests.PublicPing\",\n    \"MediatR.DependencyInjectionTests.Contracts.Requests.PublicVoidPing\",\n    \"MediatR.Extensions.Microsoft.DependencyInjection.Tests.Zing\",\n    \"MediatR.Extensions.Microsoft.DependencyInjection.Tests.DuplicateTest\",\n    \"MediatR.Extensions.Microsoft.DependencyInjection.Tests.OpenGenericVoidRequest\",\n    \"MediatR.Extensions.Microsoft.DependencyInjection.Tests.OpenGenericReturnTypeRequest\",\n    \"MediatR.Extensions.Microsoft.DependencyInjection.Tests.GenericPing\",\n    \"MediatR.Extensions.Microsoft.DependencyInjection.Tests.VoidGenericPing\",\n    \"MediatR.Extensions.Microsoft.DependencyInjection.Tests.Included.Foo\"\n  ],\n  \"q6\": [\n    \"MediatR.Mediator\",\n    \"MediatR.Examples.PublishStrategies.CustomMediator\",\n    \"MediatR.Extensions.Microsoft.DependencyInjection.Tests.MyCustomMediator\"\n  ],\n  \"q7\": [\n    \"Pinged\",\n    \"MediatR.Examples.Ponged\",\n    \"MediatR.Extensions.Microsoft.DependencyInjection.Tests.Ding\",\n    \"MediatR.Extensions.Microsoft.DependencyInjection.Tests.Pinged\",\n    \"MediatR.DependencyInjectionTests.Contracts.Notifications.Ding\"\n  ],\n  \"q8\": [\n    \"MediatR.Examples.GenericHandler\",\n    \"PingedHandler\",\n    \"MediatR.Examples.PongedHandler\",\n    \"MediatR.Examples.ConstrainedPingedHandler\",\n    \"PingedAlsoHandler\",\n    \"MediatR.Examples.PublishStrategies.AsyncPingedHandler\",\n    \"MediatR.Examples.PublishStrategies.SyncPingedHandler\",\n    \"GenericHandler\",\n    \"PingedHandler\",\n    \"PingedAlsoHandler\",\n    \"MediatR.Extensions.Microsoft.DependencyInjection.Tests.GenericHandler\",\n    \"MediatR.Extensions.Microsoft.DependencyInjection.Tests.PingedHandler\",\n    \"MediatR.Extensions.Microsoft.DependencyInjection.Tests.PingedAlsoHandler\",\n    \"MediatR.Extensions.Microsoft.DependencyInjection.Tests.PingedAlsoOpenHandler\"\n  ],\n  \"q9\": [\n    \"MediatR.NotificationPublishers.ForeachAwaitPublisher\",\n    \"MediatR.NotificationPublishers.TaskWhenAllPublisher\"\n  ],\n  \"q10\": [\n    \"GenericPipelineBehavior\",\n    \"MediatR.Pipeline.RequestExceptionActionProcessorBehavior\",\n    \"MediatR.Pipeline.RequestExceptionProcessorBehavior\",\n    \"MediatR.Pipeline.RequestPostProcessorBehavior\",\n    \"MediatR.Pipeline.RequestPreProcessorBehavior\",\n    \"MediatR.Benchmarks.GenericPipelineBehavior\"\n  ],\n  \"q11\": [\n    \"MediatR.Pipeline.IRequestExceptionHandler\"\n  ],\n  \"q12\": [\n    \"MediatR.INotificationHandler\"\n  ],\n  \"q13\": [\n    \"MediatR.DependencyInjectionTests.Abstractions.BaseAssemblyResolutionTests\"\n  ],\n  \"q14\": [\n    \"MediatR.DependencyInjectionTests.Abstractions.BaseServiceProviderFixture\"\n  ],\n  \"q15\": [\n    \"IClassFixture\"\n  ],\n  \"q16\": [],\n  \"q17\": [],\n  \"q18\": [\n    \"Exception\"\n  ],\n  \"q19\": [\n    \"MediatR.Pipeline.IRequestExceptionHandler\"\n  ],\n  \"q20\": [\n    \"MediatR.INotificationHandler\"\n  ],\n  \"q21\": \"MediatR.Benchmarks\",\n  \"q22\": \"MediatR.Benchmarks\",\n  \"q23\": \"MediatR.Benchmarks\",\n  \"q24\": \"MediatR.DependencyInjectionTests.Abstractions\",\n  \"q25\": \"MediatR.DependencyInjectionTests.Abstractions\",\n  \"q26\": \"MediatR.DependencyInjectionTests\",\n  \"q27\": \"MediatR.DependencyInjectionTests.Contracts.Requests\",\n  \"q28\": \"MediatR.DependencyInjectionTests.Contracts.Requests\",\n  \"q29\": \"MediatR.DependencyInjectionTests.Contracts.Requests\",\n  \"q30\": \"MediatR.DependencyInjectionTests.Contracts.Requests\",\n  \"q31\": 3,\n  \"q32\": 9,\n  \"q33\": 2,\n  \"q34\": 0,\n  \"q35\": 1,\n  \"q36\": 1,\n  \"q37\": 0,\n  \"q38\": 0,\n  \"q39\": 0,\n  \"q40\": 0,\n  \"q41\": [],\n  \"q42\": [\n    \"Ids\",\n    \"Exporters\",\n    \"Analysers\"\n  ],\n  \"q43\": [\n    \"Config\"\n  ],\n  \"q44\": [],\n  \"q45\": [],\n  \"q46\": [],\n  \"q47\": [],\n  \"q48\": [],\n  \"q49\": [],\n  \"q50\": []\n}"
+    },
+    {
+      "input_tokens": 16055,
+      "output_tokens": 1362,
+      "answers": {
+        "q1": [
+          "MediatR.DependencyInjectionTests.AutoFacDependencyInjectionTests",
+          "MediatR.DependencyInjectionTests.DryIocDependencyInjectionTests",
+          "MediatR.DependencyInjectionTests.LamarDependencyInjectionTests",
+          "MediatR.DependencyInjectionTests.LightInjectDependencyInjectionTests",
+          "MediatR.DependencyInjectionTests.MicrosoftDependencyInjectionTests",
+          "MediatR.DependencyInjectionTests.StashBoxDependencyInjectionTests"
+        ],
+        "q2": [
+          "MediatR.Tests.GenericRequestHandlerTests"
+        ],
+        "q3": [
+          "MediatR.DependencyInjectionTests.Providers.AutoFacServiceProviderFixture",
+          "MediatR.DependencyInjectionTests.Providers.DryIocServiceProviderFixture",
+          "MediatR.DependencyInjectionTests.Providers.LamarServiceProviderFixture",
+          "MediatR.DependencyInjectionTests.Providers.LightInjectServiceProviderFixture",
+          "MediatR.DependencyInjectionTests.Providers.MicrosoftServiceProviderFixture",
+          "MediatR.DependencyInjectionTests.Providers.StashBoxServiceProviderFixture"
+        ],
+        "q4": [
+          "MediatR.Examples.ExceptionHandler.ForbiddenException",
+          "MediatR.Examples.ExceptionHandler.ResourceNotFoundException"
+        ],
+        "q5": [
+          "MediatR.Examples.Jing",
+          "Ping",
+          "MediatR.Extensions.Microsoft.DependencyInjection.Tests.Zing",
+          "Ding",
+          "InternalPing",
+          "MediatR.DependencyInjectionTests.Contracts.Requests.InternalVoidPing",
+          "MediatR.DependencyInjectionTests.Contracts.Requests.PrivatePing",
+          "MediatR.DependencyInjectionTests.Contracts.Requests.PrivateVoidPing",
+          "MediatR.DependencyInjectionTests.Contracts.Requests.PublicPing",
+          "MediatR.DependencyInjectionTests.Contracts.Requests.PublicVoidPing",
+          "MediatR.Extensions.Microsoft.DependencyInjection.Tests.DuplicateTest",
+          "MediatR.Extensions.Microsoft.DependencyInjection.Tests.OpenGenericVoidRequest",
+          "MediatR.Extensions.Microsoft.DependencyInjection.Tests.OpenGenericReturnTypeRequest",
+          "MediatR.Extensions.Microsoft.DependencyInjection.Tests.GenericPing",
+          "MediatR.Extensions.Microsoft.DependencyInjection.Tests.VoidGenericPing",
+          "MediatR.Extensions.Microsoft.DependencyInjection.Tests.Included.Foo"
+        ],
+        "q6": [
+          "MediatR.Mediator",
+          "MediatR.Examples.PublishStrategies.CustomMediator",
+          "MediatR.Extensions.Microsoft.DependencyInjection.Tests.MyCustomMediator"
+        ],
+        "q7": [
+          "Pinged",
+          "MediatR.Examples.Ponged",
+          "MediatR.Extensions.Microsoft.DependencyInjection.Tests.Ding",
+          "MediatR.Extensions.Microsoft.DependencyInjection.Tests.Pinged",
+          "MediatR.DependencyInjectionTests.Contracts.Notifications.Ding"
+        ],
+        "q8": [
+          "GenericHandler",
+          "PingedHandler",
+          "MediatR.Examples.PongedHandler",
+          "MediatR.Examples.ConstrainedPingedHandler",
+          "PingedAlsoHandler",
+          "MediatR.Examples.PublishStrategies.AsyncPingedHandler",
+          "MediatR.Examples.PublishStrategies.SyncPingedHandler",
+          "GenericHandler",
+          "PingedHandler",
+          "PingedAlsoHandler",
+          "MediatR.Extensions.Microsoft.DependencyInjection.Tests.PingedAlsoOpenHandler"
+        ],
+        "q9": [
+          "MediatR.NotificationPublishers.ForeachAwaitPublisher",
+          "MediatR.NotificationPublishers.TaskWhenAllPublisher"
+        ],
+        "q10": [
+          "GenericPipelineBehavior",
+          "MediatR.Benchmarks.GenericPipelineBehavior",
+          "MediatR.Pipeline.RequestExceptionActionProcessorBehavior",
+          "MediatR.Pipeline.RequestExceptionProcessorBehavior",
+          "MediatR.Pipeline.RequestPostProcessorBehavior",
+          "MediatR.Pipeline.RequestPreProcessorBehavior",
+          "GenericPipelineBehavior"
+        ],
+        "q11": [
+          "MediatR.Pipeline.IRequestExceptionHandler"
+        ],
+        "q12": [
+          "MediatR.INotificationHandler"
+        ],
+        "q13": [
+          "MediatR.DependencyInjectionTests.Abstractions.BaseAssemblyResolutionTests"
+        ],
+        "q14": [
+          "MediatR.DependencyInjectionTests.Abstractions.BaseServiceProviderFixture"
+        ],
+        "q15": [
+          "IClassFixture"
+        ],
+        "q16": [],
+        "q17": [
+          "MediatR.Extensions.Microsoft.DependencyInjection.Tests.ITypeArgument"
+        ],
+        "q18": [
+          "Exception"
+        ],
+        "q19": [
+          "MediatR.Pipeline.IRequestExceptionHandler"
+        ],
+        "q20": [
+          "MediatR.INotificationHandler"
+        ],
+        "q21": "MediatR.Benchmarks",
+        "q22": "MediatR.Benchmarks",
+        "q23": "MediatR.Benchmarks",
+        "q24": "MediatR.DependencyInjectionTests.Abstractions",
+        "q25": "MediatR.DependencyInjectionTests.Abstractions",
+        "q26": "MediatR.DependencyInjectionTests",
+        "q27": "MediatR.DependencyInjectionTests.Contracts.Requests",
+        "q28": "MediatR.DependencyInjectionTests.Contracts.Requests",
+        "q29": "MediatR.DependencyInjectionTests.Contracts.Requests",
+        "q30": "MediatR.DependencyInjectionTests.Contracts.Requests",
+        "q31": 3,
+        "q32": 7,
+        "q33": 2,
+        "q34": 9,
+        "q35": 1,
+        "q36": 1,
+        "q37": 0,
+        "q38": 0,
+        "q39": 0,
+        "q40": 0,
+        "q41": [],
+        "q42": [
+          "Ids",
+          "Exporters",
+          "Analysers"
+        ],
+        "q43": [
+          "Config"
+        ],
+        "q44": [],
+        "q45": [],
+        "q46": [],
+        "q47": [],
+        "q48": [],
+        "q49": [],
+        "q50": []
+      },
+      "raw_text": "{\n  \"q1\": [\n    \"MediatR.DependencyInjectionTests.AutoFacDependencyInjectionTests\",\n    \"MediatR.DependencyInjectionTests.DryIocDependencyInjectionTests\",\n    \"MediatR.DependencyInjectionTests.LamarDependencyInjectionTests\",\n    \"MediatR.DependencyInjectionTests.LightInjectDependencyInjectionTests\",\n    \"MediatR.DependencyInjectionTests.MicrosoftDependencyInjectionTests\",\n    \"MediatR.DependencyInjectionTests.StashBoxDependencyInjectionTests\"\n  ],\n  \"q2\": [\n    \"MediatR.Tests.GenericRequestHandlerTests\"\n  ],\n  \"q3\": [\n    \"MediatR.DependencyInjectionTests.Providers.AutoFacServiceProviderFixture\",\n    \"MediatR.DependencyInjectionTests.Providers.DryIocServiceProviderFixture\",\n    \"MediatR.DependencyInjectionTests.Providers.LamarServiceProviderFixture\",\n    \"MediatR.DependencyInjectionTests.Providers.LightInjectServiceProviderFixture\",\n    \"MediatR.DependencyInjectionTests.Providers.MicrosoftServiceProviderFixture\",\n    \"MediatR.DependencyInjectionTests.Providers.StashBoxServiceProviderFixture\"\n  ],\n  \"q4\": [\n    \"MediatR.Examples.ExceptionHandler.ForbiddenException\",\n    \"MediatR.Examples.ExceptionHandler.ResourceNotFoundException\"\n  ],\n  \"q5\": [\n    \"MediatR.Examples.Jing\",\n    \"Ping\",\n    \"MediatR.Extensions.Microsoft.DependencyInjection.Tests.Zing\",\n    \"Ding\",\n    \"InternalPing\",\n    \"MediatR.DependencyInjectionTests.Contracts.Requests.InternalVoidPing\",\n    \"MediatR.DependencyInjectionTests.Contracts.Requests.PrivatePing\",\n    \"MediatR.DependencyInjectionTests.Contracts.Requests.PrivateVoidPing\",\n    \"MediatR.DependencyInjectionTests.Contracts.Requests.PublicPing\",\n    \"MediatR.DependencyInjectionTests.Contracts.Requests.PublicVoidPing\",\n    \"MediatR.Extensions.Microsoft.DependencyInjection.Tests.DuplicateTest\",\n    \"MediatR.Extensions.Microsoft.DependencyInjection.Tests.OpenGenericVoidRequest\",\n    \"MediatR.Extensions.Microsoft.DependencyInjection.Tests.OpenGenericReturnTypeRequest\",\n    \"MediatR.Extensions.Microsoft.DependencyInjection.Tests.GenericPing\",\n    \"MediatR.Extensions.Microsoft.DependencyInjection.Tests.VoidGenericPing\",\n    \"MediatR.Extensions.Microsoft.DependencyInjection.Tests.Included.Foo\"\n  ],\n  \"q6\": [\n    \"MediatR.Mediator\",\n    \"MediatR.Examples.PublishStrategies.CustomMediator\",\n    \"MediatR.Extensions.Microsoft.DependencyInjection.Tests.MyCustomMediator\"\n  ],\n  \"q7\": [\n    \"Pinged\",\n    \"MediatR.Examples.Ponged\",\n    \"MediatR.Extensions.Microsoft.DependencyInjection.Tests.Ding\",\n    \"MediatR.Extensions.Microsoft.DependencyInjection.Tests.Pinged\",\n    \"MediatR.DependencyInjectionTests.Contracts.Notifications.Ding\"\n  ],\n  \"q8\": [\n    \"GenericHandler\",\n    \"PingedHandler\",\n    \"MediatR.Examples.PongedHandler\",\n    \"MediatR.Examples.ConstrainedPingedHandler\",\n    \"PingedAlsoHandler\",\n    \"MediatR.Examples.PublishStrategies.AsyncPingedHandler\",\n    \"MediatR.Examples.PublishStrategies.SyncPingedHandler\",\n    \"GenericHandler\",\n    \"PingedHandler\",\n    \"PingedAlsoHandler\",\n    \"MediatR.Extensions.Microsoft.DependencyInjection.Tests.PingedAlsoOpenHandler\"\n  ],\n  \"q9\": [\n    \"MediatR.NotificationPublishers.ForeachAwaitPublisher\",\n    \"MediatR.NotificationPublishers.TaskWhenAllPublisher\"\n  ],\n  \"q10\": [\n    \"GenericPipelineBehavior\",\n    \"MediatR.Benchmarks.GenericPipelineBehavior\",\n    \"MediatR.Pipeline.RequestExceptionActionProcessorBehavior\",\n    \"MediatR.Pipeline.RequestExceptionProcessorBehavior\",\n    \"MediatR.Pipeline.RequestPostProcessorBehavior\",\n    \"MediatR.Pipeline.RequestPreProcessorBehavior\",\n    \"GenericPipelineBehavior\"\n  ],\n  \"q11\": [\n    \"MediatR.Pipeline.IRequestExceptionHandler\"\n  ],\n  \"q12\": [\n    \"MediatR.INotificationHandler\"\n  ],\n  \"q13\": [\n    \"MediatR.DependencyInjectionTests.Abstractions.BaseAssemblyResolutionTests\"\n  ],\n  \"q14\": [\n    \"MediatR.DependencyInjectionTests.Abstractions.BaseServiceProviderFixture\"\n  ],\n  \"q15\": [\n    \"IClassFixture\"\n  ],\n  \"q16\": [],\n  \"q17\": [\n    \"MediatR.Extensions.Microsoft.DependencyInjection.Tests.ITypeArgument\"\n  ],\n  \"q18\": [\n    \"Exception\"\n  ],\n  \"q19\": [\n    \"MediatR.Pipeline.IRequestExceptionHandler\"\n  ],\n  \"q20\": [\n    \"MediatR.INotificationHandler\"\n  ],\n  \"q21\": \"MediatR.Benchmarks\",\n  \"q22\": \"MediatR.Benchmarks\",\n  \"q23\": \"MediatR.Benchmarks\",\n  \"q24\": \"MediatR.DependencyInjectionTests.Abstractions\",\n  \"q25\": \"MediatR.DependencyInjectionTests.Abstractions\",\n  \"q26\": \"MediatR.DependencyInjectionTests\",\n  \"q27\": \"MediatR.DependencyInjectionTests.Contracts.Requests\",\n  \"q28\": \"MediatR.DependencyInjectionTests.Contracts.Requests\",\n  \"q29\": \"MediatR.DependencyInjectionTests.Contracts.Requests\",\n  \"q30\": \"MediatR.DependencyInjectionTests.Contracts.Requests\",\n  \"q31\": 3,\n  \"q32\": 7,\n  \"q33\": 2,\n  \"q34\": 9,\n  \"q35\": 1,\n  \"q36\": 1,\n  \"q37\": 0,\n  \"q38\": 0,\n  \"q39\": 0,\n  \"q40\": 0,\n  \"q41\": [],\n  \"q42\": [\n    \"Ids\",\n    \"Exporters\",\n    \"Analysers\"\n  ],\n  \"q43\": [\n    \"Config\"\n  ],\n  \"q44\": [],\n  \"q45\": [],\n  \"q46\": [],\n  \"q47\": [],\n  \"q48\": [],\n  \"q49\": [],\n  \"q50\": []\n}"
+    }
+  ]
+}
