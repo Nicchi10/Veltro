@@ -1,0 +1,427 @@
+{
+  "project": "MediatR",
+  "types": 220,
+  "questions": [
+    {
+      "id": "q1",
+      "type": "implementors",
+      "subject": "BaseAssemblyResolutionTests",
+      "prompt": "List every type that extends or implements 'BaseAssemblyResolutionTests'. Answer with type names only.",
+      "answer": [
+        "AutoFacDependencyInjectionTests",
+        "DryIocDependencyInjectionTests",
+        "LamarDependencyInjectionTests",
+        "LightInjectDependencyInjectionTests",
+        "MicrosoftDependencyInjectionTests",
+        "StashBoxDependencyInjectionTests"
+      ]
+    },
+    {
+      "id": "q2",
+      "type": "implementors",
+      "subject": "BaseGenericRequestHandlerTests",
+      "prompt": "List every type that extends or implements 'BaseGenericRequestHandlerTests'. Answer with type names only.",
+      "answer": [
+        "GenericRequestHandlerTests"
+      ]
+    },
+    {
+      "id": "q3",
+      "type": "implementors",
+      "subject": "BaseServiceProviderFixture",
+      "prompt": "List every type that extends or implements 'BaseServiceProviderFixture'. Answer with type names only.",
+      "answer": [
+        "AutoFacServiceProviderFixture",
+        "DryIocServiceProviderFixture",
+        "LamarServiceProviderFixture",
+        "LightInjectServiceProviderFixture",
+        "MicrosoftServiceProviderFixture",
+        "StashBoxServiceProviderFixture"
+      ]
+    },
+    {
+      "id": "q4",
+      "type": "implementors",
+      "subject": "ConnectionException",
+      "prompt": "List every type that extends or implements 'ConnectionException'. Answer with type names only.",
+      "answer": [
+        "ForbiddenException",
+        "ResourceNotFoundException"
+      ]
+    },
+    {
+      "id": "q5",
+      "type": "implementors",
+      "subject": "IBaseRequest",
+      "prompt": "List every type that extends or implements 'IBaseRequest'. Answer with type names only.",
+      "answer": [
+        "IRequest"
+      ]
+    },
+    {
+      "id": "q6",
+      "type": "implementors",
+      "subject": "IMediator",
+      "prompt": "List every type that extends or implements 'IMediator'. Answer with type names only.",
+      "answer": [
+        "Mediator",
+        "MyCustomMediator"
+      ]
+    },
+    {
+      "id": "q7",
+      "type": "implementors",
+      "subject": "INotification",
+      "prompt": "List every type that extends or implements 'INotification'. Answer with type names only.",
+      "answer": [
+        "Ding",
+        "Pinged",
+        "Ponged"
+      ]
+    },
+    {
+      "id": "q8",
+      "type": "implementors",
+      "subject": "INotificationHandler",
+      "prompt": "List every type that extends or implements 'INotificationHandler'. Answer with type names only.",
+      "answer": [
+        "AsyncPingedHandler",
+        "ConstrainedPingedHandler",
+        "GenericHandler",
+        "NotificationHandler",
+        "PingedAlsoHandler",
+        "PingedAlsoOpenHandler",
+        "PingedHandler",
+        "PongedHandler",
+        "SyncPingedHandler"
+      ]
+    },
+    {
+      "id": "q9",
+      "type": "implementors",
+      "subject": "INotificationPublisher",
+      "prompt": "List every type that extends or implements 'INotificationPublisher'. Answer with type names only.",
+      "answer": [
+        "ForeachAwaitPublisher",
+        "TaskWhenAllPublisher"
+      ]
+    },
+    {
+      "id": "q10",
+      "type": "implementors",
+      "subject": "IPipelineBehavior",
+      "prompt": "List every type that extends or implements 'IPipelineBehavior'. Answer with type names only.",
+      "answer": [
+        "GenericPipelineBehavior",
+        "RequestExceptionActionProcessorBehavior",
+        "RequestExceptionProcessorBehavior",
+        "RequestPostProcessorBehavior",
+        "RequestPreProcessorBehavior"
+      ]
+    },
+    {
+      "id": "q11",
+      "type": "depends_on",
+      "subject": "AccessDeniedExceptionHandler",
+      "prompt": "List every type that 'AccessDeniedExceptionHandler' references or inherits (its outgoing relations)",
+      "answer": [
+        "IRequestExceptionHandler"
+      ]
+    },
+    {
+      "id": "q12",
+      "type": "depends_on",
+      "subject": "AsyncPingedHandler",
+      "prompt": "List every type that 'AsyncPingedHandler' references or inherits (its outgoing relations)",
+      "answer": [
+        "INotificationHandler"
+      ]
+    },
+    {
+      "id": "q13",
+      "type": "depends_on",
+      "subject": "AutoFacDependencyInjectionTests",
+      "prompt": "List every type that 'AutoFacDependencyInjectionTests' references or inherits (its outgoing relations)",
+      "answer": [
+        "BaseAssemblyResolutionTests"
+      ]
+    },
+    {
+      "id": "q14",
+      "type": "depends_on",
+      "subject": "AutoFacServiceProviderFixture",
+      "prompt": "List every type that 'AutoFacServiceProviderFixture' references or inherits (its outgoing relations)",
+      "answer": [
+        "BaseServiceProviderFixture"
+      ]
+    },
+    {
+      "id": "q15",
+      "type": "depends_on",
+      "subject": "BaseAssemblyResolutionTests",
+      "prompt": "List every type that 'BaseAssemblyResolutionTests' references or inherits (its outgoing relations)",
+      "answer": [
+        "IClassFixture"
+      ]
+    },
+    {
+      "id": "q16",
+      "type": "depends_on",
+      "subject": "Benchmarks",
+      "prompt": "List every type that 'Benchmarks' references or inherits (its outgoing relations)",
+      "answer": [
+        "IMediator"
+      ]
+    },
+    {
+      "id": "q17",
+      "type": "depends_on",
+      "subject": "ConcreteTypeArgument",
+      "prompt": "List every type that 'ConcreteTypeArgument' references or inherits (its outgoing relations)",
+      "answer": [
+        "ITypeArgument"
+      ]
+    },
+    {
+      "id": "q18",
+      "type": "depends_on",
+      "subject": "ConnectionException",
+      "prompt": "List every type that 'ConnectionException' references or inherits (its outgoing relations)",
+      "answer": [
+        "Exception"
+      ]
+    },
+    {
+      "id": "q19",
+      "type": "depends_on",
+      "subject": "ConnectionExceptionHandler",
+      "prompt": "List every type that 'ConnectionExceptionHandler' references or inherits (its outgoing relations)",
+      "answer": [
+        "IRequestExceptionHandler"
+      ]
+    },
+    {
+      "id": "q20",
+      "type": "depends_on",
+      "subject": "ConstrainedPingedHandler",
+      "prompt": "List every type that 'ConstrainedPingedHandler' references or inherits (its outgoing relations)",
+      "answer": [
+        "INotificationHandler"
+      ]
+    },
+    {
+      "id": "q21",
+      "type": "module_of",
+      "subject": "Benchmarks",
+      "prompt": "Which module is the type 'Benchmarks' defined in?",
+      "answer": "MediatR.Benchmarks"
+    },
+    {
+      "id": "q22",
+      "type": "module_of",
+      "subject": "DotTraceDiagnoser",
+      "prompt": "Which module is the type 'DotTraceDiagnoser' defined in?",
+      "answer": "MediatR.Benchmarks"
+    },
+    {
+      "id": "q23",
+      "type": "module_of",
+      "subject": "DotTraceDiagnoserAttribute",
+      "prompt": "Which module is the type 'DotTraceDiagnoserAttribute' defined in?",
+      "answer": "MediatR.Benchmarks"
+    },
+    {
+      "id": "q24",
+      "type": "module_of",
+      "subject": "BaseAssemblyResolutionTests",
+      "prompt": "Which module is the type 'BaseAssemblyResolutionTests' defined in?",
+      "answer": "MediatR.DependencyInjectionTests.Abstractions"
+    },
+    {
+      "id": "q25",
+      "type": "module_of",
+      "subject": "BaseServiceProviderFixture",
+      "prompt": "Which module is the type 'BaseServiceProviderFixture' defined in?",
+      "answer": "MediatR.DependencyInjectionTests.Abstractions"
+    },
+    {
+      "id": "q26",
+      "type": "module_of",
+      "subject": "AutoFacDependencyInjectionTests",
+      "prompt": "Which module is the type 'AutoFacDependencyInjectionTests' defined in?",
+      "answer": "MediatR.DependencyInjectionTests"
+    },
+    {
+      "id": "q27",
+      "type": "module_of",
+      "subject": "InternalVoidPing",
+      "prompt": "Which module is the type 'InternalVoidPing' defined in?",
+      "answer": "MediatR.DependencyInjectionTests.Contracts.Requests"
+    },
+    {
+      "id": "q28",
+      "type": "module_of",
+      "subject": "PrivatePing",
+      "prompt": "Which module is the type 'PrivatePing' defined in?",
+      "answer": "MediatR.DependencyInjectionTests.Contracts.Requests"
+    },
+    {
+      "id": "q29",
+      "type": "module_of",
+      "subject": "PrivateVoidPing",
+      "prompt": "Which module is the type 'PrivateVoidPing' defined in?",
+      "answer": "MediatR.DependencyInjectionTests.Contracts.Requests"
+    },
+    {
+      "id": "q30",
+      "type": "module_of",
+      "subject": "PublicPing",
+      "prompt": "Which module is the type 'PublicPing' defined in?",
+      "answer": "MediatR.DependencyInjectionTests.Contracts.Requests"
+    },
+    {
+      "id": "q31",
+      "type": "public_method_count",
+      "subject": "Benchmarks",
+      "prompt": "How many public methods does 'Benchmarks' declare?",
+      "answer": 3
+    },
+    {
+      "id": "q32",
+      "type": "public_method_count",
+      "subject": "DotTraceDiagnoser",
+      "prompt": "How many public methods does 'DotTraceDiagnoser' declare?",
+      "answer": 6
+    },
+    {
+      "id": "q33",
+      "type": "public_method_count",
+      "subject": "DotTraceDiagnoserAttribute",
+      "prompt": "How many public methods does 'DotTraceDiagnoserAttribute' declare?",
+      "answer": 1
+    },
+    {
+      "id": "q34",
+      "type": "public_method_count",
+      "subject": "BaseAssemblyResolutionTests",
+      "prompt": "How many public methods does 'BaseAssemblyResolutionTests' declare?",
+      "answer": 11
+    },
+    {
+      "id": "q35",
+      "type": "public_method_count",
+      "subject": "BaseServiceProviderFixture",
+      "prompt": "How many public methods does 'BaseServiceProviderFixture' declare?",
+      "answer": 0
+    },
+    {
+      "id": "q36",
+      "type": "public_method_count",
+      "subject": "AutoFacDependencyInjectionTests",
+      "prompt": "How many public methods does 'AutoFacDependencyInjectionTests' declare?",
+      "answer": 1
+    },
+    {
+      "id": "q37",
+      "type": "public_method_count",
+      "subject": "InternalVoidPing",
+      "prompt": "How many public methods does 'InternalVoidPing' declare?",
+      "answer": 0
+    },
+    {
+      "id": "q38",
+      "type": "public_method_count",
+      "subject": "PrivatePing",
+      "prompt": "How many public methods does 'PrivatePing' declare?",
+      "answer": 0
+    },
+    {
+      "id": "q39",
+      "type": "public_method_count",
+      "subject": "PrivateVoidPing",
+      "prompt": "How many public methods does 'PrivateVoidPing' declare?",
+      "answer": 0
+    },
+    {
+      "id": "q40",
+      "type": "public_method_count",
+      "subject": "PublicPing",
+      "prompt": "How many public methods does 'PublicPing' declare?",
+      "answer": 0
+    },
+    {
+      "id": "q41",
+      "type": "collection_fields",
+      "subject": "Benchmarks",
+      "prompt": "Which fields of 'Benchmarks' have a generic or collection type (e.g. a List, Dict, Optional, ...)? Answer with field names only",
+      "answer": []
+    },
+    {
+      "id": "q42",
+      "type": "collection_fields",
+      "subject": "DotTraceDiagnoser",
+      "prompt": "Which fields of 'DotTraceDiagnoser' have a generic or collection type (e.g. a List, Dict, Optional, ...)? Answer with field names only",
+      "answer": [
+        "Analysers",
+        "Exporters",
+        "Ids"
+      ]
+    },
+    {
+      "id": "q43",
+      "type": "collection_fields",
+      "subject": "DotTraceDiagnoserAttribute",
+      "prompt": "Which fields of 'DotTraceDiagnoserAttribute' have a generic or collection type (e.g. a List, Dict, Optional, ...)? Answer with field names only",
+      "answer": []
+    },
+    {
+      "id": "q44",
+      "type": "collection_fields",
+      "subject": "BaseAssemblyResolutionTests",
+      "prompt": "Which fields of 'BaseAssemblyResolutionTests' have a generic or collection type (e.g. a List, Dict, Optional, ...)? Answer with field names only",
+      "answer": []
+    },
+    {
+      "id": "q45",
+      "type": "collection_fields",
+      "subject": "BaseServiceProviderFixture",
+      "prompt": "Which fields of 'BaseServiceProviderFixture' have a generic or collection type (e.g. a List, Dict, Optional, ...)? Answer with field names only",
+      "answer": []
+    },
+    {
+      "id": "q46",
+      "type": "collection_fields",
+      "subject": "AutoFacDependencyInjectionTests",
+      "prompt": "Which fields of 'AutoFacDependencyInjectionTests' have a generic or collection type (e.g. a List, Dict, Optional, ...)? Answer with field names only",
+      "answer": []
+    },
+    {
+      "id": "q47",
+      "type": "collection_fields",
+      "subject": "InternalVoidPing",
+      "prompt": "Which fields of 'InternalVoidPing' have a generic or collection type (e.g. a List, Dict, Optional, ...)? Answer with field names only",
+      "answer": []
+    },
+    {
+      "id": "q48",
+      "type": "collection_fields",
+      "subject": "PrivatePing",
+      "prompt": "Which fields of 'PrivatePing' have a generic or collection type (e.g. a List, Dict, Optional, ...)? Answer with field names only",
+      "answer": []
+    },
+    {
+      "id": "q49",
+      "type": "collection_fields",
+      "subject": "PrivateVoidPing",
+      "prompt": "Which fields of 'PrivateVoidPing' have a generic or collection type (e.g. a List, Dict, Optional, ...)? Answer with field names only",
+      "answer": []
+    },
+    {
+      "id": "q50",
+      "type": "collection_fields",
+      "subject": "PublicPing",
+      "prompt": "Which fields of 'PublicPing' have a generic or collection type (e.g. a List, Dict, Optional, ...)? Answer with field names only",
+      "answer": []
+    }
+  ]
+}

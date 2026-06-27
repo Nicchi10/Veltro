@@ -110,6 +110,16 @@ def build_questions(model: dict, limit: int) -> list:
     edges = model["edges"]
     id_to_name = name_index(model)
 
+    # Real codebases (e.g. MediatR) reuse the same simple type name in several modules (a 'Ping' in three namespaces). 
+    # A question keyed by that bare name is ambiguous: "which module is Ping in?" has several right answers, but the
+    # ground truth records only one. So we ask only about UNIQUELY-named types.
+    name_counts = {}
+    for node in nodes:
+        name_counts[node["name"]] = name_counts.get(node["name"], 0) + 1
+
+    def has_unique_name(name):
+        return name_counts.get(name, 0) == 1
+
     questions = []
 
     # 1. Who extends / implements a given type?
@@ -120,7 +130,8 @@ def build_questions(model: dict, limit: int) -> list:
             child = id_to_name.get(edge["from"], edge["from"])
             implementors.setdefault(target, set()).add(child)
 
-    for target in sorted(implementors)[:limit]:
+    unique_targets = [target for target in sorted(implementors) if has_unique_name(target)]
+    for target in unique_targets[:limit]:
         prompt = (
             f"List every type that extends or implements '{target}'. "
             f"Answer with type names only."
@@ -134,19 +145,21 @@ def build_questions(model: dict, limit: int) -> list:
         destination = id_to_name.get(edge["to"], edge["to"])
         outgoing.setdefault(source, set()).add(destination)
 
-    for source in sorted(outgoing)[:limit]:
+    unique_sources = [source for source in sorted(outgoing) if has_unique_name(source)]
+    for source in unique_sources[:limit]:
         prompt = ( f"List every type that '{source}' references or inherits (its outgoing relations)")
         append_question(questions, "depends_on", source, prompt, sorted(outgoing[source]))
 
     # 3. Which module is a type defined in?
-    for node in sorted(nodes, key=node_id)[:limit]:
+    unique_nodes = [node for node in sorted(nodes, key=node_id) if has_unique_name(node["name"])]
+    for node in unique_nodes[:limit]:
         prompt = f"Which module is the type '{node['name']}' defined in?"
         append_question(questions, "module_of", node["name"], prompt, node["module"])
 
-    # Only classes and interfaces carry members
+    # Only classes and interfaces carry members, and only uniquely-named ones
     typed_nodes = []
     for node in nodes:
-        if node["kind"] in ("class", "interface"):
+        if node["kind"] in ("class", "interface") and has_unique_name(node["name"]):
             typed_nodes.append(node)
 
     # 4. How many public methods does a type declare?
@@ -198,8 +211,7 @@ def main(argv=None):
     name, vel_text, model = load_model(arguments.source)
     questions = build_questions(model, arguments.limit)
 
-    # Each project gets its own folder: <out_dir>/<name>/<name>.{vel,puml,mmd,d2}
-    # + <name>.questions.json. Keeps subjects tidy as more projects are added
+    # Each project gets its own folder: <out_dir>/<name>/<name>.{vel,puml,mmd,d2} + <name>.questions.json. Keeps subjects tidy as more projects are added
     project_dir = os.path.join(arguments.out_dir, name)
     write_subjects(name, vel_text, model, project_dir)
 

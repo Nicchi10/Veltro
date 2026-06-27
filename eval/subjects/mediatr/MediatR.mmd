@@ -1,0 +1,1363 @@
+classDiagram
+namespace MediatR {
+  class IMediator {
+    <<interface>>
+  }
+  class INotificationHandler {
+    <<interface>>
+    +Handle(TNotification notification, CancellationToken cancellationToken)
+  }
+  class NotificationHandler {
+    <<abstract>>
+    -Handle(TNotification notification, CancellationToken cancellationToken)
+    #Handle(TNotification notification)
+  }
+  class INotificationPublisher {
+    <<interface>>
+    +Publish(IEnumerable~NotificationHandlerExecutor~ handlerExecutors, INotification notification, CancellationToken cancellationToken)
+  }
+  class IPipelineBehavior {
+    <<interface>>
+    +Handle(TRequest request, RequestHandlerDelegate~TResponse~ next, CancellationToken cancellationToken)
+  }
+  class IPublisher {
+    <<interface>>
+    +Publish(object notification, CancellationToken cancellationToken)
+    +Publish(TNotification notification, CancellationToken cancellationToken)
+  }
+  class IRequestHandler {
+    <<interface>>
+    +Handle(TRequest request, CancellationToken cancellationToken)
+  }
+  class IRequestHandler {
+    <<interface>>
+    +Handle(TRequest request, CancellationToken cancellationToken)
+  }
+  class ISender {
+    <<interface>>
+    +Send(IRequest~TResponse~ request, CancellationToken cancellationToken)
+    +Send(TRequest request, CancellationToken cancellationToken)
+    +Send(object request, CancellationToken cancellationToken)
+    +CreateStream(IStreamRequest~TResponse~ request, CancellationToken cancellationToken)
+    +CreateStream(object request, CancellationToken cancellationToken)
+  }
+  class IStreamPipelineBehavior {
+    <<interface>>
+    +Handle(TRequest request, StreamHandlerDelegate~TResponse~ next, CancellationToken cancellationToken)
+  }
+  class IStreamRequestHandler {
+    <<interface>>
+    +Handle(TRequest request, CancellationToken cancellationToken)
+  }
+  class Mediator {
+    -IServiceProvider _serviceProvider
+    -INotificationPublisher _publisher
+    -ConcurrentDictionary~Type,RequestHandlerBase~ _requestHandlers$
+    -ConcurrentDictionary~Type,NotificationHandlerWrapper~ _notificationHandlers$
+    -ConcurrentDictionary~Type,StreamRequestHandlerBase~ _streamRequestHandlers$
+    +string? LicenseKey$
+    +Mediator(IServiceProvider serviceProvider)
+    +Mediator(IServiceProvider serviceProvider, INotificationPublisher publisher)
+    +Send(IRequest~TResponse~ request, CancellationToken cancellationToken)
+    +Send(TRequest request, CancellationToken cancellationToken)
+    +Send(object request, CancellationToken cancellationToken)
+    +Publish(TNotification notification, CancellationToken cancellationToken)
+    +Publish(object notification, CancellationToken cancellationToken)
+    #PublishCore(IEnumerable~NotificationHandlerExecutor~ handlerExecutors, INotification notification, CancellationToken cancellationToken)
+    -PublishNotification(INotification notification, CancellationToken cancellationToken)
+    +CreateStream(IStreamRequest~TResponse~ request, CancellationToken cancellationToken)
+    +CreateStream(object request, CancellationToken cancellationToken)
+  }
+  class NotificationHandlerExecutor {
+  }
+  class INotification {
+    <<interface>>
+  }
+  class IRequest {
+    <<interface>>
+  }
+  class IRequest {
+    <<interface>>
+  }
+  class IBaseRequest {
+    <<interface>>
+  }
+  class IStreamRequest {
+    <<interface>>
+  }
+  class Unit {
+    -Unit _value$
+    +ref readonly Unit Value$
+    +Task~Unit~ Task$
+    +CompareTo(Unit other)
+    -CompareTo(object? obj)
+    +GetHashCode()
+    +Equals(Unit other)
+    +Equals(object? obj)
+    +ToString()
+  }
+}
+namespace MediatR.Benchmarks {
+  class Benchmarks {
+    -IMediator _mediator
+    -Ping _request
+    -Pinged _notification
+    +GlobalSetup()
+    +SendingRequests()
+    +PublishingNotifications()
+  }
+  class DotTraceDiagnoserAttribute {
+    +IConfig Config
+    +DotTraceDiagnoserAttribute()
+  }
+  class DotTraceDiagnoser {
+    -string DotTraceExecutableNotFoundErrorMessage$
+    -string _saveLocation
+    +IEnumerable~string~ Ids
+    +IEnumerable~IExporter~ Exporters
+    +IEnumerable~IAnalyser~ Analysers
+    +DotTraceDiagnoser()
+    +GetRunMode(BenchmarkCase benchmarkCase)
+    +Handle(HostSignal signal, DiagnoserActionParameters parameters)
+    -RunDotTrace(DiagnoserActionParameters parameters)
+    -PrepareProcessStartInfo(DiagnoserActionParameters parameters)
+    +ProcessResults(DiagnoserResults results)
+    +DisplayResults(ILogger logger)
+    +Validate(ValidationParameters validationParameters)
+    -CanRunDotTrace()$
+  }
+  class GenericPipelineBehavior {
+    -TextWriter _writer
+    +GenericPipelineBehavior(TextWriter writer)
+    +Handle(TRequest request, RequestHandlerDelegate~TResponse~ next, CancellationToken cancellationToken)
+  }
+  class GenericRequestPostProcessor {
+    -TextWriter _writer
+    +GenericRequestPostProcessor(TextWriter writer)
+    +Process(TRequest request, TResponse response, CancellationToken cancellationToken)
+  }
+  class GenericRequestPreProcessor {
+    -TextWriter _writer
+    +GenericRequestPreProcessor(TextWriter writer)
+    +Process(TRequest request, CancellationToken cancellationToken)
+  }
+  class Ping {
+    +string Message
+  }
+  class PingHandler {
+    +Handle(Ping request, CancellationToken cancellationToken)
+  }
+  class Pinged {
+  }
+  class PingedHandler {
+    +Handle(Pinged notification, CancellationToken cancellationToken)
+  }
+  class Program {
+    +Main(string[] args)$
+  }
+}
+namespace MediatR.DependencyInjectionTests {
+  class AutoFacDependencyInjectionTests {
+    +AutoFacDependencyInjectionTests()
+  }
+  class DryIocDependencyInjectionTests {
+  }
+  class LamarDependencyInjectionTests {
+  }
+  class LightInjectDependencyInjectionTests {
+  }
+  class MicrosoftDependencyInjectionTests {
+    +MicrosoftDependencyInjectionTests()
+  }
+  class StashBoxDependencyInjectionTests {
+    +StashBoxDependencyInjectionTests()
+  }
+}
+namespace MediatR.DependencyInjectionTests.Abstractions {
+  class BaseAssemblyResolutionTests {
+    <<abstract>>
+    -IServiceProvider _provider
+    +Should_Resolve_Mediator()
+    +Should_Resolve_Public_RequestHandler()
+    +Should_Resolve_Internal_RequestHandler()
+    +Should_Resolve_Private_RequestHandler()
+    +Should_Resolve_Public_Void_RequestHandler()
+    +Should_Resolve_Internal_Void_RequestHandler()
+    +Should_Resolve_Private_Void_RequestHandler()
+    +Should_Resolve_Public_Private_Internal_Notification_Handlers()
+    +Should_Resolve_Public_Stream_Request_Handlers()
+    +Should_Resolve_Internal_Stream_Request_Handlers()
+    +Should_Resolve_Private_Stream_Request_Handlers()
+  }
+  class BaseServiceProviderFixture {
+    +IServiceProvider Provider
+  }
+}
+namespace MediatR.DependencyInjectionTests.Contracts.Notifications {
+  class Ding {
+  }
+}
+namespace MediatR.DependencyInjectionTests.Contracts.Requests {
+  class InternalPing {
+  }
+  class InternalVoidPing {
+  }
+  class PrivatePing {
+  }
+  class PrivateVoidPing {
+  }
+  class PublicPing {
+  }
+  class PublicVoidPing {
+  }
+}
+namespace MediatR.DependencyInjectionTests.Contracts.Responses {
+  class Pong {
+  }
+  class Zong {
+  }
+}
+namespace MediatR.DependencyInjectionTests.Contracts.StreamRequests {
+  class InternalZing {
+  }
+  class PrivateZing {
+  }
+  class PublicZing {
+  }
+}
+namespace MediatR.DependencyInjectionTests.Providers {
+  class AutoFacServiceProviderFixture {
+    +IServiceProvider Provider
+  }
+  class DryIocServiceProviderFixture {
+    +IServiceProvider Provider
+  }
+  class LamarServiceProviderFixture {
+    +IServiceProvider Provider
+  }
+  class LightInjectServiceProviderFixture {
+    +IServiceProvider Provider
+  }
+  class MicrosoftServiceProviderFixture {
+    +IServiceProvider Provider
+  }
+  class StashBoxServiceProviderFixture {
+    +IServiceProvider Provider
+  }
+}
+namespace MediatR.Entities {
+  class OpenBehavior {
+    +Type OpenBehaviorType
+    +ServiceLifetime ServiceLifetime
+    +OpenBehavior(Type openBehaviorType, ServiceLifetime serviceLifetime)
+    -ValidatePipelineBehaviorType(Type openBehaviorType)$
+  }
+}
+namespace MediatR.Examples {
+  class ConstrainedRequestPostProcessor {
+    -TextWriter _writer
+    +ConstrainedRequestPostProcessor(TextWriter writer)
+    +Process(TRequest request, TResponse response, CancellationToken cancellationToken)
+  }
+  class GenericHandler {
+    -TextWriter _writer
+    +GenericHandler(TextWriter writer)
+    +Handle(INotification notification, CancellationToken cancellationToken)
+  }
+  class GenericPipelineBehavior {
+    -TextWriter _writer
+    +GenericPipelineBehavior(TextWriter writer)
+    +Handle(TRequest request, RequestHandlerDelegate~TResponse~ next, CancellationToken cancellationToken)
+  }
+  class GenericRequestPostProcessor {
+    -TextWriter _writer
+    +GenericRequestPostProcessor(TextWriter writer)
+    +Process(TRequest request, TResponse response, CancellationToken cancellationToken)
+  }
+  class GenericRequestPreProcessor {
+    -TextWriter _writer
+    +GenericRequestPreProcessor(TextWriter writer)
+    +Process(TRequest request, CancellationToken cancellationToken)
+  }
+  class Jing {
+    +string Message
+  }
+  class JingHandler {
+    -TextWriter _writer
+    +JingHandler(TextWriter writer)
+    +Handle(Jing request, CancellationToken cancellationToken)
+  }
+  class Ping {
+    +string Message
+  }
+  class PingHandler {
+    -TextWriter _writer
+    +PingHandler(TextWriter writer)
+    +Handle(Ping request, CancellationToken cancellationToken)
+  }
+  class Pinged {
+  }
+  class PingedHandler {
+    -TextWriter _writer
+    +PingedHandler(TextWriter writer)
+    +Handle(Pinged notification, CancellationToken cancellationToken)
+  }
+  class PongedHandler {
+    -TextWriter _writer
+    +PongedHandler(TextWriter writer)
+    +Handle(Ponged notification, CancellationToken cancellationToken)
+  }
+  class ConstrainedPingedHandler {
+    -TextWriter _writer
+    +ConstrainedPingedHandler(TextWriter writer)
+    +Handle(TNotification notification, CancellationToken cancellationToken)
+  }
+  class PingedAlsoHandler {
+    -TextWriter _writer
+    +PingedAlsoHandler(TextWriter writer)
+    +Handle(Pinged notification, CancellationToken cancellationToken)
+  }
+  class Pong {
+    +string Message
+  }
+  class Ponged {
+  }
+  class Runner {
+    +Run(IMediator mediator, WrappingWriter writer, string projectName, bool testStreams)$
+    -IsHandlerForSameExceptionWorks(IMediator mediator, WrappingWriter writer)$
+    -IsHandlerForBaseExceptionWorks(IMediator mediator, WrappingWriter writer)$
+    -IsHandlerForLessSpecificExceptionWorks(IMediator mediator, WrappingWriter writer)$
+    -IsPreferredHandlerForBaseExceptionWorks(IMediator mediator, WrappingWriter writer)$
+    -IsOverriddenHandlerForBaseExceptionWorks(IMediator mediator, WrappingWriter writer)$
+    -IsExceptionHandledBy(WrappingWriter writer)$
+  }
+  class RunResults {
+    +bool RequestHandlers
+    +bool VoidRequestsHandlers
+    +bool PipelineBehaviors
+    +bool RequestPreProcessors
+    +bool RequestPostProcessors
+    +bool OrderedPipelineBehaviors
+    +bool ConstrainedGenericBehaviors
+    +bool NotificationHandler
+    +bool MultipleNotificationHandlers
+    +bool CovariantNotificationHandler
+    +bool ConstrainedGenericNotificationHandler
+    +bool HandlerForSameException
+    +bool HandlerForBaseException
+    +bool HandlerForLessSpecificException
+    +bool PreferredHandlerForBaseException
+    +bool OverriddenHandlerForBaseException
+    +bool StreamRequestHandlers
+    +bool StreamPipelineBehaviors
+    +bool StreamOrderedPipelineBehaviors
+  }
+  class WrappingWriter {
+    -TextWriter _innerWriter
+    -StringBuilder _stringWriter
+    +Encoding Encoding
+    +string Contents
+    +WrappingWriter(TextWriter innerWriter)
+    +Write(char value)
+    +WriteLineAsync(string value)
+  }
+  class GenericStreamPipelineBehavior {
+    -TextWriter _writer
+    +GenericStreamPipelineBehavior(TextWriter writer)
+    +Handle(TRequest request, StreamHandlerDelegate~TResponse~ next, CancellationToken cancellationToken)
+  }
+  class Sing {
+    +string Message
+  }
+  class SingHandler {
+    -TextWriter _writer
+    +SingHandler(TextWriter writer)
+    +Handle(Sing request, CancellationToken cancellationToken)
+  }
+  class Song {
+    +string Message
+  }
+}
+namespace MediatR.Examples.AspNetCore {
+  class Program {
+    +Main(string[] args)$
+    -BuildMediator(WrappingWriter writer)$
+  }
+}
+namespace MediatR.Examples.Autofac {
+  class Program {
+    +Main(string[] args)$
+    -BuildMediator(WrappingWriter writer)$
+  }
+}
+namespace MediatR.Examples.DryIoc {
+  class Program {
+    -Main()$
+    -BuildMediator(WrappingWriter writer)$
+  }
+}
+namespace MediatR.Examples.ExceptionHandler {
+  class ConnectionException {
+  }
+  class ForbiddenException {
+  }
+  class ResourceNotFoundException {
+  }
+  class ServerException {
+  }
+  class CommonExceptionHandler {
+    -TextWriter _writer
+    +CommonExceptionHandler(TextWriter writer)
+    +Handle(PingResource request, Exception exception, RequestExceptionHandlerState~Pong~ state, CancellationToken cancellationToken)
+  }
+  class ConnectionExceptionHandler {
+    -TextWriter _writer
+    +ConnectionExceptionHandler(TextWriter writer)
+    +Handle(PingResource request, ConnectionException exception, RequestExceptionHandlerState~Pong~ state, CancellationToken cancellationToken)
+  }
+  class AccessDeniedExceptionHandler {
+    -TextWriter _writer
+    +AccessDeniedExceptionHandler(TextWriter writer)
+    +Handle(PingResource request, ForbiddenException exception, RequestExceptionHandlerState~Pong~ state, CancellationToken cancellationToken)
+  }
+  class ServerExceptionHandler {
+    -TextWriter _writer
+    +ServerExceptionHandler(TextWriter writer)
+    +Handle(PingNewResource request, ServerException exception, RequestExceptionHandlerState~Pong~ state, CancellationToken cancellationToken)
+  }
+  class PingResourceHandler {
+    -TextWriter _writer
+    +PingResourceHandler(TextWriter writer)
+    +Handle(PingResource request, CancellationToken cancellationToken)
+  }
+  class PingNewResourceHandler {
+    -TextWriter _writer
+    +PingNewResourceHandler(TextWriter writer)
+    +Handle(PingNewResource request, CancellationToken cancellationToken)
+  }
+  class PingResourceTimeoutHandler {
+    -TextWriter _writer
+    +PingResourceTimeoutHandler(TextWriter writer)
+    +Handle(PingResourceTimeout request, CancellationToken cancellationToken)
+  }
+  class PingResourceTimeoutOverrideHandler {
+    -TextWriter _writer
+    +PingResourceTimeoutOverrideHandler(TextWriter writer)
+    +Handle(Overrides.PingResourceTimeout request, CancellationToken cancellationToken)
+  }
+  class PingProtectedResourceHandler {
+    -TextWriter _writer
+    +PingProtectedResourceHandler(TextWriter writer)
+    +Handle(PingProtectedResource request, CancellationToken cancellationToken)
+  }
+  class LogExceptionAction {
+    -TextWriter _writer
+    +LogExceptionAction(TextWriter writer)
+    +Execute(Ping request, Exception exception, CancellationToken cancellationToken)
+  }
+  class PingResource {
+  }
+  class PingNewResource {
+  }
+  class PingResourceTimeout {
+  }
+  class PingProtectedResource {
+  }
+}
+namespace MediatR.Examples.ExceptionHandler.Overrides {
+  class CommonExceptionHandler {
+    -TextWriter _writer
+    +CommonExceptionHandler(TextWriter writer)
+    +Handle(PingResourceTimeout request, Exception exception, RequestExceptionHandlerState~Pong~ state, CancellationToken cancellationToken)
+  }
+  class ServerExceptionHandler {
+    -TextWriter _writer
+    +ServerExceptionHandler(TextWriter writer)
+    +Handle(PingNewResource request, ServerException exception, RequestExceptionHandlerState~Pong~ state, CancellationToken cancellationToken)
+  }
+  class PingResourceTimeout {
+  }
+}
+namespace MediatR.Examples.Lamar {
+  class Program {
+    -Main(string[] args)$
+    -BuildMediator(WrappingWriter writer)$
+  }
+}
+namespace MediatR.Examples.LightInject {
+  class Program {
+    -Main(string[] args)$
+    -BuildMediator(WrappingWriter writer)$
+  }
+}
+namespace MediatR.Examples.PublishStrategies {
+  class AsyncPingedHandler {
+    +string Name
+    +AsyncPingedHandler(string name)
+    +Handle(Pinged notification, CancellationToken cancellationToken)
+  }
+  class CustomMediator {
+    -Func~IEnumerable~NotificationHandlerExecutor~,INotification,CancellationToken,Task~ _publish
+    +CustomMediator(IServiceProvider serviceFactory, Func~IEnumerable~NotificationHandlerExecutor~,INotification,CancellationToken,Task~ publish)
+    #PublishCore(IEnumerable~NotificationHandlerExecutor~ handlerExecutors, INotification notification, CancellationToken cancellationToken)
+  }
+  class Program {
+    -Main(string[] args)$
+  }
+  class PublishStrategy {
+    <<enumeration>>
+    SyncContinueOnException
+    SyncStopOnException
+    Async
+    ParallelNoWait
+    ParallelWhenAll
+    ParallelWhenAny
+  }
+  class Publisher {
+    -IServiceProvider _serviceFactory
+    +IDictionary~PublishStrategy,IMediator~ PublishStrategies
+    +PublishStrategy DefaultStrategy
+    +Publisher(IServiceProvider serviceFactory)
+    +Publish(TNotification notification)
+    +Publish(TNotification notification, PublishStrategy strategy)
+    +Publish(TNotification notification, CancellationToken cancellationToken)
+    +Publish(TNotification notification, PublishStrategy strategy, CancellationToken cancellationToken)
+    -ParallelWhenAll(IEnumerable~NotificationHandlerExecutor~ handlers, INotification notification, CancellationToken cancellationToken)
+    -ParallelWhenAny(IEnumerable~NotificationHandlerExecutor~ handlers, INotification notification, CancellationToken cancellationToken)
+    -ParallelNoWait(IEnumerable~NotificationHandlerExecutor~ handlers, INotification notification, CancellationToken cancellationToken)
+    -AsyncContinueOnException(IEnumerable~NotificationHandlerExecutor~ handlers, INotification notification, CancellationToken cancellationToken)
+    -SyncStopOnException(IEnumerable~NotificationHandlerExecutor~ handlers, INotification notification, CancellationToken cancellationToken)
+    -SyncContinueOnException(IEnumerable~NotificationHandlerExecutor~ handlers, INotification notification, CancellationToken cancellationToken)
+  }
+  class SyncPingedHandler {
+    +string Name
+    +SyncPingedHandler(string name)
+    +Handle(Pinged notification, CancellationToken cancellationToken)
+  }
+}
+namespace MediatR.Examples.SimpleInjector {
+  class Program {
+    -Main(string[] args)$
+    -BuildMediator(WrappingWriter writer)$
+    -RegisterHandlers(Container container, Type collectionType, Assembly[] assemblies)$
+    -GetAssemblies()$
+  }
+}
+namespace MediatR.Examples.Stashbox {
+  class Program {
+    -Main()$
+    -BuildMediator(WrappingWriter writer)$
+  }
+}
+namespace MediatR.Examples.Windsor {
+  class ContravariantFilter {
+    +HasOpinionAbout(Type service)
+    +SelectHandlers(Type service, IHandler[] handlers)
+  }
+  class Program {
+    -Main(string[] args)$
+    -BuildMediator(WrappingWriter writer)$
+    -ResolveRequestExceptionHandler(IKernel k, Type type, Type service, object resolvedType, Type[] genericArguments)$
+    -ResolveRequestExceptionAction(IKernel k, Type type, Type service, object resolvedType, Type[] genericArguments)$
+    -CreateArraysOutOfResolvedTypeAndEnumerableInterfaceTypes(Type type, object resolvedType, ServiceFactory serviceFactory, Type enumerableExceptionHandlerInterfaceType)$
+  }
+}
+namespace MediatR.Extensions.Microsoft.DependencyInjection.Tests {
+  class AssemblyResolutionTests {
+    -IServiceProvider _provider
+    +AssemblyResolutionTests()
+    +ShouldResolveMediator()
+    +ShouldResolveRequestHandler()
+    +ShouldResolveInternalHandler()
+    +ShouldResolveNotificationHandlers()
+    +ShouldResolveStreamHandlers()
+    +ShouldRequireAtLeastOneAssembly()
+    +ShouldResolveGenericVoidRequestHandler()
+    +ShouldResolveGenericReturnTypeRequestHandler()
+    +ShouldResolveGenericPingRequestHandler()
+    +ShouldResolveVoidGenericPingRequestHandler()
+    +ShouldNotThrowWhenAssemblyThrowsReflectionTypeLoadException()
+  }
+  class CustomMediatorTests {
+    -IServiceProvider _provider
+    +CustomMediatorTests()
+    +ShouldResolveMediator()
+    +ShouldResolveRequestHandler()
+    +ShouldResolveNotificationHandlers()
+    +Can_Call_AddMediatr_multiple_times()
+  }
+  class DerivingRequestsTests {
+    -IServiceProvider _provider
+    -IMediator _mediator
+    +DerivingRequestsTests()
+    +ShouldReturnPingPong()
+    +ShouldReturnDerivedPingPong()
+  }
+  class DuplicateAssemblyResolutionTests {
+    -IServiceProvider _provider
+    +DuplicateAssemblyResolutionTests()
+    +ShouldResolveNotificationHandlersOnlyOnce()
+  }
+  class Ping {
+    +string? Message
+    +Action~Ping~? ThrowAction
+  }
+  class DerivedPing {
+  }
+  class Pong {
+    +string? Message
+  }
+  class Zing {
+    +string? Message
+  }
+  class Zong {
+    +string? Message
+  }
+  class Ding {
+    +string? Message
+  }
+  class Pinged {
+  }
+  class InternalPing {
+  }
+  class StreamPing {
+    +string? Message
+  }
+  class GenericHandler {
+    +Handle(INotification notification, CancellationToken cancellationToken)
+  }
+  class DingAsyncHandler {
+    +Handle(Ding message, CancellationToken cancellationToken)
+  }
+  class PingedHandler {
+    +Handle(Pinged notification, CancellationToken cancellationToken)
+  }
+  class PingedAlsoHandler {
+    +Handle(Pinged notification, CancellationToken cancellationToken)
+  }
+  class PingedAlsoOpenHandler {
+    +Handle(TNotification notification, CancellationToken cancellationToken)
+  }
+  class Logger {
+    +IList~string~ Messages
+  }
+  class PingHandler {
+    -Logger _logger
+    +PingHandler(Logger logger)
+    +Handle(Ping message, CancellationToken cancellationToken)
+  }
+  class DerivedPingHandler {
+    -Logger _logger
+    +DerivedPingHandler(Logger logger)
+    +Handle(DerivedPing message, CancellationToken cancellationToken)
+  }
+  class ZingHandler {
+    -Logger _output
+    +ZingHandler(Logger output)
+    +Handle(Zing message, CancellationToken cancellationToken)
+  }
+  class PingStreamHandler {
+    -Logger _output
+    +PingStreamHandler(Logger output)
+    +Handle(StreamPing request, CancellationToken cancellationToken)
+  }
+  class DuplicateTest {
+  }
+  class DuplicateHandler1 {
+    +Handle(DuplicateTest message, CancellationToken cancellationToken)
+  }
+  class DuplicateHandler2 {
+    +Handle(DuplicateTest message, CancellationToken cancellationToken)
+  }
+  class InternalPingHandler {
+    +Handle(InternalPing request, CancellationToken cancellationToken)
+  }
+  class MyCustomMediator {
+    +Send(object request, CancellationToken cancellationToken)
+    +CreateStream(IStreamRequest~TResponse~ request, CancellationToken cancellationToken)
+    +CreateStream(object request, CancellationToken cancellationToken)
+    +Publish(object notification, CancellationToken cancellationToken)
+    +Publish(TNotification notification, CancellationToken cancellationToken)
+    +Send(IRequest~TResponse~ request, CancellationToken cancellationToken)
+    +Send(TRequest request, CancellationToken cancellationToken)
+  }
+  class ITypeArgument {
+    <<interface>>
+  }
+  class ConcreteTypeArgument {
+  }
+  class OpenGenericVoidRequest {
+  }
+  class OpenGenericVoidRequestHandler {
+    +Handle(OpenGenericVoidRequest~T~ request, CancellationToken cancellationToken)
+  }
+  class OpenGenericReturnTypeRequest {
+  }
+  class OpenGenericReturnTypeRequestHandler {
+    +Handle(OpenGenericReturnTypeRequest~T~ request, CancellationToken cancellationToken)
+  }
+  class GenericPing {
+    +T? Pong
+  }
+  class GenericPingHandler {
+    +Handle(GenericPing~T~ request, CancellationToken cancellationToken)
+  }
+  class VoidGenericPing {
+  }
+  class VoidGenericPingHandler {
+    +Handle(VoidGenericPing~T~ request, CancellationToken cancellationToken)
+  }
+  class Issue1118Tests {
+    -BuildProvider()$
+    +Publishing_BaseEvent_Should_Call_BaseEventHandler_Once()
+    +Publishing_DerivedEvent_Should_Call_BaseEventHandler_ExactlyOnce()
+    +Publishing_DerivedEvent_Should_Call_DerivedEventHandler_Once()
+  }
+  class NotificationPublisherTests {
+    +ShouldResolveDefaultPublisher()
+    +ShouldSubstitutePublisherInstance()
+    +ShouldSubstitutePublisherServiceType()
+    +ShouldSubstitutePublisherServiceTypeWithWhenAll()
+  }
+  class PipelineMultiCallToConstructorTests {
+    +Should_not_call_constructor_multiple_times_when_using_a_pipeline()
+  }
+  class PipelineTests {
+    +Should_wrap_with_behavior()
+    +Should_wrap_generics_with_behavior()
+    +Should_register_pre_and_post_processors()
+    +Should_pick_up_specific_exception_behaviors()
+    +Should_pick_up_base_exception_behaviors()
+    +Should_handle_exceptions_from_behaviors()
+    +Should_pick_up_exception_actions()
+    +Should_handle_constrained_generics()
+    +Should_throw_when_adding_non_open_behavior()
+    +Should_throw_when_adding_non_open_stream_behavior()
+    +Should_throw_when_adding_random_generic_type_as_open_behavior()
+    +Should_handle_open_behavior_registration()
+    +Should_handle_inferred_behavior_registration()
+    +Should_handle_inferred_stream_behavior_registration()
+    +Should_handle_inferred_pre_processor_registration()
+    +Should_handle_inferred_post_processor_registration()
+    +Should_handle_open_behaviors_registration_from_a_single_type()
+    +Should_auto_register_processors_when_configured_including_all_concrete_types()
+    +Should_register_correctly()
+    +Should_register_open_behaviors_correctly()
+    +Should_apply_open_behavior_with_nested_generic_response_type()
+  }
+  class StreamPipelineTests {
+    +Should_wrap_with_behavior()
+    +Should_register_and_wrap_with_behavior()
+  }
+  class TypeEvaluatorTests {
+    -IServiceProvider _provider
+    -IServiceCollection _services
+    +TypeEvaluatorTests()
+    +ShouldResolveMediator()
+    +ShouldOnlyResolveIncludedRequestHandlers()
+    +ShouldNotRegisterUnNeededBehaviors()
+  }
+  class TypeResolutionTests {
+    -IServiceProvider _provider
+    +TypeResolutionTests()
+    +ShouldResolveMediator()
+    +ShouldResolveSender()
+    +ShouldResolvePublisher()
+    +ShouldResolveRequestHandler()
+    +ShouldResolveVoidRequestHandler()
+    +ShouldResolveNotificationHandlers()
+    +ShouldNotThrowWithMissingEnumerables()
+    +ShouldResolveFirstDuplicateHandler()
+    +ShouldResolveIgnoreSecondDuplicateHandler()
+    +ShouldHandleKeyedServices()
+  }
+}
+namespace MediatR.Extensions.Microsoft.DependencyInjection.Tests.Included {
+  class Foo {
+    +string? Message
+    +Action~Foo~? ThrowAction
+  }
+  class Bar {
+    +string? Message
+  }
+  class FooHandler {
+    -Logger _logger
+    +FooHandler(Logger logger)
+    +Handle(Foo message, CancellationToken cancellationToken)
+  }
+}
+namespace MediatR.Internal {
+  class HandlersOrderer {
+    +Prioritize(IList~object~ handlers, TRequest request)$
+    -RemoveOverridden(IList~ObjectDetails~ handlersData)$
+  }
+  class ObjectDetails {
+    +string Name
+    +string? AssemblyName
+    +string? Location
+    +object Value
+    +Type Type
+    +bool IsOverridden
+    +ObjectDetails(object value)
+    +Compare(ObjectDetails? x, ObjectDetails? y)
+    -CompareByAssembly(ObjectDetails x, ObjectDetails y)
+    -CompareByNamespace(ObjectDetails x, ObjectDetails y)
+    -CompareByLocation(ObjectDetails x, ObjectDetails y)
+  }
+}
+namespace MediatR.Licensing {
+  class BuildInfo {
+    +DateTimeOffset? BuildDate$
+    -GetBuildDate()$
+  }
+  class Edition {
+    <<enumeration>>
+    Community
+    Standard
+    Professional
+    Enterprise
+  }
+  class License {
+    +Guid? AccountId
+    +string? CustomerId
+    +string? SubscriptionId
+    +DateTimeOffset? StartDate
+    +DateTimeOffset? ExpirationDate
+    +Edition? Edition
+    +ProductType? ProductType
+    +bool IsPerpetual
+    +bool IsConfigured
+    ~License()
+    +License(ClaimsPrincipal claims)
+  }
+  class LicenseAccessor {
+    -MediatRServiceConfiguration? _configuration
+    -ILogger _logger
+    -License? _license
+    -object _lock
+    +License Current
+    +LicenseAccessor(MediatRServiceConfiguration configuration, ILoggerFactory loggerFactory)
+    +LicenseAccessor(ILoggerFactory loggerFactory)
+    -Initialize()
+    -ValidateKey(string licenseKey)
+  }
+  class LicenseValidator {
+    -ILogger _logger
+    -DateTimeOffset? _buildDate
+    +LicenseValidator(ILoggerFactory loggerFactory)
+    +LicenseValidator(ILoggerFactory loggerFactory, DateTimeOffset? buildDate)
+    +Validate(License license)
+  }
+  class ProductType {
+    <<enumeration>>
+    AutoMapper
+    MediatR
+    Bundle
+  }
+}
+namespace MediatR.NotificationPublishers {
+  class ForeachAwaitPublisher {
+    +Publish(IEnumerable~NotificationHandlerExecutor~ handlerExecutors, INotification notification, CancellationToken cancellationToken)
+  }
+  class TaskWhenAllPublisher {
+    +Publish(IEnumerable~NotificationHandlerExecutor~ handlerExecutors, INotification notification, CancellationToken cancellationToken)
+  }
+}
+namespace MediatR.Pipeline {
+  class IRequestExceptionAction {
+    <<interface>>
+    +Execute(TRequest request, TException exception, CancellationToken cancellationToken)
+  }
+  class IRequestExceptionHandler {
+    <<interface>>
+    +Handle(TRequest request, TException exception, RequestExceptionHandlerState~TResponse~ state, CancellationToken cancellationToken)
+  }
+  class IRequestPostProcessor {
+    <<interface>>
+    +Process(TRequest request, TResponse response, CancellationToken cancellationToken)
+  }
+  class IRequestPreProcessor {
+    <<interface>>
+    +Process(TRequest request, CancellationToken cancellationToken)
+  }
+  class RequestExceptionActionProcessorBehavior {
+    -IServiceProvider _serviceProvider
+    +RequestExceptionActionProcessorBehavior(IServiceProvider serviceProvider)
+    +Handle(TRequest request, RequestHandlerDelegate~TResponse~ next, CancellationToken cancellationToken)
+    -GetExceptionTypes(Type? exceptionType)$
+    -GetActionsForException(Type exceptionType, TRequest request)
+    -GetMethodInfoForAction(Type exceptionType)$
+  }
+  class RequestExceptionHandlerState {
+    +bool Handled
+    +TResponse? Response
+    +SetHandled(TResponse response)
+  }
+  class RequestExceptionProcessorBehavior {
+    -IServiceProvider _serviceProvider
+    +RequestExceptionProcessorBehavior(IServiceProvider serviceProvider)
+    +Handle(TRequest request, RequestHandlerDelegate~TResponse~ next, CancellationToken cancellationToken)
+    -GetExceptionTypes(Type? exceptionType)$
+    -GetHandlersForException(Type exceptionType, TRequest request)
+    -GetMethodInfoForHandler(Type exceptionType)$
+  }
+  class RequestPostProcessorBehavior {
+    -IEnumerable~IRequestPostProcessor~TRequest,TResponse~~ _postProcessors
+    +RequestPostProcessorBehavior(IEnumerable~IRequestPostProcessor~TRequest,TResponse~~ postProcessors)
+    +Handle(TRequest request, RequestHandlerDelegate~TResponse~ next, CancellationToken cancellationToken)
+  }
+  class RequestPreProcessorBehavior {
+    -IEnumerable~IRequestPreProcessor~TRequest~~ _preProcessors
+    +RequestPreProcessorBehavior(IEnumerable~IRequestPreProcessor~TRequest~~ preProcessors)
+    +Handle(TRequest request, RequestHandlerDelegate~TResponse~ next, CancellationToken cancellationToken)
+  }
+}
+namespace MediatR.Registration {
+  class ServiceRegistrar {
+    -int MaxGenericTypeParameters$
+    -int MaxTypesClosing$
+    -int MaxGenericTypeRegistrations$
+    -int RegistrationTimeout$
+    +SetGenericRequestHandlerRegistrationLimitations(MediatRServiceConfiguration configuration)$
+    +AddMediatRClassesWithTimeout(IServiceCollection services, MediatRServiceConfiguration configuration)$
+    +AddMediatRClasses(IServiceCollection services, MediatRServiceConfiguration configuration, CancellationToken cancellationToken)$
+    -ConnectImplementationsToTypesClosing(Type openRequestInterface, IServiceCollection services, IEnumerable~Assembly~ assembliesToScan, bool addIfAlreadyExists, MediatRServiceConfiguration configuration, CancellationToken cancellationToken)$
+    -IsMatchingWithInterface(Type? handlerType, Type handlerInterface)$
+    -AddConcretionsThatCouldBeClosed(Type @interface, List~Type~ concretions, IServiceCollection services)$
+    -GetConcreteRegistrationTypes(Type openRequestHandlerInterface, Type concreteGenericTRequest, Type openRequestHandlerImplementation)$
+    -GetConcreteRequestTypes(Type openRequestHandlerInterface, Type openRequestHandlerImplementation, IEnumerable~Assembly~ assembliesToScan, CancellationToken cancellationToken)$
+    +GenerateCombinations(Type requestType, List~List~Type~~ lists, int depth, CancellationToken cancellationToken)$
+    -AddAllConcretionsThatClose(Type openRequestInterface, List~Type~ concretions, IServiceCollection services, IEnumerable~Assembly~ assembliesToScan, CancellationToken cancellationToken)$
+    ~CouldCloseTo(Type openConcretion, Type closedInterface)$
+    -CanBeCastTo(Type pluggedType, Type pluginType)$
+    -IsOpenGeneric(Type type)$
+    ~FindInterfacesThatClose(Type pluggedType, Type templateType)$
+    -FindInterfacesThatClosesCore(Type pluggedType, Type templateType)$
+    -IsConcrete(Type type)$
+    -Fill(IList~T~ list, T value)$
+    -GetLoadableDefinedTypes(Assembly assembly)$
+    -HasNestedGenericResponseType(Type openBehaviorType)$
+    -TryMatchType(Type pattern, Type concrete, Dictionary~Type,Type~ bindings)$
+    -RegisterClosedBehaviorsFromAssemblies(Type openBehaviorType, IServiceCollection services, IEnumerable~Assembly~ assemblies, ServiceLifetime lifetime)$
+    +AddRequiredServices(IServiceCollection services, MediatRServiceConfiguration serviceConfiguration)$
+    -RegisterBehaviorIfImplementationsExist(IServiceCollection services, Type behaviorType, Type subBehaviorType)$
+  }
+}
+namespace MediatR.Tests {
+  class CreateStreamTests {
+    +Should_resolve_main_handler()
+    +Should_resolve_main_handler_via_dynamic_dispatch()
+    +Should_resolve_main_handler_by_specific_interface()
+    +Should_raise_execption_on_null_request()
+    +Should_raise_execption_on_null_request_via_dynamic_dispatch()
+  }
+  class ExceptionTests {
+    -IMediator _mediator
+    +ExceptionTests()
+    +Should_throw_for_send()
+    +Should_throw_for_void_send()
+    +Should_not_throw_for_publish()
+    +Should_throw_for_async_send()
+    +Should_throw_for_async_void_send()
+    +Should_not_throw_for_async_publish()
+    +Should_throw_argument_exception_for_send_when_request_is_null()
+    +Should_throw_argument_exception_for_void_send_when_request_is_null()
+    +Should_throw_argument_exception_for_publish_when_request_is_null()
+    +Should_throw_argument_exception_for_publish_when_request_is_null_object()
+    +Should_throw_argument_exception_for_publish_when_request_is_not_notification()
+    +Should_throw_exception_for_non_generic_send_when_exception_occurs()
+    +Should_throw_exception_for_non_request_send()
+    +Should_throw_exception_for_generic_send_when_exception_occurs()
+  }
+  class GenericRequestHandlerTests {
+    +ShouldResolveAllCombinationsOfGenericHandler(int numberOfClasses, int numberOfInterfaces, int numberOfTypeParameters)
+    +ShouldRegisterTheCorrectAmountOfHandlers(int numberOfClasses, int numberOfInterfaces, int numberOfTypeParameters)
+    +ShouldNotRegisterDuplicateHandlers(int numberOfClasses, int numberOfInterfaces, int numberOfTypeParameters)
+    +ShouldThrowExceptionWhenTypesClosingExceedsMaximum()
+    +ShouldThrowExceptionWhenGenericHandlerRegistrationsExceedsMaximum()
+    +ShouldThrowExceptionWhenGenericTypeParametersExceedsMaximum()
+    +ShouldThrowExceptionWhenTimeoutOccurs()
+    +ShouldNotRegisterGenericHandlersWhenOptingOut()
+  }
+  class GenericTypeConstraintsTests {
+    -IMediator _mediator
+    +GenericTypeConstraintsTests()
+    +Should_Resolve_Void_Return_Request()
+    +Should_Resolve_Response_Return_Request()
+  }
+  class NotificationHandlerTests {
+    +Should_call_abstract_handle_method()
+  }
+  class NotificationPublisherTests {
+    -ITestOutputHelper _output
+    +NotificationPublisherTests(ITestOutputHelper output)
+    +Should_handle_sequentially_by_default()
+  }
+  class PipelineTests {
+    +Should_wrap_with_behavior()
+    +Should_wrap_void_with_behavior()
+    +Should_wrap_generics_with_behavior()
+    +Should_wrap_void_generics_with_behavior()
+    +Should_handle_constrained_generics()
+    +Should_handle_concrete_and_open_generics()
+  }
+  class PublishTests {
+    +Should_resolve_main_handler()
+    +Should_resolve_main_handler_when_object_is_passed()
+    +Should_override_with_sequential_firing()
+    +Should_override_with_sequential_firing_through_injection()
+    +Should_resolve_handlers_given_interface()
+    +Should_resolve_main_handler_by_specific_interface()
+  }
+  class SendTests {
+    -IServiceProvider _serviceProvider
+    -Dependency _dependency
+    -IMediator _mediator
+    +SendTests()
+    +Should_resolve_main_handler()
+    +Should_resolve_main_void_handler()
+    +Should_resolve_main_handler_via_dynamic_dispatch()
+    +Should_resolve_main_void_handler_via_dynamic_dispatch()
+    +Should_resolve_main_handler_by_specific_interface()
+    +Should_resolve_main_handler_by_given_interface()
+    +Should_raise_execption_on_null_request()
+    +Should_resolve_generic_handler()
+    +Should_resolve_generic_void_handler()
+    +Should_resolve_multiple_type_parameter_generic_handler()
+    +Should_resolve_closed_handler_if_defined()
+    +Should_resolve_open_handler_if_not_defined()
+    +TimeoutBehavior_Void_Should_Cancel_Long_Running_Task_And_Throw_Exception()
+    +TimeoutBehavior_NonVoid_Should_Cancel_Long_Running_Task_And_Throw_Exception()
+  }
+  class SendVoidInterfaceTests {
+    +Should_resolve_main_void_handler()
+  }
+  class ServiceFactoryCollectionBehavior {
+  }
+  class ServiceFactoryTests {
+    +Should_throw_given_no_handler()
+    +Should_not_throw_with_manual_registration()
+    +Should_throw_when_missing_required_configuration()
+  }
+  class StreamPipelineTests {
+    +Should_wrap_with_behavior()
+    +Should_wrap_generics_with_behavior()
+    +Should_handle_constrained_generics()
+    +Should_handle_concrete_and_open_generics()
+  }
+  class TestContainer {
+    +Create(Action~ServiceCollection~ config)$
+  }
+  class UnitTests {
+    +Should_be_equal_to_each_other()
+    +Should_be_equitable()
+    +Should_tostring()
+    +Should_compareto_as_zero()
+    +ValueData()$
+    +CompareToValueData()$
+    +Should_be_equal(object value, bool isEqual)
+    +Should_compareto_value_as_zero(object value)
+  }
+}
+namespace MediatR.Tests.Licensing {
+  class LicenseAccessorTests {
+    +Should_return_unconfigured_license_for_missing_or_blank_key(string? key)
+    +Should_return_unconfigured_license_when_static_key_is_blank()
+  }
+  class LicenseValidatorTests {
+    +Should_return_invalid_when_no_claims()
+    +Should_return_valid_when_community()
+    +Should_return_invalid_when_not_correct_type()
+    +Should_return_invalid_when_expired()
+    +Should_allow_perpetual_license_when_build_date_before_expiration()
+    +Should_reject_perpetual_license_when_build_date_after_expiration()
+    +Should_handle_missing_perpetual_claim()
+    +Should_fall_back_to_expiration_error_when_perpetual_and_build_date_is_null()
+    +Should_return_valid_for_actual_valid_license()
+    +Should_return_valid_for_actual_valid_license_via_static_property()
+  }
+}
+namespace MediatR.Tests.MicrosoftExtensionsDI {
+  class BaseGenericRequestHandlerTests {
+    <<abstract>>
+    #GenerateTypesClosingExceedsMaximumAssembly()$
+    #GenerateHandlerRegistrationsExceedsMaximumAssembly()$
+    #GenerateGenericTypeParametersExceedsMaximumAssembly()$
+    #GenerateTimeoutOccursAssembly()$
+    #GenerateOptOutAssembly()$
+    #CreateHandlerForOptOutTest(ModuleBuilder moduleBuilder)$
+    #CreateHandlerForMissingConstraintsTest(ModuleBuilder moduleBuilder)$
+    #CreateHandlerForExceedsMaximumClassesTest(ModuleBuilder moduleBuilder)$
+    #CreateHandlerForExceedsMaximumHandlerRegistrationsTest(ModuleBuilder moduleBuilder)$
+    #CreateHandlerForExceedsMaximumGenericTypeParametersTest(ModuleBuilder moduleBuilder)$
+    #CreateHandlerForTimeoutOccursTest(ModuleBuilder moduleBuilder)$
+    #CreateHandlerForCombinationsTest(ModuleBuilder moduleBuilder, int numberOfGenericParameters)$
+    #CreateClass(ModuleBuilder moduleBuilder, string className, Type interfaceType)$
+    #CreateInterface(ModuleBuilder moduleBuilder, string interfaceName)$
+    #CreateAssemblyModuleBuilder(string name, int classes, int interfaces, Action~ModuleBuilder~ handlerCreation)$
+    #GenerateCombinationsTestAssembly(int classes, int interfaces, int genericParameters)$
+    #GetGenericParameterNames(int numberOfTypeParameters)$
+    #CreateRequestHandler(ModuleBuilder moduleBuilder, string requestName, int numberOfTypeParameters, int numberOfInterfaces, bool includeConstraints)$
+    #CreateTestClassesAndInterfaces(ModuleBuilder moduleBuilder, int numberOfClasses, int numberOfInterfaces)$
+    #GenerateCombinations(Type[] types, int interfaces)
+    #GenerateCombinationsRecursive(List~Type~[] groups, int currentGroup)
+    #CalculateTotalCombinations(int numberOfClasses, int numberOfInterfaces, int numberOfTypeParameters)$
+  }
+}
+namespace MediatR.Tests.Pipeline {
+  class RequestExceptionActionTests {
+    +Should_run_all_exception_actions_that_match_base_type()
+    +Should_run_matching_exception_actions_only_once()
+  }
+  class RequestExceptionHandlerTests {
+    +Should_run_exception_handler_and_allow_for_exception_not_to_throw()
+    +Should_run_exception_handler_and_allow_for_exception_to_be_still_thrown()
+    +Should_run_exception_handler_and_unwrap_expections_thrown_in_the_handler()
+    +Should_run_matching_exception_handlers_only_once()
+  }
+  class RequestPostProcessorTests {
+    +Should_run_postprocessors()
+  }
+  class RequestPreProcessorTests {
+    +Should_run_preprocessors()
+  }
+}
+namespace MediatR.Tests.Pipeline.Streams {
+  class StreamPipelineBehaviorTests {
+    +Should_run_pipeline_behavior()
+  }
+}
+namespace MediatR.Wrappers {
+  class NotificationHandlerWrapper {
+    <<abstract>>
+    +Handle(INotification notification, IServiceProvider serviceFactory, Func~IEnumerable~NotificationHandlerExecutor~,INotification,CancellationToken,Task~ publish, CancellationToken cancellationToken)
+  }
+  class NotificationHandlerWrapperImpl {
+    +Handle(INotification notification, IServiceProvider serviceFactory, Func~IEnumerable~NotificationHandlerExecutor~,INotification,CancellationToken,Task~ publish, CancellationToken cancellationToken)
+  }
+  class RequestHandlerBase {
+    <<abstract>>
+    +Handle(object request, IServiceProvider serviceProvider, CancellationToken cancellationToken)
+  }
+  class RequestHandlerWrapper {
+    <<abstract>>
+    +Handle(IRequest~TResponse~ request, IServiceProvider serviceProvider, CancellationToken cancellationToken)
+  }
+  class RequestHandlerWrapper {
+    <<abstract>>
+    +Handle(IRequest request, IServiceProvider serviceProvider, CancellationToken cancellationToken)
+  }
+  class RequestHandlerWrapperImpl {
+    +Handle(object request, IServiceProvider serviceProvider, CancellationToken cancellationToken)
+    +Handle(IRequest~TResponse~ request, IServiceProvider serviceProvider, CancellationToken cancellationToken)
+  }
+  class RequestHandlerWrapperImpl {
+    +Handle(object request, IServiceProvider serviceProvider, CancellationToken cancellationToken)
+    +Handle(IRequest request, IServiceProvider serviceProvider, CancellationToken cancellationToken)
+  }
+  class StreamRequestHandlerBase {
+    <<abstract>>
+    +Handle(object request, IServiceProvider serviceProvider, CancellationToken cancellationToken)
+  }
+  class StreamRequestHandlerWrapper {
+    <<abstract>>
+    +Handle(IStreamRequest~TResponse~ request, IServiceProvider serviceProvider, CancellationToken cancellationToken)
+  }
+  class StreamRequestHandlerWrapperImpl {
+    +Handle(object request, IServiceProvider serviceProvider, CancellationToken cancellationToken)
+    +Handle(IStreamRequest~TResponse~ request, IServiceProvider serviceProvider, CancellationToken cancellationToken)
+    -NextWrapper(IAsyncEnumerable~T~ items, CancellationToken cancellationToken)$
+  }
+}
+namespace Microsoft.Extensions.DependencyInjection {
+  class MediatRServiceCollectionExtensions {
+    ~bool LicenseChecked$
+    +AddMediatR(IServiceCollection services, Action~MediatRServiceConfiguration~ configuration)$
+    +AddMediatR(IServiceCollection services, MediatRServiceConfiguration configuration)$
+    ~CheckLicense(IServiceProvider serviceProvider)$
+  }
+  class MediatRServiceConfiguration {
+    +Func~Type,bool~ TypeEvaluator
+    +Type MediatorImplementationType
+    +INotificationPublisher NotificationPublisher
+    +Type? NotificationPublisherType
+    +ServiceLifetime Lifetime
+    +RequestExceptionActionProcessorStrategy RequestExceptionActionProcessorStrategy
+    ~List~Assembly~ AssembliesToRegister
+    +List~ServiceDescriptor~ BehaviorsToRegister
+    +List~ServiceDescriptor~ StreamBehaviorsToRegister
+    +List~ServiceDescriptor~ RequestPreProcessorsToRegister
+    +List~ServiceDescriptor~ RequestPostProcessorsToRegister
+    +bool AutoRegisterRequestProcessors
+    +int MaxGenericTypeParameters
+    +int MaxTypesClosing
+    +int MaxGenericTypeRegistrations
+    +int RegistrationTimeout
+    +bool RegisterGenericHandlers
+    +string? LicenseKey
+    +RegisterServicesFromAssemblyContaining()
+    +RegisterServicesFromAssemblyContaining(Type type)
+    +RegisterServicesFromAssembly(Assembly assembly)
+    +RegisterServicesFromAssemblies()
+    +AddBehavior(ServiceLifetime serviceLifetime)
+    +AddBehavior(ServiceLifetime serviceLifetime)
+    +AddBehavior(Type implementationType, ServiceLifetime serviceLifetime)
+    +AddBehavior(Type serviceType, Type implementationType, ServiceLifetime serviceLifetime)
+    +AddOpenBehavior(Type openBehaviorType, ServiceLifetime serviceLifetime)
+    +AddOpenBehaviors(IEnumerable~Type~ openBehaviorTypes, ServiceLifetime serviceLifetime)
+    +AddOpenBehaviors(IEnumerable~OpenBehavior~ openBehaviors)
+    +AddStreamBehavior(ServiceLifetime serviceLifetime)
+    +AddStreamBehavior(Type serviceType, Type implementationType, ServiceLifetime serviceLifetime)
+    +AddStreamBehavior(ServiceLifetime serviceLifetime)
+    +AddStreamBehavior(Type implementationType, ServiceLifetime serviceLifetime)
+    +AddOpenStreamBehavior(Type openBehaviorType, ServiceLifetime serviceLifetime)
+    +AddRequestPreProcessor(ServiceLifetime serviceLifetime)
+    +AddRequestPreProcessor(Type serviceType, Type implementationType, ServiceLifetime serviceLifetime)
+    +AddRequestPreProcessor(ServiceLifetime serviceLifetime)
+    +AddRequestPreProcessor(Type implementationType, ServiceLifetime serviceLifetime)
+    +AddOpenRequestPreProcessor(Type openBehaviorType, ServiceLifetime serviceLifetime)
+    +AddRequestPostProcessor(ServiceLifetime serviceLifetime)
+    +AddRequestPostProcessor(Type serviceType, Type implementationType, ServiceLifetime serviceLifetime)
+    +AddRequestPostProcessor(ServiceLifetime serviceLifetime)
+    +AddRequestPostProcessor(Type implementationType, ServiceLifetime serviceLifetime)
+    +AddOpenRequestPostProcessor(Type openBehaviorType, ServiceLifetime serviceLifetime)
+  }
+  class RequestExceptionActionProcessorStrategy {
+    <<enumeration>>
+    ApplyForUnhandledExceptions
+    ApplyForAllExceptions
+  }
+}
+  IRequestPostProcessor <|.. ConstrainedRequestPostProcessor
+  INotificationHandler <|.. GenericHandler
+  IPipelineBehavior <|.. GenericPipelineBehavior
+  IRequestPostProcessor <|.. GenericRequestPostProcessor
+  IRequestPreProcessor <|.. GenericRequestPreProcessor
+  IRequest <|.. Jing
+  IRequestHandler <|.. JingHandler
+  IRequest <|.. Ping
+  IRequestHandler <|.. PingHandler
+  INotification <|.. Pinged
+  INotificationHandler <|.. PingedHandler
+  INotificationHandler <|.. PongedHandler
+  INotificationHandler <|.. ConstrainedPingedHandler
+  INotificationHandler <|.. PingedAlsoHandler
+  INotification <|.. Ponged
+  TextWriter <|-- WrappingWriter
+  Exception <|-- ConnectionException
+  ConnectionException <|-- ForbiddenException
+  ConnectionException <|-- ResourceNotFoundException
+  Exception <|-- ServerException
+  IRequestExceptionHandler <|.. CommonExceptionHandler
+  IRequestExceptionHandler <|.. ConnectionExceptionHandler
+  IRequestExceptionHandler <|.. AccessDeniedExceptionHandler
+  IRequestExceptionHandler <|.. ServerExceptionHandler
+  IRequestExceptionHandler <|.. CommonExceptionHandler
+  ServerExceptionHandler <|-- ServerExceptionHandler
+  IRequestHandler <|.. PingResourceHandler
+  IRequestHandler <|.. PingNewResourceHandler
+  IRequestHandler <|.. PingResourceTimeoutHandler
+  IRequestHandler <|.. PingResourceTimeoutOverrideHandler
+  IRequestHandler <|.. PingProtectedResourceHandler
+  IRequestExceptionAction <|.. LogExceptionAction
+  Ping <|-- PingResource
+  Ping <|-- PingNewResource
+  PingResource <|-- PingResourceTimeout
+  PingResource <|-- PingProtectedResource
+  PingResourceTimeout <|-- PingResourceTimeout
+  IStreamPipelineBehavior <|.. GenericStreamPipelineBehavior
+  IStreamRequest <|.. Sing
+  IStreamRequestHandler <|.. SingHandler
+  INotificationHandler <|.. AsyncPingedHandler
+  Mediator <|-- CustomMediator
+  INotificationHandler <|.. SyncPingedHandler
+  IHandlersFilter <|.. ContravariantFilter
+  ISender <|-- IMediator
+  IPublisher <|-- IMediator
+  INotificationHandler <|.. NotificationHandler
+  IMediator <|.. Mediator
+  IComparer <|.. ObjectDetails
+  INotificationPublisher <|.. ForeachAwaitPublisher
+  INotificationPublisher <|.. TaskWhenAllPublisher
+  IPipelineBehavior <|.. RequestExceptionActionProcessorBehavior
+  IPipelineBehavior <|.. RequestExceptionProcessorBehavior
+  IPipelineBehavior <|.. RequestPostProcessorBehavior
+  IPipelineBehavior <|.. RequestPreProcessorBehavior
+  NotificationHandlerWrapper <|-- NotificationHandlerWrapperImpl
+  RequestHandlerBase <|-- RequestHandlerWrapper
+  RequestHandlerBase <|-- RequestHandlerWrapper
+  RequestHandlerWrapper <|-- RequestHandlerWrapperImpl
+  RequestHandlerWrapper <|-- RequestHandlerWrapperImpl
+  StreamRequestHandlerBase <|-- StreamRequestHandlerWrapper
+  StreamRequestHandlerWrapper <|-- StreamRequestHandlerWrapperImpl
+  IBaseRequest <|-- IRequest
+  IBaseRequest <|-- IRequest
+  IEquatable <|.. Unit
+  IComparable <|.. Unit
+  IComparable <|.. Unit
+  Attribute <|-- DotTraceDiagnoserAttribute
+  IConfigSource <|.. DotTraceDiagnoserAttribute
+  IDiagnoser <|.. DotTraceDiagnoser
+  IPipelineBehavior <|.. GenericPipelineBehavior
+  IRequestPostProcessor <|.. GenericRequestPostProcessor
+  IRequestPreProcessor <|.. GenericRequestPreProcessor
+  IRequest <|.. Ping
+  IRequestHandler <|.. PingHandler
+  INotification <|.. Pinged
+  INotificationHandler <|.. PingedHandler
+  BaseAssemblyResolutionTests <|-- AutoFacDependencyInjectionTests
+  BaseAssemblyResolutionTests <|-- DryIocDependencyInjectionTests
+  BaseAssemblyResolutionTests <|-- LamarDependencyInjectionTests
+  BaseAssemblyResolutionTests <|-- LightInjectDependencyInjectionTests
+  BaseAssemblyResolutionTests <|-- MicrosoftDependencyInjectionTests
+  BaseAssemblyResolutionTests <|-- StashBoxDependencyInjectionTests
+  IClassFixture <|.. BaseAssemblyResolutionTests
+  INotification <|.. Ding
+  IRequest <|.. InternalPing
+  IRequest <|.. InternalVoidPing
+  IRequest <|.. PrivatePing
+  IRequest <|.. PrivateVoidPing
+  IRequest <|.. PublicPing
+  IRequest <|.. PublicVoidPing
+  IStreamRequest <|.. InternalZing
+  IStreamRequest <|.. PrivateZing
+  IStreamRequest <|.. PublicZing
+  BaseServiceProviderFixture <|-- AutoFacServiceProviderFixture
+  BaseServiceProviderFixture <|-- DryIocServiceProviderFixture
+  BaseServiceProviderFixture <|-- LamarServiceProviderFixture
+  BaseServiceProviderFixture <|-- LightInjectServiceProviderFixture
+  BaseServiceProviderFixture <|-- MicrosoftServiceProviderFixture
+  BaseServiceProviderFixture <|-- StashBoxServiceProviderFixture
+  BaseGenericRequestHandlerTests <|-- GenericRequestHandlerTests
+  IRequest <|.. Ping
+  Ping <|-- DerivedPing
+  IRequest <|.. Zing
+  IRequest <|.. Ding
+  INotification <|.. Pinged
+  IRequest <|.. InternalPing
+  IStreamRequest <|.. StreamPing
+  INotificationHandler <|.. GenericHandler
+  IRequestHandler <|.. DingAsyncHandler
+  INotificationHandler <|.. PingedHandler
+  INotificationHandler <|.. PingedAlsoHandler
+  INotificationHandler <|.. PingedAlsoOpenHandler
+  IRequestHandler <|.. PingHandler
+  IRequestHandler <|.. DerivedPingHandler
+  IRequestHandler <|.. ZingHandler
+  IStreamRequestHandler <|.. PingStreamHandler
+  IRequest <|.. DuplicateTest
+  IRequestHandler <|.. DuplicateHandler1
+  IRequestHandler <|.. DuplicateHandler2
+  IRequestHandler <|.. InternalPingHandler
+  IMediator <|.. MyCustomMediator
+  ITypeArgument <|.. ConcreteTypeArgument
+  IRequest <|.. OpenGenericVoidRequest
+  IRequestHandler <|.. OpenGenericVoidRequestHandler
+  IRequest <|.. OpenGenericReturnTypeRequest
+  IRequestHandler <|.. OpenGenericReturnTypeRequestHandler
+  IRequest <|.. GenericPing
+  IRequestHandler <|.. GenericPingHandler
+  IRequest <|.. VoidGenericPing
+  IRequestHandler <|.. VoidGenericPingHandler
+  IRequest <|.. Foo
+  IRequestHandler <|.. FooHandler

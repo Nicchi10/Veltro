@@ -1,0 +1,1477 @@
+MediatR.Examples.ConstrainedRequestPostProcessor: {
+  shape: class
+  -_writer: TextWriter
+  +ConstrainedRequestPostProcessor(writer: TextWriter)
+  +Process(request: TRequest, response: TResponse, cancellationToken: CancellationToken)
+}
+MediatR.Examples.GenericHandler: {
+  shape: class
+  -_writer: TextWriter
+  +GenericHandler(writer: TextWriter)
+  +Handle(notification: INotification, cancellationToken: CancellationToken)
+}
+MediatR.Examples.GenericPipelineBehavior: {
+  shape: class
+  -_writer: TextWriter
+  +GenericPipelineBehavior(writer: TextWriter)
+  +Handle(request: TRequest, next: RequestHandlerDelegate<TResponse>, cancellationToken: CancellationToken)
+}
+MediatR.Examples.GenericRequestPostProcessor: {
+  shape: class
+  -_writer: TextWriter
+  +GenericRequestPostProcessor(writer: TextWriter)
+  +Process(request: TRequest, response: TResponse, cancellationToken: CancellationToken)
+}
+MediatR.Examples.GenericRequestPreProcessor: {
+  shape: class
+  -_writer: TextWriter
+  +GenericRequestPreProcessor(writer: TextWriter)
+  +Process(request: TRequest, cancellationToken: CancellationToken)
+}
+MediatR.Examples.Jing: {
+  shape: class
+  +Message: string
+}
+MediatR.Examples.JingHandler: {
+  shape: class
+  -_writer: TextWriter
+  +JingHandler(writer: TextWriter)
+  +Handle(request: Jing, cancellationToken: CancellationToken)
+}
+MediatR.Examples.Ping: {
+  shape: class
+  +Message: string
+}
+MediatR.Examples.PingHandler: {
+  shape: class
+  -_writer: TextWriter
+  +PingHandler(writer: TextWriter)
+  +Handle(request: Ping, cancellationToken: CancellationToken)
+}
+MediatR.Examples.Pinged: {
+  shape: class
+}
+MediatR.Examples.PingedHandler: {
+  shape: class
+  -_writer: TextWriter
+  +PingedHandler(writer: TextWriter)
+  +Handle(notification: Pinged, cancellationToken: CancellationToken)
+}
+MediatR.Examples.PongedHandler: {
+  shape: class
+  -_writer: TextWriter
+  +PongedHandler(writer: TextWriter)
+  +Handle(notification: Ponged, cancellationToken: CancellationToken)
+}
+MediatR.Examples.ConstrainedPingedHandler: {
+  shape: class
+  -_writer: TextWriter
+  +ConstrainedPingedHandler(writer: TextWriter)
+  +Handle(notification: TNotification, cancellationToken: CancellationToken)
+}
+MediatR.Examples.PingedAlsoHandler: {
+  shape: class
+  -_writer: TextWriter
+  +PingedAlsoHandler(writer: TextWriter)
+  +Handle(notification: Pinged, cancellationToken: CancellationToken)
+}
+MediatR.Examples.Pong: {
+  shape: class
+  +Message: string
+}
+MediatR.Examples.Ponged: {
+  shape: class
+}
+MediatR.Examples.Runner: {
+  shape: class
+  +Run(mediator: IMediator, writer: WrappingWriter, projectName: string, testStreams: bool)
+  -IsHandlerForSameExceptionWorks(mediator: IMediator, writer: WrappingWriter)
+  -IsHandlerForBaseExceptionWorks(mediator: IMediator, writer: WrappingWriter)
+  -IsHandlerForLessSpecificExceptionWorks(mediator: IMediator, writer: WrappingWriter)
+  -IsPreferredHandlerForBaseExceptionWorks(mediator: IMediator, writer: WrappingWriter)
+  -IsOverriddenHandlerForBaseExceptionWorks(mediator: IMediator, writer: WrappingWriter)
+  -IsExceptionHandledBy(writer: WrappingWriter)
+}
+MediatR.Examples.RunResults: {
+  shape: class
+  +RequestHandlers: bool
+  +VoidRequestsHandlers: bool
+  +PipelineBehaviors: bool
+  +RequestPreProcessors: bool
+  +RequestPostProcessors: bool
+  +OrderedPipelineBehaviors: bool
+  +ConstrainedGenericBehaviors: bool
+  +NotificationHandler: bool
+  +MultipleNotificationHandlers: bool
+  +CovariantNotificationHandler: bool
+  +ConstrainedGenericNotificationHandler: bool
+  +HandlerForSameException: bool
+  +HandlerForBaseException: bool
+  +HandlerForLessSpecificException: bool
+  +PreferredHandlerForBaseException: bool
+  +OverriddenHandlerForBaseException: bool
+  +StreamRequestHandlers: bool
+  +StreamPipelineBehaviors: bool
+  +StreamOrderedPipelineBehaviors: bool
+}
+MediatR.Examples.WrappingWriter: {
+  shape: class
+  -_innerWriter: TextWriter
+  -_stringWriter: StringBuilder
+  +Encoding: Encoding
+  +Contents: string
+  +WrappingWriter(innerWriter: TextWriter)
+  +Write(value: char)
+  +WriteLineAsync(value: string)
+}
+MediatR.Examples.GenericStreamPipelineBehavior: {
+  shape: class
+  -_writer: TextWriter
+  +GenericStreamPipelineBehavior(writer: TextWriter)
+  +Handle(request: TRequest, next: StreamHandlerDelegate<TResponse>, cancellationToken: CancellationToken)
+}
+MediatR.Examples.Sing: {
+  shape: class
+  +Message: string
+}
+MediatR.Examples.SingHandler: {
+  shape: class
+  -_writer: TextWriter
+  +SingHandler(writer: TextWriter)
+  +Handle(request: Sing, cancellationToken: CancellationToken)
+}
+MediatR.Examples.Song: {
+  shape: class
+  +Message: string
+}
+MediatR.Examples.ExceptionHandler.ConnectionException: {
+  shape: class
+}
+MediatR.Examples.ExceptionHandler.ForbiddenException: {
+  shape: class
+}
+MediatR.Examples.ExceptionHandler.ResourceNotFoundException: {
+  shape: class
+}
+MediatR.Examples.ExceptionHandler.ServerException: {
+  shape: class
+}
+MediatR.Examples.ExceptionHandler.CommonExceptionHandler: {
+  shape: class
+  -_writer: TextWriter
+  +CommonExceptionHandler(writer: TextWriter)
+  +Handle(request: PingResource, exception: Exception, state: RequestExceptionHandlerState<Pong>, cancellationToken: CancellationToken)
+}
+MediatR.Examples.ExceptionHandler.ConnectionExceptionHandler: {
+  shape: class
+  -_writer: TextWriter
+  +ConnectionExceptionHandler(writer: TextWriter)
+  +Handle(request: PingResource, exception: ConnectionException, state: RequestExceptionHandlerState<Pong>, cancellationToken: CancellationToken)
+}
+MediatR.Examples.ExceptionHandler.AccessDeniedExceptionHandler: {
+  shape: class
+  -_writer: TextWriter
+  +AccessDeniedExceptionHandler(writer: TextWriter)
+  +Handle(request: PingResource, exception: ForbiddenException, state: RequestExceptionHandlerState<Pong>, cancellationToken: CancellationToken)
+}
+MediatR.Examples.ExceptionHandler.ServerExceptionHandler: {
+  shape: class
+  -_writer: TextWriter
+  +ServerExceptionHandler(writer: TextWriter)
+  +Handle(request: PingNewResource, exception: ServerException, state: RequestExceptionHandlerState<Pong>, cancellationToken: CancellationToken)
+}
+MediatR.Examples.ExceptionHandler.PingResourceHandler: {
+  shape: class
+  -_writer: TextWriter
+  +PingResourceHandler(writer: TextWriter)
+  +Handle(request: PingResource, cancellationToken: CancellationToken)
+}
+MediatR.Examples.ExceptionHandler.PingNewResourceHandler: {
+  shape: class
+  -_writer: TextWriter
+  +PingNewResourceHandler(writer: TextWriter)
+  +Handle(request: PingNewResource, cancellationToken: CancellationToken)
+}
+MediatR.Examples.ExceptionHandler.PingResourceTimeoutHandler: {
+  shape: class
+  -_writer: TextWriter
+  +PingResourceTimeoutHandler(writer: TextWriter)
+  +Handle(request: PingResourceTimeout, cancellationToken: CancellationToken)
+}
+MediatR.Examples.ExceptionHandler.PingResourceTimeoutOverrideHandler: {
+  shape: class
+  -_writer: TextWriter
+  +PingResourceTimeoutOverrideHandler(writer: TextWriter)
+  +Handle(request: Overrides.PingResourceTimeout, cancellationToken: CancellationToken)
+}
+MediatR.Examples.ExceptionHandler.PingProtectedResourceHandler: {
+  shape: class
+  -_writer: TextWriter
+  +PingProtectedResourceHandler(writer: TextWriter)
+  +Handle(request: PingProtectedResource, cancellationToken: CancellationToken)
+}
+MediatR.Examples.ExceptionHandler.LogExceptionAction: {
+  shape: class
+  -_writer: TextWriter
+  +LogExceptionAction(writer: TextWriter)
+  +Execute(request: Ping, exception: Exception, cancellationToken: CancellationToken)
+}
+MediatR.Examples.ExceptionHandler.PingResource: {
+  shape: class
+}
+MediatR.Examples.ExceptionHandler.PingNewResource: {
+  shape: class
+}
+MediatR.Examples.ExceptionHandler.PingResourceTimeout: {
+  shape: class
+}
+MediatR.Examples.ExceptionHandler.PingProtectedResource: {
+  shape: class
+}
+MediatR.Examples.ExceptionHandler.Overrides.CommonExceptionHandler: {
+  shape: class
+  -_writer: TextWriter
+  +CommonExceptionHandler(writer: TextWriter)
+  +Handle(request: PingResourceTimeout, exception: Exception, state: RequestExceptionHandlerState<Pong>, cancellationToken: CancellationToken)
+}
+MediatR.Examples.ExceptionHandler.Overrides.ServerExceptionHandler: {
+  shape: class
+  -_writer: TextWriter
+  +ServerExceptionHandler(writer: TextWriter)
+  +Handle(request: PingNewResource, exception: ServerException, state: RequestExceptionHandlerState<Pong>, cancellationToken: CancellationToken)
+}
+MediatR.Examples.ExceptionHandler.Overrides.PingResourceTimeout: {
+  shape: class
+}
+MediatR.Examples.AspNetCore.Program: {
+  shape: class
+  +Main(args: string[])
+  -BuildMediator(writer: WrappingWriter)
+}
+MediatR.Examples.Autofac.Program: {
+  shape: class
+  +Main(args: string[])
+  -BuildMediator(writer: WrappingWriter)
+}
+MediatR.Examples.DryIoc.Program: {
+  shape: class
+  -Main()
+  -BuildMediator(writer: WrappingWriter)
+}
+MediatR.Examples.Lamar.Program: {
+  shape: class
+  -Main(args: string[])
+  -BuildMediator(writer: WrappingWriter)
+}
+MediatR.Examples.LightInject.Program: {
+  shape: class
+  -Main(args: string[])
+  -BuildMediator(writer: WrappingWriter)
+}
+MediatR.Examples.PublishStrategies.AsyncPingedHandler: {
+  shape: class
+  +Name: string
+  +AsyncPingedHandler(name: string)
+  +Handle(notification: Pinged, cancellationToken: CancellationToken)
+}
+MediatR.Examples.PublishStrategies.CustomMediator: {
+  shape: class
+  -_publish: Func<IEnumerable<NotificationHandlerExecutor>,INotification,CancellationToken,Task>
+  +CustomMediator(serviceFactory: IServiceProvider, publish: Func<IEnumerable<NotificationHandlerExecutor>,INotification,CancellationToken,Task>)
+  #PublishCore(handlerExecutors: IEnumerable<NotificationHandlerExecutor>, notification: INotification, cancellationToken: CancellationToken)
+}
+MediatR.Examples.PublishStrategies.Program: {
+  shape: class
+  -Main(args: string[])
+}
+MediatR.Examples.PublishStrategies.PublishStrategy: {
+  shape: class
+  SyncContinueOnException
+  SyncStopOnException
+  Async
+  ParallelNoWait
+  ParallelWhenAll
+  ParallelWhenAny
+}
+MediatR.Examples.PublishStrategies.Publisher: {
+  shape: class
+  -_serviceFactory: IServiceProvider
+  +PublishStrategies: IDictionary<PublishStrategy,IMediator>
+  +DefaultStrategy: PublishStrategy
+  +Publisher(serviceFactory: IServiceProvider)
+  +Publish(notification: TNotification)
+  +Publish(notification: TNotification, strategy: PublishStrategy)
+  +Publish(notification: TNotification, cancellationToken: CancellationToken)
+  +Publish(notification: TNotification, strategy: PublishStrategy, cancellationToken: CancellationToken)
+  -ParallelWhenAll(handlers: IEnumerable<NotificationHandlerExecutor>, notification: INotification, cancellationToken: CancellationToken)
+  -ParallelWhenAny(handlers: IEnumerable<NotificationHandlerExecutor>, notification: INotification, cancellationToken: CancellationToken)
+  -ParallelNoWait(handlers: IEnumerable<NotificationHandlerExecutor>, notification: INotification, cancellationToken: CancellationToken)
+  -AsyncContinueOnException(handlers: IEnumerable<NotificationHandlerExecutor>, notification: INotification, cancellationToken: CancellationToken)
+  -SyncStopOnException(handlers: IEnumerable<NotificationHandlerExecutor>, notification: INotification, cancellationToken: CancellationToken)
+  -SyncContinueOnException(handlers: IEnumerable<NotificationHandlerExecutor>, notification: INotification, cancellationToken: CancellationToken)
+}
+MediatR.Examples.PublishStrategies.SyncPingedHandler: {
+  shape: class
+  +Name: string
+  +SyncPingedHandler(name: string)
+  +Handle(notification: Pinged, cancellationToken: CancellationToken)
+}
+MediatR.Examples.SimpleInjector.Program: {
+  shape: class
+  -Main(args: string[])
+  -BuildMediator(writer: WrappingWriter)
+  -RegisterHandlers(container: Container, collectionType: Type, assemblies: Assembly[])
+  -GetAssemblies()
+}
+MediatR.Examples.Stashbox.Program: {
+  shape: class
+  -Main()
+  -BuildMediator(writer: WrappingWriter)
+}
+MediatR.Examples.Windsor.ContravariantFilter: {
+  shape: class
+  +HasOpinionAbout(service: Type)
+  +SelectHandlers(service: Type, handlers: IHandler[])
+}
+MediatR.Examples.Windsor.Program: {
+  shape: class
+  -Main(args: string[])
+  -BuildMediator(writer: WrappingWriter)
+  -ResolveRequestExceptionHandler(k: IKernel, type: Type, service: Type, resolvedType: object, genericArguments: Type[])
+  -ResolveRequestExceptionAction(k: IKernel, type: Type, service: Type, resolvedType: object, genericArguments: Type[])
+  -CreateArraysOutOfResolvedTypeAndEnumerableInterfaceTypes(type: Type, resolvedType: object, serviceFactory: ServiceFactory, enumerableExceptionHandlerInterfaceType: Type)
+}
+MediatR.IMediator: {
+  shape: class
+}
+MediatR.INotificationHandler: {
+  shape: class
+  +Handle(notification: TNotification, cancellationToken: CancellationToken)
+}
+MediatR.NotificationHandler: {
+  shape: class
+  -Handle(notification: TNotification, cancellationToken: CancellationToken)
+  #Handle(notification: TNotification)
+}
+MediatR.INotificationPublisher: {
+  shape: class
+  +Publish(handlerExecutors: IEnumerable<NotificationHandlerExecutor>, notification: INotification, cancellationToken: CancellationToken)
+}
+MediatR.IPipelineBehavior: {
+  shape: class
+  +Handle(request: TRequest, next: RequestHandlerDelegate<TResponse>, cancellationToken: CancellationToken)
+}
+MediatR.IPublisher: {
+  shape: class
+  +Publish(notification: object, cancellationToken: CancellationToken)
+  +Publish(notification: TNotification, cancellationToken: CancellationToken)
+}
+MediatR.IRequestHandler: {
+  shape: class
+  +Handle(request: TRequest, cancellationToken: CancellationToken)
+}
+MediatR.IRequestHandler: {
+  shape: class
+  +Handle(request: TRequest, cancellationToken: CancellationToken)
+}
+MediatR.ISender: {
+  shape: class
+  +Send(request: IRequest<TResponse>, cancellationToken: CancellationToken)
+  +Send(request: TRequest, cancellationToken: CancellationToken)
+  +Send(request: object, cancellationToken: CancellationToken)
+  +CreateStream(request: IStreamRequest<TResponse>, cancellationToken: CancellationToken)
+  +CreateStream(request: object, cancellationToken: CancellationToken)
+}
+MediatR.IStreamPipelineBehavior: {
+  shape: class
+  +Handle(request: TRequest, next: StreamHandlerDelegate<TResponse>, cancellationToken: CancellationToken)
+}
+MediatR.IStreamRequestHandler: {
+  shape: class
+  +Handle(request: TRequest, cancellationToken: CancellationToken)
+}
+MediatR.Mediator: {
+  shape: class
+  -_serviceProvider: IServiceProvider
+  -_publisher: INotificationPublisher
+  -_requestHandlers: ConcurrentDictionary<Type,RequestHandlerBase>
+  -_notificationHandlers: ConcurrentDictionary<Type,NotificationHandlerWrapper>
+  -_streamRequestHandlers: ConcurrentDictionary<Type,StreamRequestHandlerBase>
+  +LicenseKey: string?
+  +Mediator(serviceProvider: IServiceProvider)
+  +Mediator(serviceProvider: IServiceProvider, publisher: INotificationPublisher)
+  +Send(request: IRequest<TResponse>, cancellationToken: CancellationToken)
+  +Send(request: TRequest, cancellationToken: CancellationToken)
+  +Send(request: object, cancellationToken: CancellationToken)
+  +Publish(notification: TNotification, cancellationToken: CancellationToken)
+  +Publish(notification: object, cancellationToken: CancellationToken)
+  #PublishCore(handlerExecutors: IEnumerable<NotificationHandlerExecutor>, notification: INotification, cancellationToken: CancellationToken)
+  -PublishNotification(notification: INotification, cancellationToken: CancellationToken)
+  +CreateStream(request: IStreamRequest<TResponse>, cancellationToken: CancellationToken)
+  +CreateStream(request: object, cancellationToken: CancellationToken)
+}
+MediatR.NotificationHandlerExecutor: {
+  shape: class
+}
+MediatR.INotification: {
+  shape: class
+}
+MediatR.IRequest: {
+  shape: class
+}
+MediatR.IRequest: {
+  shape: class
+}
+MediatR.IBaseRequest: {
+  shape: class
+}
+MediatR.IStreamRequest: {
+  shape: class
+}
+MediatR.Unit: {
+  shape: class
+  -_value: Unit
+  +Value: ref readonly Unit
+  +Task: Task<Unit>
+  +CompareTo(other: Unit)
+  -CompareTo(obj: object?)
+  +GetHashCode()
+  +Equals(other: Unit)
+  +Equals(obj: object?)
+  +ToString()
+}
+MediatR.Entities.OpenBehavior: {
+  shape: class
+  +OpenBehaviorType: Type
+  +ServiceLifetime: ServiceLifetime
+  +OpenBehavior(openBehaviorType: Type, serviceLifetime: ServiceLifetime)
+  -ValidatePipelineBehaviorType(openBehaviorType: Type)
+}
+MediatR.Internal.HandlersOrderer: {
+  shape: class
+  +Prioritize(handlers: IList<object>, request: TRequest)
+  -RemoveOverridden(handlersData: IList<ObjectDetails>)
+}
+MediatR.Internal.ObjectDetails: {
+  shape: class
+  +Name: string
+  +AssemblyName: string?
+  +Location: string?
+  +Value: object
+  +Type: Type
+  +IsOverridden: bool
+  +ObjectDetails(value: object)
+  +Compare(x: ObjectDetails?, y: ObjectDetails?)
+  -CompareByAssembly(x: ObjectDetails, y: ObjectDetails)
+  -CompareByNamespace(x: ObjectDetails, y: ObjectDetails)
+  -CompareByLocation(x: ObjectDetails, y: ObjectDetails)
+}
+MediatR.Licensing.BuildInfo: {
+  shape: class
+  +BuildDate: DateTimeOffset?
+  -GetBuildDate()
+}
+MediatR.Licensing.Edition: {
+  shape: class
+  Community
+  Standard
+  Professional
+  Enterprise
+}
+MediatR.Licensing.License: {
+  shape: class
+  +AccountId: Guid?
+  +CustomerId: string?
+  +SubscriptionId: string?
+  +StartDate: DateTimeOffset?
+  +ExpirationDate: DateTimeOffset?
+  +Edition: Edition?
+  +ProductType: ProductType?
+  +IsPerpetual: bool
+  +IsConfigured: bool
+  #License()
+  +License(claims: ClaimsPrincipal)
+}
+MediatR.Licensing.LicenseAccessor: {
+  shape: class
+  -_configuration: MediatRServiceConfiguration?
+  -_logger: ILogger
+  -_license: License?
+  -_lock: object
+  +Current: License
+  +LicenseAccessor(configuration: MediatRServiceConfiguration, loggerFactory: ILoggerFactory)
+  +LicenseAccessor(loggerFactory: ILoggerFactory)
+  -Initialize()
+  -ValidateKey(licenseKey: string)
+}
+MediatR.Licensing.LicenseValidator: {
+  shape: class
+  -_logger: ILogger
+  -_buildDate: DateTimeOffset?
+  +LicenseValidator(loggerFactory: ILoggerFactory)
+  +LicenseValidator(loggerFactory: ILoggerFactory, buildDate: DateTimeOffset?)
+  +Validate(license: License)
+}
+MediatR.Licensing.ProductType: {
+  shape: class
+  AutoMapper
+  MediatR
+  Bundle
+}
+Microsoft.Extensions.DependencyInjection.MediatRServiceCollectionExtensions: {
+  shape: class
+  #LicenseChecked: bool
+  +AddMediatR(services: IServiceCollection, configuration: Action<MediatRServiceConfiguration>)
+  +AddMediatR(services: IServiceCollection, configuration: MediatRServiceConfiguration)
+  #CheckLicense(serviceProvider: IServiceProvider)
+}
+Microsoft.Extensions.DependencyInjection.MediatRServiceConfiguration: {
+  shape: class
+  +TypeEvaluator: Func<Type,bool>
+  +MediatorImplementationType: Type
+  +NotificationPublisher: INotificationPublisher
+  +NotificationPublisherType: Type?
+  +Lifetime: ServiceLifetime
+  +RequestExceptionActionProcessorStrategy: RequestExceptionActionProcessorStrategy
+  #AssembliesToRegister: List<Assembly>
+  +BehaviorsToRegister: List<ServiceDescriptor>
+  +StreamBehaviorsToRegister: List<ServiceDescriptor>
+  +RequestPreProcessorsToRegister: List<ServiceDescriptor>
+  +RequestPostProcessorsToRegister: List<ServiceDescriptor>
+  +AutoRegisterRequestProcessors: bool
+  +MaxGenericTypeParameters: int
+  +MaxTypesClosing: int
+  +MaxGenericTypeRegistrations: int
+  +RegistrationTimeout: int
+  +RegisterGenericHandlers: bool
+  +LicenseKey: string?
+  +RegisterServicesFromAssemblyContaining()
+  +RegisterServicesFromAssemblyContaining(type: Type)
+  +RegisterServicesFromAssembly(assembly: Assembly)
+  +RegisterServicesFromAssemblies()
+  +AddBehavior(serviceLifetime: ServiceLifetime)
+  +AddBehavior(serviceLifetime: ServiceLifetime)
+  +AddBehavior(implementationType: Type, serviceLifetime: ServiceLifetime)
+  +AddBehavior(serviceType: Type, implementationType: Type, serviceLifetime: ServiceLifetime)
+  +AddOpenBehavior(openBehaviorType: Type, serviceLifetime: ServiceLifetime)
+  +AddOpenBehaviors(openBehaviorTypes: IEnumerable<Type>, serviceLifetime: ServiceLifetime)
+  +AddOpenBehaviors(openBehaviors: IEnumerable<OpenBehavior>)
+  +AddStreamBehavior(serviceLifetime: ServiceLifetime)
+  +AddStreamBehavior(serviceType: Type, implementationType: Type, serviceLifetime: ServiceLifetime)
+  +AddStreamBehavior(serviceLifetime: ServiceLifetime)
+  +AddStreamBehavior(implementationType: Type, serviceLifetime: ServiceLifetime)
+  +AddOpenStreamBehavior(openBehaviorType: Type, serviceLifetime: ServiceLifetime)
+  +AddRequestPreProcessor(serviceLifetime: ServiceLifetime)
+  +AddRequestPreProcessor(serviceType: Type, implementationType: Type, serviceLifetime: ServiceLifetime)
+  +AddRequestPreProcessor(serviceLifetime: ServiceLifetime)
+  +AddRequestPreProcessor(implementationType: Type, serviceLifetime: ServiceLifetime)
+  +AddOpenRequestPreProcessor(openBehaviorType: Type, serviceLifetime: ServiceLifetime)
+  +AddRequestPostProcessor(serviceLifetime: ServiceLifetime)
+  +AddRequestPostProcessor(serviceType: Type, implementationType: Type, serviceLifetime: ServiceLifetime)
+  +AddRequestPostProcessor(serviceLifetime: ServiceLifetime)
+  +AddRequestPostProcessor(implementationType: Type, serviceLifetime: ServiceLifetime)
+  +AddOpenRequestPostProcessor(openBehaviorType: Type, serviceLifetime: ServiceLifetime)
+}
+Microsoft.Extensions.DependencyInjection.RequestExceptionActionProcessorStrategy: {
+  shape: class
+  ApplyForUnhandledExceptions
+  ApplyForAllExceptions
+}
+MediatR.NotificationPublishers.ForeachAwaitPublisher: {
+  shape: class
+  +Publish(handlerExecutors: IEnumerable<NotificationHandlerExecutor>, notification: INotification, cancellationToken: CancellationToken)
+}
+MediatR.NotificationPublishers.TaskWhenAllPublisher: {
+  shape: class
+  +Publish(handlerExecutors: IEnumerable<NotificationHandlerExecutor>, notification: INotification, cancellationToken: CancellationToken)
+}
+MediatR.Pipeline.IRequestExceptionAction: {
+  shape: class
+  +Execute(request: TRequest, exception: TException, cancellationToken: CancellationToken)
+}
+MediatR.Pipeline.IRequestExceptionHandler: {
+  shape: class
+  +Handle(request: TRequest, exception: TException, state: RequestExceptionHandlerState<TResponse>, cancellationToken: CancellationToken)
+}
+MediatR.Pipeline.IRequestPostProcessor: {
+  shape: class
+  +Process(request: TRequest, response: TResponse, cancellationToken: CancellationToken)
+}
+MediatR.Pipeline.IRequestPreProcessor: {
+  shape: class
+  +Process(request: TRequest, cancellationToken: CancellationToken)
+}
+MediatR.Pipeline.RequestExceptionActionProcessorBehavior: {
+  shape: class
+  -_serviceProvider: IServiceProvider
+  +RequestExceptionActionProcessorBehavior(serviceProvider: IServiceProvider)
+  +Handle(request: TRequest, next: RequestHandlerDelegate<TResponse>, cancellationToken: CancellationToken)
+  -GetExceptionTypes(exceptionType: Type?)
+  -GetActionsForException(exceptionType: Type, request: TRequest)
+  -GetMethodInfoForAction(exceptionType: Type)
+}
+MediatR.Pipeline.RequestExceptionHandlerState: {
+  shape: class
+  +Handled: bool
+  +Response: TResponse?
+  +SetHandled(response: TResponse)
+}
+MediatR.Pipeline.RequestExceptionProcessorBehavior: {
+  shape: class
+  -_serviceProvider: IServiceProvider
+  +RequestExceptionProcessorBehavior(serviceProvider: IServiceProvider)
+  +Handle(request: TRequest, next: RequestHandlerDelegate<TResponse>, cancellationToken: CancellationToken)
+  -GetExceptionTypes(exceptionType: Type?)
+  -GetHandlersForException(exceptionType: Type, request: TRequest)
+  -GetMethodInfoForHandler(exceptionType: Type)
+}
+MediatR.Pipeline.RequestPostProcessorBehavior: {
+  shape: class
+  -_postProcessors: IEnumerable<IRequestPostProcessor<TRequest,TResponse>>
+  +RequestPostProcessorBehavior(postProcessors: IEnumerable<IRequestPostProcessor<TRequest,TResponse>>)
+  +Handle(request: TRequest, next: RequestHandlerDelegate<TResponse>, cancellationToken: CancellationToken)
+}
+MediatR.Pipeline.RequestPreProcessorBehavior: {
+  shape: class
+  -_preProcessors: IEnumerable<IRequestPreProcessor<TRequest>>
+  +RequestPreProcessorBehavior(preProcessors: IEnumerable<IRequestPreProcessor<TRequest>>)
+  +Handle(request: TRequest, next: RequestHandlerDelegate<TResponse>, cancellationToken: CancellationToken)
+}
+MediatR.Registration.ServiceRegistrar: {
+  shape: class
+  -MaxGenericTypeParameters: int
+  -MaxTypesClosing: int
+  -MaxGenericTypeRegistrations: int
+  -RegistrationTimeout: int
+  +SetGenericRequestHandlerRegistrationLimitations(configuration: MediatRServiceConfiguration)
+  +AddMediatRClassesWithTimeout(services: IServiceCollection, configuration: MediatRServiceConfiguration)
+  +AddMediatRClasses(services: IServiceCollection, configuration: MediatRServiceConfiguration, cancellationToken: CancellationToken)
+  -ConnectImplementationsToTypesClosing(openRequestInterface: Type, services: IServiceCollection, assembliesToScan: IEnumerable<Assembly>, addIfAlreadyExists: bool, configuration: MediatRServiceConfiguration, cancellationToken: CancellationToken)
+  -IsMatchingWithInterface(handlerType: Type?, handlerInterface: Type)
+  -AddConcretionsThatCouldBeClosed(@interface: Type, concretions: List<Type>, services: IServiceCollection)
+  -GetConcreteRegistrationTypes(openRequestHandlerInterface: Type, concreteGenericTRequest: Type, openRequestHandlerImplementation: Type)
+  -GetConcreteRequestTypes(openRequestHandlerInterface: Type, openRequestHandlerImplementation: Type, assembliesToScan: IEnumerable<Assembly>, cancellationToken: CancellationToken)
+  +GenerateCombinations(requestType: Type, lists: List<List<Type>>, depth: int, cancellationToken: CancellationToken)
+  -AddAllConcretionsThatClose(openRequestInterface: Type, concretions: List<Type>, services: IServiceCollection, assembliesToScan: IEnumerable<Assembly>, cancellationToken: CancellationToken)
+  #CouldCloseTo(openConcretion: Type, closedInterface: Type)
+  -CanBeCastTo(pluggedType: Type, pluginType: Type)
+  -IsOpenGeneric(type: Type)
+  #FindInterfacesThatClose(pluggedType: Type, templateType: Type)
+  -FindInterfacesThatClosesCore(pluggedType: Type, templateType: Type)
+  -IsConcrete(type: Type)
+  -Fill(list: IList<T>, value: T)
+  -GetLoadableDefinedTypes(assembly: Assembly)
+  -HasNestedGenericResponseType(openBehaviorType: Type)
+  -TryMatchType(pattern: Type, concrete: Type, bindings: Dictionary<Type,Type>)
+  -RegisterClosedBehaviorsFromAssemblies(openBehaviorType: Type, services: IServiceCollection, assemblies: IEnumerable<Assembly>, lifetime: ServiceLifetime)
+  +AddRequiredServices(services: IServiceCollection, serviceConfiguration: MediatRServiceConfiguration)
+  -RegisterBehaviorIfImplementationsExist(services: IServiceCollection, behaviorType: Type, subBehaviorType: Type)
+}
+MediatR.Wrappers.NotificationHandlerWrapper: {
+  shape: class
+  +Handle(notification: INotification, serviceFactory: IServiceProvider, publish: Func<IEnumerable<NotificationHandlerExecutor>,INotification,CancellationToken,Task>, cancellationToken: CancellationToken)
+}
+MediatR.Wrappers.NotificationHandlerWrapperImpl: {
+  shape: class
+  +Handle(notification: INotification, serviceFactory: IServiceProvider, publish: Func<IEnumerable<NotificationHandlerExecutor>,INotification,CancellationToken,Task>, cancellationToken: CancellationToken)
+}
+MediatR.Wrappers.RequestHandlerBase: {
+  shape: class
+  +Handle(request: object, serviceProvider: IServiceProvider, cancellationToken: CancellationToken)
+}
+MediatR.Wrappers.RequestHandlerWrapper: {
+  shape: class
+  +Handle(request: IRequest<TResponse>, serviceProvider: IServiceProvider, cancellationToken: CancellationToken)
+}
+MediatR.Wrappers.RequestHandlerWrapper: {
+  shape: class
+  +Handle(request: IRequest, serviceProvider: IServiceProvider, cancellationToken: CancellationToken)
+}
+MediatR.Wrappers.RequestHandlerWrapperImpl: {
+  shape: class
+  +Handle(request: object, serviceProvider: IServiceProvider, cancellationToken: CancellationToken)
+  +Handle(request: IRequest<TResponse>, serviceProvider: IServiceProvider, cancellationToken: CancellationToken)
+}
+MediatR.Wrappers.RequestHandlerWrapperImpl: {
+  shape: class
+  +Handle(request: object, serviceProvider: IServiceProvider, cancellationToken: CancellationToken)
+  +Handle(request: IRequest, serviceProvider: IServiceProvider, cancellationToken: CancellationToken)
+}
+MediatR.Wrappers.StreamRequestHandlerBase: {
+  shape: class
+  +Handle(request: object, serviceProvider: IServiceProvider, cancellationToken: CancellationToken)
+}
+MediatR.Wrappers.StreamRequestHandlerWrapper: {
+  shape: class
+  +Handle(request: IStreamRequest<TResponse>, serviceProvider: IServiceProvider, cancellationToken: CancellationToken)
+}
+MediatR.Wrappers.StreamRequestHandlerWrapperImpl: {
+  shape: class
+  +Handle(request: object, serviceProvider: IServiceProvider, cancellationToken: CancellationToken)
+  +Handle(request: IStreamRequest<TResponse>, serviceProvider: IServiceProvider, cancellationToken: CancellationToken)
+  -NextWrapper(items: IAsyncEnumerable<T>, cancellationToken: CancellationToken)
+}
+MediatR.Benchmarks.Benchmarks: {
+  shape: class
+  -_mediator: IMediator
+  -_request: Ping
+  -_notification: Pinged
+  +GlobalSetup()
+  +SendingRequests()
+  +PublishingNotifications()
+}
+MediatR.Benchmarks.DotTraceDiagnoserAttribute: {
+  shape: class
+  +Config: IConfig
+  +DotTraceDiagnoserAttribute()
+}
+MediatR.Benchmarks.DotTraceDiagnoser: {
+  shape: class
+  -DotTraceExecutableNotFoundErrorMessage: string
+  -_saveLocation: string
+  +Ids: IEnumerable<string>
+  +Exporters: IEnumerable<IExporter>
+  +Analysers: IEnumerable<IAnalyser>
+  +DotTraceDiagnoser()
+  +GetRunMode(benchmarkCase: BenchmarkCase)
+  +Handle(signal: HostSignal, parameters: DiagnoserActionParameters)
+  -RunDotTrace(parameters: DiagnoserActionParameters)
+  -PrepareProcessStartInfo(parameters: DiagnoserActionParameters)
+  +ProcessResults(results: DiagnoserResults)
+  +DisplayResults(logger: ILogger)
+  +Validate(validationParameters: ValidationParameters)
+  -CanRunDotTrace()
+}
+MediatR.Benchmarks.GenericPipelineBehavior: {
+  shape: class
+  -_writer: TextWriter
+  +GenericPipelineBehavior(writer: TextWriter)
+  +Handle(request: TRequest, next: RequestHandlerDelegate<TResponse>, cancellationToken: CancellationToken)
+}
+MediatR.Benchmarks.GenericRequestPostProcessor: {
+  shape: class
+  -_writer: TextWriter
+  +GenericRequestPostProcessor(writer: TextWriter)
+  +Process(request: TRequest, response: TResponse, cancellationToken: CancellationToken)
+}
+MediatR.Benchmarks.GenericRequestPreProcessor: {
+  shape: class
+  -_writer: TextWriter
+  +GenericRequestPreProcessor(writer: TextWriter)
+  +Process(request: TRequest, cancellationToken: CancellationToken)
+}
+MediatR.Benchmarks.Ping: {
+  shape: class
+  +Message: string
+}
+MediatR.Benchmarks.PingHandler: {
+  shape: class
+  +Handle(request: Ping, cancellationToken: CancellationToken)
+}
+MediatR.Benchmarks.Pinged: {
+  shape: class
+}
+MediatR.Benchmarks.PingedHandler: {
+  shape: class
+  +Handle(notification: Pinged, cancellationToken: CancellationToken)
+}
+MediatR.Benchmarks.Program: {
+  shape: class
+  +Main(args: string[])
+}
+MediatR.DependencyInjectionTests.AutoFacDependencyInjectionTests: {
+  shape: class
+  +AutoFacDependencyInjectionTests()
+}
+MediatR.DependencyInjectionTests.DryIocDependencyInjectionTests: {
+  shape: class
+}
+MediatR.DependencyInjectionTests.LamarDependencyInjectionTests: {
+  shape: class
+}
+MediatR.DependencyInjectionTests.LightInjectDependencyInjectionTests: {
+  shape: class
+}
+MediatR.DependencyInjectionTests.MicrosoftDependencyInjectionTests: {
+  shape: class
+  +MicrosoftDependencyInjectionTests()
+}
+MediatR.DependencyInjectionTests.StashBoxDependencyInjectionTests: {
+  shape: class
+  +StashBoxDependencyInjectionTests()
+}
+MediatR.DependencyInjectionTests.Abstractions.BaseAssemblyResolutionTests: {
+  shape: class
+  -_provider: IServiceProvider
+  +Should_Resolve_Mediator()
+  +Should_Resolve_Public_RequestHandler()
+  +Should_Resolve_Internal_RequestHandler()
+  +Should_Resolve_Private_RequestHandler()
+  +Should_Resolve_Public_Void_RequestHandler()
+  +Should_Resolve_Internal_Void_RequestHandler()
+  +Should_Resolve_Private_Void_RequestHandler()
+  +Should_Resolve_Public_Private_Internal_Notification_Handlers()
+  +Should_Resolve_Public_Stream_Request_Handlers()
+  +Should_Resolve_Internal_Stream_Request_Handlers()
+  +Should_Resolve_Private_Stream_Request_Handlers()
+}
+MediatR.DependencyInjectionTests.Abstractions.BaseServiceProviderFixture: {
+  shape: class
+  +Provider: IServiceProvider
+}
+MediatR.DependencyInjectionTests.Contracts.Notifications.Ding: {
+  shape: class
+}
+MediatR.DependencyInjectionTests.Contracts.Requests.InternalPing: {
+  shape: class
+}
+MediatR.DependencyInjectionTests.Contracts.Requests.InternalVoidPing: {
+  shape: class
+}
+MediatR.DependencyInjectionTests.Contracts.Requests.PrivatePing: {
+  shape: class
+}
+MediatR.DependencyInjectionTests.Contracts.Requests.PrivateVoidPing: {
+  shape: class
+}
+MediatR.DependencyInjectionTests.Contracts.Requests.PublicPing: {
+  shape: class
+}
+MediatR.DependencyInjectionTests.Contracts.Requests.PublicVoidPing: {
+  shape: class
+}
+MediatR.DependencyInjectionTests.Contracts.Responses.Pong: {
+  shape: class
+}
+MediatR.DependencyInjectionTests.Contracts.Responses.Zong: {
+  shape: class
+}
+MediatR.DependencyInjectionTests.Contracts.StreamRequests.InternalZing: {
+  shape: class
+}
+MediatR.DependencyInjectionTests.Contracts.StreamRequests.PrivateZing: {
+  shape: class
+}
+MediatR.DependencyInjectionTests.Contracts.StreamRequests.PublicZing: {
+  shape: class
+}
+MediatR.DependencyInjectionTests.Providers.AutoFacServiceProviderFixture: {
+  shape: class
+  +Provider: IServiceProvider
+}
+MediatR.DependencyInjectionTests.Providers.DryIocServiceProviderFixture: {
+  shape: class
+  +Provider: IServiceProvider
+}
+MediatR.DependencyInjectionTests.Providers.LamarServiceProviderFixture: {
+  shape: class
+  +Provider: IServiceProvider
+}
+MediatR.DependencyInjectionTests.Providers.LightInjectServiceProviderFixture: {
+  shape: class
+  +Provider: IServiceProvider
+}
+MediatR.DependencyInjectionTests.Providers.MicrosoftServiceProviderFixture: {
+  shape: class
+  +Provider: IServiceProvider
+}
+MediatR.DependencyInjectionTests.Providers.StashBoxServiceProviderFixture: {
+  shape: class
+  +Provider: IServiceProvider
+}
+MediatR.Tests.CreateStreamTests: {
+  shape: class
+  +Should_resolve_main_handler()
+  +Should_resolve_main_handler_via_dynamic_dispatch()
+  +Should_resolve_main_handler_by_specific_interface()
+  +Should_raise_execption_on_null_request()
+  +Should_raise_execption_on_null_request_via_dynamic_dispatch()
+}
+MediatR.Tests.ExceptionTests: {
+  shape: class
+  -_mediator: IMediator
+  +ExceptionTests()
+  +Should_throw_for_send()
+  +Should_throw_for_void_send()
+  +Should_not_throw_for_publish()
+  +Should_throw_for_async_send()
+  +Should_throw_for_async_void_send()
+  +Should_not_throw_for_async_publish()
+  +Should_throw_argument_exception_for_send_when_request_is_null()
+  +Should_throw_argument_exception_for_void_send_when_request_is_null()
+  +Should_throw_argument_exception_for_publish_when_request_is_null()
+  +Should_throw_argument_exception_for_publish_when_request_is_null_object()
+  +Should_throw_argument_exception_for_publish_when_request_is_not_notification()
+  +Should_throw_exception_for_non_generic_send_when_exception_occurs()
+  +Should_throw_exception_for_non_request_send()
+  +Should_throw_exception_for_generic_send_when_exception_occurs()
+}
+MediatR.Tests.GenericRequestHandlerTests: {
+  shape: class
+  +ShouldResolveAllCombinationsOfGenericHandler(numberOfClasses: int, numberOfInterfaces: int, numberOfTypeParameters: int)
+  +ShouldRegisterTheCorrectAmountOfHandlers(numberOfClasses: int, numberOfInterfaces: int, numberOfTypeParameters: int)
+  +ShouldNotRegisterDuplicateHandlers(numberOfClasses: int, numberOfInterfaces: int, numberOfTypeParameters: int)
+  +ShouldThrowExceptionWhenTypesClosingExceedsMaximum()
+  +ShouldThrowExceptionWhenGenericHandlerRegistrationsExceedsMaximum()
+  +ShouldThrowExceptionWhenGenericTypeParametersExceedsMaximum()
+  +ShouldThrowExceptionWhenTimeoutOccurs()
+  +ShouldNotRegisterGenericHandlersWhenOptingOut()
+}
+MediatR.Tests.GenericTypeConstraintsTests: {
+  shape: class
+  -_mediator: IMediator
+  +GenericTypeConstraintsTests()
+  +Should_Resolve_Void_Return_Request()
+  +Should_Resolve_Response_Return_Request()
+}
+MediatR.Tests.NotificationHandlerTests: {
+  shape: class
+  +Should_call_abstract_handle_method()
+}
+MediatR.Tests.NotificationPublisherTests: {
+  shape: class
+  -_output: ITestOutputHelper
+  +NotificationPublisherTests(output: ITestOutputHelper)
+  +Should_handle_sequentially_by_default()
+}
+MediatR.Tests.PipelineTests: {
+  shape: class
+  +Should_wrap_with_behavior()
+  +Should_wrap_void_with_behavior()
+  +Should_wrap_generics_with_behavior()
+  +Should_wrap_void_generics_with_behavior()
+  +Should_handle_constrained_generics()
+  +Should_handle_concrete_and_open_generics()
+}
+MediatR.Tests.PublishTests: {
+  shape: class
+  +Should_resolve_main_handler()
+  +Should_resolve_main_handler_when_object_is_passed()
+  +Should_override_with_sequential_firing()
+  +Should_override_with_sequential_firing_through_injection()
+  +Should_resolve_handlers_given_interface()
+  +Should_resolve_main_handler_by_specific_interface()
+}
+MediatR.Tests.SendTests: {
+  shape: class
+  -_serviceProvider: IServiceProvider
+  -_dependency: Dependency
+  -_mediator: IMediator
+  +SendTests()
+  +Should_resolve_main_handler()
+  +Should_resolve_main_void_handler()
+  +Should_resolve_main_handler_via_dynamic_dispatch()
+  +Should_resolve_main_void_handler_via_dynamic_dispatch()
+  +Should_resolve_main_handler_by_specific_interface()
+  +Should_resolve_main_handler_by_given_interface()
+  +Should_raise_execption_on_null_request()
+  +Should_resolve_generic_handler()
+  +Should_resolve_generic_void_handler()
+  +Should_resolve_multiple_type_parameter_generic_handler()
+  +Should_resolve_closed_handler_if_defined()
+  +Should_resolve_open_handler_if_not_defined()
+  +TimeoutBehavior_Void_Should_Cancel_Long_Running_Task_And_Throw_Exception()
+  +TimeoutBehavior_NonVoid_Should_Cancel_Long_Running_Task_And_Throw_Exception()
+}
+MediatR.Tests.SendVoidInterfaceTests: {
+  shape: class
+  +Should_resolve_main_void_handler()
+}
+MediatR.Tests.ServiceFactoryCollectionBehavior: {
+  shape: class
+}
+MediatR.Tests.ServiceFactoryTests: {
+  shape: class
+  +Should_throw_given_no_handler()
+  +Should_not_throw_with_manual_registration()
+  +Should_throw_when_missing_required_configuration()
+}
+MediatR.Tests.StreamPipelineTests: {
+  shape: class
+  +Should_wrap_with_behavior()
+  +Should_wrap_generics_with_behavior()
+  +Should_handle_constrained_generics()
+  +Should_handle_concrete_and_open_generics()
+}
+MediatR.Tests.TestContainer: {
+  shape: class
+  +Create(config: Action<ServiceCollection>)
+}
+MediatR.Tests.UnitTests: {
+  shape: class
+  +Should_be_equal_to_each_other()
+  +Should_be_equitable()
+  +Should_tostring()
+  +Should_compareto_as_zero()
+  +ValueData()
+  +CompareToValueData()
+  +Should_be_equal(value: object, isEqual: bool)
+  +Should_compareto_value_as_zero(value: object)
+}
+MediatR.Tests.Licensing.LicenseAccessorTests: {
+  shape: class
+  +Should_return_unconfigured_license_for_missing_or_blank_key(key: string?)
+  +Should_return_unconfigured_license_when_static_key_is_blank()
+}
+MediatR.Tests.Licensing.LicenseValidatorTests: {
+  shape: class
+  +Should_return_invalid_when_no_claims()
+  +Should_return_valid_when_community()
+  +Should_return_invalid_when_not_correct_type()
+  +Should_return_invalid_when_expired()
+  +Should_allow_perpetual_license_when_build_date_before_expiration()
+  +Should_reject_perpetual_license_when_build_date_after_expiration()
+  +Should_handle_missing_perpetual_claim()
+  +Should_fall_back_to_expiration_error_when_perpetual_and_build_date_is_null()
+  +Should_return_valid_for_actual_valid_license()
+  +Should_return_valid_for_actual_valid_license_via_static_property()
+}
+MediatR.Extensions.Microsoft.DependencyInjection.Tests.AssemblyResolutionTests: {
+  shape: class
+  -_provider: IServiceProvider
+  +AssemblyResolutionTests()
+  +ShouldResolveMediator()
+  +ShouldResolveRequestHandler()
+  +ShouldResolveInternalHandler()
+  +ShouldResolveNotificationHandlers()
+  +ShouldResolveStreamHandlers()
+  +ShouldRequireAtLeastOneAssembly()
+  +ShouldResolveGenericVoidRequestHandler()
+  +ShouldResolveGenericReturnTypeRequestHandler()
+  +ShouldResolveGenericPingRequestHandler()
+  +ShouldResolveVoidGenericPingRequestHandler()
+  +ShouldNotThrowWhenAssemblyThrowsReflectionTypeLoadException()
+}
+MediatR.Extensions.Microsoft.DependencyInjection.Tests.CustomMediatorTests: {
+  shape: class
+  -_provider: IServiceProvider
+  +CustomMediatorTests()
+  +ShouldResolveMediator()
+  +ShouldResolveRequestHandler()
+  +ShouldResolveNotificationHandlers()
+  +Can_Call_AddMediatr_multiple_times()
+}
+MediatR.Extensions.Microsoft.DependencyInjection.Tests.DerivingRequestsTests: {
+  shape: class
+  -_provider: IServiceProvider
+  -_mediator: IMediator
+  +DerivingRequestsTests()
+  +ShouldReturnPingPong()
+  +ShouldReturnDerivedPingPong()
+}
+MediatR.Extensions.Microsoft.DependencyInjection.Tests.DuplicateAssemblyResolutionTests: {
+  shape: class
+  -_provider: IServiceProvider
+  +DuplicateAssemblyResolutionTests()
+  +ShouldResolveNotificationHandlersOnlyOnce()
+}
+MediatR.Extensions.Microsoft.DependencyInjection.Tests.Ping: {
+  shape: class
+  +Message: string?
+  +ThrowAction: Action<Ping>?
+}
+MediatR.Extensions.Microsoft.DependencyInjection.Tests.DerivedPing: {
+  shape: class
+}
+MediatR.Extensions.Microsoft.DependencyInjection.Tests.Pong: {
+  shape: class
+  +Message: string?
+}
+MediatR.Extensions.Microsoft.DependencyInjection.Tests.Zing: {
+  shape: class
+  +Message: string?
+}
+MediatR.Extensions.Microsoft.DependencyInjection.Tests.Zong: {
+  shape: class
+  +Message: string?
+}
+MediatR.Extensions.Microsoft.DependencyInjection.Tests.Ding: {
+  shape: class
+  +Message: string?
+}
+MediatR.Extensions.Microsoft.DependencyInjection.Tests.Pinged: {
+  shape: class
+}
+MediatR.Extensions.Microsoft.DependencyInjection.Tests.InternalPing: {
+  shape: class
+}
+MediatR.Extensions.Microsoft.DependencyInjection.Tests.StreamPing: {
+  shape: class
+  +Message: string?
+}
+MediatR.Extensions.Microsoft.DependencyInjection.Tests.GenericHandler: {
+  shape: class
+  +Handle(notification: INotification, cancellationToken: CancellationToken)
+}
+MediatR.Extensions.Microsoft.DependencyInjection.Tests.DingAsyncHandler: {
+  shape: class
+  +Handle(message: Ding, cancellationToken: CancellationToken)
+}
+MediatR.Extensions.Microsoft.DependencyInjection.Tests.PingedHandler: {
+  shape: class
+  +Handle(notification: Pinged, cancellationToken: CancellationToken)
+}
+MediatR.Extensions.Microsoft.DependencyInjection.Tests.PingedAlsoHandler: {
+  shape: class
+  +Handle(notification: Pinged, cancellationToken: CancellationToken)
+}
+MediatR.Extensions.Microsoft.DependencyInjection.Tests.PingedAlsoOpenHandler: {
+  shape: class
+  +Handle(notification: TNotification, cancellationToken: CancellationToken)
+}
+MediatR.Extensions.Microsoft.DependencyInjection.Tests.Logger: {
+  shape: class
+  +Messages: IList<string>
+}
+MediatR.Extensions.Microsoft.DependencyInjection.Tests.PingHandler: {
+  shape: class
+  -_logger: Logger
+  +PingHandler(logger: Logger)
+  +Handle(message: Ping, cancellationToken: CancellationToken)
+}
+MediatR.Extensions.Microsoft.DependencyInjection.Tests.DerivedPingHandler: {
+  shape: class
+  -_logger: Logger
+  +DerivedPingHandler(logger: Logger)
+  +Handle(message: DerivedPing, cancellationToken: CancellationToken)
+}
+MediatR.Extensions.Microsoft.DependencyInjection.Tests.ZingHandler: {
+  shape: class
+  -_output: Logger
+  +ZingHandler(output: Logger)
+  +Handle(message: Zing, cancellationToken: CancellationToken)
+}
+MediatR.Extensions.Microsoft.DependencyInjection.Tests.PingStreamHandler: {
+  shape: class
+  -_output: Logger
+  +PingStreamHandler(output: Logger)
+  +Handle(request: StreamPing, cancellationToken: CancellationToken)
+}
+MediatR.Extensions.Microsoft.DependencyInjection.Tests.DuplicateTest: {
+  shape: class
+}
+MediatR.Extensions.Microsoft.DependencyInjection.Tests.DuplicateHandler1: {
+  shape: class
+  +Handle(message: DuplicateTest, cancellationToken: CancellationToken)
+}
+MediatR.Extensions.Microsoft.DependencyInjection.Tests.DuplicateHandler2: {
+  shape: class
+  +Handle(message: DuplicateTest, cancellationToken: CancellationToken)
+}
+MediatR.Extensions.Microsoft.DependencyInjection.Tests.InternalPingHandler: {
+  shape: class
+  +Handle(request: InternalPing, cancellationToken: CancellationToken)
+}
+MediatR.Extensions.Microsoft.DependencyInjection.Tests.MyCustomMediator: {
+  shape: class
+  +Send(request: object, cancellationToken: CancellationToken)
+  +CreateStream(request: IStreamRequest<TResponse>, cancellationToken: CancellationToken)
+  +CreateStream(request: object, cancellationToken: CancellationToken)
+  +Publish(notification: object, cancellationToken: CancellationToken)
+  +Publish(notification: TNotification, cancellationToken: CancellationToken)
+  +Send(request: IRequest<TResponse>, cancellationToken: CancellationToken)
+  +Send(request: TRequest, cancellationToken: CancellationToken)
+}
+MediatR.Extensions.Microsoft.DependencyInjection.Tests.ITypeArgument: {
+  shape: class
+}
+MediatR.Extensions.Microsoft.DependencyInjection.Tests.ConcreteTypeArgument: {
+  shape: class
+}
+MediatR.Extensions.Microsoft.DependencyInjection.Tests.OpenGenericVoidRequest: {
+  shape: class
+}
+MediatR.Extensions.Microsoft.DependencyInjection.Tests.OpenGenericVoidRequestHandler: {
+  shape: class
+  +Handle(request: OpenGenericVoidRequest<T>, cancellationToken: CancellationToken)
+}
+MediatR.Extensions.Microsoft.DependencyInjection.Tests.OpenGenericReturnTypeRequest: {
+  shape: class
+}
+MediatR.Extensions.Microsoft.DependencyInjection.Tests.OpenGenericReturnTypeRequestHandler: {
+  shape: class
+  +Handle(request: OpenGenericReturnTypeRequest<T>, cancellationToken: CancellationToken)
+}
+MediatR.Extensions.Microsoft.DependencyInjection.Tests.GenericPing: {
+  shape: class
+  +Pong: T?
+}
+MediatR.Extensions.Microsoft.DependencyInjection.Tests.GenericPingHandler: {
+  shape: class
+  +Handle(request: GenericPing<T>, cancellationToken: CancellationToken)
+}
+MediatR.Extensions.Microsoft.DependencyInjection.Tests.VoidGenericPing: {
+  shape: class
+}
+MediatR.Extensions.Microsoft.DependencyInjection.Tests.VoidGenericPingHandler: {
+  shape: class
+  +Handle(request: VoidGenericPing<T>, cancellationToken: CancellationToken)
+}
+MediatR.Extensions.Microsoft.DependencyInjection.Tests.Issue1118Tests: {
+  shape: class
+  -BuildProvider()
+  +Publishing_BaseEvent_Should_Call_BaseEventHandler_Once()
+  +Publishing_DerivedEvent_Should_Call_BaseEventHandler_ExactlyOnce()
+  +Publishing_DerivedEvent_Should_Call_DerivedEventHandler_Once()
+}
+MediatR.Extensions.Microsoft.DependencyInjection.Tests.NotificationPublisherTests: {
+  shape: class
+  +ShouldResolveDefaultPublisher()
+  +ShouldSubstitutePublisherInstance()
+  +ShouldSubstitutePublisherServiceType()
+  +ShouldSubstitutePublisherServiceTypeWithWhenAll()
+}
+MediatR.Extensions.Microsoft.DependencyInjection.Tests.PipelineMultiCallToConstructorTests: {
+  shape: class
+  +Should_not_call_constructor_multiple_times_when_using_a_pipeline()
+}
+MediatR.Extensions.Microsoft.DependencyInjection.Tests.PipelineTests: {
+  shape: class
+  +Should_wrap_with_behavior()
+  +Should_wrap_generics_with_behavior()
+  +Should_register_pre_and_post_processors()
+  +Should_pick_up_specific_exception_behaviors()
+  +Should_pick_up_base_exception_behaviors()
+  +Should_handle_exceptions_from_behaviors()
+  +Should_pick_up_exception_actions()
+  +Should_handle_constrained_generics()
+  +Should_throw_when_adding_non_open_behavior()
+  +Should_throw_when_adding_non_open_stream_behavior()
+  +Should_throw_when_adding_random_generic_type_as_open_behavior()
+  +Should_handle_open_behavior_registration()
+  +Should_handle_inferred_behavior_registration()
+  +Should_handle_inferred_stream_behavior_registration()
+  +Should_handle_inferred_pre_processor_registration()
+  +Should_handle_inferred_post_processor_registration()
+  +Should_handle_open_behaviors_registration_from_a_single_type()
+  +Should_auto_register_processors_when_configured_including_all_concrete_types()
+  +Should_register_correctly()
+  +Should_register_open_behaviors_correctly()
+  +Should_apply_open_behavior_with_nested_generic_response_type()
+}
+MediatR.Extensions.Microsoft.DependencyInjection.Tests.StreamPipelineTests: {
+  shape: class
+  +Should_wrap_with_behavior()
+  +Should_register_and_wrap_with_behavior()
+}
+MediatR.Extensions.Microsoft.DependencyInjection.Tests.TypeEvaluatorTests: {
+  shape: class
+  -_provider: IServiceProvider
+  -_services: IServiceCollection
+  +TypeEvaluatorTests()
+  +ShouldResolveMediator()
+  +ShouldOnlyResolveIncludedRequestHandlers()
+  +ShouldNotRegisterUnNeededBehaviors()
+}
+MediatR.Extensions.Microsoft.DependencyInjection.Tests.TypeResolutionTests: {
+  shape: class
+  -_provider: IServiceProvider
+  +TypeResolutionTests()
+  +ShouldResolveMediator()
+  +ShouldResolveSender()
+  +ShouldResolvePublisher()
+  +ShouldResolveRequestHandler()
+  +ShouldResolveVoidRequestHandler()
+  +ShouldResolveNotificationHandlers()
+  +ShouldNotThrowWithMissingEnumerables()
+  +ShouldResolveFirstDuplicateHandler()
+  +ShouldResolveIgnoreSecondDuplicateHandler()
+  +ShouldHandleKeyedServices()
+}
+MediatR.Tests.MicrosoftExtensionsDI.BaseGenericRequestHandlerTests: {
+  shape: class
+  #GenerateTypesClosingExceedsMaximumAssembly()
+  #GenerateHandlerRegistrationsExceedsMaximumAssembly()
+  #GenerateGenericTypeParametersExceedsMaximumAssembly()
+  #GenerateTimeoutOccursAssembly()
+  #GenerateOptOutAssembly()
+  #CreateHandlerForOptOutTest(moduleBuilder: ModuleBuilder)
+  #CreateHandlerForMissingConstraintsTest(moduleBuilder: ModuleBuilder)
+  #CreateHandlerForExceedsMaximumClassesTest(moduleBuilder: ModuleBuilder)
+  #CreateHandlerForExceedsMaximumHandlerRegistrationsTest(moduleBuilder: ModuleBuilder)
+  #CreateHandlerForExceedsMaximumGenericTypeParametersTest(moduleBuilder: ModuleBuilder)
+  #CreateHandlerForTimeoutOccursTest(moduleBuilder: ModuleBuilder)
+  #CreateHandlerForCombinationsTest(moduleBuilder: ModuleBuilder, numberOfGenericParameters: int)
+  #CreateClass(moduleBuilder: ModuleBuilder, className: string, interfaceType: Type)
+  #CreateInterface(moduleBuilder: ModuleBuilder, interfaceName: string)
+  #CreateAssemblyModuleBuilder(name: string, classes: int, interfaces: int, handlerCreation: Action<ModuleBuilder>)
+  #GenerateCombinationsTestAssembly(classes: int, interfaces: int, genericParameters: int)
+  #GetGenericParameterNames(numberOfTypeParameters: int)
+  #CreateRequestHandler(moduleBuilder: ModuleBuilder, requestName: string, numberOfTypeParameters: int, numberOfInterfaces: int, includeConstraints: bool)
+  #CreateTestClassesAndInterfaces(moduleBuilder: ModuleBuilder, numberOfClasses: int, numberOfInterfaces: int)
+  #GenerateCombinations(types: Type[], interfaces: int)
+  #GenerateCombinationsRecursive(groups: List<Type>[], currentGroup: int)
+  #CalculateTotalCombinations(numberOfClasses: int, numberOfInterfaces: int, numberOfTypeParameters: int)
+}
+MediatR.Extensions.Microsoft.DependencyInjection.Tests.Included.Foo: {
+  shape: class
+  +Message: string?
+  +ThrowAction: Action<Foo>?
+}
+MediatR.Extensions.Microsoft.DependencyInjection.Tests.Included.Bar: {
+  shape: class
+  +Message: string?
+}
+MediatR.Extensions.Microsoft.DependencyInjection.Tests.Included.FooHandler: {
+  shape: class
+  -_logger: Logger
+  +FooHandler(logger: Logger)
+  +Handle(message: Foo, cancellationToken: CancellationToken)
+}
+MediatR.Tests.Pipeline.RequestExceptionActionTests: {
+  shape: class
+  +Should_run_all_exception_actions_that_match_base_type()
+  +Should_run_matching_exception_actions_only_once()
+}
+MediatR.Tests.Pipeline.RequestExceptionHandlerTests: {
+  shape: class
+  +Should_run_exception_handler_and_allow_for_exception_not_to_throw()
+  +Should_run_exception_handler_and_allow_for_exception_to_be_still_thrown()
+  +Should_run_exception_handler_and_unwrap_expections_thrown_in_the_handler()
+  +Should_run_matching_exception_handlers_only_once()
+}
+MediatR.Tests.Pipeline.RequestPostProcessorTests: {
+  shape: class
+  +Should_run_postprocessors()
+}
+MediatR.Tests.Pipeline.RequestPreProcessorTests: {
+  shape: class
+  +Should_run_preprocessors()
+}
+MediatR.Tests.Pipeline.Streams.StreamPipelineBehaviorTests: {
+  shape: class
+  +Should_run_pipeline_behavior()
+}
+MediatR.Examples.ConstrainedRequestPostProcessor -> MediatR.Pipeline.IRequestPostProcessor: implements
+GenericHandler -> MediatR.INotificationHandler: implements
+GenericPipelineBehavior -> MediatR.IPipelineBehavior: implements
+GenericRequestPostProcessor -> MediatR.Pipeline.IRequestPostProcessor: implements
+GenericRequestPreProcessor -> MediatR.Pipeline.IRequestPreProcessor: implements
+MediatR.Examples.Jing -> IRequest: implements
+MediatR.Examples.JingHandler -> IRequestHandler: implements
+Ping -> IRequest: implements
+PingHandler -> IRequestHandler: implements
+Pinged -> MediatR.INotification: implements
+PingedHandler -> MediatR.INotificationHandler: implements
+MediatR.Examples.PongedHandler -> MediatR.INotificationHandler: implements
+MediatR.Examples.ConstrainedPingedHandler -> MediatR.INotificationHandler: implements
+PingedAlsoHandler -> MediatR.INotificationHandler: implements
+MediatR.Examples.Ponged -> MediatR.INotification: implements
+MediatR.Examples.WrappingWriter -> TextWriter: extends
+MediatR.Examples.ExceptionHandler.ConnectionException -> Exception: extends
+MediatR.Examples.ExceptionHandler.ForbiddenException -> MediatR.Examples.ExceptionHandler.ConnectionException: extends
+MediatR.Examples.ExceptionHandler.ResourceNotFoundException -> MediatR.Examples.ExceptionHandler.ConnectionException: extends
+MediatR.Examples.ExceptionHandler.ServerException -> Exception: extends
+CommonExceptionHandler -> MediatR.Pipeline.IRequestExceptionHandler: implements
+MediatR.Examples.ExceptionHandler.ConnectionExceptionHandler -> MediatR.Pipeline.IRequestExceptionHandler: implements
+MediatR.Examples.ExceptionHandler.AccessDeniedExceptionHandler -> MediatR.Pipeline.IRequestExceptionHandler: implements
+ServerExceptionHandler -> MediatR.Pipeline.IRequestExceptionHandler: implements
+CommonExceptionHandler -> MediatR.Pipeline.IRequestExceptionHandler: implements
+ServerExceptionHandler -> ServerExceptionHandler: extends
+MediatR.Examples.ExceptionHandler.PingResourceHandler -> IRequestHandler: implements
+MediatR.Examples.ExceptionHandler.PingNewResourceHandler -> IRequestHandler: implements
+MediatR.Examples.ExceptionHandler.PingResourceTimeoutHandler -> IRequestHandler: implements
+MediatR.Examples.ExceptionHandler.PingResourceTimeoutOverrideHandler -> IRequestHandler: implements
+MediatR.Examples.ExceptionHandler.PingProtectedResourceHandler -> IRequestHandler: implements
+MediatR.Examples.ExceptionHandler.LogExceptionAction -> MediatR.Pipeline.IRequestExceptionAction: implements
+MediatR.Examples.ExceptionHandler.PingResource -> Ping: extends
+MediatR.Examples.ExceptionHandler.PingNewResource -> Ping: extends
+PingResourceTimeout -> MediatR.Examples.ExceptionHandler.PingResource: extends
+MediatR.Examples.ExceptionHandler.PingProtectedResource -> MediatR.Examples.ExceptionHandler.PingResource: extends
+PingResourceTimeout -> PingResourceTimeout: extends
+MediatR.Examples.GenericStreamPipelineBehavior -> MediatR.IStreamPipelineBehavior: implements
+MediatR.Examples.Sing -> MediatR.IStreamRequest: implements
+MediatR.Examples.SingHandler -> MediatR.IStreamRequestHandler: implements
+MediatR.Examples.PublishStrategies.AsyncPingedHandler -> MediatR.INotificationHandler: implements
+MediatR.Examples.PublishStrategies.CustomMediator -> MediatR.Mediator: extends
+MediatR.Examples.PublishStrategies.SyncPingedHandler -> MediatR.INotificationHandler: implements
+MediatR.Examples.Windsor.ContravariantFilter -> IHandlersFilter: implements
+MediatR.IMediator -> MediatR.ISender: extends
+MediatR.IMediator -> MediatR.IPublisher: extends
+MediatR.NotificationHandler -> MediatR.INotificationHandler: implements
+MediatR.Mediator -> MediatR.IMediator: implements
+MediatR.Internal.ObjectDetails -> IComparer: implements
+MediatR.NotificationPublishers.ForeachAwaitPublisher -> MediatR.INotificationPublisher: implements
+MediatR.NotificationPublishers.TaskWhenAllPublisher -> MediatR.INotificationPublisher: implements
+MediatR.Pipeline.RequestExceptionActionProcessorBehavior -> MediatR.IPipelineBehavior: implements
+MediatR.Pipeline.RequestExceptionProcessorBehavior -> MediatR.IPipelineBehavior: implements
+MediatR.Pipeline.RequestPostProcessorBehavior -> MediatR.IPipelineBehavior: implements
+MediatR.Pipeline.RequestPreProcessorBehavior -> MediatR.IPipelineBehavior: implements
+MediatR.Wrappers.NotificationHandlerWrapperImpl -> MediatR.Wrappers.NotificationHandlerWrapper: extends
+RequestHandlerWrapper -> MediatR.Wrappers.RequestHandlerBase: extends
+RequestHandlerWrapper -> MediatR.Wrappers.RequestHandlerBase: extends
+RequestHandlerWrapperImpl -> RequestHandlerWrapper: extends
+RequestHandlerWrapperImpl -> RequestHandlerWrapper: extends
+MediatR.Wrappers.StreamRequestHandlerWrapper -> MediatR.Wrappers.StreamRequestHandlerBase: extends
+MediatR.Wrappers.StreamRequestHandlerWrapperImpl -> MediatR.Wrappers.StreamRequestHandlerWrapper: extends
+IRequest -> MediatR.IBaseRequest: extends
+IRequest -> MediatR.IBaseRequest: extends
+MediatR.Unit -> IEquatable: implements
+MediatR.Unit -> IComparable: implements
+MediatR.Unit -> IComparable: implements
+MediatR.Benchmarks.DotTraceDiagnoserAttribute -> Attribute: extends
+MediatR.Benchmarks.DotTraceDiagnoserAttribute -> IConfigSource: implements
+MediatR.Benchmarks.DotTraceDiagnoser -> IDiagnoser: implements
+GenericPipelineBehavior -> MediatR.IPipelineBehavior: implements
+GenericRequestPostProcessor -> MediatR.Pipeline.IRequestPostProcessor: implements
+GenericRequestPreProcessor -> MediatR.Pipeline.IRequestPreProcessor: implements
+Ping -> IRequest: implements
+PingHandler -> IRequestHandler: implements
+Pinged -> MediatR.INotification: implements
+PingedHandler -> MediatR.INotificationHandler: implements
+MediatR.DependencyInjectionTests.AutoFacDependencyInjectionTests -> MediatR.DependencyInjectionTests.Abstractions.BaseAssemblyResolutionTests: extends
+MediatR.DependencyInjectionTests.DryIocDependencyInjectionTests -> MediatR.DependencyInjectionTests.Abstractions.BaseAssemblyResolutionTests: extends
+MediatR.DependencyInjectionTests.LamarDependencyInjectionTests -> MediatR.DependencyInjectionTests.Abstractions.BaseAssemblyResolutionTests: extends
+MediatR.DependencyInjectionTests.LightInjectDependencyInjectionTests -> MediatR.DependencyInjectionTests.Abstractions.BaseAssemblyResolutionTests: extends
+MediatR.DependencyInjectionTests.MicrosoftDependencyInjectionTests -> MediatR.DependencyInjectionTests.Abstractions.BaseAssemblyResolutionTests: extends
+MediatR.DependencyInjectionTests.StashBoxDependencyInjectionTests -> MediatR.DependencyInjectionTests.Abstractions.BaseAssemblyResolutionTests: extends
+MediatR.DependencyInjectionTests.Abstractions.BaseAssemblyResolutionTests -> IClassFixture: implements
+Ding -> MediatR.INotification: implements
+InternalPing -> IRequest: implements
+MediatR.DependencyInjectionTests.Contracts.Requests.InternalVoidPing -> IRequest: implements
+MediatR.DependencyInjectionTests.Contracts.Requests.PrivatePing -> IRequest: implements
+MediatR.DependencyInjectionTests.Contracts.Requests.PrivateVoidPing -> IRequest: implements
+MediatR.DependencyInjectionTests.Contracts.Requests.PublicPing -> IRequest: implements
+MediatR.DependencyInjectionTests.Contracts.Requests.PublicVoidPing -> IRequest: implements
+MediatR.DependencyInjectionTests.Contracts.StreamRequests.InternalZing -> MediatR.IStreamRequest: implements
+MediatR.DependencyInjectionTests.Contracts.StreamRequests.PrivateZing -> MediatR.IStreamRequest: implements
+MediatR.DependencyInjectionTests.Contracts.StreamRequests.PublicZing -> MediatR.IStreamRequest: implements
+MediatR.DependencyInjectionTests.Providers.AutoFacServiceProviderFixture -> MediatR.DependencyInjectionTests.Abstractions.BaseServiceProviderFixture: extends
+MediatR.DependencyInjectionTests.Providers.DryIocServiceProviderFixture -> MediatR.DependencyInjectionTests.Abstractions.BaseServiceProviderFixture: extends
+MediatR.DependencyInjectionTests.Providers.LamarServiceProviderFixture -> MediatR.DependencyInjectionTests.Abstractions.BaseServiceProviderFixture: extends
+MediatR.DependencyInjectionTests.Providers.LightInjectServiceProviderFixture -> MediatR.DependencyInjectionTests.Abstractions.BaseServiceProviderFixture: extends
+MediatR.DependencyInjectionTests.Providers.MicrosoftServiceProviderFixture -> MediatR.DependencyInjectionTests.Abstractions.BaseServiceProviderFixture: extends
+MediatR.DependencyInjectionTests.Providers.StashBoxServiceProviderFixture -> MediatR.DependencyInjectionTests.Abstractions.BaseServiceProviderFixture: extends
+MediatR.Tests.GenericRequestHandlerTests -> MediatR.Tests.MicrosoftExtensionsDI.BaseGenericRequestHandlerTests: extends
+Ping -> IRequest: implements
+MediatR.Extensions.Microsoft.DependencyInjection.Tests.DerivedPing -> Ping: extends
+MediatR.Extensions.Microsoft.DependencyInjection.Tests.Zing -> IRequest: implements
+Ding -> IRequest: implements
+Pinged -> MediatR.INotification: implements
+InternalPing -> IRequest: implements
+MediatR.Extensions.Microsoft.DependencyInjection.Tests.StreamPing -> MediatR.IStreamRequest: implements
+GenericHandler -> MediatR.INotificationHandler: implements
+MediatR.Extensions.Microsoft.DependencyInjection.Tests.DingAsyncHandler -> IRequestHandler: implements
+PingedHandler -> MediatR.INotificationHandler: implements
+PingedAlsoHandler -> MediatR.INotificationHandler: implements
+MediatR.Extensions.Microsoft.DependencyInjection.Tests.PingedAlsoOpenHandler -> MediatR.INotificationHandler: implements
+PingHandler -> IRequestHandler: implements
+MediatR.Extensions.Microsoft.DependencyInjection.Tests.DerivedPingHandler -> IRequestHandler: implements
+MediatR.Extensions.Microsoft.DependencyInjection.Tests.ZingHandler -> IRequestHandler: implements
+MediatR.Extensions.Microsoft.DependencyInjection.Tests.PingStreamHandler -> MediatR.IStreamRequestHandler: implements
+MediatR.Extensions.Microsoft.DependencyInjection.Tests.DuplicateTest -> IRequest: implements
+MediatR.Extensions.Microsoft.DependencyInjection.Tests.DuplicateHandler1 -> IRequestHandler: implements
+MediatR.Extensions.Microsoft.DependencyInjection.Tests.DuplicateHandler2 -> IRequestHandler: implements
+MediatR.Extensions.Microsoft.DependencyInjection.Tests.InternalPingHandler -> IRequestHandler: implements
+MediatR.Extensions.Microsoft.DependencyInjection.Tests.MyCustomMediator -> MediatR.IMediator: implements
+MediatR.Extensions.Microsoft.DependencyInjection.Tests.ConcreteTypeArgument -> MediatR.Extensions.Microsoft.DependencyInjection.Tests.ITypeArgument: implements
+MediatR.Extensions.Microsoft.DependencyInjection.Tests.OpenGenericVoidRequest -> IRequest: implements
+MediatR.Extensions.Microsoft.DependencyInjection.Tests.OpenGenericVoidRequestHandler -> IRequestHandler: implements
+MediatR.Extensions.Microsoft.DependencyInjection.Tests.OpenGenericReturnTypeRequest -> IRequest: implements
+MediatR.Extensions.Microsoft.DependencyInjection.Tests.OpenGenericReturnTypeRequestHandler -> IRequestHandler: implements
+MediatR.Extensions.Microsoft.DependencyInjection.Tests.GenericPing -> IRequest: implements
+MediatR.Extensions.Microsoft.DependencyInjection.Tests.GenericPingHandler -> IRequestHandler: implements
+MediatR.Extensions.Microsoft.DependencyInjection.Tests.VoidGenericPing -> IRequest: implements
+MediatR.Extensions.Microsoft.DependencyInjection.Tests.VoidGenericPingHandler -> IRequestHandler: implements
+MediatR.Extensions.Microsoft.DependencyInjection.Tests.Included.Foo -> IRequest: implements
+MediatR.Extensions.Microsoft.DependencyInjection.Tests.Included.FooHandler -> IRequestHandler: implements
