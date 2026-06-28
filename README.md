@@ -74,6 +74,8 @@ Java via the [Java extractor](veltro/extract/java), C# via the
 | [Kafka](https://github.com/apache/kafka) (clients) | Java | 1,287 | 174,594 | +13% | +32% |
 | [MediatR](https://github.com/jbogard/MediatR) | C# | 220 | 8,770 | +30% | +36% |
 | [Orleans](https://github.com/dotnet/orleans) | C# | 7,848 | 688,081 | +21% | +27% |
+| [NestJS](https://github.com/nestjs/nest) | TS | 1,879 | 65,958 | +33% | +38% |
+| [Angular](https://github.com/angular/angular) | TS | 17,670 | 427,431 | +33% | +41% |
 
 The Java and C# rows are cross-language evidence: the token saving holds on real
 Python, Java and C# code, not a single ecosystem and on Orleans it scales to
