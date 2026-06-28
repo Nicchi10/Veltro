@@ -1,0 +1,563 @@
+{
+  "project": "nest",
+  "provider": "openai",
+  "format": "d2",
+  "model": "gpt-4.1-mini",
+  "runs": [
+    {
+      "input_tokens": 56155,
+      "output_tokens": 865,
+      "answers": {
+        "q1": [
+          "packages.platform-express.adapters.express-adapter.ExpressAdapter",
+          "packages.platform-fastify.adapters.fastify-adapter.FastifyAdapter"
+        ],
+        "q2": [
+          "packages.core.nest-application-context.NestApplicationContext",
+          "packages.core.injector.module-ref.ModuleRef",
+          "packages.testing.testing-injector.TestingInjector"
+        ],
+        "q3": [
+          "packages.platform-socket.io.adapters.io-adapter.IoAdapter",
+          "packages.platform-ws.adapters.ws-adapter.WsAdapter",
+          "packages.websockets.adapters.ws-adapter.AbstractWsAdapter"
+        ],
+        "q4": [
+          "packages.common.interfaces.features.execution-context.interface.ExecutionContext"
+        ],
+        "q5": [
+          "packages.core.exceptions.exceptions-handler.ExceptionsHandler",
+          "packages.core.exceptions.external-exceptions-handler.ExternalExceptionsHandler",
+          "packages.core.exceptions.base-exception-filter.BaseExceptionFilter"
+        ],
+        "q6": [
+          "packages.core.exceptions.exceptions-handler.ExceptionsHandler",
+          "packages.core.exceptions.external-exception-filter-context.ExternalExceptionFilterContext"
+        ],
+        "q7": [
+          "packages.microservices.ctx-host.kafka.context.KafkaContext",
+          "packages.microservices.ctx-host.mqtt.context.MqttContext",
+          "packages.microservices.ctx-host.nats.context.NatsContext",
+          "packages.microservices.ctx-host.redis.context.RedisContext",
+          "packages.microservices.ctx-host.rmq.context.RmqContext",
+          "packages.microservices.ctx-host.tcp.context.TcpContext"
+        ],
+        "q8": [
+          "packages.microservices.exceptions.rpc-exceptions-handler.RpcExceptionsHandler",
+          "packages.microservices.exceptions.base-rpc-exception-filter.BaseRpcExceptionFilter"
+        ],
+        "q9": [
+          "packages.websockets.exceptions.ws-exceptions-handler.WsExceptionsHandler",
+          "packages.websockets.exceptions.base-ws-exception-filter.BaseWsExceptionFilter"
+        ],
+        "q10": [
+          "packages.common.serializer.class-serializer.interceptor.ClassSerializerInterceptorOptions",
+          "packages.common.serializer.class-serializer.interfaces.ClassSerializerContextOptions"
+        ],
+        "q11": [
+          "Function"
+        ],
+        "q12": [
+          "packages.common.interfaces.http.http-server.interface.HttpServer"
+        ],
+        "q13": [],
+        "q14": [
+          "packages.common.interfaces.websockets.web-socket-adapter.interface.WebSocketAdapter"
+        ],
+        "q15": [],
+        "q16": [],
+        "q17": [],
+        "q18": [],
+        "q19": [
+          "GlobalPrefixOptions",
+          "PipeTransform",
+          "ExceptionFilter",
+          "NestInterceptor",
+          "CanActivate",
+          "VersioningOptions",
+          "InstanceWrapper",
+          "WebSocketAdapter"
+        ],
+        "q20": [],
+        "q21": "fastifyMiddie",
+        "q22": "fastifyMiddie",
+        "q23": "packages.common.decorators.core.controller.decorator",
+        "q24": "packages.common.decorators.http.request-mapping.decorator",
+        "q25": "packages.common.decorators.http.route-params.decorator",
+        "q26": "packages.common.decorators.http.route-params.decorator",
+        "q27": "packages.common.enums.http-status.enum",
+        "q28": "packages.common.enums.request-method.enum",
+        "q29": "packages.common.enums.route-paramtypes.enum",
+        "q30": "packages.common.enums.shutdown-signal.enum",
+        "q31": 0,
+        "q32": 0,
+        "q33": 0,
+        "q34": 0,
+        "q35": 0,
+        "q36": 0,
+        "q37": 1,
+        "q38": 1,
+        "q39": 1,
+        "q40": 1,
+        "q41": [],
+        "q42": [],
+        "q43": [],
+        "q44": [],
+        "q45": [],
+        "q46": [],
+        "q47": [],
+        "q48": [],
+        "q49": [],
+        "q50": []
+      },
+      "raw_text": "{\n  \"q1\": [\n    \"packages.platform-express.adapters.express-adapter.ExpressAdapter\",\n    \"packages.platform-fastify.adapters.fastify-adapter.FastifyAdapter\"\n  ],\n  \"q2\": [\n    \"packages.core.nest-application-context.NestApplicationContext\",\n    \"packages.core.injector.module-ref.ModuleRef\",\n    \"packages.testing.testing-injector.TestingInjector\"\n  ],\n  \"q3\": [\n    \"packages.platform-socket.io.adapters.io-adapter.IoAdapter\",\n    \"packages.platform-ws.adapters.ws-adapter.WsAdapter\",\n    \"packages.websockets.adapters.ws-adapter.AbstractWsAdapter\"\n  ],\n  \"q4\": [\n    \"packages.common.interfaces.features.execution-context.interface.ExecutionContext\"\n  ],\n  \"q5\": [\n    \"packages.core.exceptions.exceptions-handler.ExceptionsHandler\",\n    \"packages.core.exceptions.external-exceptions-handler.ExternalExceptionsHandler\",\n    \"packages.core.exceptions.base-exception-filter.BaseExceptionFilter\"\n  ],\n  \"q6\": [\n    \"packages.core.exceptions.exceptions-handler.ExceptionsHandler\",\n    \"packages.core.exceptions.external-exception-filter-context.ExternalExceptionFilterContext\"\n  ],\n  \"q7\": [\n    \"packages.microservices.ctx-host.kafka.context.KafkaContext\",\n    \"packages.microservices.ctx-host.mqtt.context.MqttContext\",\n    \"packages.microservices.ctx-host.nats.context.NatsContext\",\n    \"packages.microservices.ctx-host.redis.context.RedisContext\",\n    \"packages.microservices.ctx-host.rmq.context.RmqContext\",\n    \"packages.microservices.ctx-host.tcp.context.TcpContext\"\n  ],\n  \"q8\": [\n    \"packages.microservices.exceptions.rpc-exceptions-handler.RpcExceptionsHandler\",\n    \"packages.microservices.exceptions.base-rpc-exception-filter.BaseRpcExceptionFilter\"\n  ],\n  \"q9\": [\n    \"packages.websockets.exceptions.ws-exceptions-handler.WsExceptionsHandler\",\n    \"packages.websockets.exceptions.base-ws-exception-filter.BaseWsExceptionFilter\"\n  ],\n  \"q10\": [\n    \"packages.common.serializer.class-serializer.interceptor.ClassSerializerInterceptorOptions\",\n    \"packages.common.serializer.class-serializer.interfaces.ClassSerializerContextOptions\"\n  ],\n  \"q11\": [\n    \"Function\"\n  ],\n  \"q12\": [\n    \"packages.common.interfaces.http.http-server.interface.HttpServer\"\n  ],\n  \"q13\": [],\n  \"q14\": [\n    \"packages.common.interfaces.websockets.web-socket-adapter.interface.WebSocketAdapter\"\n  ],\n  \"q15\": [],\n  \"q16\": [],\n  \"q17\": [],\n  \"q18\": [],\n  \"q19\": [\n    \"GlobalPrefixOptions\",\n    \"PipeTransform\",\n    \"ExceptionFilter\",\n    \"NestInterceptor\",\n    \"CanActivate\",\n    \"VersioningOptions\",\n    \"InstanceWrapper\",\n    \"WebSocketAdapter\"\n  ],\n  \"q20\": [],\n  \"q21\": \"fastifyMiddie\",\n  \"q22\": \"fastifyMiddie\",\n  \"q23\": \"packages.common.decorators.core.controller.decorator\",\n  \"q24\": \"packages.common.decorators.http.request-mapping.decorator\",\n  \"q25\": \"packages.common.decorators.http.route-params.decorator\",\n  \"q26\": \"packages.common.decorators.http.route-params.decorator\",\n  \"q27\": \"packages.common.enums.http-status.enum\",\n  \"q28\": \"packages.common.enums.request-method.enum\",\n  \"q29\": \"packages.common.enums.route-paramtypes.enum\",\n  \"q30\": \"packages.common.enums.shutdown-signal.enum\",\n  \"q31\": 0,\n  \"q32\": 0,\n  \"q33\": 0,\n  \"q34\": 0,\n  \"q35\": 0,\n  \"q36\": 0,\n  \"q37\": 1,\n  \"q38\": 1,\n  \"q39\": 1,\n  \"q40\": 1,\n  \"q41\": [],\n  \"q42\": [],\n  \"q43\": [],\n  \"q44\": [],\n  \"q45\": [],\n  \"q46\": [],\n  \"q47\": [],\n  \"q48\": [],\n  \"q49\": [],\n  \"q50\": []\n}"
+    },
+    {
+      "input_tokens": 56155,
+      "output_tokens": 782,
+      "answers": {
+        "q1": [
+          "packages.platform-express.adapters.express-adapter.ExpressAdapter",
+          "packages.platform-fastify.adapters.fastify-adapter.FastifyAdapter"
+        ],
+        "q2": [
+          "packages.core.nest-application-context.NestApplicationContext",
+          "packages.core.injector.module-ref.ModuleRef",
+          "packages.testing.testing-injector.TestingInjector"
+        ],
+        "q3": [
+          "packages.platform-socket.io.adapters.io-adapter.IoAdapter",
+          "packages.platform-ws.adapters.ws-adapter.WsAdapter",
+          "packages.websockets.adapters.ws-adapter.AbstractWsAdapter"
+        ],
+        "q4": [
+          "packages.common.interfaces.features.execution-context.interface.ExecutionContext",
+          "packages.core.helpers.execution-context-host.ExecutionContextHost"
+        ],
+        "q5": [
+          "packages.core.exceptions.exceptions-handler.ExceptionsHandler",
+          "packages.core.exceptions.base-exception-filter.BaseExceptionFilter",
+          "packages.core.exceptions.external-exception-filter.ExternalExceptionFilter"
+        ],
+        "q6": [
+          "packages.core.exceptions.base-exception-filter-context.BaseExceptionFilterContext",
+          "packages.core.exceptions.external-exception-filter-context.ExternalExceptionFilterContext"
+        ],
+        "q7": [
+          "packages.microservices.ctx-host.kafka.context.KafkaContext",
+          "packages.microservices.ctx-host.mqtt.context.MqttContext",
+          "packages.microservices.ctx-host.nats.context.NatsContext",
+          "packages.microservices.ctx-host.redis.context.RedisContext",
+          "packages.microservices.ctx-host.rmq.context.RmqContext",
+          "packages.microservices.ctx-host.tcp.context.TcpContext",
+          "packages.microservices.ctx-host.base-rpc.context.BaseRpcContext"
+        ],
+        "q8": [
+          "packages.microservices.exceptions.rpc-exceptions-handler.RpcExceptionsHandler",
+          "packages.microservices.exceptions.base-rpc-exception-filter.BaseRpcExceptionFilter"
+        ],
+        "q9": [
+          "packages.websockets.exceptions.ws-exceptions-handler.WsExceptionsHandler",
+          "packages.websockets.exceptions.base-ws-exception-filter.BaseWsExceptionFilter"
+        ],
+        "q10": [
+          "packages.common.serializer.class-serializer.interceptor.ClassSerializerInterceptorOptions",
+          "packages.common.serializer.class-serializer.interfaces.ClassSerializerContextOptions"
+        ],
+        "q11": [
+          "Function"
+        ],
+        "q12": [
+          "packages.common.interfaces.http.http-server.interface.HttpServer"
+        ],
+        "q13": [],
+        "q14": [
+          "packages.common.interfaces.websockets.web-socket-adapter.interface.WebSocketAdapter"
+        ],
+        "q15": [],
+        "q16": [],
+        "q17": [],
+        "q18": [],
+        "q19": [],
+        "q20": [],
+        "q21": "fastifyMiddie",
+        "q22": "fastifyMiddie",
+        "q23": "packages.common.decorators.core.controller.decorator",
+        "q24": "packages.common.decorators.http.request-mapping.decorator",
+        "q25": "packages.common.decorators.http.route-params.decorator",
+        "q26": "packages.common.decorators.http.route-params.decorator",
+        "q27": "packages.common.enums.http-status.enum",
+        "q28": "packages.common.enums.request-method.enum",
+        "q29": "packages.common.enums.route-paramtypes.enum",
+        "q30": "packages.common.enums.shutdown-signal.enum",
+        "q31": 0,
+        "q32": 0,
+        "q33": 0,
+        "q34": 0,
+        "q35": 0,
+        "q36": 0,
+        "q37": 1,
+        "q38": 1,
+        "q39": 1,
+        "q40": 1,
+        "q41": [],
+        "q42": [],
+        "q43": [],
+        "q44": [],
+        "q45": [],
+        "q46": [],
+        "q47": [],
+        "q48": [],
+        "q49": [],
+        "q50": []
+      },
+      "raw_text": "{\n  \"q1\": [\"packages.platform-express.adapters.express-adapter.ExpressAdapter\", \"packages.platform-fastify.adapters.fastify-adapter.FastifyAdapter\"],\n  \"q2\": [\"packages.core.nest-application-context.NestApplicationContext\", \"packages.core.injector.module-ref.ModuleRef\", \"packages.testing.testing-injector.TestingInjector\"],\n  \"q3\": [\"packages.platform-socket.io.adapters.io-adapter.IoAdapter\", \"packages.platform-ws.adapters.ws-adapter.WsAdapter\", \"packages.websockets.adapters.ws-adapter.AbstractWsAdapter\"],\n  \"q4\": [\"packages.common.interfaces.features.execution-context.interface.ExecutionContext\", \"packages.core.helpers.execution-context-host.ExecutionContextHost\"],\n  \"q5\": [\"packages.core.exceptions.exceptions-handler.ExceptionsHandler\", \"packages.core.exceptions.base-exception-filter.BaseExceptionFilter\", \"packages.core.exceptions.external-exception-filter.ExternalExceptionFilter\"],\n  \"q6\": [\"packages.core.exceptions.base-exception-filter-context.BaseExceptionFilterContext\", \"packages.core.exceptions.external-exception-filter-context.ExternalExceptionFilterContext\"],\n  \"q7\": [\"packages.microservices.ctx-host.kafka.context.KafkaContext\", \"packages.microservices.ctx-host.mqtt.context.MqttContext\", \"packages.microservices.ctx-host.nats.context.NatsContext\", \"packages.microservices.ctx-host.redis.context.RedisContext\", \"packages.microservices.ctx-host.rmq.context.RmqContext\", \"packages.microservices.ctx-host.tcp.context.TcpContext\", \"packages.microservices.ctx-host.base-rpc.context.BaseRpcContext\"],\n  \"q8\": [\"packages.microservices.exceptions.rpc-exceptions-handler.RpcExceptionsHandler\", \"packages.microservices.exceptions.base-rpc-exception-filter.BaseRpcExceptionFilter\"],\n  \"q9\": [\"packages.websockets.exceptions.ws-exceptions-handler.WsExceptionsHandler\", \"packages.websockets.exceptions.base-ws-exception-filter.BaseWsExceptionFilter\"],\n  \"q10\": [\"packages.common.serializer.class-serializer.interceptor.ClassSerializerInterceptorOptions\", \"packages.common.serializer.class-serializer.interfaces.ClassSerializerContextOptions\"],\n  \"q11\": [\"Function\"],\n  \"q12\": [\"packages.common.interfaces.http.http-server.interface.HttpServer\"],\n  \"q13\": [],\n  \"q14\": [\"packages.common.interfaces.websockets.web-socket-adapter.interface.WebSocketAdapter\"],\n  \"q15\": [],\n  \"q16\": [],\n  \"q17\": [],\n  \"q18\": [],\n  \"q19\": [],\n  \"q20\": [],\n  \"q21\": \"fastifyMiddie\",\n  \"q22\": \"fastifyMiddie\",\n  \"q23\": \"packages.common.decorators.core.controller.decorator\",\n  \"q24\": \"packages.common.decorators.http.request-mapping.decorator\",\n  \"q25\": \"packages.common.decorators.http.route-params.decorator\",\n  \"q26\": \"packages.common.decorators.http.route-params.decorator\",\n  \"q27\": \"packages.common.enums.http-status.enum\",\n  \"q28\": \"packages.common.enums.request-method.enum\",\n  \"q29\": \"packages.common.enums.route-paramtypes.enum\",\n  \"q30\": \"packages.common.enums.shutdown-signal.enum\",\n  \"q31\": 0,\n  \"q32\": 0,\n  \"q33\": 0,\n  \"q34\": 0,\n  \"q35\": 0,\n  \"q36\": 0,\n  \"q37\": 1,\n  \"q38\": 1,\n  \"q39\": 1,\n  \"q40\": 1,\n  \"q41\": [],\n  \"q42\": [],\n  \"q43\": [],\n  \"q44\": [],\n  \"q45\": [],\n  \"q46\": [],\n  \"q47\": [],\n  \"q48\": [],\n  \"q49\": [],\n  \"q50\": []\n}"
+    },
+    {
+      "input_tokens": 56155,
+      "output_tokens": 886,
+      "answers": {
+        "q1": [
+          "packages.platform-express.adapters.express-adapter.ExpressAdapter",
+          "packages.platform-fastify.adapters.fastify-adapter.FastifyAdapter"
+        ],
+        "q2": [
+          "packages.core.nest-application-context.NestApplicationContext",
+          "packages.core.injector.module-ref.ModuleRef",
+          "packages.testing.testing-injector.TestingInjector"
+        ],
+        "q3": [
+          "packages.platform-socket.io.adapters.io-adapter.IoAdapter",
+          "packages.platform-ws.adapters.ws-adapter.WsAdapter",
+          "packages.websockets.adapters.ws-adapter.AbstractWsAdapter"
+        ],
+        "q4": [
+          "packages.common.interfaces.features.execution-context.interface.ExecutionContext"
+        ],
+        "q5": [
+          "packages.core.exceptions.exceptions-handler.ExceptionsHandler",
+          "packages.core.exceptions.base-exception-filter.BaseExceptionFilter"
+        ],
+        "q6": [
+          "packages.core.exceptions.external-exception-filter-context.ExternalExceptionFilterContext",
+          "packages.core.exceptions.base-exception-filter-context.BaseExceptionFilterContext"
+        ],
+        "q7": [
+          "packages.microservices.ctx-host.kafka.context.KafkaContext",
+          "packages.microservices.ctx-host.mqtt.context.MqttContext",
+          "packages.microservices.ctx-host.nats.context.NatsContext",
+          "packages.microservices.ctx-host.redis.context.RedisContext",
+          "packages.microservices.ctx-host.rmq.context.RmqContext",
+          "packages.microservices.ctx-host.tcp.context.TcpContext",
+          "packages.microservices.ctx-host.base-rpc.context.BaseRpcContext"
+        ],
+        "q8": [
+          "packages.microservices.exceptions.rpc-exceptions-handler.RpcExceptionsHandler",
+          "packages.microservices.exceptions.base-rpc-exception-filter.BaseRpcExceptionFilter"
+        ],
+        "q9": [
+          "packages.websockets.exceptions.ws-exceptions-handler.WsExceptionsHandler",
+          "packages.websockets.exceptions.base-ws-exception-filter.BaseWsExceptionFilter"
+        ],
+        "q10": [
+          "packages.common.serializer.class-serializer.interfaces.ClassSerializerContextOptions",
+          "packages.common.serializer.class-serializer.interceptor.ClassSerializerInterceptorOptions"
+        ],
+        "q11": [
+          "Function"
+        ],
+        "q12": [
+          "packages.common.interfaces.http.http-server.interface.HttpServer"
+        ],
+        "q13": [],
+        "q14": [
+          "packages.common.interfaces.websockets.web-socket-adapter.interface.WebSocketAdapter"
+        ],
+        "q15": [],
+        "q16": [],
+        "q17": [],
+        "q18": [],
+        "q19": [
+          "GlobalPrefixOptions",
+          "PipeTransform",
+          "ExceptionFilter",
+          "NestInterceptor",
+          "CanActivate",
+          "VersioningOptions",
+          "InstanceWrapper"
+        ],
+        "q20": [],
+        "q21": "fastifyMiddie",
+        "q22": "fastifyMiddie",
+        "q23": "packages.common.decorators.core.controller.decorator",
+        "q24": "packages.common.decorators.http.request-mapping.decorator",
+        "q25": "packages.common.decorators.http.route-params.decorator",
+        "q26": "packages.common.decorators.http.route-params.decorator",
+        "q27": "packages.common.enums.http-status.enum",
+        "q28": "packages.common.enums.request-method.enum",
+        "q29": "packages.common.enums.route-paramtypes.enum",
+        "q30": "packages.common.enums.shutdown-signal.enum",
+        "q31": 0,
+        "q32": 0,
+        "q33": 0,
+        "q34": 0,
+        "q35": 0,
+        "q36": 0,
+        "q37": 1,
+        "q38": 1,
+        "q39": 1,
+        "q40": 1,
+        "q41": [],
+        "q42": [],
+        "q43": [
+          "path",
+          "host"
+        ],
+        "q44": [
+          "path",
+          "method"
+        ],
+        "q45": [],
+        "q46": [],
+        "q47": [],
+        "q48": [],
+        "q49": [],
+        "q50": []
+      },
+      "raw_text": "{\n  \"q1\": [\n    \"packages.platform-express.adapters.express-adapter.ExpressAdapter\",\n    \"packages.platform-fastify.adapters.fastify-adapter.FastifyAdapter\"\n  ],\n  \"q2\": [\n    \"packages.core.nest-application-context.NestApplicationContext\",\n    \"packages.core.injector.module-ref.ModuleRef\",\n    \"packages.testing.testing-injector.TestingInjector\"\n  ],\n  \"q3\": [\n    \"packages.platform-socket.io.adapters.io-adapter.IoAdapter\",\n    \"packages.platform-ws.adapters.ws-adapter.WsAdapter\",\n    \"packages.websockets.adapters.ws-adapter.AbstractWsAdapter\"\n  ],\n  \"q4\": [\n    \"packages.common.interfaces.features.execution-context.interface.ExecutionContext\"\n  ],\n  \"q5\": [\n    \"packages.core.exceptions.exceptions-handler.ExceptionsHandler\",\n    \"packages.core.exceptions.base-exception-filter.BaseExceptionFilter\"\n  ],\n  \"q6\": [\n    \"packages.core.exceptions.external-exception-filter-context.ExternalExceptionFilterContext\",\n    \"packages.core.exceptions.base-exception-filter-context.BaseExceptionFilterContext\"\n  ],\n  \"q7\": [\n    \"packages.microservices.ctx-host.kafka.context.KafkaContext\",\n    \"packages.microservices.ctx-host.mqtt.context.MqttContext\",\n    \"packages.microservices.ctx-host.nats.context.NatsContext\",\n    \"packages.microservices.ctx-host.redis.context.RedisContext\",\n    \"packages.microservices.ctx-host.rmq.context.RmqContext\",\n    \"packages.microservices.ctx-host.tcp.context.TcpContext\",\n    \"packages.microservices.ctx-host.base-rpc.context.BaseRpcContext\"\n  ],\n  \"q8\": [\n    \"packages.microservices.exceptions.rpc-exceptions-handler.RpcExceptionsHandler\",\n    \"packages.microservices.exceptions.base-rpc-exception-filter.BaseRpcExceptionFilter\"\n  ],\n  \"q9\": [\n    \"packages.websockets.exceptions.ws-exceptions-handler.WsExceptionsHandler\",\n    \"packages.websockets.exceptions.base-ws-exception-filter.BaseWsExceptionFilter\"\n  ],\n  \"q10\": [\n    \"packages.common.serializer.class-serializer.interfaces.ClassSerializerContextOptions\",\n    \"packages.common.serializer.class-serializer.interceptor.ClassSerializerInterceptorOptions\"\n  ],\n  \"q11\": [\n    \"Function\"\n  ],\n  \"q12\": [\n    \"packages.common.interfaces.http.http-server.interface.HttpServer\"\n  ],\n  \"q13\": [],\n  \"q14\": [\n    \"packages.common.interfaces.websockets.web-socket-adapter.interface.WebSocketAdapter\"\n  ],\n  \"q15\": [],\n  \"q16\": [],\n  \"q17\": [],\n  \"q18\": [],\n  \"q19\": [\n    \"GlobalPrefixOptions\",\n    \"PipeTransform\",\n    \"ExceptionFilter\",\n    \"NestInterceptor\",\n    \"CanActivate\",\n    \"VersioningOptions\",\n    \"InstanceWrapper\"\n  ],\n  \"q20\": [],\n  \"q21\": \"fastifyMiddie\",\n  \"q22\": \"fastifyMiddie\",\n  \"q23\": \"packages.common.decorators.core.controller.decorator\",\n  \"q24\": \"packages.common.decorators.http.request-mapping.decorator\",\n  \"q25\": \"packages.common.decorators.http.route-params.decorator\",\n  \"q26\": \"packages.common.decorators.http.route-params.decorator\",\n  \"q27\": \"packages.common.enums.http-status.enum\",\n  \"q28\": \"packages.common.enums.request-method.enum\",\n  \"q29\": \"packages.common.enums.route-paramtypes.enum\",\n  \"q30\": \"packages.common.enums.shutdown-signal.enum\",\n  \"q31\": 0,\n  \"q32\": 0,\n  \"q33\": 0,\n  \"q34\": 0,\n  \"q35\": 0,\n  \"q36\": 0,\n  \"q37\": 1,\n  \"q38\": 1,\n  \"q39\": 1,\n  \"q40\": 1,\n  \"q41\": [],\n  \"q42\": [],\n  \"q43\": [\n    \"path\",\n    \"host\"\n  ],\n  \"q44\": [\n    \"path\",\n    \"method\"\n  ],\n  \"q45\": [],\n  \"q46\": [],\n  \"q47\": [],\n  \"q48\": [],\n  \"q49\": [],\n  \"q50\": []\n}"
+    },
+    {
+      "input_tokens": 56155,
+      "output_tokens": 681,
+      "answers": {
+        "q1": [
+          "packages.platform-express.adapters.express-adapter.ExpressAdapter",
+          "packages.platform-fastify.adapters.fastify-adapter.FastifyAdapter"
+        ],
+        "q2": [
+          "packages.core.nest-application-context.NestApplicationContext",
+          "packages.core.injector.module-ref.ModuleRef",
+          "packages.testing.testing-injector.TestingInjector"
+        ],
+        "q3": [
+          "packages.platform-socket.io.adapters.io-adapter.IoAdapter",
+          "packages.platform-ws.adapters.ws-adapter.WsAdapter",
+          "packages.websockets.adapters.ws-adapter.AbstractWsAdapter"
+        ],
+        "q4": [
+          "packages.common.interfaces.features.execution-context.interface.ExecutionContext"
+        ],
+        "q5": [
+          "packages.core.exceptions.exceptions-handler.ExceptionsHandler",
+          "packages.core.exceptions.external-exceptions-handler.ExternalExceptionsHandler",
+          "packages.core.exceptions.base-exception-filter.BaseExceptionFilter"
+        ],
+        "q6": [
+          "packages.core.exceptions.external-exception-filter-context.ExternalExceptionFilterContext",
+          "packages.core.exceptions.base-exception-filter-context.BaseExceptionFilterContext",
+          "ExceptionFiltersContext"
+        ],
+        "q7": [
+          "packages.microservices.ctx-host.base-rpc.context.BaseRpcContext",
+          "packages.microservices.ctx-host.kafka.context.KafkaContext",
+          "packages.microservices.ctx-host.mqtt.context.MqttContext",
+          "packages.microservices.ctx-host.nats.context.NatsContext",
+          "packages.microservices.ctx-host.redis.context.RedisContext",
+          "packages.microservices.ctx-host.rmq.context.RmqContext",
+          "packages.microservices.ctx-host.tcp.context.TcpContext"
+        ],
+        "q8": [
+          "packages.microservices.exceptions.rpc-exceptions-handler.RpcExceptionsHandler",
+          "packages.microservices.exceptions.base-rpc-exception-filter.BaseRpcExceptionFilter"
+        ],
+        "q9": [
+          "packages.websockets.exceptions.ws-exceptions-handler.WsExceptionsHandler",
+          "packages.websockets.exceptions.base-ws-exception-filter.BaseWsExceptionFilter"
+        ],
+        "q10": [
+          "packages.common.serializer.class-serializer.interfaces.ClassSerializerContextOptions",
+          "packages.common.serializer.class-serializer.interceptor.ClassSerializerInterceptorOptions"
+        ],
+        "q11": [
+          "Function"
+        ],
+        "q12": [
+          "packages.common.interfaces.http.http-server.interface.HttpServer"
+        ],
+        "q13": [
+          "packages.common.interfaces.nest-application-context.interface.INestApplicationContext"
+        ],
+        "q14": [
+          "packages.common.interfaces.websockets.web-socket-adapter.interface.WebSocketAdapter"
+        ],
+        "q15": [],
+        "q16": [],
+        "q17": [],
+        "q18": [],
+        "q19": [
+          "GlobalPrefixOptions",
+          "PipeTransform",
+          "ExceptionFilter",
+          "NestInterceptor",
+          "CanActivate",
+          "VersioningOptions",
+          "InstanceWrapper"
+        ],
+        "q20": [
+          "InjectionToken",
+          "Scope"
+        ],
+        "q21": "fastifyMiddie",
+        "q22": "fastifyMiddie",
+        "q23": "packages.common.decorators.core.controller.decorator",
+        "q24": "packages.common.decorators.http.request-mapping.decorator",
+        "q25": "packages.common.decorators.http.route-params.decorator",
+        "q26": "packages.common.decorators.http.route-params.decorator",
+        "q27": "packages.common.enums.http-status.enum",
+        "q28": "packages.common.enums.request-method.enum",
+        "q29": "packages.common.enums.route-paramtypes.enum",
+        "q30": "packages.common.enums.shutdown-signal.enum",
+        "q31": 0,
+        "q32": 0,
+        "q33": 0,
+        "q34": 0,
+        "q35": 0,
+        "q36": 0,
+        "q37": 1,
+        "q38": 1,
+        "q39": 1,
+        "q40": 1,
+        "q41": [],
+        "q42": [],
+        "q43": [
+          "Array"
+        ],
+        "q44": [],
+        "q45": [],
+        "q46": [],
+        "q47": [],
+        "q48": [],
+        "q49": [],
+        "q50": []
+      },
+      "raw_text": "{\"q1\":[\"packages.platform-express.adapters.express-adapter.ExpressAdapter\",\"packages.platform-fastify.adapters.fastify-adapter.FastifyAdapter\"],\"q2\":[\"packages.core.nest-application-context.NestApplicationContext\",\"packages.core.injector.module-ref.ModuleRef\",\"packages.testing.testing-injector.TestingInjector\"],\"q3\":[\"packages.platform-socket.io.adapters.io-adapter.IoAdapter\",\"packages.platform-ws.adapters.ws-adapter.WsAdapter\",\"packages.websockets.adapters.ws-adapter.AbstractWsAdapter\"],\"q4\":[\"packages.common.interfaces.features.execution-context.interface.ExecutionContext\"],\"q5\":[\"packages.core.exceptions.exceptions-handler.ExceptionsHandler\",\"packages.core.exceptions.external-exceptions-handler.ExternalExceptionsHandler\",\"packages.core.exceptions.base-exception-filter.BaseExceptionFilter\"],\"q6\":[\"packages.core.exceptions.external-exception-filter-context.ExternalExceptionFilterContext\",\"packages.core.exceptions.base-exception-filter-context.BaseExceptionFilterContext\",\"ExceptionFiltersContext\"],\"q7\":[\"packages.microservices.ctx-host.base-rpc.context.BaseRpcContext\",\"packages.microservices.ctx-host.kafka.context.KafkaContext\",\"packages.microservices.ctx-host.mqtt.context.MqttContext\",\"packages.microservices.ctx-host.nats.context.NatsContext\",\"packages.microservices.ctx-host.redis.context.RedisContext\",\"packages.microservices.ctx-host.rmq.context.RmqContext\",\"packages.microservices.ctx-host.tcp.context.TcpContext\"],\"q8\":[\"packages.microservices.exceptions.rpc-exceptions-handler.RpcExceptionsHandler\",\"packages.microservices.exceptions.base-rpc-exception-filter.BaseRpcExceptionFilter\"],\"q9\":[\"packages.websockets.exceptions.ws-exceptions-handler.WsExceptionsHandler\",\"packages.websockets.exceptions.base-ws-exception-filter.BaseWsExceptionFilter\"],\"q10\":[\"packages.common.serializer.class-serializer.interfaces.ClassSerializerContextOptions\",\"packages.common.serializer.class-serializer.interceptor.ClassSerializerInterceptorOptions\"],\"q11\":[\"Function\"],\"q12\":[\"packages.common.interfaces.http.http-server.interface.HttpServer\"],\"q13\":[\"packages.common.interfaces.nest-application-context.interface.INestApplicationContext\"],\"q14\":[\"packages.common.interfaces.websockets.web-socket-adapter.interface.WebSocketAdapter\"],\"q15\":[],\"q16\":[],\"q17\":[],\"q18\":[],\"q19\":[\"GlobalPrefixOptions\",\"PipeTransform\",\"ExceptionFilter\",\"NestInterceptor\",\"CanActivate\",\"VersioningOptions\",\"InstanceWrapper\"],\"q20\":[\"InjectionToken\",\"Scope\"],\"q21\":\"fastifyMiddie\",\"q22\":\"fastifyMiddie\",\"q23\":\"packages.common.decorators.core.controller.decorator\",\"q24\":\"packages.common.decorators.http.request-mapping.decorator\",\"q25\":\"packages.common.decorators.http.route-params.decorator\",\"q26\":\"packages.common.decorators.http.route-params.decorator\",\"q27\":\"packages.common.enums.http-status.enum\",\"q28\":\"packages.common.enums.request-method.enum\",\"q29\":\"packages.common.enums.route-paramtypes.enum\",\"q30\":\"packages.common.enums.shutdown-signal.enum\",\"q31\":0,\"q32\":0,\"q33\":0,\"q34\":0,\"q35\":0,\"q36\":0,\"q37\":1,\"q38\":1,\"q39\":1,\"q40\":1,\"q41\":[],\"q42\":[],\"q43\":[\"Array\"],\"q44\":[],\"q45\":[],\"q46\":[],\"q47\":[],\"q48\":[],\"q49\":[],\"q50\":[]}"
+    },
+    {
+      "input_tokens": 56155,
+      "output_tokens": 652,
+      "answers": {
+        "q1": [
+          "packages.platform-express.adapters.express-adapter.ExpressAdapter",
+          "packages.platform-fastify.adapters.fastify-adapter.FastifyAdapter"
+        ],
+        "q2": [
+          "packages.core.nest-application-context.NestApplicationContext",
+          "packages.core.injector.module-ref.ModuleRef",
+          "packages.testing.testing-injector.TestingInjector"
+        ],
+        "q3": [
+          "packages.platform-socket.io.adapters.io-adapter.IoAdapter",
+          "packages.platform-ws.adapters.ws-adapter.WsAdapter",
+          "packages.websockets.adapters.ws-adapter.AbstractWsAdapter"
+        ],
+        "q4": [
+          "packages.common.interfaces.features.arguments-host.interface.ExecutionContext"
+        ],
+        "q5": [
+          "packages.core.exceptions.exceptions-handler.ExceptionsHandler",
+          "packages.core.exceptions.external-exceptions-handler.ExternalExceptionsHandler",
+          "packages.core.exceptions.external-exception-filter.ExternalExceptionFilter",
+          "packages.core.exceptions.base-exception-filter.BaseExceptionFilter"
+        ],
+        "q6": [
+          "ExceptionFiltersContext",
+          "packages.core.exceptions.external-exception-filter-context.ExternalExceptionFilterContext",
+          "packages.core.exceptions.base-exception-filter-context.BaseExceptionFilterContext"
+        ],
+        "q7": [
+          "packages.microservices.ctx-host.kafka.context.KafkaContext",
+          "packages.microservices.ctx-host.mqtt.context.MqttContext",
+          "packages.microservices.ctx-host.nats.context.NatsContext",
+          "packages.microservices.ctx-host.redis.context.RedisContext",
+          "packages.microservices.ctx-host.rmq.context.RmqContext",
+          "packages.microservices.ctx-host.tcp.context.TcpContext",
+          "packages.microservices.ctx-host.base-rpc.context.BaseRpcContext"
+        ],
+        "q8": [
+          "packages.microservices.exceptions.rpc-exceptions-handler.RpcExceptionsHandler",
+          "packages.microservices.exceptions.base-rpc-exception-filter.BaseRpcExceptionFilter"
+        ],
+        "q9": [
+          "packages.websockets.exceptions.ws-exceptions-handler.WsExceptionsHandler",
+          "packages.websockets.exceptions.base-ws-exception-filter.BaseWsExceptionFilter"
+        ],
+        "q10": [
+          "packages.common.serializer.class-serializer.interfaces.ClassSerializerContextOptions",
+          "packages.common.serializer.class-serializer.interceptor.ClassSerializerInterceptorOptions",
+          "packages.common.interfaces.external.class-transform-options.interface.ClassTransformOptions"
+        ],
+        "q11": [
+          "Function"
+        ],
+        "q12": [
+          "packages.common.interfaces.http.http-server.interface.HttpServer"
+        ],
+        "q13": [
+          ""
+        ],
+        "q14": [
+          ""
+        ],
+        "q15": [
+          ""
+        ],
+        "q16": [
+          ""
+        ],
+        "q17": [
+          ""
+        ],
+        "q18": [
+          ""
+        ],
+        "q19": [
+          ""
+        ],
+        "q20": [
+          ""
+        ],
+        "q21": "fastifyMiddie",
+        "q22": "fastifyMiddie",
+        "q23": "packages.common.decorators.core.controller.decorator",
+        "q24": "packages.common.decorators.http.request-mapping.decorator",
+        "q25": "packages.common.decorators.http.route-params.decorator",
+        "q26": "packages.common.decorators.http.route-params.decorator",
+        "q27": "packages.common.enums.http-status.enum",
+        "q28": "packages.common.enums.request-method.enum",
+        "q29": "packages.common.enums.route-paramtypes.enum",
+        "q30": "packages.common.enums.shutdown-signal.enum",
+        "q31": 0,
+        "q32": 0,
+        "q33": 0,
+        "q34": 0,
+        "q35": 0,
+        "q36": 0,
+        "q37": 1,
+        "q38": 1,
+        "q39": 1,
+        "q40": 1,
+        "q41": [],
+        "q42": [],
+        "q43": [],
+        "q44": [],
+        "q45": [],
+        "q46": [],
+        "q47": [],
+        "q48": [],
+        "q49": [],
+        "q50": []
+      },
+      "raw_text": "{\"q1\":[\"packages.platform-express.adapters.express-adapter.ExpressAdapter\",\"packages.platform-fastify.adapters.fastify-adapter.FastifyAdapter\"],\"q2\":[\"packages.core.nest-application-context.NestApplicationContext\",\"packages.core.injector.module-ref.ModuleRef\",\"packages.testing.testing-injector.TestingInjector\"],\"q3\":[\"packages.platform-socket.io.adapters.io-adapter.IoAdapter\",\"packages.platform-ws.adapters.ws-adapter.WsAdapter\",\"packages.websockets.adapters.ws-adapter.AbstractWsAdapter\"],\"q4\":[\"packages.common.interfaces.features.arguments-host.interface.ExecutionContext\"],\"q5\":[\"packages.core.exceptions.exceptions-handler.ExceptionsHandler\",\"packages.core.exceptions.external-exceptions-handler.ExternalExceptionsHandler\",\"packages.core.exceptions.external-exception-filter.ExternalExceptionFilter\",\"packages.core.exceptions.base-exception-filter.BaseExceptionFilter\"],\"q6\":[\"ExceptionFiltersContext\",\"packages.core.exceptions.external-exception-filter-context.ExternalExceptionFilterContext\",\"packages.core.exceptions.base-exception-filter-context.BaseExceptionFilterContext\"],\"q7\":[\"packages.microservices.ctx-host.kafka.context.KafkaContext\",\"packages.microservices.ctx-host.mqtt.context.MqttContext\",\"packages.microservices.ctx-host.nats.context.NatsContext\",\"packages.microservices.ctx-host.redis.context.RedisContext\",\"packages.microservices.ctx-host.rmq.context.RmqContext\",\"packages.microservices.ctx-host.tcp.context.TcpContext\",\"packages.microservices.ctx-host.base-rpc.context.BaseRpcContext\"],\"q8\":[\"packages.microservices.exceptions.rpc-exceptions-handler.RpcExceptionsHandler\",\"packages.microservices.exceptions.base-rpc-exception-filter.BaseRpcExceptionFilter\"],\"q9\":[\"packages.websockets.exceptions.ws-exceptions-handler.WsExceptionsHandler\",\"packages.websockets.exceptions.base-ws-exception-filter.BaseWsExceptionFilter\"],\"q10\":[\"packages.common.serializer.class-serializer.interfaces.ClassSerializerContextOptions\",\"packages.common.serializer.class-serializer.interceptor.ClassSerializerInterceptorOptions\",\"packages.common.interfaces.external.class-transform-options.interface.ClassTransformOptions\"],\"q11\":[\"Function\"],\"q12\":[\"packages.common.interfaces.http.http-server.interface.HttpServer\"],\"q13\":[\"\"],\"q14\":[\"\"],\"q15\":[\"\"],\"q16\":[\"\"],\"q17\":[\"\"],\"q18\":[\"\"],\"q19\":[\"\"],\"q20\":[\"\"],\"q21\":\"fastifyMiddie\",\"q22\":\"fastifyMiddie\",\"q23\":\"packages.common.decorators.core.controller.decorator\",\"q24\":\"packages.common.decorators.http.request-mapping.decorator\",\"q25\":\"packages.common.decorators.http.route-params.decorator\",\"q26\":\"packages.common.decorators.http.route-params.decorator\",\"q27\":\"packages.common.enums.http-status.enum\",\"q28\":\"packages.common.enums.request-method.enum\",\"q29\":\"packages.common.enums.route-paramtypes.enum\",\"q30\":\"packages.common.enums.shutdown-signal.enum\",\"q31\":0,\"q32\":0,\"q33\":0,\"q34\":0,\"q35\":0,\"q36\":0,\"q37\":1,\"q38\":1,\"q39\":1,\"q40\":1,\"q41\":[],\"q42\":[],\"q43\":[],\"q44\":[],\"q45\":[],\"q46\":[],\"q47\":[],\"q48\":[],\"q49\":[],\"q50\":[]}"
+    }
+  ]
+}

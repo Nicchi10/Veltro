@@ -1,0 +1,622 @@
+{
+  "project": "nest",
+  "provider": "anthropic",
+  "format": "plantuml",
+  "model": "claude-opus-4-8",
+  "runs": [
+    {
+      "input_tokens": 96231,
+      "output_tokens": 914,
+      "answers": {
+        "q1": [
+          "ExpressAdapter",
+          "FastifyAdapter"
+        ],
+        "q2": [
+          "NestApplicationContext",
+          "ModuleRef"
+        ],
+        "q3": [
+          "IoAdapter",
+          "WsAdapter"
+        ],
+        "q4": [
+          "ExecutionContext"
+        ],
+        "q5": [
+          "ExceptionsHandler"
+        ],
+        "q6": [
+          "ExternalExceptionFilterContext",
+          "RouterExceptionFilters",
+          "ExceptionFiltersContext",
+          "ExceptionFiltersContext"
+        ],
+        "q7": [
+          "KafkaContext",
+          "MqttContext",
+          "NatsContext",
+          "RedisContext",
+          "RmqContext",
+          "TcpContext"
+        ],
+        "q8": [
+          "RpcExceptionsHandler"
+        ],
+        "q9": [
+          "WsExceptionsHandler"
+        ],
+        "q10": [
+          "ClassSerializerInterceptorOptions",
+          "ClassSerializerContextOptions"
+        ],
+        "q11": [
+          "Function"
+        ],
+        "q12": [
+          "HttpServer"
+        ],
+        "q13": [
+          "InstanceLinksHost",
+          "Injector"
+        ],
+        "q14": [
+          "WebSocketAdapter"
+        ],
+        "q15": [
+          "AclOperationTypes",
+          "AclPermissionTypes"
+        ],
+        "q16": [
+          "AclResourceTypes",
+          "ResourcePatternTypes",
+          "AclOperationTypes",
+          "AclPermissionTypes"
+        ],
+        "q17": [
+          "AclResourceTypes",
+          "ResourcePatternTypes"
+        ],
+        "q18": [
+          "RetryOptions"
+        ],
+        "q19": [
+          "GlobalPrefixOptions",
+          "PipeTransform",
+          "ExceptionFilter",
+          "NestInterceptor",
+          "CanActivate",
+          "VersioningOptions",
+          "InstanceWrapper",
+          "WebSocketAdapter"
+        ],
+        "q20": [
+          "InjectionToken",
+          "Scope"
+        ],
+        "q21": "fastifyMiddie",
+        "q22": "fastifyMiddie",
+        "q23": "packages.common.decorators.core.controller.decorator",
+        "q24": "packages.common.decorators.http.request-mapping.decorator",
+        "q25": "packages.common.decorators.http.route-params.decorator",
+        "q26": "packages.common.decorators.http.route-params.decorator",
+        "q27": "packages.common.enums.http-status.enum",
+        "q28": "packages.common.enums.request-method.enum",
+        "q29": "packages.common.enums.route-paramtypes.enum",
+        "q30": "packages.common.enums.shutdown-signal.enum",
+        "q31": 0,
+        "q32": 0,
+        "q33": 0,
+        "q34": 0,
+        "q35": 0,
+        "q36": 0,
+        "q37": 1,
+        "q38": 1,
+        "q39": 1,
+        "q40": 1,
+        "q41": [],
+        "q42": [],
+        "q43": [],
+        "q44": [],
+        "q45": [],
+        "q46": [],
+        "q47": [],
+        "q48": [],
+        "q49": [],
+        "q50": []
+      },
+      "raw_text": "{\"q1\": [\"ExpressAdapter\", \"FastifyAdapter\"], \"q2\": [\"NestApplicationContext\", \"ModuleRef\"], \"q3\": [\"IoAdapter\", \"WsAdapter\"], \"q4\": [\"ExecutionContext\"], \"q5\": [\"ExceptionsHandler\"], \"q6\": [\"ExternalExceptionFilterContext\", \"RouterExceptionFilters\", \"ExceptionFiltersContext\", \"ExceptionFiltersContext\"], \"q7\": [\"KafkaContext\", \"MqttContext\", \"NatsContext\", \"RedisContext\", \"RmqContext\", \"TcpContext\"], \"q8\": [\"RpcExceptionsHandler\"], \"q9\": [\"WsExceptionsHandler\"], \"q10\": [\"ClassSerializerInterceptorOptions\", \"ClassSerializerContextOptions\"], \"q11\": [\"Function\"], \"q12\": [\"HttpServer\"], \"q13\": [\"InstanceLinksHost\", \"Injector\"], \"q14\": [\"WebSocketAdapter\"], \"q15\": [\"AclOperationTypes\", \"AclPermissionTypes\"], \"q16\": [\"AclResourceTypes\", \"ResourcePatternTypes\", \"AclOperationTypes\", \"AclPermissionTypes\"], \"q17\": [\"AclResourceTypes\", \"ResourcePatternTypes\"], \"q18\": [\"RetryOptions\"], \"q19\": [\"GlobalPrefixOptions\", \"PipeTransform\", \"ExceptionFilter\", \"NestInterceptor\", \"CanActivate\", \"VersioningOptions\", \"InstanceWrapper\", \"WebSocketAdapter\"], \"q20\": [\"InjectionToken\", \"Scope\"], \"q21\": \"fastifyMiddie\", \"q22\": \"fastifyMiddie\", \"q23\": \"packages.common.decorators.core.controller.decorator\", \"q24\": \"packages.common.decorators.http.request-mapping.decorator\", \"q25\": \"packages.common.decorators.http.route-params.decorator\", \"q26\": \"packages.common.decorators.http.route-params.decorator\", \"q27\": \"packages.common.enums.http-status.enum\", \"q28\": \"packages.common.enums.request-method.enum\", \"q29\": \"packages.common.enums.route-paramtypes.enum\", \"q30\": \"packages.common.enums.shutdown-signal.enum\", \"q31\": 0, \"q32\": 0, \"q33\": 0, \"q34\": 0, \"q35\": 0, \"q36\": 0, \"q37\": 1, \"q38\": 1, \"q39\": 1, \"q40\": 1, \"q41\": [], \"q42\": [], \"q43\": [], \"q44\": [], \"q45\": [], \"q46\": [], \"q47\": [], \"q48\": [], \"q49\": [], \"q50\": []}"
+    },
+    {
+      "input_tokens": 96231,
+      "output_tokens": 914,
+      "answers": {
+        "q1": [
+          "ExpressAdapter",
+          "FastifyAdapter"
+        ],
+        "q2": [
+          "NestApplicationContext",
+          "ModuleRef"
+        ],
+        "q3": [
+          "IoAdapter",
+          "WsAdapter"
+        ],
+        "q4": [
+          "ExecutionContext"
+        ],
+        "q5": [
+          "ExceptionsHandler"
+        ],
+        "q6": [
+          "ExternalExceptionFilterContext",
+          "RouterExceptionFilters",
+          "ExceptionFiltersContext",
+          "ExceptionFiltersContext"
+        ],
+        "q7": [
+          "KafkaContext",
+          "MqttContext",
+          "NatsContext",
+          "RedisContext",
+          "RmqContext",
+          "TcpContext"
+        ],
+        "q8": [
+          "RpcExceptionsHandler"
+        ],
+        "q9": [
+          "WsExceptionsHandler"
+        ],
+        "q10": [
+          "ClassSerializerInterceptorOptions",
+          "ClassSerializerContextOptions"
+        ],
+        "q11": [
+          "Function"
+        ],
+        "q12": [
+          "HttpServer"
+        ],
+        "q13": [
+          "InstanceLinksHost",
+          "Injector"
+        ],
+        "q14": [
+          "WebSocketAdapter"
+        ],
+        "q15": [
+          "AclOperationTypes",
+          "AclPermissionTypes"
+        ],
+        "q16": [
+          "AclResourceTypes",
+          "ResourcePatternTypes",
+          "AclOperationTypes",
+          "AclPermissionTypes"
+        ],
+        "q17": [
+          "AclResourceTypes",
+          "ResourcePatternTypes"
+        ],
+        "q18": [
+          "RetryOptions"
+        ],
+        "q19": [
+          "GlobalPrefixOptions",
+          "PipeTransform",
+          "ExceptionFilter",
+          "NestInterceptor",
+          "CanActivate",
+          "VersioningOptions",
+          "InstanceWrapper",
+          "WebSocketAdapter"
+        ],
+        "q20": [
+          "InjectionToken",
+          "Scope"
+        ],
+        "q21": "fastifyMiddie",
+        "q22": "fastifyMiddie",
+        "q23": "packages.common.decorators.core.controller.decorator",
+        "q24": "packages.common.decorators.http.request-mapping.decorator",
+        "q25": "packages.common.decorators.http.route-params.decorator",
+        "q26": "packages.common.decorators.http.route-params.decorator",
+        "q27": "packages.common.enums.http-status.enum",
+        "q28": "packages.common.enums.request-method.enum",
+        "q29": "packages.common.enums.route-paramtypes.enum",
+        "q30": "packages.common.enums.shutdown-signal.enum",
+        "q31": 0,
+        "q32": 0,
+        "q33": 0,
+        "q34": 0,
+        "q35": 0,
+        "q36": 0,
+        "q37": 1,
+        "q38": 1,
+        "q39": 1,
+        "q40": 1,
+        "q41": [],
+        "q42": [],
+        "q43": [],
+        "q44": [],
+        "q45": [],
+        "q46": [],
+        "q47": [],
+        "q48": [],
+        "q49": [],
+        "q50": []
+      },
+      "raw_text": "{\"q1\": [\"ExpressAdapter\", \"FastifyAdapter\"], \"q2\": [\"NestApplicationContext\", \"ModuleRef\"], \"q3\": [\"IoAdapter\", \"WsAdapter\"], \"q4\": [\"ExecutionContext\"], \"q5\": [\"ExceptionsHandler\"], \"q6\": [\"ExternalExceptionFilterContext\", \"RouterExceptionFilters\", \"ExceptionFiltersContext\", \"ExceptionFiltersContext\"], \"q7\": [\"KafkaContext\", \"MqttContext\", \"NatsContext\", \"RedisContext\", \"RmqContext\", \"TcpContext\"], \"q8\": [\"RpcExceptionsHandler\"], \"q9\": [\"WsExceptionsHandler\"], \"q10\": [\"ClassSerializerInterceptorOptions\", \"ClassSerializerContextOptions\"], \"q11\": [\"Function\"], \"q12\": [\"HttpServer\"], \"q13\": [\"InstanceLinksHost\", \"Injector\"], \"q14\": [\"WebSocketAdapter\"], \"q15\": [\"AclOperationTypes\", \"AclPermissionTypes\"], \"q16\": [\"AclResourceTypes\", \"ResourcePatternTypes\", \"AclOperationTypes\", \"AclPermissionTypes\"], \"q17\": [\"AclResourceTypes\", \"ResourcePatternTypes\"], \"q18\": [\"RetryOptions\"], \"q19\": [\"GlobalPrefixOptions\", \"PipeTransform\", \"ExceptionFilter\", \"NestInterceptor\", \"CanActivate\", \"VersioningOptions\", \"InstanceWrapper\", \"WebSocketAdapter\"], \"q20\": [\"InjectionToken\", \"Scope\"], \"q21\": \"fastifyMiddie\", \"q22\": \"fastifyMiddie\", \"q23\": \"packages.common.decorators.core.controller.decorator\", \"q24\": \"packages.common.decorators.http.request-mapping.decorator\", \"q25\": \"packages.common.decorators.http.route-params.decorator\", \"q26\": \"packages.common.decorators.http.route-params.decorator\", \"q27\": \"packages.common.enums.http-status.enum\", \"q28\": \"packages.common.enums.request-method.enum\", \"q29\": \"packages.common.enums.route-paramtypes.enum\", \"q30\": \"packages.common.enums.shutdown-signal.enum\", \"q31\": 0, \"q32\": 0, \"q33\": 0, \"q34\": 0, \"q35\": 0, \"q36\": 0, \"q37\": 1, \"q38\": 1, \"q39\": 1, \"q40\": 1, \"q41\": [], \"q42\": [], \"q43\": [], \"q44\": [], \"q45\": [], \"q46\": [], \"q47\": [], \"q48\": [], \"q49\": [], \"q50\": []}"
+    },
+    {
+      "input_tokens": 96231,
+      "output_tokens": 914,
+      "answers": {
+        "q1": [
+          "ExpressAdapter",
+          "FastifyAdapter"
+        ],
+        "q2": [
+          "NestApplicationContext",
+          "ModuleRef"
+        ],
+        "q3": [
+          "IoAdapter",
+          "WsAdapter"
+        ],
+        "q4": [
+          "ExecutionContext"
+        ],
+        "q5": [
+          "ExceptionsHandler"
+        ],
+        "q6": [
+          "ExternalExceptionFilterContext",
+          "RouterExceptionFilters",
+          "ExceptionFiltersContext",
+          "ExceptionFiltersContext"
+        ],
+        "q7": [
+          "KafkaContext",
+          "MqttContext",
+          "NatsContext",
+          "RedisContext",
+          "RmqContext",
+          "TcpContext"
+        ],
+        "q8": [
+          "RpcExceptionsHandler"
+        ],
+        "q9": [
+          "WsExceptionsHandler"
+        ],
+        "q10": [
+          "ClassSerializerInterceptorOptions",
+          "ClassSerializerContextOptions"
+        ],
+        "q11": [
+          "Function"
+        ],
+        "q12": [
+          "HttpServer"
+        ],
+        "q13": [
+          "InstanceLinksHost",
+          "Injector"
+        ],
+        "q14": [
+          "WebSocketAdapter"
+        ],
+        "q15": [
+          "AclOperationTypes",
+          "AclPermissionTypes"
+        ],
+        "q16": [
+          "AclResourceTypes",
+          "ResourcePatternTypes",
+          "AclOperationTypes",
+          "AclPermissionTypes"
+        ],
+        "q17": [
+          "AclResourceTypes",
+          "ResourcePatternTypes"
+        ],
+        "q18": [
+          "RetryOptions"
+        ],
+        "q19": [
+          "GlobalPrefixOptions",
+          "PipeTransform",
+          "ExceptionFilter",
+          "NestInterceptor",
+          "CanActivate",
+          "VersioningOptions",
+          "InstanceWrapper",
+          "WebSocketAdapter"
+        ],
+        "q20": [
+          "InjectionToken",
+          "Scope"
+        ],
+        "q21": "fastifyMiddie",
+        "q22": "fastifyMiddie",
+        "q23": "packages.common.decorators.core.controller.decorator",
+        "q24": "packages.common.decorators.http.request-mapping.decorator",
+        "q25": "packages.common.decorators.http.route-params.decorator",
+        "q26": "packages.common.decorators.http.route-params.decorator",
+        "q27": "packages.common.enums.http-status.enum",
+        "q28": "packages.common.enums.request-method.enum",
+        "q29": "packages.common.enums.route-paramtypes.enum",
+        "q30": "packages.common.enums.shutdown-signal.enum",
+        "q31": 0,
+        "q32": 0,
+        "q33": 0,
+        "q34": 0,
+        "q35": 0,
+        "q36": 0,
+        "q37": 1,
+        "q38": 1,
+        "q39": 1,
+        "q40": 1,
+        "q41": [],
+        "q42": [],
+        "q43": [],
+        "q44": [],
+        "q45": [],
+        "q46": [],
+        "q47": [],
+        "q48": [],
+        "q49": [],
+        "q50": []
+      },
+      "raw_text": "{\"q1\": [\"ExpressAdapter\", \"FastifyAdapter\"], \"q2\": [\"NestApplicationContext\", \"ModuleRef\"], \"q3\": [\"IoAdapter\", \"WsAdapter\"], \"q4\": [\"ExecutionContext\"], \"q5\": [\"ExceptionsHandler\"], \"q6\": [\"ExternalExceptionFilterContext\", \"RouterExceptionFilters\", \"ExceptionFiltersContext\", \"ExceptionFiltersContext\"], \"q7\": [\"KafkaContext\", \"MqttContext\", \"NatsContext\", \"RedisContext\", \"RmqContext\", \"TcpContext\"], \"q8\": [\"RpcExceptionsHandler\"], \"q9\": [\"WsExceptionsHandler\"], \"q10\": [\"ClassSerializerInterceptorOptions\", \"ClassSerializerContextOptions\"], \"q11\": [\"Function\"], \"q12\": [\"HttpServer\"], \"q13\": [\"InstanceLinksHost\", \"Injector\"], \"q14\": [\"WebSocketAdapter\"], \"q15\": [\"AclOperationTypes\", \"AclPermissionTypes\"], \"q16\": [\"AclResourceTypes\", \"ResourcePatternTypes\", \"AclOperationTypes\", \"AclPermissionTypes\"], \"q17\": [\"AclResourceTypes\", \"ResourcePatternTypes\"], \"q18\": [\"RetryOptions\"], \"q19\": [\"GlobalPrefixOptions\", \"PipeTransform\", \"ExceptionFilter\", \"NestInterceptor\", \"CanActivate\", \"VersioningOptions\", \"InstanceWrapper\", \"WebSocketAdapter\"], \"q20\": [\"InjectionToken\", \"Scope\"], \"q21\": \"fastifyMiddie\", \"q22\": \"fastifyMiddie\", \"q23\": \"packages.common.decorators.core.controller.decorator\", \"q24\": \"packages.common.decorators.http.request-mapping.decorator\", \"q25\": \"packages.common.decorators.http.route-params.decorator\", \"q26\": \"packages.common.decorators.http.route-params.decorator\", \"q27\": \"packages.common.enums.http-status.enum\", \"q28\": \"packages.common.enums.request-method.enum\", \"q29\": \"packages.common.enums.route-paramtypes.enum\", \"q30\": \"packages.common.enums.shutdown-signal.enum\", \"q31\": 0, \"q32\": 0, \"q33\": 0, \"q34\": 0, \"q35\": 0, \"q36\": 0, \"q37\": 1, \"q38\": 1, \"q39\": 1, \"q40\": 1, \"q41\": [], \"q42\": [], \"q43\": [], \"q44\": [], \"q45\": [], \"q46\": [], \"q47\": [], \"q48\": [], \"q49\": [], \"q50\": []}"
+    },
+    {
+      "input_tokens": 96231,
+      "output_tokens": 901,
+      "answers": {
+        "q1": [
+          "ExpressAdapter",
+          "FastifyAdapter"
+        ],
+        "q2": [
+          "NestApplicationContext",
+          "ModuleRef"
+        ],
+        "q3": [
+          "IoAdapter",
+          "WsAdapter"
+        ],
+        "q4": [
+          "ExecutionContext"
+        ],
+        "q5": [
+          "ExceptionsHandler"
+        ],
+        "q6": [
+          "ExternalExceptionFilterContext",
+          "RouterExceptionFilters",
+          "ExceptionFiltersContext"
+        ],
+        "q7": [
+          "KafkaContext",
+          "MqttContext",
+          "NatsContext",
+          "RedisContext",
+          "RmqContext",
+          "TcpContext"
+        ],
+        "q8": [
+          "RpcExceptionsHandler"
+        ],
+        "q9": [
+          "WsExceptionsHandler"
+        ],
+        "q10": [
+          "ClassSerializerInterceptorOptions",
+          "ClassSerializerContextOptions"
+        ],
+        "q11": [
+          "Function"
+        ],
+        "q12": [
+          "HttpServer"
+        ],
+        "q13": [
+          "InstanceLinksHost",
+          "Injector"
+        ],
+        "q14": [
+          "WebSocketAdapter"
+        ],
+        "q15": [
+          "AclOperationTypes",
+          "AclPermissionTypes"
+        ],
+        "q16": [
+          "AclResourceTypes",
+          "ResourcePatternTypes",
+          "AclOperationTypes",
+          "AclPermissionTypes"
+        ],
+        "q17": [
+          "AclResourceTypes",
+          "ResourcePatternTypes"
+        ],
+        "q18": [
+          "RetryOptions"
+        ],
+        "q19": [
+          "GlobalPrefixOptions",
+          "PipeTransform",
+          "ExceptionFilter",
+          "NestInterceptor",
+          "CanActivate",
+          "VersioningOptions",
+          "InstanceWrapper",
+          "WebSocketAdapter"
+        ],
+        "q20": [
+          "InjectionToken",
+          "Scope"
+        ],
+        "q21": "fastifyMiddie",
+        "q22": "fastifyMiddie",
+        "q23": "packages.common.decorators.core.controller.decorator",
+        "q24": "packages.common.decorators.http.request-mapping.decorator",
+        "q25": "packages.common.decorators.http.route-params.decorator",
+        "q26": "packages.common.decorators.http.route-params.decorator",
+        "q27": "packages.common.enums.http-status.enum",
+        "q28": "packages.common.enums.request-method.enum",
+        "q29": "packages.common.enums.route-paramtypes.enum",
+        "q30": "packages.common.enums.shutdown-signal.enum",
+        "q31": 0,
+        "q32": 0,
+        "q33": 0,
+        "q34": 0,
+        "q35": 0,
+        "q36": 0,
+        "q37": 1,
+        "q38": 1,
+        "q39": 1,
+        "q40": 1,
+        "q41": [],
+        "q42": [],
+        "q43": [],
+        "q44": [],
+        "q45": [],
+        "q46": [],
+        "q47": [],
+        "q48": [],
+        "q49": [],
+        "q50": []
+      },
+      "raw_text": "{\"q1\": [\"ExpressAdapter\", \"FastifyAdapter\"], \"q2\": [\"NestApplicationContext\", \"ModuleRef\"], \"q3\": [\"IoAdapter\", \"WsAdapter\"], \"q4\": [\"ExecutionContext\"], \"q5\": [\"ExceptionsHandler\"], \"q6\": [\"ExternalExceptionFilterContext\", \"RouterExceptionFilters\", \"ExceptionFiltersContext\"], \"q7\": [\"KafkaContext\", \"MqttContext\", \"NatsContext\", \"RedisContext\", \"RmqContext\", \"TcpContext\"], \"q8\": [\"RpcExceptionsHandler\"], \"q9\": [\"WsExceptionsHandler\"], \"q10\": [\"ClassSerializerInterceptorOptions\", \"ClassSerializerContextOptions\"], \"q11\": [\"Function\"], \"q12\": [\"HttpServer\"], \"q13\": [\"InstanceLinksHost\", \"Injector\"], \"q14\": [\"WebSocketAdapter\"], \"q15\": [\"AclOperationTypes\", \"AclPermissionTypes\"], \"q16\": [\"AclResourceTypes\", \"ResourcePatternTypes\", \"AclOperationTypes\", \"AclPermissionTypes\"], \"q17\": [\"AclResourceTypes\", \"ResourcePatternTypes\"], \"q18\": [\"RetryOptions\"], \"q19\": [\"GlobalPrefixOptions\", \"PipeTransform\", \"ExceptionFilter\", \"NestInterceptor\", \"CanActivate\", \"VersioningOptions\", \"InstanceWrapper\", \"WebSocketAdapter\"], \"q20\": [\"InjectionToken\", \"Scope\"], \"q21\": \"fastifyMiddie\", \"q22\": \"fastifyMiddie\", \"q23\": \"packages.common.decorators.core.controller.decorator\", \"q24\": \"packages.common.decorators.http.request-mapping.decorator\", \"q25\": \"packages.common.decorators.http.route-params.decorator\", \"q26\": \"packages.common.decorators.http.route-params.decorator\", \"q27\": \"packages.common.enums.http-status.enum\", \"q28\": \"packages.common.enums.request-method.enum\", \"q29\": \"packages.common.enums.route-paramtypes.enum\", \"q30\": \"packages.common.enums.shutdown-signal.enum\", \"q31\": 0, \"q32\": 0, \"q33\": 0, \"q34\": 0, \"q35\": 0, \"q36\": 0, \"q37\": 1, \"q38\": 1, \"q39\": 1, \"q40\": 1, \"q41\": [], \"q42\": [], \"q43\": [], \"q44\": [], \"q45\": [], \"q46\": [], \"q47\": [], \"q48\": [], \"q49\": [], \"q50\": []}"
+    },
+    {
+      "input_tokens": 96231,
+      "output_tokens": 914,
+      "answers": {
+        "q1": [
+          "ExpressAdapter",
+          "FastifyAdapter"
+        ],
+        "q2": [
+          "NestApplicationContext",
+          "ModuleRef"
+        ],
+        "q3": [
+          "IoAdapter",
+          "WsAdapter"
+        ],
+        "q4": [
+          "ExecutionContext"
+        ],
+        "q5": [
+          "ExceptionsHandler"
+        ],
+        "q6": [
+          "ExternalExceptionFilterContext",
+          "RouterExceptionFilters",
+          "ExceptionFiltersContext",
+          "ExceptionFiltersContext"
+        ],
+        "q7": [
+          "KafkaContext",
+          "MqttContext",
+          "NatsContext",
+          "RedisContext",
+          "RmqContext",
+          "TcpContext"
+        ],
+        "q8": [
+          "RpcExceptionsHandler"
+        ],
+        "q9": [
+          "WsExceptionsHandler"
+        ],
+        "q10": [
+          "ClassSerializerInterceptorOptions",
+          "ClassSerializerContextOptions"
+        ],
+        "q11": [
+          "Function"
+        ],
+        "q12": [
+          "HttpServer"
+        ],
+        "q13": [
+          "InstanceLinksHost",
+          "Injector"
+        ],
+        "q14": [
+          "WebSocketAdapter"
+        ],
+        "q15": [
+          "AclOperationTypes",
+          "AclPermissionTypes"
+        ],
+        "q16": [
+          "AclResourceTypes",
+          "ResourcePatternTypes",
+          "AclOperationTypes",
+          "AclPermissionTypes"
+        ],
+        "q17": [
+          "AclResourceTypes",
+          "ResourcePatternTypes"
+        ],
+        "q18": [
+          "RetryOptions"
+        ],
+        "q19": [
+          "GlobalPrefixOptions",
+          "PipeTransform",
+          "ExceptionFilter",
+          "NestInterceptor",
+          "CanActivate",
+          "VersioningOptions",
+          "InstanceWrapper",
+          "WebSocketAdapter"
+        ],
+        "q20": [
+          "InjectionToken",
+          "Scope"
+        ],
+        "q21": "fastifyMiddie",
+        "q22": "fastifyMiddie",
+        "q23": "packages.common.decorators.core.controller.decorator",
+        "q24": "packages.common.decorators.http.request-mapping.decorator",
+        "q25": "packages.common.decorators.http.route-params.decorator",
+        "q26": "packages.common.decorators.http.route-params.decorator",
+        "q27": "packages.common.enums.http-status.enum",
+        "q28": "packages.common.enums.request-method.enum",
+        "q29": "packages.common.enums.route-paramtypes.enum",
+        "q30": "packages.common.enums.shutdown-signal.enum",
+        "q31": 0,
+        "q32": 0,
+        "q33": 0,
+        "q34": 0,
+        "q35": 0,
+        "q36": 0,
+        "q37": 1,
+        "q38": 1,
+        "q39": 1,
+        "q40": 1,
+        "q41": [],
+        "q42": [],
+        "q43": [],
+        "q44": [],
+        "q45": [],
+        "q46": [],
+        "q47": [],
+        "q48": [],
+        "q49": [],
+        "q50": []
+      },
+      "raw_text": "{\"q1\": [\"ExpressAdapter\", \"FastifyAdapter\"], \"q2\": [\"NestApplicationContext\", \"ModuleRef\"], \"q3\": [\"IoAdapter\", \"WsAdapter\"], \"q4\": [\"ExecutionContext\"], \"q5\": [\"ExceptionsHandler\"], \"q6\": [\"ExternalExceptionFilterContext\", \"RouterExceptionFilters\", \"ExceptionFiltersContext\", \"ExceptionFiltersContext\"], \"q7\": [\"KafkaContext\", \"MqttContext\", \"NatsContext\", \"RedisContext\", \"RmqContext\", \"TcpContext\"], \"q8\": [\"RpcExceptionsHandler\"], \"q9\": [\"WsExceptionsHandler\"], \"q10\": [\"ClassSerializerInterceptorOptions\", \"ClassSerializerContextOptions\"], \"q11\": [\"Function\"], \"q12\": [\"HttpServer\"], \"q13\": [\"InstanceLinksHost\", \"Injector\"], \"q14\": [\"WebSocketAdapter\"], \"q15\": [\"AclOperationTypes\", \"AclPermissionTypes\"], \"q16\": [\"AclResourceTypes\", \"ResourcePatternTypes\", \"AclOperationTypes\", \"AclPermissionTypes\"], \"q17\": [\"AclResourceTypes\", \"ResourcePatternTypes\"], \"q18\": [\"RetryOptions\"], \"q19\": [\"GlobalPrefixOptions\", \"PipeTransform\", \"ExceptionFilter\", \"NestInterceptor\", \"CanActivate\", \"VersioningOptions\", \"InstanceWrapper\", \"WebSocketAdapter\"], \"q20\": [\"InjectionToken\", \"Scope\"], \"q21\": \"fastifyMiddie\", \"q22\": \"fastifyMiddie\", \"q23\": \"packages.common.decorators.core.controller.decorator\", \"q24\": \"packages.common.decorators.http.request-mapping.decorator\", \"q25\": \"packages.common.decorators.http.route-params.decorator\", \"q26\": \"packages.common.decorators.http.route-params.decorator\", \"q27\": \"packages.common.enums.http-status.enum\", \"q28\": \"packages.common.enums.request-method.enum\", \"q29\": \"packages.common.enums.route-paramtypes.enum\", \"q30\": \"packages.common.enums.shutdown-signal.enum\", \"q31\": 0, \"q32\": 0, \"q33\": 0, \"q34\": 0, \"q35\": 0, \"q36\": 0, \"q37\": 1, \"q38\": 1, \"q39\": 1, \"q40\": 1, \"q41\": [], \"q42\": [], \"q43\": [], \"q44\": [], \"q45\": [], \"q46\": [], \"q47\": [], \"q48\": [], \"q49\": [], \"q50\": []}"
+    }
+  ]
+}

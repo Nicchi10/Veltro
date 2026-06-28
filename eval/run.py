@@ -94,8 +94,12 @@ FORMATS = {
             "and 'enum' declare types; a member line with no marker is public, "
             "while '-' is private, '#' protected, '@' package, and a leading '$' "
             "means static; a member with '(' is a method, otherwise a field "
-            "written as 'name Type'; generics use angle brackets; the 'rel' block "
-            "lists relations as '<from> <kind> <to>' (kind = extend or impl)."
+            "written as 'name Type'; generics use angle brackets; a field or "
+            "parameter whose type is another type is a reference to that type (an "
+            "association), exactly as a typed attribute is in a UML class diagram; "
+            "the 'rel' block lists the inheritance relations as "
+            "'<from> <kind> <to>', where <from> is the subtype and <to> the "
+            "supertype (kind = extend or impl)."
         ),
     },
     "mermaid": {

@@ -1,6 +1,6 @@
 {
   "project": "nest",
-  "types": 1879,
+  "types": 599,
   "questions": [
     {
       "id": "q1",
@@ -9,8 +9,7 @@
       "prompt": "List every type that extends or implements 'AbstractHttpAdapter'. Answer with type names only.",
       "answer": [
         "ExpressAdapter",
-        "FastifyAdapter",
-        "NoopHttpAdapter"
+        "FastifyAdapter"
       ]
     },
     {
@@ -30,7 +29,6 @@
       "prompt": "List every type that extends or implements 'AbstractWsAdapter'. Answer with type names only.",
       "answer": [
         "IoAdapter",
-        "NoopAdapter",
         "WsAdapter"
       ]
     },
@@ -89,19 +87,20 @@
     {
       "id": "q9",
       "type": "implementors",
-      "subject": "BaseService",
-      "prompt": "List every type that extends or implements 'BaseService'. Answer with type names only.",
+      "subject": "BaseWsExceptionFilter",
+      "prompt": "List every type that extends or implements 'BaseWsExceptionFilter'. Answer with type names only.",
       "answer": [
-        "TestService"
+        "WsExceptionsHandler"
       ]
     },
     {
       "id": "q10",
       "type": "implementors",
-      "subject": "BaseWsExceptionFilter",
-      "prompt": "List every type that extends or implements 'BaseWsExceptionFilter'. Answer with type names only.",
+      "subject": "ClassTransformOptions",
+      "prompt": "List every type that extends or implements 'ClassTransformOptions'. Answer with type names only.",
       "answer": [
-        "WsExceptionsHandler"
+        "ClassSerializerContextOptions",
+        "ClassSerializerInterceptorOptions"
       ]
     },
     {
@@ -185,19 +184,25 @@
     {
       "id": "q19",
       "type": "depends_on",
-      "subject": "AdvancedGrpcController",
-      "prompt": "List every type that 'AdvancedGrpcController' references or inherits (its outgoing relations)",
+      "subject": "ApplicationConfig",
+      "prompt": "List every type that 'ApplicationConfig' references or inherits (its outgoing relations)",
       "answer": [
-        "ClientGrpc"
+        "CanActivate",
+        "ExceptionFilter",
+        "ExcludeRouteMetadata",
+        "GlobalPrefixOptions",
+        "InstanceWrapper",
+        "NestInterceptor",
+        "PipeTransform"
       ]
     },
     {
       "id": "q20",
       "type": "depends_on",
-      "subject": "AlwaysInvalidValidator",
-      "prompt": "List every type that 'AlwaysInvalidValidator' references or inherits (its outgoing relations)",
+      "subject": "ApplicationProviderWrapper",
+      "prompt": "List every type that 'ApplicationProviderWrapper' references or inherits (its outgoing relations)",
       "answer": [
-        "FileValidator"
+        "Scope"
       ]
     },
     {
@@ -217,58 +222,58 @@
     {
       "id": "q23",
       "type": "module_of",
-      "subject": "BarService",
-      "prompt": "Which module is the type 'BarService' defined in?",
-      "answer": "nest.integration.auto-mock.src.bar.service"
+      "subject": "ControllerOptions",
+      "prompt": "Which module is the type 'ControllerOptions' defined in?",
+      "answer": "packages.common.decorators.core.controller.decorator"
     },
     {
       "id": "q24",
       "type": "module_of",
-      "subject": "FooService",
-      "prompt": "Which module is the type 'FooService' defined in?",
-      "answer": "nest.integration.auto-mock.src.foo.service"
+      "subject": "RequestMappingMetadata",
+      "prompt": "Which module is the type 'RequestMappingMetadata' defined in?",
+      "answer": "packages.common.decorators.http.request-mapping.decorator"
     },
     {
       "id": "q25",
       "type": "module_of",
-      "subject": "CleanupWebhook",
-      "prompt": "Which module is the type 'CleanupWebhook' defined in?",
-      "answer": "nest.integration.discovery.src.my-webhook.cleanup.webhook"
+      "subject": "ResponseDecoratorOptions",
+      "prompt": "Which module is the type 'ResponseDecoratorOptions' defined in?",
+      "answer": "packages.common.decorators.http.route-params.decorator"
     },
     {
       "id": "q26",
       "type": "module_of",
-      "subject": "FlushWebhook",
-      "prompt": "Which module is the type 'FlushWebhook' defined in?",
-      "answer": "nest.integration.discovery.src.my-webhook.flush.webhook"
+      "subject": "RouteParamMetadata",
+      "prompt": "Which module is the type 'RouteParamMetadata' defined in?",
+      "answer": "packages.common.decorators.http.route-params.decorator"
     },
     {
       "id": "q27",
       "type": "module_of",
-      "subject": "MyWebhookModule",
-      "prompt": "Which module is the type 'MyWebhookModule' defined in?",
-      "answer": "nest.integration.discovery.src.my-webhook.my-webhook.module"
+      "subject": "HttpStatus",
+      "prompt": "Which module is the type 'HttpStatus' defined in?",
+      "answer": "packages.common.enums.http-status.enum"
     },
     {
       "id": "q28",
       "type": "module_of",
-      "subject": "WebhooksExplorer",
-      "prompt": "Which module is the type 'WebhooksExplorer' defined in?",
-      "answer": "nest.integration.discovery.src.webhooks.explorer"
+      "subject": "RequestMethod",
+      "prompt": "Which module is the type 'RequestMethod' defined in?",
+      "answer": "packages.common.enums.request-method.enum"
     },
     {
       "id": "q29",
       "type": "module_of",
-      "subject": "UnauthorizedFilter",
-      "prompt": "Which module is the type 'UnauthorizedFilter' defined in?",
-      "answer": "nest.integration.graphql-code-first.src.common.filters.unauthorized.filter"
+      "subject": "RouteParamtypes",
+      "prompt": "Which module is the type 'RouteParamtypes' defined in?",
+      "answer": "packages.common.enums.route-paramtypes.enum"
     },
     {
       "id": "q30",
       "type": "module_of",
-      "subject": "DataInterceptor",
-      "prompt": "Which module is the type 'DataInterceptor' defined in?",
-      "answer": "nest.integration.graphql-code-first.src.common.interceptors.data.interceptor"
+      "subject": "ShutdownSignal",
+      "prompt": "Which module is the type 'ShutdownSignal' defined in?",
+      "answer": "packages.common.enums.shutdown-signal.enum"
     },
     {
       "id": "q31",
@@ -287,57 +292,57 @@
     {
       "id": "q33",
       "type": "public_method_count",
-      "subject": "BarService",
-      "prompt": "How many public methods does 'BarService' declare?",
-      "answer": 2
+      "subject": "ControllerOptions",
+      "prompt": "How many public methods does 'ControllerOptions' declare?",
+      "answer": 0
     },
     {
       "id": "q34",
       "type": "public_method_count",
-      "subject": "FooService",
-      "prompt": "How many public methods does 'FooService' declare?",
-      "answer": 1
+      "subject": "RequestMappingMetadata",
+      "prompt": "How many public methods does 'RequestMappingMetadata' declare?",
+      "answer": 0
     },
     {
       "id": "q35",
       "type": "public_method_count",
-      "subject": "CleanupWebhook",
-      "prompt": "How many public methods does 'CleanupWebhook' declare?",
-      "answer": 1
+      "subject": "ResponseDecoratorOptions",
+      "prompt": "How many public methods does 'ResponseDecoratorOptions' declare?",
+      "answer": 0
     },
     {
       "id": "q36",
       "type": "public_method_count",
-      "subject": "FlushWebhook",
-      "prompt": "How many public methods does 'FlushWebhook' declare?",
-      "answer": 1
+      "subject": "RouteParamMetadata",
+      "prompt": "How many public methods does 'RouteParamMetadata' declare?",
+      "answer": 0
     },
     {
       "id": "q37",
       "type": "public_method_count",
-      "subject": "MyWebhookModule",
-      "prompt": "How many public methods does 'MyWebhookModule' declare?",
-      "answer": 0
+      "subject": "BadGatewayException",
+      "prompt": "How many public methods does 'BadGatewayException' declare?",
+      "answer": 1
     },
     {
       "id": "q38",
       "type": "public_method_count",
-      "subject": "WebhooksExplorer",
-      "prompt": "How many public methods does 'WebhooksExplorer' declare?",
-      "answer": 2
+      "subject": "BadRequestException",
+      "prompt": "How many public methods does 'BadRequestException' declare?",
+      "answer": 1
     },
     {
       "id": "q39",
       "type": "public_method_count",
-      "subject": "UnauthorizedFilter",
-      "prompt": "How many public methods does 'UnauthorizedFilter' declare?",
+      "subject": "ConflictException",
+      "prompt": "How many public methods does 'ConflictException' declare?",
       "answer": 1
     },
     {
       "id": "q40",
       "type": "public_method_count",
-      "subject": "DataInterceptor",
-      "prompt": "How many public methods does 'DataInterceptor' declare?",
+      "subject": "ForbiddenException",
+      "prompt": "How many public methods does 'ForbiddenException' declare?",
       "answer": 1
     },
     {
@@ -357,57 +362,57 @@
     {
       "id": "q43",
       "type": "collection_fields",
-      "subject": "BarService",
-      "prompt": "Which fields of 'BarService' have a generic, array or collection type (e.g. List, Map, Set, Array or T[])? Answer with field names only",
+      "subject": "ControllerOptions",
+      "prompt": "Which fields of 'ControllerOptions' have a generic, array or collection type (e.g. List, Map, Set, Array or T[])? Answer with field names only",
       "answer": []
     },
     {
       "id": "q44",
       "type": "collection_fields",
-      "subject": "FooService",
-      "prompt": "Which fields of 'FooService' have a generic, array or collection type (e.g. List, Map, Set, Array or T[])? Answer with field names only",
+      "subject": "RequestMappingMetadata",
+      "prompt": "Which fields of 'RequestMappingMetadata' have a generic, array or collection type (e.g. List, Map, Set, Array or T[])? Answer with field names only",
       "answer": []
     },
     {
       "id": "q45",
       "type": "collection_fields",
-      "subject": "CleanupWebhook",
-      "prompt": "Which fields of 'CleanupWebhook' have a generic, array or collection type (e.g. List, Map, Set, Array or T[])? Answer with field names only",
+      "subject": "ResponseDecoratorOptions",
+      "prompt": "Which fields of 'ResponseDecoratorOptions' have a generic, array or collection type (e.g. List, Map, Set, Array or T[])? Answer with field names only",
       "answer": []
     },
     {
       "id": "q46",
       "type": "collection_fields",
-      "subject": "FlushWebhook",
-      "prompt": "Which fields of 'FlushWebhook' have a generic, array or collection type (e.g. List, Map, Set, Array or T[])? Answer with field names only",
+      "subject": "RouteParamMetadata",
+      "prompt": "Which fields of 'RouteParamMetadata' have a generic, array or collection type (e.g. List, Map, Set, Array or T[])? Answer with field names only",
       "answer": []
     },
     {
       "id": "q47",
       "type": "collection_fields",
-      "subject": "MyWebhookModule",
-      "prompt": "Which fields of 'MyWebhookModule' have a generic, array or collection type (e.g. List, Map, Set, Array or T[])? Answer with field names only",
+      "subject": "BadGatewayException",
+      "prompt": "Which fields of 'BadGatewayException' have a generic, array or collection type (e.g. List, Map, Set, Array or T[])? Answer with field names only",
       "answer": []
     },
     {
       "id": "q48",
       "type": "collection_fields",
-      "subject": "WebhooksExplorer",
-      "prompt": "Which fields of 'WebhooksExplorer' have a generic, array or collection type (e.g. List, Map, Set, Array or T[])? Answer with field names only",
+      "subject": "BadRequestException",
+      "prompt": "Which fields of 'BadRequestException' have a generic, array or collection type (e.g. List, Map, Set, Array or T[])? Answer with field names only",
       "answer": []
     },
     {
       "id": "q49",
       "type": "collection_fields",
-      "subject": "UnauthorizedFilter",
-      "prompt": "Which fields of 'UnauthorizedFilter' have a generic, array or collection type (e.g. List, Map, Set, Array or T[])? Answer with field names only",
+      "subject": "ConflictException",
+      "prompt": "Which fields of 'ConflictException' have a generic, array or collection type (e.g. List, Map, Set, Array or T[])? Answer with field names only",
       "answer": []
     },
     {
       "id": "q50",
       "type": "collection_fields",
-      "subject": "DataInterceptor",
-      "prompt": "Which fields of 'DataInterceptor' have a generic, array or collection type (e.g. List, Map, Set, Array or T[])? Answer with field names only",
+      "subject": "ForbiddenException",
+      "prompt": "Which fields of 'ForbiddenException' have a generic, array or collection type (e.g. List, Map, Set, Array or T[])? Answer with field names only",
       "answer": []
     }
   ]

@@ -1,0 +1,514 @@
+{
+  "project": "nest",
+  "provider": "openai",
+  "format": "plantuml",
+  "model": "gpt-4.1-mini",
+  "runs": [
+    {
+      "input_tokens": 52209,
+      "output_tokens": 608,
+      "answers": {
+        "q1": [
+          "ExpressAdapter",
+          "FastifyAdapter"
+        ],
+        "q2": [
+          "NestApplicationContext",
+          "ModuleRef"
+        ],
+        "q3": [
+          "IoAdapter",
+          "WsAdapter"
+        ],
+        "q4": [
+          "ExecutionContextHost"
+        ],
+        "q5": [
+          "ExceptionsHandler"
+        ],
+        "q6": [
+          "BaseExceptionFilterContext",
+          "ExternalExceptionFilterContext",
+          "RouterExceptionFilters",
+          "ExceptionFiltersContext"
+        ],
+        "q7": [
+          "KafkaContext",
+          "MqttContext",
+          "NatsContext",
+          "RedisContext",
+          "RmqContext",
+          "TcpContext"
+        ],
+        "q8": [
+          "RpcExceptionsHandler"
+        ],
+        "q9": [
+          "WsExceptionsHandler"
+        ],
+        "q10": [
+          "ClassSerializerInterceptorOptions",
+          "ClassSerializerContextOptions"
+        ],
+        "q11": [],
+        "q12": [
+          "HttpServer"
+        ],
+        "q13": [],
+        "q14": [],
+        "q15": [],
+        "q16": [],
+        "q17": [],
+        "q18": [],
+        "q19": [
+          "GlobalPrefixOptions",
+          "VersioningOptions",
+          "WebSocketAdapter",
+          "PipeTransform",
+          "ExceptionFilter",
+          "NestInterceptor",
+          "CanActivate",
+          "InstanceWrapper"
+        ],
+        "q20": [
+          "Scope"
+        ],
+        "q21": "fastifyMiddie",
+        "q22": "fastifyMiddie",
+        "q23": "packages.common.decorators.core.controller.decorator",
+        "q24": "packages.common.decorators.http.request-mapping.decorator",
+        "q25": "packages.common.decorators.http.route-params.decorator",
+        "q26": "packages.common.decorators.http.route-params.decorator",
+        "q27": "packages.common.enums.http-status.enum",
+        "q28": "packages.common.enums.request-method.enum",
+        "q29": "packages.common.enums.route-paramtypes.enum",
+        "q30": "packages.common.enums.shutdown-signal.enum",
+        "q31": 0,
+        "q32": 0,
+        "q33": 0,
+        "q34": 0,
+        "q35": 0,
+        "q36": 0,
+        "q37": 1,
+        "q38": 1,
+        "q39": 1,
+        "q40": 1,
+        "q41": [],
+        "q42": [],
+        "q43": [],
+        "q44": [],
+        "q45": [],
+        "q46": [],
+        "q47": [],
+        "q48": [],
+        "q49": [],
+        "q50": []
+      },
+      "raw_text": "{\n  \"q1\": [\n    \"ExpressAdapter\",\n    \"FastifyAdapter\"\n  ],\n  \"q2\": [\n    \"NestApplicationContext\",\n    \"ModuleRef\"\n  ],\n  \"q3\": [\n    \"IoAdapter\",\n    \"WsAdapter\"\n  ],\n  \"q4\": [\n    \"ExecutionContextHost\"\n  ],\n  \"q5\": [\n    \"ExceptionsHandler\"\n  ],\n  \"q6\": [\n    \"BaseExceptionFilterContext\",\n    \"ExternalExceptionFilterContext\",\n    \"RouterExceptionFilters\",\n    \"ExceptionFiltersContext\"\n  ],\n  \"q7\": [\n    \"KafkaContext\",\n    \"MqttContext\",\n    \"NatsContext\",\n    \"RedisContext\",\n    \"RmqContext\",\n    \"TcpContext\"\n  ],\n  \"q8\": [\n    \"RpcExceptionsHandler\"\n  ],\n  \"q9\": [\n    \"WsExceptionsHandler\"\n  ],\n  \"q10\": [\n    \"ClassSerializerInterceptorOptions\",\n    \"ClassSerializerContextOptions\"\n  ],\n  \"q11\": [],\n  \"q12\": [\n    \"HttpServer\"\n  ],\n  \"q13\": [],\n  \"q14\": [],\n  \"q15\": [],\n  \"q16\": [],\n  \"q17\": [],\n  \"q18\": [],\n  \"q19\": [\n    \"GlobalPrefixOptions\",\n    \"VersioningOptions\",\n    \"WebSocketAdapter\",\n    \"PipeTransform\",\n    \"ExceptionFilter\",\n    \"NestInterceptor\",\n    \"CanActivate\",\n    \"InstanceWrapper\"\n  ],\n  \"q20\": [\n    \"Scope\"\n  ],\n  \"q21\": \"fastifyMiddie\",\n  \"q22\": \"fastifyMiddie\",\n  \"q23\": \"packages.common.decorators.core.controller.decorator\",\n  \"q24\": \"packages.common.decorators.http.request-mapping.decorator\",\n  \"q25\": \"packages.common.decorators.http.route-params.decorator\",\n  \"q26\": \"packages.common.decorators.http.route-params.decorator\",\n  \"q27\": \"packages.common.enums.http-status.enum\",\n  \"q28\": \"packages.common.enums.request-method.enum\",\n  \"q29\": \"packages.common.enums.route-paramtypes.enum\",\n  \"q30\": \"packages.common.enums.shutdown-signal.enum\",\n  \"q31\": 0,\n  \"q32\": 0,\n  \"q33\": 0,\n  \"q34\": 0,\n  \"q35\": 0,\n  \"q36\": 0,\n  \"q37\": 1,\n  \"q38\": 1,\n  \"q39\": 1,\n  \"q40\": 1,\n  \"q41\": [],\n  \"q42\": [],\n  \"q43\": [],\n  \"q44\": [],\n  \"q45\": [],\n  \"q46\": [],\n  \"q47\": [],\n  \"q48\": [],\n  \"q49\": [],\n  \"q50\": []\n}"
+    },
+    {
+      "input_tokens": 52209,
+      "output_tokens": 570,
+      "answers": {
+        "q1": [
+          "ExpressAdapter",
+          "FastifyAdapter"
+        ],
+        "q2": [
+          "NestApplicationContext",
+          "ModuleRef"
+        ],
+        "q3": [
+          "IoAdapter",
+          "WsAdapter"
+        ],
+        "q4": [
+          "ExecutionContextHost"
+        ],
+        "q5": [
+          "ExceptionsHandler"
+        ],
+        "q6": [
+          "BaseExceptionFilterContext",
+          "ExternalExceptionFilterContext",
+          "RouterExceptionFilters",
+          "ExceptionFiltersContext"
+        ],
+        "q7": [
+          "KafkaContext",
+          "MqttContext",
+          "NatsContext",
+          "RedisContext",
+          "RmqContext",
+          "TcpContext"
+        ],
+        "q8": [
+          "RpcExceptionsHandler"
+        ],
+        "q9": [
+          "WsExceptionsHandler"
+        ],
+        "q10": [
+          "ClassSerializerInterceptorOptions",
+          "ClassSerializerContextOptions"
+        ],
+        "q11": [],
+        "q12": [],
+        "q13": [],
+        "q14": [],
+        "q15": [],
+        "q16": [],
+        "q17": [],
+        "q18": [],
+        "q19": [
+          "GlobalPrefixOptions",
+          "VersioningOptions",
+          "WebSocketAdapter"
+        ],
+        "q20": [],
+        "q21": "fastifyMiddie",
+        "q22": "fastifyMiddie",
+        "q23": "packages.common.decorators.core.controller.decorator",
+        "q24": "packages.common.decorators.http.request-mapping.decorator",
+        "q25": "packages.common.decorators.http.route-params.decorator",
+        "q26": "packages.common.decorators.http.route-params.decorator",
+        "q27": "packages.common.enums.http-status.enum",
+        "q28": "packages.common.enums.request-method.enum",
+        "q29": "packages.common.enums.route-paramtypes.enum",
+        "q30": "packages.common.enums.shutdown-signal.enum",
+        "q31": 0,
+        "q32": 0,
+        "q33": 0,
+        "q34": 0,
+        "q35": 0,
+        "q36": 0,
+        "q37": 1,
+        "q38": 1,
+        "q39": 1,
+        "q40": 1,
+        "q41": [],
+        "q42": [],
+        "q43": [],
+        "q44": [],
+        "q45": [],
+        "q46": [],
+        "q47": [],
+        "q48": [],
+        "q49": [],
+        "q50": []
+      },
+      "raw_text": "{\n  \"q1\": [\n    \"ExpressAdapter\",\n    \"FastifyAdapter\"\n  ],\n  \"q2\": [\n    \"NestApplicationContext\",\n    \"ModuleRef\"\n  ],\n  \"q3\": [\n    \"IoAdapter\",\n    \"WsAdapter\"\n  ],\n  \"q4\": [\n    \"ExecutionContextHost\"\n  ],\n  \"q5\": [\n    \"ExceptionsHandler\"\n  ],\n  \"q6\": [\n    \"BaseExceptionFilterContext\",\n    \"ExternalExceptionFilterContext\",\n    \"RouterExceptionFilters\",\n    \"ExceptionFiltersContext\"\n  ],\n  \"q7\": [\n    \"KafkaContext\",\n    \"MqttContext\",\n    \"NatsContext\",\n    \"RedisContext\",\n    \"RmqContext\",\n    \"TcpContext\"\n  ],\n  \"q8\": [\n    \"RpcExceptionsHandler\"\n  ],\n  \"q9\": [\n    \"WsExceptionsHandler\"\n  ],\n  \"q10\": [\n    \"ClassSerializerInterceptorOptions\",\n    \"ClassSerializerContextOptions\"\n  ],\n  \"q11\": [],\n  \"q12\": [],\n  \"q13\": [],\n  \"q14\": [],\n  \"q15\": [],\n  \"q16\": [],\n  \"q17\": [],\n  \"q18\": [],\n  \"q19\": [\n    \"GlobalPrefixOptions\",\n    \"VersioningOptions\",\n    \"WebSocketAdapter\"\n  ],\n  \"q20\": [],\n  \"q21\": \"fastifyMiddie\",\n  \"q22\": \"fastifyMiddie\",\n  \"q23\": \"packages.common.decorators.core.controller.decorator\",\n  \"q24\": \"packages.common.decorators.http.request-mapping.decorator\",\n  \"q25\": \"packages.common.decorators.http.route-params.decorator\",\n  \"q26\": \"packages.common.decorators.http.route-params.decorator\",\n  \"q27\": \"packages.common.enums.http-status.enum\",\n  \"q28\": \"packages.common.enums.request-method.enum\",\n  \"q29\": \"packages.common.enums.route-paramtypes.enum\",\n  \"q30\": \"packages.common.enums.shutdown-signal.enum\",\n  \"q31\": 0,\n  \"q32\": 0,\n  \"q33\": 0,\n  \"q34\": 0,\n  \"q35\": 0,\n  \"q36\": 0,\n  \"q37\": 1,\n  \"q38\": 1,\n  \"q39\": 1,\n  \"q40\": 1,\n  \"q41\": [],\n  \"q42\": [],\n  \"q43\": [],\n  \"q44\": [],\n  \"q45\": [],\n  \"q46\": [],\n  \"q47\": [],\n  \"q48\": [],\n  \"q49\": [],\n  \"q50\": []\n}"
+    },
+    {
+      "input_tokens": 52209,
+      "output_tokens": 650,
+      "answers": {
+        "q1": [
+          "ExpressAdapter",
+          "FastifyAdapter"
+        ],
+        "q2": [
+          "NestApplicationContext",
+          "ModuleRef"
+        ],
+        "q3": [
+          "IoAdapter",
+          "WsAdapter"
+        ],
+        "q4": [
+          "ExecutionContext",
+          "RpcArgumentsHost",
+          "HttpArgumentsHost",
+          "WsArgumentsHost"
+        ],
+        "q5": [
+          "ExceptionsHandler",
+          "BaseExceptionFilter",
+          "ExternalExceptionFilter"
+        ],
+        "q6": [
+          "BaseExceptionFilterContext",
+          "ExternalExceptionFilterContext",
+          "RouterExceptionFilters",
+          "ExceptionFiltersContext"
+        ],
+        "q7": [
+          "KafkaContext",
+          "MqttContext",
+          "NatsContext",
+          "RedisContext",
+          "RmqContext",
+          "TcpContext",
+          "BaseRpcContext"
+        ],
+        "q8": [
+          "BaseRpcExceptionFilter",
+          "RpcExceptionsHandler"
+        ],
+        "q9": [
+          "BaseWsExceptionFilter",
+          "WsExceptionsHandler"
+        ],
+        "q10": [
+          "ClassSerializerInterceptorOptions",
+          "ClassSerializerContextOptions"
+        ],
+        "q11": [],
+        "q12": [
+          "HttpServer"
+        ],
+        "q13": [],
+        "q14": [],
+        "q15": [],
+        "q16": [],
+        "q17": [],
+        "q18": [],
+        "q19": [
+          "GlobalPrefixOptions",
+          "VersioningOptions",
+          "WebSocketAdapter",
+          "Array",
+          "CanActivate",
+          "ExceptionFilter",
+          "NestInterceptor",
+          "InstanceWrapper"
+        ],
+        "q20": [],
+        "q21": "fastifyMiddie",
+        "q22": "fastifyMiddie",
+        "q23": "packages.common.decorators.core.controller.decorator",
+        "q24": "packages.common.decorators.http.request-mapping.decorator",
+        "q25": "packages.common.decorators.http.route-params.decorator",
+        "q26": "packages.common.decorators.http.route-params.decorator",
+        "q27": "packages.common.enums.http-status.enum",
+        "q28": "packages.common.enums.request-method.enum",
+        "q29": "packages.common.enums.route-paramtypes.enum",
+        "q30": "packages.common.enums.shutdown-signal.enum",
+        "q31": 0,
+        "q32": 0,
+        "q33": 0,
+        "q34": 0,
+        "q35": 0,
+        "q36": 0,
+        "q37": 1,
+        "q38": 1,
+        "q39": 1,
+        "q40": 1,
+        "q41": [],
+        "q42": [],
+        "q43": [],
+        "q44": [],
+        "q45": [],
+        "q46": [],
+        "q47": [],
+        "q48": [],
+        "q49": [],
+        "q50": []
+      },
+      "raw_text": "{\n  \"q1\": [\n    \"ExpressAdapter\",\n    \"FastifyAdapter\"\n  ],\n  \"q2\": [\n    \"NestApplicationContext\",\n    \"ModuleRef\"\n  ],\n  \"q3\": [\n    \"IoAdapter\",\n    \"WsAdapter\"\n  ],\n  \"q4\": [\n    \"ExecutionContext\",\n    \"RpcArgumentsHost\",\n    \"HttpArgumentsHost\",\n    \"WsArgumentsHost\"\n  ],\n  \"q5\": [\n    \"ExceptionsHandler\",\n    \"BaseExceptionFilter\",\n    \"ExternalExceptionFilter\"\n  ],\n  \"q6\": [\n    \"BaseExceptionFilterContext\",\n    \"ExternalExceptionFilterContext\",\n    \"RouterExceptionFilters\",\n    \"ExceptionFiltersContext\"\n  ],\n  \"q7\": [\n    \"KafkaContext\",\n    \"MqttContext\",\n    \"NatsContext\",\n    \"RedisContext\",\n    \"RmqContext\",\n    \"TcpContext\",\n    \"BaseRpcContext\"\n  ],\n  \"q8\": [\n    \"BaseRpcExceptionFilter\",\n    \"RpcExceptionsHandler\"\n  ],\n  \"q9\": [\n    \"BaseWsExceptionFilter\",\n    \"WsExceptionsHandler\"\n  ],\n  \"q10\": [\n    \"ClassSerializerInterceptorOptions\",\n    \"ClassSerializerContextOptions\"\n  ],\n  \"q11\": [],\n  \"q12\": [\n    \"HttpServer\"\n  ],\n  \"q13\": [],\n  \"q14\": [],\n  \"q15\": [],\n  \"q16\": [],\n  \"q17\": [],\n  \"q18\": [],\n  \"q19\": [\n    \"GlobalPrefixOptions\",\n    \"VersioningOptions\",\n    \"WebSocketAdapter\",\n    \"Array\",\n    \"CanActivate\",\n    \"ExceptionFilter\",\n    \"NestInterceptor\",\n    \"InstanceWrapper\"\n  ],\n  \"q20\": [],\n  \"q21\": \"fastifyMiddie\",\n  \"q22\": \"fastifyMiddie\",\n  \"q23\": \"packages.common.decorators.core.controller.decorator\",\n  \"q24\": \"packages.common.decorators.http.request-mapping.decorator\",\n  \"q25\": \"packages.common.decorators.http.route-params.decorator\",\n  \"q26\": \"packages.common.decorators.http.route-params.decorator\",\n  \"q27\": \"packages.common.enums.http-status.enum\",\n  \"q28\": \"packages.common.enums.request-method.enum\",\n  \"q29\": \"packages.common.enums.route-paramtypes.enum\",\n  \"q30\": \"packages.common.enums.shutdown-signal.enum\",\n  \"q31\": 0,\n  \"q32\": 0,\n  \"q33\": 0,\n  \"q34\": 0,\n  \"q35\": 0,\n  \"q36\": 0,\n  \"q37\": 1,\n  \"q38\": 1,\n  \"q39\": 1,\n  \"q40\": 1,\n  \"q41\": [],\n  \"q42\": [],\n  \"q43\": [],\n  \"q44\": [],\n  \"q45\": [],\n  \"q46\": [],\n  \"q47\": [],\n  \"q48\": [],\n  \"q49\": [],\n  \"q50\": []\n}"
+    },
+    {
+      "input_tokens": 52209,
+      "output_tokens": 602,
+      "answers": {
+        "q1": [
+          "ExpressAdapter",
+          "FastifyAdapter"
+        ],
+        "q2": [
+          "NestApplicationContext",
+          "ModuleRef"
+        ],
+        "q3": [
+          "IoAdapter",
+          "WsAdapter"
+        ],
+        "q4": [
+          "ExecutionContextHost"
+        ],
+        "q5": [
+          "ExceptionsHandler"
+        ],
+        "q6": [
+          "BaseExceptionFilterContext",
+          "ExternalExceptionFilterContext",
+          "RouterExceptionFilters",
+          "ExceptionFiltersContext"
+        ],
+        "q7": [
+          "KafkaContext",
+          "MqttContext",
+          "NatsContext",
+          "RedisContext",
+          "RmqContext",
+          "TcpContext"
+        ],
+        "q8": [
+          "RpcExceptionsHandler"
+        ],
+        "q9": [
+          "WsExceptionsHandler"
+        ],
+        "q10": [
+          "ClassSerializerInterceptorOptions",
+          "ClassSerializerContextOptions"
+        ],
+        "q11": [],
+        "q12": [
+          "HttpServer"
+        ],
+        "q13": [],
+        "q14": [],
+        "q15": [],
+        "q16": [],
+        "q17": [],
+        "q18": [],
+        "q19": [
+          "GlobalPrefixOptions",
+          "VersioningOptions",
+          "WebSocketAdapter",
+          "CanActivate",
+          "ExceptionFilter",
+          "NestInterceptor",
+          "PipeTransform",
+          "InstanceWrapper"
+        ],
+        "q20": [],
+        "q21": "fastifyMiddie",
+        "q22": "fastifyMiddie",
+        "q23": "packages.common.decorators.core.controller.decorator",
+        "q24": "packages.common.decorators.http.request-mapping.decorator",
+        "q25": "packages.common.decorators.http.route-params.decorator",
+        "q26": "packages.common.decorators.http.route-params.decorator",
+        "q27": "packages.common.enums.http-status.enum",
+        "q28": "packages.common.enums.request-method.enum",
+        "q29": "packages.common.enums.route-paramtypes.enum",
+        "q30": "packages.common.enums.shutdown-signal.enum",
+        "q31": 0,
+        "q32": 0,
+        "q33": 0,
+        "q34": 0,
+        "q35": 0,
+        "q36": 0,
+        "q37": 1,
+        "q38": 1,
+        "q39": 1,
+        "q40": 1,
+        "q41": [],
+        "q42": [],
+        "q43": [],
+        "q44": [],
+        "q45": [],
+        "q46": [],
+        "q47": [],
+        "q48": [],
+        "q49": [],
+        "q50": []
+      },
+      "raw_text": "{\n  \"q1\": [\n    \"ExpressAdapter\",\n    \"FastifyAdapter\"\n  ],\n  \"q2\": [\n    \"NestApplicationContext\",\n    \"ModuleRef\"\n  ],\n  \"q3\": [\n    \"IoAdapter\",\n    \"WsAdapter\"\n  ],\n  \"q4\": [\n    \"ExecutionContextHost\"\n  ],\n  \"q5\": [\n    \"ExceptionsHandler\"\n  ],\n  \"q6\": [\n    \"BaseExceptionFilterContext\",\n    \"ExternalExceptionFilterContext\",\n    \"RouterExceptionFilters\",\n    \"ExceptionFiltersContext\"\n  ],\n  \"q7\": [\n    \"KafkaContext\",\n    \"MqttContext\",\n    \"NatsContext\",\n    \"RedisContext\",\n    \"RmqContext\",\n    \"TcpContext\"\n  ],\n  \"q8\": [\n    \"RpcExceptionsHandler\"\n  ],\n  \"q9\": [\n    \"WsExceptionsHandler\"\n  ],\n  \"q10\": [\n    \"ClassSerializerInterceptorOptions\",\n    \"ClassSerializerContextOptions\"\n  ],\n  \"q11\": [],\n  \"q12\": [\n    \"HttpServer\"\n  ],\n  \"q13\": [],\n  \"q14\": [],\n  \"q15\": [],\n  \"q16\": [],\n  \"q17\": [],\n  \"q18\": [],\n  \"q19\": [\n    \"GlobalPrefixOptions\",\n    \"VersioningOptions\",\n    \"WebSocketAdapter\",\n    \"CanActivate\",\n    \"ExceptionFilter\",\n    \"NestInterceptor\",\n    \"PipeTransform\",\n    \"InstanceWrapper\"\n  ],\n  \"q20\": [],\n  \"q21\": \"fastifyMiddie\",\n  \"q22\": \"fastifyMiddie\",\n  \"q23\": \"packages.common.decorators.core.controller.decorator\",\n  \"q24\": \"packages.common.decorators.http.request-mapping.decorator\",\n  \"q25\": \"packages.common.decorators.http.route-params.decorator\",\n  \"q26\": \"packages.common.decorators.http.route-params.decorator\",\n  \"q27\": \"packages.common.enums.http-status.enum\",\n  \"q28\": \"packages.common.enums.request-method.enum\",\n  \"q29\": \"packages.common.enums.route-paramtypes.enum\",\n  \"q30\": \"packages.common.enums.shutdown-signal.enum\",\n  \"q31\": 0,\n  \"q32\": 0,\n  \"q33\": 0,\n  \"q34\": 0,\n  \"q35\": 0,\n  \"q36\": 0,\n  \"q37\": 1,\n  \"q38\": 1,\n  \"q39\": 1,\n  \"q40\": 1,\n  \"q41\": [],\n  \"q42\": [],\n  \"q43\": [],\n  \"q44\": [],\n  \"q45\": [],\n  \"q46\": [],\n  \"q47\": [],\n  \"q48\": [],\n  \"q49\": [],\n  \"q50\": []\n}"
+    },
+    {
+      "input_tokens": 52209,
+      "output_tokens": 621,
+      "answers": {
+        "q1": [
+          "ExpressAdapter",
+          "FastifyAdapter"
+        ],
+        "q2": [
+          "NestApplicationContext",
+          "ModuleRef"
+        ],
+        "q3": [
+          "IoAdapter",
+          "WsAdapter"
+        ],
+        "q4": [
+          "ExecutionContextHost",
+          "ArgumentsHost"
+        ],
+        "q5": [
+          "ExceptionsHandler",
+          "BaseExceptionFilter"
+        ],
+        "q6": [
+          "BaseExceptionFilterContext",
+          "ExternalExceptionFilterContext"
+        ],
+        "q7": [
+          "KafkaContext",
+          "MqttContext",
+          "NatsContext",
+          "RedisContext",
+          "RmqContext",
+          "TcpContext",
+          "BaseRpcContext"
+        ],
+        "q8": [
+          "BaseRpcExceptionFilter",
+          "RpcExceptionsHandler"
+        ],
+        "q9": [
+          "BaseWsExceptionFilter",
+          "WsExceptionsHandler"
+        ],
+        "q10": [
+          "ClassSerializerInterceptorOptions",
+          "ClassSerializerContextOptions"
+        ],
+        "q11": [],
+        "q12": [
+          "HttpServer"
+        ],
+        "q13": [],
+        "q14": [],
+        "q15": [],
+        "q16": [],
+        "q17": [],
+        "q18": [],
+        "q19": [
+          "WebSocketAdapter",
+          "GlobalPrefixOptions",
+          "PipeTransform",
+          "ExceptionFilter",
+          "NestInterceptor",
+          "CanActivate",
+          "VersioningOptions",
+          "InstanceWrapper"
+        ],
+        "q20": [],
+        "q21": "fastifyMiddie",
+        "q22": "fastifyMiddie",
+        "q23": "packages.common.decorators.core.controller.decorator",
+        "q24": "packages.common.decorators.http.request-mapping.decorator",
+        "q25": "packages.common.decorators.http.route-params.decorator",
+        "q26": "packages.common.decorators.http.route-params.decorator",
+        "q27": "packages.common.enums.http-status.enum",
+        "q28": "packages.common.enums.request-method.enum",
+        "q29": "packages.common.enums.route-paramtypes.enum",
+        "q30": "packages.common.enums.shutdown-signal.enum",
+        "q31": 0,
+        "q32": 0,
+        "q33": 0,
+        "q34": 0,
+        "q35": 0,
+        "q36": 0,
+        "q37": 1,
+        "q38": 1,
+        "q39": 1,
+        "q40": 1,
+        "q41": [],
+        "q42": [],
+        "q43": [],
+        "q44": [],
+        "q45": [],
+        "q46": [],
+        "q47": [],
+        "q48": [],
+        "q49": [],
+        "q50": []
+      },
+      "raw_text": "{\n  \"q1\": [\n    \"ExpressAdapter\",\n    \"FastifyAdapter\"\n  ],\n  \"q2\": [\n    \"NestApplicationContext\",\n    \"ModuleRef\"\n  ],\n  \"q3\": [\n    \"IoAdapter\",\n    \"WsAdapter\"\n  ],\n  \"q4\": [\n    \"ExecutionContextHost\",\n    \"ArgumentsHost\"\n  ],\n  \"q5\": [\n    \"ExceptionsHandler\",\n    \"BaseExceptionFilter\"\n  ],\n  \"q6\": [\n    \"BaseExceptionFilterContext\",\n    \"ExternalExceptionFilterContext\"\n  ],\n  \"q7\": [\n    \"KafkaContext\",\n    \"MqttContext\",\n    \"NatsContext\",\n    \"RedisContext\",\n    \"RmqContext\",\n    \"TcpContext\",\n    \"BaseRpcContext\"\n  ],\n  \"q8\": [\n    \"BaseRpcExceptionFilter\",\n    \"RpcExceptionsHandler\"\n  ],\n  \"q9\": [\n    \"BaseWsExceptionFilter\",\n    \"WsExceptionsHandler\"\n  ],\n  \"q10\": [\n    \"ClassSerializerInterceptorOptions\",\n    \"ClassSerializerContextOptions\"\n  ],\n  \"q11\": [],\n  \"q12\": [\n    \"HttpServer\"\n  ],\n  \"q13\": [],\n  \"q14\": [],\n  \"q15\": [],\n  \"q16\": [],\n  \"q17\": [],\n  \"q18\": [],\n  \"q19\": [\n    \"WebSocketAdapter\",\n    \"GlobalPrefixOptions\",\n    \"PipeTransform\",\n    \"ExceptionFilter\",\n    \"NestInterceptor\",\n    \"CanActivate\",\n    \"VersioningOptions\",\n    \"InstanceWrapper\"\n  ],\n  \"q20\": [],\n  \"q21\": \"fastifyMiddie\",\n  \"q22\": \"fastifyMiddie\",\n  \"q23\": \"packages.common.decorators.core.controller.decorator\",\n  \"q24\": \"packages.common.decorators.http.request-mapping.decorator\",\n  \"q25\": \"packages.common.decorators.http.route-params.decorator\",\n  \"q26\": \"packages.common.decorators.http.route-params.decorator\",\n  \"q27\": \"packages.common.enums.http-status.enum\",\n  \"q28\": \"packages.common.enums.request-method.enum\",\n  \"q29\": \"packages.common.enums.route-paramtypes.enum\",\n  \"q30\": \"packages.common.enums.shutdown-signal.enum\",\n  \"q31\": 0,\n  \"q32\": 0,\n  \"q33\": 0,\n  \"q34\": 0,\n  \"q35\": 0,\n  \"q36\": 0,\n  \"q37\": 1,\n  \"q38\": 1,\n  \"q39\": 1,\n  \"q40\": 1,\n  \"q41\": [],\n  \"q42\": [],\n  \"q43\": [],\n  \"q44\": [],\n  \"q45\": [],\n  \"q46\": [],\n  \"q47\": [],\n  \"q48\": [],\n  \"q49\": [],\n  \"q50\": []\n}"
+    }
+  ]
+}
