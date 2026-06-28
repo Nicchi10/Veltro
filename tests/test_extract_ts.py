@@ -180,6 +180,48 @@ class TestJavaScriptFallback(unittest.TestCase):
         self.assertEqual(move["args"], [{"name": "dx", "type": "Any"}, {"name": "dy", "type": "Any"}])
 
 
+class TestStructuralTypesAreSafe(unittest.TestCase):
+
+    def test_inline_object_and_function_types_collapse_to_any(self):
+        # the NestJS case: a constructor param typed with an inline object used
+        # to dump '(request {' into the .vel and break the parser
+        source = (
+            "export class RequestReader {\n"
+            "  onError: (e: Error) => void;\n"
+            "  meta: { id: number; tag: string };\n"
+            "  constructor(request: { headers: string[]; body: any }) {}\n"
+            "  combine(a: A & B): A | B | null { return null; }\n"
+            "}\n"
+        )
+        vel = extract_to_vel(source, "http")
+        # it must round-trip through the parser without raising
+        model = parse_text(vel)
+        node = model["nodes"][0]
+        fields = {f["name"]: f for f in node["fields"]}
+        self.assertEqual(fields["onError"]["type"], "Any")
+        self.assertEqual(fields["meta"]["type"], "Any")
+        methods = {m["name"]: m for m in node["methods"]}
+        self.assertEqual(methods["RequestReader"]["args"], [{"name": "request", "type": "Any"}])
+        # a 3-member union is not a single token -> Any; arg type also safe
+        self.assertEqual(methods["combine"]["args"], [{"name": "a", "type": "Any"}])
+        self.assertEqual(methods["combine"]["ret"], "Any")
+
+    def test_computed_member_name_is_skipped(self):
+        source = (
+            "export class Bag {\n"
+            "  size: number;\n"
+            "  [Symbol.iterator]() {}\n"
+            "}\n"
+        )
+        vel = extract_to_vel(source, "coll")
+        model = parse_text(vel)
+        node = model["nodes"][0]
+        field_names = [f["name"] for f in node["fields"]]
+        method_names = [m["name"] for m in node["methods"]]
+        self.assertEqual(field_names, ["size"])
+        self.assertEqual(method_names, [])        # computed-name method dropped
+
+
 class TestReservedNameField(unittest.TestCase):
 
     def test_field_named_like_keyword_keeps_plus(self):

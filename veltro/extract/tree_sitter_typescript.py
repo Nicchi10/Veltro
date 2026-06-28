@@ -87,6 +87,10 @@ MODIFIER_KEYWORDS = {"static", "readonly", "abstract", "async", "get", "set", "o
 # so such a member must keep an explicit '+'. Methods are safe (the '(' tells them apart), but forcing '+' on them too is harmless.
 RESERVED_NAMES = {"veltro", "module", "class", "interface", "enum", "rel"}
 
+# A member must be a plain identifier to be a single .vel token. Computed names
+# ('[Symbol.iterator]', '["foo-bar"]'), common in real code, are skipped.
+VALID_MEMBER_NAME = re.compile(r"^[A-Za-z_$][\w$]*$")
+
 # Source extensions, longest first so '.d.ts' is matched before '.ts'
 SOURCE_EXTENSIONS = (".d.ts", ".tsx", ".ts", ".mts", ".cts", ".jsx", ".js", ".mjs", ".cjs")
 TSX_EXTENSIONS = (".tsx", ".jsx", ".js", ".mjs", ".cjs")
@@ -163,7 +167,34 @@ def annotation_type(node, field_name: str) -> str:
     annotation = node.child_by_field_name(field_name)
     if annotation is None or annotation.named_child_count == 0:
         return ""
-    return ts_type_to_veltro(text(annotation.named_children[-1]))
+    return safe_type(ts_type_to_veltro(text(annotation.named_children[-1])))
+
+def safe_type(type_string: str) -> str:
+    """
+
+    Reduce a type to a single Veltro token, or 'Any' when it cannot be.
+
+    The .vel line format splits fields and arguments on spaces, so a type must
+    be ONE token: identifiers, generics ('Map<string,Foo>') and arrays ('Foo[]')
+    qualify. TypeScript's structural types do not: an inline object
+    ('{ a: number }'), a function type ('(x: number) => void'), an intersection
+    ('A & B') or a multi-member union all carry spaces, parens or braces that
+    would corrupt the line (the real case that bit us: a NestJS constructor
+    parameter typed with an inline object dumped '(request {' into the file).
+    Such types collapse to 'Any' rather than break the format.
+
+    Args:
+        type_string (str): an already space-collapsed candidate type
+
+    Returns:
+        The type if it is a single safe token, else 'Any'
+
+    """
+    if not type_string:
+        return "Any"
+    if any(char in type_string for char in " (){}\n\t"):
+        return "Any"
+    return type_string
 
 def simple_name(type_text: str) -> str:
     """
@@ -302,6 +333,8 @@ def extract_field(node, inside_interface: bool) -> str:
     if not raw_name:
         return ""
     name, _is_hash = clean_name(raw_name)
+    if not VALID_MEMBER_NAME.match(name):
+        return ""
     marker = visibility_marker(modifiers, raw_name, inside_interface)
 
     type_string = annotation_type(node, "type") or "Any"
@@ -327,6 +360,8 @@ def extract_getter(node, inside_interface: bool) -> str:
 
     raw_name = field_text(node, "name")
     name, _is_hash = clean_name(raw_name)
+    if not VALID_MEMBER_NAME.match(name):
+        return ""
     marker = visibility_marker(modifiers, raw_name, inside_interface)
 
     type_string = annotation_type(node, "return_type") or "Any"
@@ -393,6 +428,8 @@ def extract_method(node, class_name: str, inside_interface: bool) -> str:
         name = class_name
     else:
         name, _is_hash = clean_name(raw_name)
+        if not VALID_MEMBER_NAME.match(name):
+            return ""
 
     marker = visibility_marker(modifiers, raw_name, inside_interface)
     arguments = method_arguments(node)
@@ -506,11 +543,15 @@ def extract_type(node, edges: list) -> list:
                     # a setter would duplicate the getter's field, skip it
                     continue
                 if "get" in modifiers:
-                    lines.append(extract_getter(member, inside_interface))
+                    member_line = extract_getter(member, inside_interface)
                 else:
-                    lines.append(extract_method(member, name, inside_interface))
+                    member_line = extract_method(member, name, inside_interface)
+                if member_line:
+                    lines.append(member_line)
             elif member.type == "method_signature":
-                lines.append(extract_method(member, name, inside_interface))
+                member_line = extract_method(member, name, inside_interface)
+                if member_line:
+                    lines.append(member_line)
     return lines
 
 # ============ PROJECT WALK & RENDERING ============
