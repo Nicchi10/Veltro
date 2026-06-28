@@ -1,0 +1,414 @@
+{
+  "project": "nest",
+  "types": 1879,
+  "questions": [
+    {
+      "id": "q1",
+      "type": "implementors",
+      "subject": "AbstractHttpAdapter",
+      "prompt": "List every type that extends or implements 'AbstractHttpAdapter'. Answer with type names only.",
+      "answer": [
+        "ExpressAdapter",
+        "FastifyAdapter",
+        "NoopHttpAdapter"
+      ]
+    },
+    {
+      "id": "q2",
+      "type": "implementors",
+      "subject": "AbstractInstanceResolver",
+      "prompt": "List every type that extends or implements 'AbstractInstanceResolver'. Answer with type names only.",
+      "answer": [
+        "ModuleRef",
+        "NestApplicationContext"
+      ]
+    },
+    {
+      "id": "q3",
+      "type": "implementors",
+      "subject": "AbstractWsAdapter",
+      "prompt": "List every type that extends or implements 'AbstractWsAdapter'. Answer with type names only.",
+      "answer": [
+        "IoAdapter",
+        "NoopAdapter",
+        "WsAdapter"
+      ]
+    },
+    {
+      "id": "q4",
+      "type": "implementors",
+      "subject": "ArgumentsHost",
+      "prompt": "List every type that extends or implements 'ArgumentsHost'. Answer with type names only.",
+      "answer": [
+        "ExecutionContext"
+      ]
+    },
+    {
+      "id": "q5",
+      "type": "implementors",
+      "subject": "BaseExceptionFilter",
+      "prompt": "List every type that extends or implements 'BaseExceptionFilter'. Answer with type names only.",
+      "answer": [
+        "ExceptionsHandler"
+      ]
+    },
+    {
+      "id": "q6",
+      "type": "implementors",
+      "subject": "BaseExceptionFilterContext",
+      "prompt": "List every type that extends or implements 'BaseExceptionFilterContext'. Answer with type names only.",
+      "answer": [
+        "ExceptionFiltersContext",
+        "ExternalExceptionFilterContext",
+        "RouterExceptionFilters"
+      ]
+    },
+    {
+      "id": "q7",
+      "type": "implementors",
+      "subject": "BaseRpcContext",
+      "prompt": "List every type that extends or implements 'BaseRpcContext'. Answer with type names only.",
+      "answer": [
+        "KafkaContext",
+        "MqttContext",
+        "NatsContext",
+        "RedisContext",
+        "RmqContext",
+        "TcpContext"
+      ]
+    },
+    {
+      "id": "q8",
+      "type": "implementors",
+      "subject": "BaseRpcExceptionFilter",
+      "prompt": "List every type that extends or implements 'BaseRpcExceptionFilter'. Answer with type names only.",
+      "answer": [
+        "RpcExceptionsHandler"
+      ]
+    },
+    {
+      "id": "q9",
+      "type": "implementors",
+      "subject": "BaseService",
+      "prompt": "List every type that extends or implements 'BaseService'. Answer with type names only.",
+      "answer": [
+        "TestService"
+      ]
+    },
+    {
+      "id": "q10",
+      "type": "implementors",
+      "subject": "BaseWsExceptionFilter",
+      "prompt": "List every type that extends or implements 'BaseWsExceptionFilter'. Answer with type names only.",
+      "answer": [
+        "WsExceptionsHandler"
+      ]
+    },
+    {
+      "id": "q11",
+      "type": "depends_on",
+      "subject": "Abstract",
+      "prompt": "List every type that 'Abstract' references or inherits (its outgoing relations)",
+      "answer": [
+        "Function"
+      ]
+    },
+    {
+      "id": "q12",
+      "type": "depends_on",
+      "subject": "AbstractHttpAdapter",
+      "prompt": "List every type that 'AbstractHttpAdapter' references or inherits (its outgoing relations)",
+      "answer": [
+        "HttpServer"
+      ]
+    },
+    {
+      "id": "q13",
+      "type": "depends_on",
+      "subject": "AbstractInstanceResolver",
+      "prompt": "List every type that 'AbstractInstanceResolver' references or inherits (its outgoing relations)",
+      "answer": [
+        "Injector",
+        "InstanceLinksHost"
+      ]
+    },
+    {
+      "id": "q14",
+      "type": "depends_on",
+      "subject": "AbstractWsAdapter",
+      "prompt": "List every type that 'AbstractWsAdapter' references or inherits (its outgoing relations)",
+      "answer": [
+        "WebSocketAdapter"
+      ]
+    },
+    {
+      "id": "q15",
+      "type": "depends_on",
+      "subject": "Acl",
+      "prompt": "List every type that 'Acl' references or inherits (its outgoing relations)",
+      "answer": [
+        "AclOperationTypes",
+        "AclPermissionTypes"
+      ]
+    },
+    {
+      "id": "q16",
+      "type": "depends_on",
+      "subject": "AclFilter",
+      "prompt": "List every type that 'AclFilter' references or inherits (its outgoing relations)",
+      "answer": [
+        "AclOperationTypes",
+        "AclPermissionTypes",
+        "AclResourceTypes",
+        "ResourcePatternTypes"
+      ]
+    },
+    {
+      "id": "q17",
+      "type": "depends_on",
+      "subject": "AclResource",
+      "prompt": "List every type that 'AclResource' references or inherits (its outgoing relations)",
+      "answer": [
+        "AclResourceTypes",
+        "ResourcePatternTypes"
+      ]
+    },
+    {
+      "id": "q18",
+      "type": "depends_on",
+      "subject": "AdminConfig",
+      "prompt": "List every type that 'AdminConfig' references or inherits (its outgoing relations)",
+      "answer": [
+        "RetryOptions"
+      ]
+    },
+    {
+      "id": "q19",
+      "type": "depends_on",
+      "subject": "AdvancedGrpcController",
+      "prompt": "List every type that 'AdvancedGrpcController' references or inherits (its outgoing relations)",
+      "answer": [
+        "ClientGrpc"
+      ]
+    },
+    {
+      "id": "q20",
+      "type": "depends_on",
+      "subject": "AlwaysInvalidValidator",
+      "prompt": "List every type that 'AlwaysInvalidValidator' references or inherits (its outgoing relations)",
+      "answer": [
+        "FileValidator"
+      ]
+    },
+    {
+      "id": "q21",
+      "type": "module_of",
+      "subject": "FastifyMiddieOptions",
+      "prompt": "Which module is the type 'FastifyMiddieOptions' defined in?",
+      "answer": "fastifyMiddie"
+    },
+    {
+      "id": "q22",
+      "type": "module_of",
+      "subject": "IncomingMessageExtended",
+      "prompt": "Which module is the type 'IncomingMessageExtended' defined in?",
+      "answer": "fastifyMiddie"
+    },
+    {
+      "id": "q23",
+      "type": "module_of",
+      "subject": "BarService",
+      "prompt": "Which module is the type 'BarService' defined in?",
+      "answer": "nest.integration.auto-mock.src.bar.service"
+    },
+    {
+      "id": "q24",
+      "type": "module_of",
+      "subject": "FooService",
+      "prompt": "Which module is the type 'FooService' defined in?",
+      "answer": "nest.integration.auto-mock.src.foo.service"
+    },
+    {
+      "id": "q25",
+      "type": "module_of",
+      "subject": "CleanupWebhook",
+      "prompt": "Which module is the type 'CleanupWebhook' defined in?",
+      "answer": "nest.integration.discovery.src.my-webhook.cleanup.webhook"
+    },
+    {
+      "id": "q26",
+      "type": "module_of",
+      "subject": "FlushWebhook",
+      "prompt": "Which module is the type 'FlushWebhook' defined in?",
+      "answer": "nest.integration.discovery.src.my-webhook.flush.webhook"
+    },
+    {
+      "id": "q27",
+      "type": "module_of",
+      "subject": "MyWebhookModule",
+      "prompt": "Which module is the type 'MyWebhookModule' defined in?",
+      "answer": "nest.integration.discovery.src.my-webhook.my-webhook.module"
+    },
+    {
+      "id": "q28",
+      "type": "module_of",
+      "subject": "WebhooksExplorer",
+      "prompt": "Which module is the type 'WebhooksExplorer' defined in?",
+      "answer": "nest.integration.discovery.src.webhooks.explorer"
+    },
+    {
+      "id": "q29",
+      "type": "module_of",
+      "subject": "UnauthorizedFilter",
+      "prompt": "Which module is the type 'UnauthorizedFilter' defined in?",
+      "answer": "nest.integration.graphql-code-first.src.common.filters.unauthorized.filter"
+    },
+    {
+      "id": "q30",
+      "type": "module_of",
+      "subject": "DataInterceptor",
+      "prompt": "Which module is the type 'DataInterceptor' defined in?",
+      "answer": "nest.integration.graphql-code-first.src.common.interceptors.data.interceptor"
+    },
+    {
+      "id": "q31",
+      "type": "public_method_count",
+      "subject": "FastifyMiddieOptions",
+      "prompt": "How many public methods does 'FastifyMiddieOptions' declare?",
+      "answer": 0
+    },
+    {
+      "id": "q32",
+      "type": "public_method_count",
+      "subject": "IncomingMessageExtended",
+      "prompt": "How many public methods does 'IncomingMessageExtended' declare?",
+      "answer": 0
+    },
+    {
+      "id": "q33",
+      "type": "public_method_count",
+      "subject": "BarService",
+      "prompt": "How many public methods does 'BarService' declare?",
+      "answer": 2
+    },
+    {
+      "id": "q34",
+      "type": "public_method_count",
+      "subject": "FooService",
+      "prompt": "How many public methods does 'FooService' declare?",
+      "answer": 1
+    },
+    {
+      "id": "q35",
+      "type": "public_method_count",
+      "subject": "CleanupWebhook",
+      "prompt": "How many public methods does 'CleanupWebhook' declare?",
+      "answer": 1
+    },
+    {
+      "id": "q36",
+      "type": "public_method_count",
+      "subject": "FlushWebhook",
+      "prompt": "How many public methods does 'FlushWebhook' declare?",
+      "answer": 1
+    },
+    {
+      "id": "q37",
+      "type": "public_method_count",
+      "subject": "MyWebhookModule",
+      "prompt": "How many public methods does 'MyWebhookModule' declare?",
+      "answer": 0
+    },
+    {
+      "id": "q38",
+      "type": "public_method_count",
+      "subject": "WebhooksExplorer",
+      "prompt": "How many public methods does 'WebhooksExplorer' declare?",
+      "answer": 2
+    },
+    {
+      "id": "q39",
+      "type": "public_method_count",
+      "subject": "UnauthorizedFilter",
+      "prompt": "How many public methods does 'UnauthorizedFilter' declare?",
+      "answer": 1
+    },
+    {
+      "id": "q40",
+      "type": "public_method_count",
+      "subject": "DataInterceptor",
+      "prompt": "How many public methods does 'DataInterceptor' declare?",
+      "answer": 1
+    },
+    {
+      "id": "q41",
+      "type": "collection_fields",
+      "subject": "FastifyMiddieOptions",
+      "prompt": "Which fields of 'FastifyMiddieOptions' have a generic, array or collection type (e.g. List, Map, Set, Array or T[])? Answer with field names only",
+      "answer": []
+    },
+    {
+      "id": "q42",
+      "type": "collection_fields",
+      "subject": "IncomingMessageExtended",
+      "prompt": "Which fields of 'IncomingMessageExtended' have a generic, array or collection type (e.g. List, Map, Set, Array or T[])? Answer with field names only",
+      "answer": []
+    },
+    {
+      "id": "q43",
+      "type": "collection_fields",
+      "subject": "BarService",
+      "prompt": "Which fields of 'BarService' have a generic, array or collection type (e.g. List, Map, Set, Array or T[])? Answer with field names only",
+      "answer": []
+    },
+    {
+      "id": "q44",
+      "type": "collection_fields",
+      "subject": "FooService",
+      "prompt": "Which fields of 'FooService' have a generic, array or collection type (e.g. List, Map, Set, Array or T[])? Answer with field names only",
+      "answer": []
+    },
+    {
+      "id": "q45",
+      "type": "collection_fields",
+      "subject": "CleanupWebhook",
+      "prompt": "Which fields of 'CleanupWebhook' have a generic, array or collection type (e.g. List, Map, Set, Array or T[])? Answer with field names only",
+      "answer": []
+    },
+    {
+      "id": "q46",
+      "type": "collection_fields",
+      "subject": "FlushWebhook",
+      "prompt": "Which fields of 'FlushWebhook' have a generic, array or collection type (e.g. List, Map, Set, Array or T[])? Answer with field names only",
+      "answer": []
+    },
+    {
+      "id": "q47",
+      "type": "collection_fields",
+      "subject": "MyWebhookModule",
+      "prompt": "Which fields of 'MyWebhookModule' have a generic, array or collection type (e.g. List, Map, Set, Array or T[])? Answer with field names only",
+      "answer": []
+    },
+    {
+      "id": "q48",
+      "type": "collection_fields",
+      "subject": "WebhooksExplorer",
+      "prompt": "Which fields of 'WebhooksExplorer' have a generic, array or collection type (e.g. List, Map, Set, Array or T[])? Answer with field names only",
+      "answer": []
+    },
+    {
+      "id": "q49",
+      "type": "collection_fields",
+      "subject": "UnauthorizedFilter",
+      "prompt": "Which fields of 'UnauthorizedFilter' have a generic, array or collection type (e.g. List, Map, Set, Array or T[])? Answer with field names only",
+      "answer": []
+    },
+    {
+      "id": "q50",
+      "type": "collection_fields",
+      "subject": "DataInterceptor",
+      "prompt": "Which fields of 'DataInterceptor' have a generic, array or collection type (e.g. List, Map, Set, Array or T[])? Answer with field names only",
+      "answer": []
+    }
+  ]
+}

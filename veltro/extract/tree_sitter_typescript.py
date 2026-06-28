@@ -95,6 +95,12 @@ VALID_MEMBER_NAME = re.compile(r"^[A-Za-z_$][\w$]*$")
 SOURCE_EXTENSIONS = (".d.ts", ".tsx", ".ts", ".mts", ".cts", ".jsx", ".js", ".mjs", ".cjs")
 TSX_EXTENSIONS = (".tsx", ".jsx", ".js", ".mjs", ".cjs")
 
+# Directories that hold vendored code, build output or tests, never the architecture under study. Pruned during the walk.
+SKIP_DIRS = {"node_modules", "dist", "build", "out", ".git", "test", "tests", "__tests__", "__mocks__", "e2e"}
+
+# Test files mirror production types and would pollute the graph with fixtures (the NestJS lesson: integration/sample apps drowned the real framework).
+TEST_FILE_SUFFIXES = (".spec.ts", ".spec.tsx", ".spec.js", ".spec.jsx", ".test.ts", ".test.tsx", ".test.js", ".test.jsx")
+
 # ============ TREE / NAME / TYPE HELPERS ============
 
 def text(node) -> str:
@@ -660,13 +666,15 @@ def module_for(absolute_path: str, base: str) -> str:
 
 def iter_source_files(directory: str):
     """
-    Yield every TS/JS source file path under a directory, recursively, skipping
-    'node_modules' (vendored dependencies are never the architecture under study)
+    Yield every TS/JS source file path under a directory, recursively, pruning
+    vendored / build / test directories and *.spec / *.test files so the graph
+    is the production architecture, not fixtures (see SKIP_DIRS, TEST_FILE_SUFFIXES)
     """
     for current_root, dirs, files in os.walk(directory):
-        if "node_modules" in dirs:
-            dirs.remove("node_modules")
+        dirs[:] = [name for name in dirs if name not in SKIP_DIRS]
         for file_name in sorted(files):
+            if file_name.endswith(TEST_FILE_SUFFIXES):
+                continue
             if file_name.endswith(SOURCE_EXTENSIONS):
                 yield os.path.join(current_root, file_name)
 

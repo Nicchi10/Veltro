@@ -175,9 +175,14 @@ def build_questions(model: dict, limit: int) -> list:
     for node in sorted(typed_nodes, key=node_id)[:limit]:
         generic_fields = []
         for field in node.get("fields", []):
-            if "<" in field["type"]:
+            field_type = field["type"]
+            # A collection shows up as a generic ('List<...>', 'Map<...>') OR, in
+            # languages that write arrays with brackets (TypeScript, Java), as a
+            # 'T[]'. Detecting only '<' silently misses every bare array, which
+            # made this question unscorable on the TS subjects (nest).
+            if "<" in field_type or "[" in field_type:
                 generic_fields.append(field["name"])
-        prompt = (f"Which fields of '{node['name']}' have a generic or collection type (e.g. a List, Dict, Optional, ...)? Answer with field names only")
+        prompt = (f"Which fields of '{node['name']}' have a generic, array or collection type (e.g. List, Map, Set, Array or T[])? Answer with field names only")
         append_question(questions, "collection_fields", node["name"], prompt, sorted(generic_fields))
 
     return questions

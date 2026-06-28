@@ -75,7 +75,7 @@ Java via the [Java extractor](veltro/extract/java), C# via the
 | [MediatR](https://github.com/jbogard/MediatR) | C# | 220 | 8,770 | +30% | +36% |
 | [Orleans](https://github.com/dotnet/orleans) | C# | 7,848 | 688,081 | +21% | +27% |
 | [NestJS](https://github.com/nestjs/nest) | TS | 1,879 | 65,958 | +33% | +38% |
-| [Angular](https://github.com/angular/angular) | TS | 17,670 | 427,431 | +33% | +41% |
+| [Angular](https://github.com/angular/angular) | TS | 17,670 | 427,431 | +30% | +37% |
 
 The Java and C# rows are cross-language evidence: the token saving holds on real
 Python, Java and C# code, not a single ecosystem and on Orleans it scales to
@@ -205,7 +205,7 @@ extract_java   |
       comprehension, fewer tokens. See [`eval/`](eval)
 - [x] **Java extractor** (Kafka, Spring) so people lick their fingers
 - [x] **C# extractor** (MediatR, Orleans) via tree-sitter
-- [ ] **JS/TS extractor** to complete the picture
+- [x] **JS/TS extractor** to complete the picture
 - [ ] **few-shot test** If the LLM knew Veltro, would it be more accurate?
 - [ ] **VS Code extension** (and other IDEs) once the gain is clear
 - [ ] **Parser in TypeScript** (the reference parser is Python today)

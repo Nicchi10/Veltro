@@ -25,6 +25,7 @@ class Circle
 radius float
 center Point
 tags List<str>
+labels str[]
 draw() None
 - _hidden() None
 class Point
@@ -61,9 +62,10 @@ class TestBuildQuestions(unittest.TestCase):
         question = self.find("public_method_count", "Circle")
         self.assertEqual(question["answer"], 1)
 
-    def test_collection_fields_detects_generic(self):
+    def test_collection_fields_detects_generic_and_array(self):
+        # 'tags List<str>' (generic) and 'labels str[]' (bare array) both count
         question = self.find("collection_fields", "Circle")
-        self.assertEqual(question["answer"], ["tags"])
+        self.assertEqual(question["answer"], ["labels", "tags"])
 
     def test_depends_on_includes_inheritance_and_derived(self):
         question = self.find("depends_on", "Circle")
