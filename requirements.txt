@@ -4,3 +4,4 @@ openai>=1.0
 anthropic         
 tree_sitter
 tree_sitter_c_sharp
+tree_sitter_typescript
