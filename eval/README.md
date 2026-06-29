@@ -36,9 +36,14 @@ eval/
   run.py               ask via paid API (--provider openai|anthropic, --repeat N)
   score.py             score answers vs ground truth, grouped by (provider, model); --save -> CSV
   report.py            leaderboard.csv -> subjects/<name>/REPORT.md (format x system pivots)
+  plot_hero.py         leaderboard.csv -> images/comprehension_vs_tokens{,-dark}.{svg,png} (README hero)
   leaderboard.csv      the editable, version-controlled results dataset (all projects)
   subjects/<name>/     per project: the rendered diagrams + questions + generated REPORT.md
-  results/             raw model answers + token usage (re-scoreable offline)
+    <name>.{vel,mmd,puml,d2}   the same model rendered in each format (the subjects shown to the LLM)
+    <name>.questions.json      the structural questions + ground-truth answers
+    REPORT.md                  the per-project leaderboard (token cost + exact% + F1, format x model)
+  results/             raw model answers + token usage, one JSON per project x format x model
+                       (re-scoreable offline, so a run can be audited without re-querying)
 ```
 
 ## How to run it
@@ -60,10 +65,36 @@ Every step is deterministic except the LLM call; raw answers are saved under
 
 ## The honest finding (so far)
 
-Across four model tiers the accuracy ranking shuffles by model and the
-formats land in overlapping bands (with n=5 error bars, Veltro / Mermaid /
-PlantUML / D2 are statistically tied). There is no robust comprehension
+Across model tiers (gpt-4.1-mini, gpt-5.4-mini, Sonnet, Opus) and four languages
+(Python, Java, C#, TypeScript) the accuracy ranking shuffles by model and the
+formats land in overlapping bands: with n=5 error bars, Veltro / Mermaid /
+PlantUML / D2 are statistically tied. There is no robust comprehension
 winner. The durable, deterministic result is token cost: Veltro is the
-cheapest. So the defensible claim is "fewer tokens at comparable
-comprehension", not "Veltro is understood better". See each project's
-`subjects/<name>/REPORT.md`.
+cheapest. So the defensible claim is *"fewer tokens at comparable comprehension"*,
+not *"Veltro is understood better"*. See each project's `subjects/<name>/REPORT.md`.
+
+**The one honest caveat**: On the strictest metric (exact set-match) Veltro can
+trail by a few points. It is the flip side of the token win: Veltro factors
+relations into a `rel` block instead of repeating them on every type, which saves
+tokens but makes a type's relations less local, so a weaker model on
+relation-heavy code occasionally misses one. The gap closes on a capable model
+and under partial-credit (F1) scoring.
+
+**A note on the playing field**: The model has seen vast amounts of PlantUML and
+Mermaid in training and none of Veltro, it reads Veltro only from the
+one-paragraph legend in `run.py`, while the others enjoy a home-field advantage.
+Reaching parity despite that handicap is the real result. Familiarity (few-shot
+examples, or fine-tuning) would plausibly lift Veltro further, but we have not
+measured this and make no claim about it.
+
+## The hero chart
+
+`images/comprehension_vs_tokens{,-dark}.{svg,png}` (shown on the repo front page)
+is generated from `leaderboard.csv` by `plot_hero.py`: each point is a
+(format, repo) pair, x = tokens relative to Veltro (Veltro = 1.0x per repo),
+y = list F1 on Opus. Veltro lands on the 1.0x line with every other format to its
+right at a comparable height: same comprehension, fewer tokens.
+
+```bash
+python eval/plot_hero.py            # both light and dark themes -> images/
+```

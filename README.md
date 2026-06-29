@@ -28,7 +28,7 @@
 </p>
 
 <p align="center">
-  <em>Reads as well as Mermaid / PlantUML / D2 (list F1, Opus) at the lowest token cost &mdash; on real Python, Java, C# and TypeScript codebases.</em>
+  <em>Reads as well as Mermaid / PlantUML / D2 (list F1, Opus) at the lowest token cost - on real Python, Java, C# and TypeScript codebases.</em>
 </p>
 
 ---
@@ -115,29 +115,19 @@ onto a single unreadable line to compete.
 Fewer tokens are worthless if the model reads the diagram worse. So we test it:
 50 structural questions whose answers are facts derived from the type graph
 (automatic, deterministic scoring), asked of the same architecture rendered in
-each format, across several model tiers and three languages (see [`eval/`](eval)
-and the per-project reports, e.g. [`eval/subjects/pydantic/REPORT.md`](eval/subjects/pydantic/REPORT.md)).
+each format, across several model tiers and four languages (Python, Java, C#, TS).
 
-The honest result: there is **no robust comprehension winner**: the ranking
-shuffles by model and the formats sit in overlapping bands. Veltro reads as
-well as PlantUML/Mermaid/D2 (matched on partial-credit F1) while being the
-cheapest. We do not claim "Veltro is understood better", only "as well, for
-fewer tokens".
+The honest result: there is **no robust comprehension winner** - the ranking
+shuffles by model and the formats sit in overlapping bands. Veltro reads **as
+well** as PlantUML / Mermaid / D2 (matched on partial-credit F1) at the lowest
+token cost, we claim parity, not superiority. On the strict exact-match metric it
+can trail a few points (the flip side of factoring relations into a distant
+`rel` block), and that closes on a capable model.
 
-One caveat we keep in the open rather than bury: on the strictest metric (exact
-set-match) Veltro can trail by a few points. It is the flip side of the token
-win, Veltro factors relations into a `rel` block instead of repeating them on
-every type, which saves tokens but makes a type's relations less local, so a
-weaker model on relation-heavy code occasionally misses one. The gap closes on a
-capable model and under partial-credit scoring.
-
-A note on the playing field. The model has seen vast amounts of PlantUML
-and Mermaid in training and none of Veltro. It reads Veltro only from a
-one-paragraph legend, while the others enjoy a home-field advantage. Reaching
-parity despite that handicap is the real result here. It is reasonable to
-expect that familiarity (few-shot examples, or fine-tuning) would lift Veltro's
-comprehension further, but we have not measured this, and make no claim
-about it.
+The full methodology, the per-language results, the honest caveats (and the
+home-field handicap Veltro reads under) and how to reproduce them all live in
+**[`eval/README.md`](eval/README.md)**, with a per-project report for each
+codebase (e.g. [`eval/subjects/pydantic/REPORT.md`](eval/subjects/pydantic/REPORT.md)).
 
 ### Reproduce it
 
@@ -152,15 +142,12 @@ python bench/compare_formats.py
 
 # 3. just extract a Python package to .vel
 python -m veltro.extract.python_ast path/to/some/package --out build/out.vel
-
-# 4. the comprehension eval (ground truth + ask a model + score -> leaderboard)
-python eval/generate.py examples/pydantic.vel          # subjects + ground truth
-python eval/run.py pydantic --provider openai           # answer via API (openai or anthropic)
-python eval/score.py pydantic --save eval/leaderboard.csv
-python eval/report.py                                   # -> eval/subjects/<project>/REPORT.md
 ```
 
-The examples are not hand-written: they are **extracted from real projects**
+The comprehension eval (generate -> ask a model -> score -> leaderboard) has its
+own quickstart in [`eval/README.md`](eval/README.md).
+
+The examples are not hand-written: they are extracted from real projects
 (Rich, Pydantic) with the AST extractor, so the numbers are not cherry-picked.
 
 ## Repository layout
@@ -170,7 +157,6 @@ veltro/                        the Python package
   |--- parser.py               .vel  ->  type-graph model (the ONE parser, format is language-agnostic)
   |--- export/                 model  ->  PlantUML / Mermaid / D2 (fair benchmarking, the Rosetta way out)
   |--- extract/                repository -> .vel file (cover more languages)
-  |--- __main__.py             CLI: parse a .vel, validate it, write the JSON model
 model.schema.json              the type-graph contract (nodes + edges) shared by every piece
 SPEC.md                        the .vel language specification
 examples/                      real architectures extracted to .vel (e.g. pydantic.vel)
