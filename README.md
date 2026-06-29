@@ -20,6 +20,17 @@
   <img src="https://img.shields.io/badge/tokens_saved-17--31%25-ff5b00" alt="Tokens saved" />
 </p>
 
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="images/comprehension_vs_tokens-dark.png" />
+    <img alt="Same comprehension, fewer tokens: across pydantic (Python), spring (Java), MediatR (C#) and nest (TypeScript), Veltro reads as well as Mermaid, PlantUML and D2 (list F1 on Opus) while costing ~26% fewer tokens" src="images/comprehension_vs_tokens.png" width="720" />
+  </picture>
+</p>
+
+<p align="center">
+  <em>Reads as well as Mermaid / PlantUML / D2 (list F1, Opus) at the lowest token cost &mdash; on real Python, Java, C# and TypeScript codebases.</em>
+</p>
+
 ---
 
 **Veltro** is a compact, AI-native language for documenting the static
