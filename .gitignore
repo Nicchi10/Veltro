@@ -8,6 +8,9 @@ venv/
 
 build/
 
+node_modules/
+veltro-viewer/dist/
+
 
 RUNBOOK.md
 
