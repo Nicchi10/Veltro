@@ -131,6 +131,8 @@ codebase (e.g. [`eval/subjects/pydantic/REPORT.md`](eval/subjects/pydantic/REPOR
 
 ### Reproduce it
 
+> Note: the repo has many separate "test sections", check the libraries to install if you only want to try out specific features (particularly transformers)
+
 ```bash
 pip install -r requirements.txt
 
