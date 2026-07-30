@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Veltro Viewer</title>
+  <style>
+    html, body { margin: 0; height: 100%; background: #14181f; color: #e2e8f0;
+                 font-family: system-ui, sans-serif; overflow: hidden; }
+    #graph { width: 100vw; height: calc(100vh - 32px); display: block; cursor: grab; }
+    #graph:active { cursor: grabbing; }
+    #status { height: 32px; line-height: 32px; padding: 0 12px; font-size: 12px;
+              color: #a0aec0; background: #1a202c; border-top: 1px solid #2d3748;
+              white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    #status b { color: #ff5b00; }
+
+    #detail { position: fixed; top: 0; right: 0; width: 320px; height: calc(100vh - 32px);
+              box-sizing: border-box; padding: 16px 18px; overflow-y: auto;
+              background: #1a202c; border-left: 1px solid #2d3748; font-size: 13px; }
+    #detail[hidden] { display: none; }
+    .detail-name { margin: 0; font-size: 18px; color: #f7fafc; word-break: break-word; }
+    .detail-meta { margin: 4px 0 0; font-size: 12px; color: #ff5b00; }
+    .detail-doc { margin: 10px 0 0; color: #a0aec0; line-height: 1.45; }
+    .detail-section { margin-top: 18px; }
+    .detail-section-title { margin: 0 0 6px; font-size: 11px; text-transform: uppercase;
+                            letter-spacing: 0.08em; color: #718096; font-weight: 600; }
+    .detail-list { margin: 0; padding: 0; list-style: none; }
+    .detail-row { font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+                  font-size: 12px; line-height: 1.7; color: #e2e8f0; word-break: break-word; }
+
+    #search { position: fixed; top: 12%; left: 50%; transform: translateX(-50%);
+              width: min(520px, 90vw); background: #1a202c; border: 1px solid #2d3748;
+              border-radius: 8px; box-shadow: 0 16px 48px rgba(0, 0, 0, 0.55); overflow: hidden; }
+    #search[hidden] { display: none; }
+    #search-input { width: 100%; box-sizing: border-box; padding: 12px 14px; border: 0;
+                    background: transparent; color: #f7fafc; font: inherit; font-size: 15px;
+                    outline: none; }
+    #search-input::placeholder { color: #4a5568; }
+    #search-results { margin: 0; padding: 0; list-style: none; max-height: 46vh; overflow-y: auto; }
+    #search-results:not(:empty) { border-top: 1px solid #2d3748; }
+    .search-hit { display: flex; align-items: baseline; gap: 10px; padding: 7px 14px;
+                  cursor: pointer; }
+    .search-hit-active { background: #2d3748; }
+    .search-hit-name { color: #e2e8f0; font-size: 13px; }
+    .search-hit-id { color: #718096; font-size: 11px; font-family: ui-monospace, Consolas, monospace;
+                     overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .search-hit-active .search-hit-name { color: #ff5b00; }
+
+    #filter-toggle { position: fixed; top: 12px; left: 12px; z-index: 5;
+                     padding: 6px 12px; font: inherit; font-size: 13px; cursor: pointer;
+                     color: #e2e8f0; background: #1a202c; border: 1px solid #2d3748;
+                     border-radius: 6px; }
+    #filter-toggle:hover { border-color: #ff5b00; }
+    #filters { position: fixed; top: 48px; left: 12px; width: 236px; box-sizing: border-box;
+               padding: 14px 16px; max-height: calc(100vh - 96px); overflow-y: auto;
+               background: #1a202c; border: 1px solid #2d3748; border-radius: 8px;
+               box-shadow: 0 16px 48px rgba(0, 0, 0, 0.55); font-size: 13px; }
+    #filters[hidden] { display: none; }
+    .filter-section { margin-top: 14px; }
+    .filter-section:first-child { margin-top: 0; }
+    .filter-section-title { margin: 0 0 8px; font-size: 11px; text-transform: uppercase;
+                            letter-spacing: 0.08em; color: #718096; font-weight: 600; }
+    .filter-input { width: 100%; box-sizing: border-box; padding: 7px 9px; border: 1px solid #2d3748;
+                    border-radius: 5px; background: #14181f; color: #f7fafc; font: inherit;
+                    font-size: 13px; outline: none; }
+    .filter-input:focus { border-color: #ff5b00; }
+    .filter-input::placeholder { color: #4a5568; }
+    .filter-check { display: flex; align-items: center; gap: 8px; padding: 3px 0; cursor: pointer; }
+    .filter-check-label { color: #e2e8f0; font-size: 13px; }
+  </style>
+  <script type="module" crossorigin src="./assets/index-GfP1bmNr.js"></script>
+</head>
+<body>
+  <canvas id="graph"></canvas>
+  <button id="filter-toggle" type="button">Filters</button>
+  <aside id="filters" hidden></aside>
+  <aside id="detail" hidden></aside>
+  <div id="search" hidden>
+    <input id="search-input" type="text" placeholder="Search types, ids, members…"
+           autocomplete="off" spellcheck="false" />
+    <ul id="search-results"></ul>
+  </div>
+  <div id="status">loading…</div>
+</body>
+</html>
