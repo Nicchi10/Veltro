@@ -18,6 +18,7 @@
   <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/license-MIT-blue" alt="MIT License" /></a>
   <img src="https://img.shields.io/badge/input_used-19.9k_tokens-ff5b00" alt="Input used" />
   <img src="https://img.shields.io/badge/tokens_saved-17--31%25-ff5b00" alt="Tokens saved" />
+  <a href="https://nicchi10.github.io/Veltro/"><img src="https://img.shields.io/badge/demo-live-ff5b00?labelColor=ff5b00" alt="Live demo - the Veltro Viewer" /></a>
 </p>
 
 <p align="center">
@@ -161,6 +162,7 @@ veltro/                        the Python package
   |--- extract/                repository -> .vel file (cover more languages)
 model.schema.json              the type-graph contract (nodes + edges) shared by every piece
 SPEC.md                        the .vel language specification
+docs/                          the built viewer, published as the live demo (GitHub Pages)
 examples/                      real architectures extracted to .vel (e.g. pydantic.vel)
 bench/                         token benchmarks + the vendored PlantUML sample
   |--- formats/                the same slice encoded in 7 formats, for the ranking
@@ -196,6 +198,7 @@ extract_java   |
 | [`veltro/export/`](veltro/export) | model -> PlantUML / Mermaid / D2 |
 | [`examples/pydantic.vel`](examples/pydantic.vel) | Pydantic's architecture, extracted to `.vel` |
 | [`eval/`](eval) | comprehension eval (OpenAI / Anthropic APIs) + token/accuracy leaderboard |
+| [`docs/`](docs) | the viewer, built and published [live demo](https://nicchi10.github.io/Veltro/) |
 
 ## Roadmap
 
@@ -208,12 +211,16 @@ extract_java   |
 - [ ] **few-shot test** If the LLM knew Veltro, would it be more accurate?
 - [ ] **VS Code extension** (and other IDEs) once the gain is clear
 - [ ] **Parser in TypeScript** (the reference parser is Python today)
-- [ ] **The viewer**: WebGL graph, semantic zoom, click-to-highlight
+- [x] **The viewer**: [live demo](https://nicchi10.github.io/Veltro/) - Canvas2D
+      graph, semantic zoom, click-to-highlight
 - [ ] **PlantUML / Mermaid -> Veltro** translator (the inbound Rosetta direction)
 
 ## Stack
 
 The language tooling (parser, extractor, exporters, benchmarks) is **Python**,
-standard library only at runtime. The viewer will be **TypeScript** on
-Canvas/WebGL (not SVG/DOM, which dies past a few thousand nodes) with a
-force-directed engine and a stable, remembered layout.
+standard library only at runtime. The viewer is **TypeScript** on Canvas2D (not
+SVG/DOM, which dies past a few thousand nodes), with the layout computed off the
+main thread in a Web Worker by a high-dimensional embedding, deterministic, so
+the same model always lands in the same shape, and remembered per model.
+WebGL is the escape hatch if a model ever outgrows Canvas2D, at 7,848 types it
+has not.
