@@ -32,9 +32,43 @@ def load_schema():
     with open(schema_path, encoding="utf-8") as schema_file:
         return json.load(schema_file)
 
+def find_duplicate_ids(model: dict) -> list:
+    """
+
+    Every node id that appears more than once, in first-seen order.
+
+    A node id is the model's primary key: edges are (from, to) pairs of ids, so
+    an id carried by two nodes makes a link ambiguous, and every consumer has to
+    invent its own tie-break (keep the first? the last?) to survive. JSON Schema
+    can require whole array items to be unique but cannot require ONE PROPERTY
+    to be unique across items, so this promise has to be checked in code.
+
+    The parser merges repeated declarations, so a model it produces is always
+    clean; this guards the models that reach the schema another way (a second
+    parser implementation, a PlantUML import, a hand-edited JSON).
+
+    Args:
+        model (dict): a type-graph model
+
+    Returns:
+        list[str]: the duplicated ids, empty when the model is well formed
+
+    """
+    seen = set()
+    duplicates = []
+    for node in model.get("nodes", []):
+        node_id = node.get("id")
+        if node_id in seen:
+            if node_id not in duplicates:
+                duplicates.append(node_id)
+            continue
+        seen.add(node_id)
+    return duplicates
+
 def validate_model(model: dict):
     """
-    Validate the model against the schema
+    Validate the model against the schema, then against the constraints the
+    schema cannot express (unique node ids)
     """
 
     schema = load_schema()
@@ -45,6 +79,14 @@ def validate_model(model: dict):
         jsonschema.validate(instance=model, schema=schema)
     except jsonschema.ValidationError as error:
         return f"[ERROR] - {error.message}"
+
+    duplicates = find_duplicate_ids(model)
+    if duplicates:
+        shown = ", ".join(duplicates[:3])
+        if len(duplicates) > 3:
+            shown += f", ... (+{len(duplicates) - 3} more)"
+        return f"[ERROR] - node ids must be unique, {len(duplicates)} repeated: {shown}"
+
     return "OK"
 
 def summarise(model: dict):
@@ -92,7 +134,8 @@ def main(argv=None):
         return 1
 
     summarise(model)
-    print(f"[INFO] - validation: {validate_model(model)}")
+    validation = validate_model(model)
+    print(f"[INFO] - validation: {validation}")
 
     if arguments.out:
         output_path = arguments.out
@@ -105,6 +148,10 @@ def main(argv=None):
         output_file.write("\n")
         
     print(f"[INFO] - written: {output_path}")
+
+    # A model that breaks the contract must not pass quietly: the file is still written (it is what you need to debug), but the exit code says it failed
+    if validation != "OK":
+        return 1
     return 0
 
 if __name__ == "__main__":

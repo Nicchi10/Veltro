@@ -10,7 +10,7 @@
     "veltro": { "type": "integer", "const": 1, "description": "Model format version" },
     "nodes": {
       "type": "array",
-      "description": "Every type in the model: classes, interfaces, enums",
+      "description": "Every type in the model: classes, interfaces, enums. A node 'id' must appear at most once: it is the key edges point at, so a repeated id makes a link ambiguous. JSON Schema cannot express uniqueness of a single property across items, so this is enforced by the validator (see find_duplicate_ids in veltro/__main__.py), the parser guarantees it by merging repeated declarations of the same type (C# 'partial class', TypeScript interface merging, a module split across files)",
       "items": { "$ref": "#/definitions/node" }
     },
     "edges": {
@@ -25,7 +25,7 @@
       "required": ["id", "kind", "name", "module"],
       "additionalProperties": false,
       "properties": {
-        "id": { "type": "string", "description": "Module-qualified unique id, e.g. 'Core.Models.LlmInvocation'" },
+        "id": { "type": "string", "description": "Module-qualified id, e.g. 'Core.Models.LlmInvocation'. Unique across nodes (enforced by the validator, not by the schema)" },
         "kind": { "type": "string", "enum": ["class", "interface", "enum"] },
         "name": { "type": "string" },
         "module": { "type": "string", "description": "Dotted module path, e.g. 'Core.Models'" },
