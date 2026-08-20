@@ -604,8 +604,10 @@ def collect(node, namespace, file_module: str, modules: dict, edges: list, stats
             kind = TYPE_DECLARATIONS[child.type]
             base_kind = "class" if kind.startswith("class") else kind
             stats[base_kind] = stats.get(base_kind, 0) + 1
-            module_path = namespace if namespace else file_module
-            modules.setdefault(module_path or "global", []).extend(lines)
+            module_path = (namespace if namespace else file_module) or "global"
+            # TypeScript merges repeated 'interface' declarations into one type, so the self-audit counts distinct ids, not declarations (the parser folds the declarations into a single node).
+            stats.setdefault("ids", set()).add(module_path + "." + field_text(child, "name"))
+            modules.setdefault(module_path, []).extend(lines)
         else:
             collect(child, namespace, file_module, modules, edges, stats)
 
@@ -730,13 +732,17 @@ def main(argv=None):
 
     vel_text, stats = extract_project(arguments.source)
     seen_types = stats["class"] + stats["interface"] + stats["enum"]
+    unique_types = len(stats.get("ids", ()))
 
     # Self-audit: re-parse the produced .vel and check nothing was lost
+    # Yardstick is the number of DISTINCT types: TypeScript can declare one type twice (interface merging), and the parser merges those into a single node.
     model = parse_text(vel_text)
     in_model = len(model["nodes"])
-    audit = "MATCH" if in_model == seen_types else "MISMATCH"
+    audit = "MATCH" if in_model == unique_types else "MISMATCH"
 
     print(f"[INFO] - types seen: {seen_types} ({stats['class']} classes, {stats['interface']} interfaces, {stats['enum']} enums)")
+    if seen_types != unique_types:
+        print(f"[INFO] - unique types: {unique_types}  (merged duplicate declarations: {seen_types - unique_types})")
     print(f"[INFO] - types in parsed model: {in_model}  -> {audit}")
     print(f"[INFO] - edges: {len(model['edges'])}")
 

@@ -391,7 +391,7 @@ def extract_module(source: str, module_path: str):
 
     type_lines = []
     edges = []
-    stats = {"class": 0, "interface": 0, "enum": 0}
+    stats = {"class": 0, "interface": 0, "enum": 0, "ids": set()}
 
     for node in tree.body:
         if not isinstance(node, ast.ClassDef):
@@ -399,6 +399,11 @@ def extract_module(source: str, module_path: str):
         lines, class_edges = extract_class(node)
         type_lines.extend(lines)
         edges.extend(class_edges)
+
+        # A class can be defined twice in one module (conditional definitions),
+        # and the parser folds those into a single node, so the self-audit
+        # counts distinct ids rather than declarations.
+        stats["ids"].add(module_path + "." + node.name)
 
         header = lines[0]
         if header.startswith("enum "):
@@ -475,7 +480,7 @@ def extract_project(package_dir: str):
     """
     modules = []
     all_edges = []
-    stats = {"modules": 0, "class": 0, "interface": 0, "enum": 0}
+    stats = {"modules": 0, "class": 0, "interface": 0, "enum": 0, "ids": set()}
 
     for absolute_path, module_path in iter_python_files(package_dir):
         with open(absolute_path, encoding="utf-8") as source_file:
@@ -488,6 +493,7 @@ def extract_project(package_dir: str):
         modules.append((module_path, type_lines))
         all_edges.extend(edges)
         stats["modules"] += 1
+        stats["ids"].update(module_stats["ids"])
         for kind in ("class", "interface", "enum"):
             stats[kind] += module_stats[kind]
 
@@ -522,14 +528,18 @@ def main(argv=None):
     vel_text, stats = extract_project(arguments.package)
 
     seen_types = stats["class"] + stats["interface"] + stats["enum"]
+    unique_types = len(stats["ids"])
 
-    # Self-audit: re-parse the produced .vel and check nothing was lost
+    # Self-audit: re-parse the produced .vel and check nothing was lost. The
+    # yardstick is the number of DISTINCT types, since the parser folds repeated declarations of one type into a single node
     model = parse_text(vel_text)
     in_model = len(model["nodes"])
-    audit = "MATCH" if in_model == seen_types else "MISMATCH"
+    audit = "MATCH" if in_model == unique_types else "MISMATCH"
 
     print(f"[INFO] - modules: {stats['modules']}")
     print(f"[INFO] - types seen in AST: {seen_types} ({stats['class']} classes, {stats['interface']} interfaces,{stats['enum']} enums)")
+    if seen_types != unique_types:
+        print(f"[INFO] - unique types: {unique_types}  (merged duplicate declarations: {seen_types - unique_types})")
     print(f"[INFO] - types in parsed model: {in_model}  -> {audit}")
     print(f"[INFO] - edges: {len(model['edges'])}")
 

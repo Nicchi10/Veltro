@@ -385,6 +385,143 @@ def parse_type_declaration(line: str, module_path: str, doc_lines: list[str]) ->
         node["doc"] = "\n".join(doc_lines)
     return node
 
+# ============ DUPLICATE DECLARATION MERGING ============
+
+def member_identity(member: dict[str, Any]) -> tuple:
+    """
+    A comparable identity for a field or a method, used to collapse the copies
+    that appear when the same type is declared more than once.
+
+    Two members are the same member when they agree on visibility, name,
+    staticness and signature (a field's type, or a method's argument types and
+    return type). Documentation is deliberately left out of the key, so a member
+    documented in only one of the declarations still collapses into one. Method
+    overloads keep their argument types in the key, so they never collapse.
+
+    Args:
+        member (dict[str, Any]): a parsed field or method
+
+    Returns:
+        tuple: the identity key
+    """
+    argument_types = []
+    for argument in member.get("args", []):
+        argument_types.append(argument.get("type", ""))
+
+    return (
+        member.get("vis", ""),
+        member.get("name", ""),
+        member.get("type", ""),
+        tuple(argument_types),
+        member.get("ret", ""),
+        bool(member.get("static", False)),
+    )
+
+def append_new_members(target_members: list[dict[str, Any]], extra_members: list[dict[str, Any]]) -> None:
+    """
+    Append the members of a second declaration that the first one does not
+    already carry, preserving first-seen order (so the merge is deterministic)
+
+    Args:
+        target_members (list[dict[str, Any]]): the surviving node's members (modified in place)
+        extra_members (list[dict[str, Any]]): the duplicate declaration's members
+    """
+    known = set()
+    for member in target_members:
+        known.add(member_identity(member))
+
+    for member in extra_members:
+        identity = member_identity(member)
+        if identity in known:
+            continue
+        known.add(identity)
+        target_members.append(member)
+
+def append_new_values(target: dict[str, Any], extra: dict[str, Any], key: str) -> None:
+    """
+    Union a list-of-strings property ('modifiers', enum 'values') into the
+    surviving node, keeping first-seen order and dropping repeats
+
+    Args:
+        target (dict[str, Any]): the surviving node (modified in place)
+        extra (dict[str, Any]): the duplicate declaration
+        key (str): the property to union
+    """
+    extra_values = extra.get(key)
+    if not extra_values:
+        return
+
+    existing = target.setdefault(key, [])
+    for value in extra_values:
+        if value not in existing:
+            existing.append(value)
+
+def merge_type_nodes(target: dict[str, Any], extra: dict[str, Any]) -> None:
+    """
+
+    Fold a duplicate declaration into the node that represents the type.
+
+    A type can legitimately be declared more than once: C# 'partial class'
+    spreads one class over several files, TypeScript merges repeated
+    'interface' declarations, and the SPEC already defines the model as the
+    UNION of the module blocks across files. Each declaration carries only its
+    own slice of the members, so keeping one and dropping the rest (what a
+    consumer must otherwise do) silently hides real members.
+
+    The surviving node keeps its position, kind and name; members, modifiers,
+    enum values and documentation are unioned in.
+
+    Args:
+        target (dict[str, Any]): the first declaration seen, the survivor (modified in place)
+        extra (dict[str, Any]): a later declaration of the same id
+    """
+    if "fields" in target or "fields" in extra:
+        append_new_members(target.setdefault("fields", []), extra.get("fields", []))
+    if "methods" in target or "methods" in extra:
+        append_new_members(target.setdefault("methods", []), extra.get("methods", []))
+
+    append_new_values(target, extra, "modifiers")
+    append_new_values(target, extra, "values")
+
+    extra_doc = extra.get("doc")
+    if extra_doc:
+        target_doc = target.get("doc")
+        if not target_doc:
+            target["doc"] = extra_doc
+        elif extra_doc not in target_doc:
+            target["doc"] = target_doc + "\n" + extra_doc
+
+def merge_duplicate_ids(nodes: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """
+
+    Collapse every group of nodes sharing an id into a single node.
+
+    An id is '<module>.<Name>', so two nodes with the same id are the same type
+    declared twice, never two different types. Merging them is what makes the
+    schema's "unique id" promise true, and it is what stops a consumer (the
+    viewer, or an LLM reading a slice) from seeing a type with only some of its
+    members.
+
+    Args:
+        nodes (list[dict[str, Any]]): the parsed nodes, in declaration order
+
+    Returns:
+        list[dict[str, Any]]: one node per id, in first-seen order
+    """
+    survivor_by_id = {}
+    merged_nodes = []
+
+    for node in nodes:
+        node_id = node["id"]
+        survivor = survivor_by_id.get(node_id)
+        if survivor is None:
+            survivor_by_id[node_id] = node
+            merged_nodes.append(node)
+            continue
+        merge_type_nodes(survivor, node)
+
+    return merged_nodes
+
 # ============ EDGE RESOLUTION & ASSOCIATION DERIVATION ============
 
 def build_name_index(nodes: list[dict[str,Any]]) -> dict[str, str]:
@@ -499,9 +636,12 @@ def parse_text(text: str, derive_associations=True) -> dict[str, Any]:
     """
    Analyzes the Veltro source code and transforms it into a graph model.
 
-    The process occurs in three main phases:
+    The process occurs in four main phases:
     1. Sequential parsing: Reads the text line by line, identifying modules,
     classes, interfaces, enums, and their members (fields/methods), it also handles the 'rel' block for explicit relationships
+    1b. Duplicate merging: A type declared more than once (C# 'partial class',
+    TypeScript interface merging, a module split across files) becomes ONE node
+    carrying the union of the members, so ids stay unique as the schema promises
     2. Name resolution: Creates an index (name_index) to map short names
     (e.g., 'User') to full identifiers (e.g., 'Core.Models.User') and resolves explicit relationships
     3. Automatic derivation (optional): If enabled, analyzes the types of the
@@ -593,6 +733,12 @@ def parse_text(text: str, derive_associations=True) -> dict[str, Any]:
 
         # If gets here did not recognises the line
         raise VeltroSyntaxError(line_number, line, "unrecognised line")
+
+    # A type may be declared more than once (C# 'partial class', TypeScript
+    # interface merging, a module split across files): fold those declarations
+    # into one node BEFORE indexing, so a type carries all of its members and a
+    # name is not treated as ambiguous just because it was declared twice.
+    model["nodes"] = merge_duplicate_ids(model["nodes"])
 
     # Now that every node exists, resolve the edges by name
     name_index = build_name_index(model["nodes"])

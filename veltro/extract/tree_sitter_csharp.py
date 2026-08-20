@@ -478,7 +478,11 @@ def collect(node, namespace: str, modules: dict, edges: list, stats: dict) -> No
         elif child.type in TYPE_DECLARATIONS:
             kind = TYPE_DECLARATIONS[child.type]
             stats[kind] = stats.get(kind, 0) + 1
-            module_lines = modules.setdefault(current or "global", [])
+            module_path = current or "global"
+            # A 'partial class' is one type declared over several files, so the self-audit counts distinct ids, not declarations 
+            # (the parser folds the declarations into a single node)
+            stats.setdefault("ids", set()).add(module_path + "." + field_text(child, "name"))
+            module_lines = modules.setdefault(module_path, [])
             module_lines.extend(extract_type(child, edges))
         else:
             collect(child, current, modules, edges, stats)
@@ -562,13 +566,17 @@ def main(argv=None):
 
     vel_text, stats = extract_project(arguments.source)
     seen_types = stats["class"] + stats["interface"] + stats["enum"]
+    unique_types = len(stats.get("ids", ()))
 
-    # Self-audit: re-parse the produced .vel and check nothing was lost
+    # Self-audit: re-parse the produced .vel and check nothing was lost.
+    # Yardstick is the number of DISTINCT types: 'partial class' declares one type over several files, and the parser merges those into a single node.
     model = parse_text(vel_text)
     in_model = len(model["nodes"])
-    audit = "MATCH" if in_model == seen_types else "MISMATCH"
+    audit = "MATCH" if in_model == unique_types else "MISMATCH"
 
     print(f"[INFO] - types seen: {seen_types} ({stats['class']} classes, {stats['interface']} interfaces, {stats['enum']} enums)")
+    if seen_types != unique_types:
+        print(f"[INFO] - unique types: {unique_types}  (merged partial/duplicate declarations: {seen_types - unique_types})")
     print(f"[INFO] - types in parsed model: {in_model}  -> {audit}")
     print(f"[INFO] - edges: {len(model['edges'])}")
 
