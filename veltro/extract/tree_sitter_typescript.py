@@ -570,6 +570,97 @@ def namespace_name(node) -> str:
     name = field_text(node, "name")
     return name.strip().strip('"').strip("'")
 
+def enum_values_of(line: str) -> list:
+    """
+    The values listed on an 'enum Name = A, B, C' line
+    """
+    if "=" not in line:
+        return []
+    values = []
+    for value in line.split("=", 1)[1].split(","):
+        value = value.strip()
+        if value:
+            values.append(value)
+    return values
+
+def merge_enum_line(existing: str, extra: str) -> str:
+    """
+    Union the values of two declarations of the same enum, keeping first-seen order
+    """
+    values = enum_values_of(existing)
+    for value in enum_values_of(extra):
+        if value not in values:
+            values.append(value)
+    head = existing.split("=", 1)[0].rstrip()
+    return head + " = " + ", ".join(values)
+
+def add_type_lines(module_types: dict, type_name: str, lines: list) -> None:
+    """
+
+    Add one type's lines to a module, folding them into the type if it was
+    already declared.
+
+    TypeScript merges repeated 'interface' declarations (and 'declare module'
+    augmentations) into one type, so the same type can reach here more than once
+    with a different slice of its members. Emitting each slice as its own block
+    would write a type that looks incomplete to anything reading the '.vel'
+    directly (an LLM included), and would repeat the declaration line for nothing.
+
+    Args:
+        module_types (dict): type name -> its lines, for one module (modified in place)
+        type_name (str): the declared type's simple name
+        lines (list[str]): the declaration line followed by its member lines
+
+    """
+    if not lines:
+        return
+
+    existing = module_types.get(type_name)
+    if existing is None:
+        module_types[type_name] = list(lines)
+        return
+
+    if existing[0].startswith("enum ") and lines[0].startswith("enum "):
+        existing[0] = merge_enum_line(existing[0], lines[0])
+        return
+
+    # Keep the richer declaration line, so 'class abstract Foo' wins over 'class Foo'
+    if len(lines[0].split()) > len(existing[0].split()):
+        existing[0] = lines[0]
+
+    known = set(existing[1:])
+    for member_line in lines[1:]:
+        if member_line in known:
+            continue
+        known.add(member_line)
+        existing.append(member_line)
+
+def unique_edges(edges: list) -> list:
+    """
+
+    The edges in first-seen order, without exact repeats.
+
+    Repeated declarations of one type each restate the heritage clause, and two
+    types that share a simple name render the identical row, so the same
+    '<from> <kind> <to>' can be emitted many times. The repeat carries no
+    meaning the first row does not already carry.
+
+    Args:
+        edges (list[tuple]): (from, kind, to) rows
+
+    Returns:
+        list[tuple]: the same rows, deduplicated
+
+    """
+    seen = set()
+    unique = []
+    for edge in edges:
+        if edge in seen:
+            continue
+        seen.add(edge)
+        unique.append(edge)
+    return unique
+
 def collect(node, namespace, file_module: str, modules: dict, edges: list, stats: dict) -> None:
     """
 
@@ -584,7 +675,7 @@ def collect(node, namespace, file_module: str, modules: dict, edges: list, stats
         node: the current tree-sitter node
         namespace: the enclosing namespace's dotted name, or None
         file_module (str): the module derived from the file path
-        modules (dict): module path -> accumulated type lines (modified in place)
+        modules (dict): module path -> {type name -> its lines} (modified in place)
         edges (list): the running inheritance edges (modified in place)
         stats (dict): counts per kind (modified in place)
 
@@ -606,8 +697,9 @@ def collect(node, namespace, file_module: str, modules: dict, edges: list, stats
             stats[base_kind] = stats.get(base_kind, 0) + 1
             module_path = (namespace if namespace else file_module) or "global"
             # TypeScript merges repeated 'interface' declarations into one type, so the self-audit counts distinct ids, not declarations (the parser folds the declarations into a single node).
-            stats.setdefault("ids", set()).add(module_path + "." + field_text(child, "name"))
-            modules.setdefault(module_path, []).extend(lines)
+            type_name = field_text(child, "name")
+            stats.setdefault("ids", set()).add(module_path + "." + type_name)
+            add_type_lines(modules.setdefault(module_path, {}), type_name, lines)
         else:
             collect(child, namespace, file_module, modules, edges, stats)
 
@@ -617,16 +709,18 @@ def render_vel(modules: dict, edges: list) -> str:
     """
     lines = ["veltro 1", ""]
 
-    for module_path, type_lines in modules.items():
-        if not type_lines:
+    for module_path, module_types in modules.items():
+        if not module_types:
             continue
         lines.append("module " + module_path)
-        lines.extend(type_lines)
+        for type_lines in module_types.values():
+            lines.extend(type_lines)
         lines.append("")
 
-    if edges:
+    deduplicated_edges = unique_edges(edges)
+    if deduplicated_edges:
         lines.append("rel")
-        for from_name, kind, to_name in edges:
+        for from_name, kind, to_name in deduplicated_edges:
             lines.append(from_name + " " + kind + " " + to_name)
         lines.append("")
 
