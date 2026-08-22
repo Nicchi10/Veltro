@@ -78,6 +78,17 @@ This equivalence defines a deterministic result that a machine can verify and re
 | `derived_assoc`  | an association edge derived from a field's type |
 | `keyword_field`  | a public field named like a keyword keeps its `+` |
 | `docs`           | a `>` doc line attaching to the next declaration |
+| `merge_declarations` | a type declared twice is ONE node: members, modifiers and enum values are unioned |
+| `merge_scope`    | merging is by **id**, never by name: the same simple name in two modules stays two types |
+
+The two `merge_*` cases pin the rule that costs a second implementation the most
+if it misses it. A type is legitimately declared more than once (C#
+`partial class`, TypeScript interface merging, a module split across files), and
+each declaration carries only its own slice of the members. A parser that emits
+one node per declaration produces a model whose ids are no longer unique, so
+every consumer has to invent a tie-break and silently shows types with missing
+members. `merge_scope` guards the opposite mistake: merging by simple name would
+fuse two genuinely different types that happen to share a name.
 
 Adding a grammar rule means adding a case: keep it one small `.vel` per rule,
 not a fuzzer the corpus is meant to stay readable and reviewable.

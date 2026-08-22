@@ -1,0 +1,34 @@
+{
+  "veltro": 1,
+  "nodes": [
+    {
+      "id": "a.Ping",
+      "kind": "class",
+      "name": "Ping",
+      "module": "a",
+      "fields": [
+        {
+          "vis": "+",
+          "name": "x",
+          "type": "int"
+        }
+      ],
+      "methods": []
+    },
+    {
+      "id": "b.Ping",
+      "kind": "class",
+      "name": "Ping",
+      "module": "b",
+      "fields": [
+        {
+          "vis": "+",
+          "name": "y",
+          "type": "int"
+        }
+      ],
+      "methods": []
+    }
+  ],
+  "edges": []
+}

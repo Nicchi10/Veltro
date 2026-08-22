@@ -87,6 +87,34 @@ TurnIndex Int = 0
 
 A type with no members is just its declaration line.
 
+### 3.1 A type may be declared more than once
+
+The same type may arrive as several declarations, each carrying only part of
+the members:
+
+```
+class Silo                        <- one file
+- messageCenter MessageCenter
+class abstract Silo               <- another file: same type, the rest of it
+- logger ILogger
+```
+
+They are **one** type. The parser folds them into a single node whose members,
+modifiers and enum values are the **union** of the declarations, in first-seen
+order (identical members collapse, overloads differing by signature do not).
+This is the union principle of §2 applied inside a module rather than across
+files.
+
+It is not a convenience: real languages spread one type over several files
+(C# `partial class`, TypeScript interface merging), so an extractor meets the
+slices one at a time and can never know it has seen the last one. Emitting one
+node per declaration would break the model's primary key, since `<module>.<Name>`
+must identify exactly one type: every consumer would then have to invent its own
+tie-break and would silently show a type with some of its members missing.
+
+Merging is keyed on the **id**, never on the simple name: `a.Ping` and `b.Ping`
+are two different types and stay separate.
+
 ---
 
 ## 4. Members (one per line)

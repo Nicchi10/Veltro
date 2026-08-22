@@ -1,0 +1,13 @@
+veltro 1
+
+module m
+class Silo
+- messageCenter MessageCenter
+Start()
+class abstract Silo
+- logger ILogger
+Stop()
+enum Phase = Init, Ready
+enum Phase = Ready, Stopped
+class MessageCenter
+class ILogger

@@ -1,0 +1,9 @@
+veltro 1
+
+module a
+class Ping
+x int
+
+module b
+class Ping
+y int

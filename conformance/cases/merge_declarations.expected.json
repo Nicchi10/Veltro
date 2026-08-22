@@ -1,0 +1,77 @@
+{
+  "veltro": 1,
+  "nodes": [
+    {
+      "id": "m.Silo",
+      "kind": "class",
+      "name": "Silo",
+      "module": "m",
+      "fields": [
+        {
+          "vis": "-",
+          "name": "messageCenter",
+          "type": "MessageCenter"
+        },
+        {
+          "vis": "-",
+          "name": "logger",
+          "type": "ILogger"
+        }
+      ],
+      "methods": [
+        {
+          "vis": "+",
+          "name": "Start"
+        },
+        {
+          "vis": "+",
+          "name": "Stop"
+        }
+      ],
+      "modifiers": [
+        "abstract"
+      ]
+    },
+    {
+      "id": "m.Phase",
+      "kind": "enum",
+      "name": "Phase",
+      "module": "m",
+      "values": [
+        "Init",
+        "Ready",
+        "Stopped"
+      ]
+    },
+    {
+      "id": "m.MessageCenter",
+      "kind": "class",
+      "name": "MessageCenter",
+      "module": "m",
+      "fields": [],
+      "methods": []
+    },
+    {
+      "id": "m.ILogger",
+      "kind": "class",
+      "name": "ILogger",
+      "module": "m",
+      "fields": [],
+      "methods": []
+    }
+  ],
+  "edges": [
+    {
+      "from": "m.Silo",
+      "kind": "assoc",
+      "to": "m.MessageCenter",
+      "derived": true
+    },
+    {
+      "from": "m.Silo",
+      "kind": "assoc",
+      "to": "m.ILogger",
+      "derived": true
+    }
+  ]
+}
