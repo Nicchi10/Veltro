@@ -99,8 +99,8 @@ class abstract Silo               <- another file: same type, the rest of it
 - logger ILogger
 ```
 
-They are **one** type. The parser folds them into a single node whose members,
-modifiers and enum values are the **union** of the declarations, in first-seen
+They are one type. The parser folds them into a single node whose members,
+modifiers and enum values are the union of the declarations, in first-seen
 order (identical members collapse, overloads differing by signature do not).
 This is the union principle of §2 applied inside a module rather than across
 files.

@@ -4,63 +4,63 @@ module MediatR.Examples
 class ConstrainedRequestPostProcessor
 - _writer TextWriter
 ConstrainedRequestPostProcessor(writer TextWriter)
-Process(request TRequest, response TResponse, cancellationToken CancellationToken)
+Process(request TRequest, response TResponse, cancellationToken CancellationToken) Task
 class GenericHandler
 - _writer TextWriter
 GenericHandler(writer TextWriter)
-Handle(notification INotification, cancellationToken CancellationToken)
+Handle(notification INotification, cancellationToken CancellationToken) Task
 class GenericPipelineBehavior
 - _writer TextWriter
 GenericPipelineBehavior(writer TextWriter)
-Handle(request TRequest, next RequestHandlerDelegate<TResponse>, cancellationToken CancellationToken)
+Handle(request TRequest, next RequestHandlerDelegate<TResponse>, cancellationToken CancellationToken) Task<TResponse>
 class GenericRequestPostProcessor
 - _writer TextWriter
 GenericRequestPostProcessor(writer TextWriter)
-Process(request TRequest, response TResponse, cancellationToken CancellationToken)
+Process(request TRequest, response TResponse, cancellationToken CancellationToken) Task
 class GenericRequestPreProcessor
 - _writer TextWriter
 GenericRequestPreProcessor(writer TextWriter)
-Process(request TRequest, cancellationToken CancellationToken)
+Process(request TRequest, cancellationToken CancellationToken) Task
 class Jing
 Message string
 class JingHandler
 - _writer TextWriter
 JingHandler(writer TextWriter)
-Handle(request Jing, cancellationToken CancellationToken)
+Handle(request Jing, cancellationToken CancellationToken) Task
 class Ping
 Message string
 class PingHandler
 - _writer TextWriter
 PingHandler(writer TextWriter)
-Handle(request Ping, cancellationToken CancellationToken)
+Handle(request Ping, cancellationToken CancellationToken) Task<Pong>
 class Pinged
 class PingedHandler
 - _writer TextWriter
 PingedHandler(writer TextWriter)
-Handle(notification Pinged, cancellationToken CancellationToken)
+Handle(notification Pinged, cancellationToken CancellationToken) Task
 class PongedHandler
 - _writer TextWriter
 PongedHandler(writer TextWriter)
-Handle(notification Ponged, cancellationToken CancellationToken)
+Handle(notification Ponged, cancellationToken CancellationToken) Task
 class ConstrainedPingedHandler
 - _writer TextWriter
 ConstrainedPingedHandler(writer TextWriter)
-Handle(notification TNotification, cancellationToken CancellationToken)
+Handle(notification TNotification, cancellationToken CancellationToken) Task
 class PingedAlsoHandler
 - _writer TextWriter
 PingedAlsoHandler(writer TextWriter)
-Handle(notification Pinged, cancellationToken CancellationToken)
+Handle(notification Pinged, cancellationToken CancellationToken) Task
 class Pong
 Message string
 class Ponged
 class static Runner
-$Run(mediator IMediator, writer WrappingWriter, projectName string, testStreams bool)
-- $IsHandlerForSameExceptionWorks(mediator IMediator, writer WrappingWriter)
-- $IsHandlerForBaseExceptionWorks(mediator IMediator, writer WrappingWriter)
-- $IsHandlerForLessSpecificExceptionWorks(mediator IMediator, writer WrappingWriter)
-- $IsPreferredHandlerForBaseExceptionWorks(mediator IMediator, writer WrappingWriter)
-- $IsOverriddenHandlerForBaseExceptionWorks(mediator IMediator, writer WrappingWriter)
-- $IsExceptionHandledBy(writer WrappingWriter)
+$Run(mediator IMediator, writer WrappingWriter, projectName string, testStreams bool) Task
+- $IsHandlerForSameExceptionWorks(mediator IMediator, writer WrappingWriter) Task<bool>
+- $IsHandlerForBaseExceptionWorks(mediator IMediator, writer WrappingWriter) Task<bool>
+- $IsHandlerForLessSpecificExceptionWorks(mediator IMediator, writer WrappingWriter) Task<bool>
+- $IsPreferredHandlerForBaseExceptionWorks(mediator IMediator, writer WrappingWriter) Task<bool>
+- $IsOverriddenHandlerForBaseExceptionWorks(mediator IMediator, writer WrappingWriter) Task<bool>
+- $IsExceptionHandledBy(writer WrappingWriter) bool
 class RunResults
 RequestHandlers bool
 VoidRequestsHandlers bool
@@ -86,19 +86,19 @@ class WrappingWriter
 - _stringWriter StringBuilder
 WrappingWriter(innerWriter TextWriter)
 Write(value char)
-WriteLineAsync(value string)
+WriteLineAsync(value string) Task
 Encoding Encoding
 Contents string
 class GenericStreamPipelineBehavior
 - _writer TextWriter
 GenericStreamPipelineBehavior(writer TextWriter)
-Handle(request TRequest, next StreamHandlerDelegate<TResponse>, cancellationToken CancellationToken)
+Handle(request TRequest, next StreamHandlerDelegate<TResponse>, cancellationToken CancellationToken) IAsyncEnumerable<TResponse>
 class Sing
 Message string
 class SingHandler
 - _writer TextWriter
 SingHandler(writer TextWriter)
-Handle(request Sing, cancellationToken CancellationToken)
+Handle(request Sing, cancellationToken CancellationToken) IAsyncEnumerable<Song>
 class Song
 Message string
 
@@ -110,43 +110,43 @@ class ServerException
 class CommonExceptionHandler
 - _writer TextWriter
 CommonExceptionHandler(writer TextWriter)
-Handle(request PingResource, exception Exception, state RequestExceptionHandlerState<Pong>, cancellationToken CancellationToken)
+Handle(request PingResource, exception Exception, state RequestExceptionHandlerState<Pong>, cancellationToken CancellationToken) Task
 class ConnectionExceptionHandler
 - _writer TextWriter
 ConnectionExceptionHandler(writer TextWriter)
-Handle(request PingResource, exception ConnectionException, state RequestExceptionHandlerState<Pong>, cancellationToken CancellationToken)
+Handle(request PingResource, exception ConnectionException, state RequestExceptionHandlerState<Pong>, cancellationToken CancellationToken) Task
 class AccessDeniedExceptionHandler
 - _writer TextWriter
 AccessDeniedExceptionHandler(writer TextWriter)
-Handle(request PingResource, exception ForbiddenException, state RequestExceptionHandlerState<Pong>, cancellationToken CancellationToken)
+Handle(request PingResource, exception ForbiddenException, state RequestExceptionHandlerState<Pong>, cancellationToken CancellationToken) Task
 class ServerExceptionHandler
 - _writer TextWriter
 ServerExceptionHandler(writer TextWriter)
-Handle(request PingNewResource, exception ServerException, state RequestExceptionHandlerState<Pong>, cancellationToken CancellationToken)
+Handle(request PingNewResource, exception ServerException, state RequestExceptionHandlerState<Pong>, cancellationToken CancellationToken) Task
 class PingResourceHandler
 - _writer TextWriter
 PingResourceHandler(writer TextWriter)
-Handle(request PingResource, cancellationToken CancellationToken)
+Handle(request PingResource, cancellationToken CancellationToken) Task<Pong>
 class PingNewResourceHandler
 - _writer TextWriter
 PingNewResourceHandler(writer TextWriter)
-Handle(request PingNewResource, cancellationToken CancellationToken)
+Handle(request PingNewResource, cancellationToken CancellationToken) Task<Pong>
 class PingResourceTimeoutHandler
 - _writer TextWriter
 PingResourceTimeoutHandler(writer TextWriter)
-Handle(request PingResourceTimeout, cancellationToken CancellationToken)
+Handle(request PingResourceTimeout, cancellationToken CancellationToken) Task<Pong>
 class PingResourceTimeoutOverrideHandler
 - _writer TextWriter
 PingResourceTimeoutOverrideHandler(writer TextWriter)
-Handle(request Overrides.PingResourceTimeout, cancellationToken CancellationToken)
+Handle(request Overrides.PingResourceTimeout, cancellationToken CancellationToken) Task<Pong>
 class PingProtectedResourceHandler
 - _writer TextWriter
 PingProtectedResourceHandler(writer TextWriter)
-Handle(request PingProtectedResource, cancellationToken CancellationToken)
+Handle(request PingProtectedResource, cancellationToken CancellationToken) Task<Pong>
 class LogExceptionAction
 - _writer TextWriter
 LogExceptionAction(writer TextWriter)
-Execute(request Ping, exception Exception, cancellationToken CancellationToken)
+Execute(request Ping, exception Exception, cancellationToken CancellationToken) Task
 class PingResource
 class PingNewResource
 class PingResourceTimeout
@@ -156,121 +156,120 @@ module MediatR.Examples.ExceptionHandler.Overrides
 class CommonExceptionHandler
 - _writer TextWriter
 CommonExceptionHandler(writer TextWriter)
-Handle(request PingResourceTimeout, exception Exception, state RequestExceptionHandlerState<Pong>, cancellationToken CancellationToken)
+Handle(request PingResourceTimeout, exception Exception, state RequestExceptionHandlerState<Pong>, cancellationToken CancellationToken) Task
 class ServerExceptionHandler
 - _writer TextWriter
 ServerExceptionHandler(writer TextWriter)
-Handle(request PingNewResource, exception ServerException, state RequestExceptionHandlerState<Pong>, cancellationToken CancellationToken)
+Handle(request PingNewResource, exception ServerException, state RequestExceptionHandlerState<Pong>, cancellationToken CancellationToken) Task
 class PingResourceTimeout
 
 module MediatR.Examples.AspNetCore
 class static Program
-$Main(args string[])
-- $BuildMediator(writer WrappingWriter)
+$Main(args string[]) Task
+- $BuildMediator(writer WrappingWriter) IMediator
 
 module MediatR.Examples.Autofac
 class static Program
-$Main(args string[])
-- $BuildMediator(writer WrappingWriter)
+$Main(args string[]) Task
+- $BuildMediator(writer WrappingWriter) IMediator
 
 module MediatR.Examples.DryIoc
 class Program
-- $Main()
-- $BuildMediator(writer WrappingWriter)
+- $Main() Task
+- $BuildMediator(writer WrappingWriter) IMediator
 
 module MediatR.Examples.Lamar
 class Program
-- $Main(args string[])
-- $BuildMediator(writer WrappingWriter)
+- $Main(args string[]) Task
+- $BuildMediator(writer WrappingWriter) IMediator
 
 module MediatR.Examples.LightInject
 class Program
-- $Main(args string[])
-- $BuildMediator(writer WrappingWriter)
+- $Main(args string[]) Task
+- $BuildMediator(writer WrappingWriter) IMediator
 
 module MediatR.Examples.PublishStrategies
 class AsyncPingedHandler
 AsyncPingedHandler(name string)
 Name string
-Handle(notification Pinged, cancellationToken CancellationToken)
+Handle(notification Pinged, cancellationToken CancellationToken) Task
 class CustomMediator
 - _publish Func<IEnumerable<NotificationHandlerExecutor>,INotification,CancellationToken,Task>
 CustomMediator(serviceFactory IServiceProvider, publish Func<IEnumerable<NotificationHandlerExecutor>,INotification,CancellationToken,Task>)
-# PublishCore(handlerExecutors IEnumerable<NotificationHandlerExecutor>, notification INotification, cancellationToken CancellationToken)
+# PublishCore(handlerExecutors IEnumerable<NotificationHandlerExecutor>, notification INotification, cancellationToken CancellationToken) Task
 class Program
-- $Main(args string[])
+- $Main(args string[]) Task
 enum PublishStrategy = SyncContinueOnException, SyncStopOnException, Async, ParallelNoWait, ParallelWhenAll, ParallelWhenAny
 class Publisher
 - _serviceFactory IServiceProvider
 Publisher(serviceFactory IServiceProvider)
 PublishStrategies IDictionary<PublishStrategy,IMediator>
 DefaultStrategy PublishStrategy
-Publish(notification TNotification)
-Publish(notification TNotification, strategy PublishStrategy)
-Publish(notification TNotification, cancellationToken CancellationToken)
-Publish(notification TNotification, strategy PublishStrategy, cancellationToken CancellationToken)
-- ParallelWhenAll(handlers IEnumerable<NotificationHandlerExecutor>, notification INotification, cancellationToken CancellationToken)
-- ParallelWhenAny(handlers IEnumerable<NotificationHandlerExecutor>, notification INotification, cancellationToken CancellationToken)
-- ParallelNoWait(handlers IEnumerable<NotificationHandlerExecutor>, notification INotification, cancellationToken CancellationToken)
-- AsyncContinueOnException(handlers IEnumerable<NotificationHandlerExecutor>, notification INotification, cancellationToken CancellationToken)
-- SyncStopOnException(handlers IEnumerable<NotificationHandlerExecutor>, notification INotification, cancellationToken CancellationToken)
-- SyncContinueOnException(handlers IEnumerable<NotificationHandlerExecutor>, notification INotification, cancellationToken CancellationToken)
+Publish(notification TNotification) Task
+Publish(notification TNotification, strategy PublishStrategy) Task
+Publish(notification TNotification, cancellationToken CancellationToken) Task
+Publish(notification TNotification, strategy PublishStrategy, cancellationToken CancellationToken) Task
+- ParallelWhenAll(handlers IEnumerable<NotificationHandlerExecutor>, notification INotification, cancellationToken CancellationToken) Task
+- ParallelWhenAny(handlers IEnumerable<NotificationHandlerExecutor>, notification INotification, cancellationToken CancellationToken) Task
+- ParallelNoWait(handlers IEnumerable<NotificationHandlerExecutor>, notification INotification, cancellationToken CancellationToken) Task
+- AsyncContinueOnException(handlers IEnumerable<NotificationHandlerExecutor>, notification INotification, cancellationToken CancellationToken) Task
+- SyncStopOnException(handlers IEnumerable<NotificationHandlerExecutor>, notification INotification, cancellationToken CancellationToken) Task
+- SyncContinueOnException(handlers IEnumerable<NotificationHandlerExecutor>, notification INotification, cancellationToken CancellationToken) Task
 class SyncPingedHandler
 SyncPingedHandler(name string)
 Name string
-Handle(notification Pinged, cancellationToken CancellationToken)
+Handle(notification Pinged, cancellationToken CancellationToken) Task
 
 module MediatR.Examples.SimpleInjector
 class static Program
-- $Main(args string[])
-- $BuildMediator(writer WrappingWriter)
+- $Main(args string[]) Task
+- $BuildMediator(writer WrappingWriter) IMediator
 - $RegisterHandlers(container Container, collectionType Type, assemblies Assembly[])
-- $GetAssemblies()
+- $GetAssemblies() IEnumerable<Assembly>
 
 module MediatR.Examples.Stashbox
 class Program
-- $Main()
-- $BuildMediator(writer WrappingWriter)
+- $Main() Task
+- $BuildMediator(writer WrappingWriter) IMediator
 
 module MediatR.Examples.Windsor
 class ContravariantFilter
-HasOpinionAbout(service Type)
-SelectHandlers(service Type, handlers IHandler[])
+HasOpinionAbout(service Type) bool
+SelectHandlers(service Type, handlers IHandler[]) IHandler[]
 class Program
-- $Main(args string[])
-- $BuildMediator(writer WrappingWriter)
-- $ResolveRequestExceptionHandler(k IKernel, type Type, service Type, resolvedType object, genericArguments Type[])
-- $ResolveRequestExceptionAction(k IKernel, type Type, service Type, resolvedType object, genericArguments Type[])
-- $CreateArraysOutOfResolvedTypeAndEnumerableInterfaceTypes(type Type, resolvedType object, serviceFactory ServiceFactory, enumerableExceptionHandlerInterfaceType Type)
+- $Main(args string[]) Task
+- $BuildMediator(writer WrappingWriter) IMediator
+- $ResolveRequestExceptionHandler(k IKernel, type Type, service Type, resolvedType object, genericArguments Type[]) object
+- $ResolveRequestExceptionAction(k IKernel, type Type, service Type, resolvedType object, genericArguments Type[]) object
+- $CreateArraysOutOfResolvedTypeAndEnumerableInterfaceTypes(type Type, resolvedType object, serviceFactory ServiceFactory, enumerableExceptionHandlerInterfaceType Type) Array
 
 module MediatR
 interface IMediator
 interface INotificationHandler
-Handle(notification TNotification, cancellationToken CancellationToken)
+Handle(notification TNotification, cancellationToken CancellationToken) Task
 class abstract NotificationHandler
-- Handle(notification TNotification, cancellationToken CancellationToken)
+- Handle(notification TNotification, cancellationToken CancellationToken) Task
 # Handle(notification TNotification)
 interface INotificationPublisher
-Publish(handlerExecutors IEnumerable<NotificationHandlerExecutor>, notification INotification, cancellationToken CancellationToken)
+Publish(handlerExecutors IEnumerable<NotificationHandlerExecutor>, notification INotification, cancellationToken CancellationToken) Task
 interface IPipelineBehavior
-Handle(request TRequest, next RequestHandlerDelegate<TResponse>, cancellationToken CancellationToken)
+Handle(request TRequest, next RequestHandlerDelegate<TResponse>, cancellationToken CancellationToken) Task<TResponse>
 interface IPublisher
-Publish(notification object, cancellationToken CancellationToken)
-Publish(notification TNotification, cancellationToken CancellationToken)
+Publish(notification object, cancellationToken CancellationToken) Task
+Publish(notification TNotification, cancellationToken CancellationToken) Task
 interface IRequestHandler
-Handle(request TRequest, cancellationToken CancellationToken)
-interface IRequestHandler
-Handle(request TRequest, cancellationToken CancellationToken)
+Handle(request TRequest, cancellationToken CancellationToken) Task<TResponse>
+Handle(request TRequest, cancellationToken CancellationToken) Task
 interface ISender
-Send(request IRequest<TResponse>, cancellationToken CancellationToken)
-Send(request TRequest, cancellationToken CancellationToken)
-Send(request object, cancellationToken CancellationToken)
-CreateStream(request IStreamRequest<TResponse>, cancellationToken CancellationToken)
-CreateStream(request object, cancellationToken CancellationToken)
+Send(request IRequest<TResponse>, cancellationToken CancellationToken) Task<TResponse>
+Send(request TRequest, cancellationToken CancellationToken) Task
+Send(request object, cancellationToken CancellationToken) Task<object?>
+CreateStream(request IStreamRequest<TResponse>, cancellationToken CancellationToken) IAsyncEnumerable<TResponse>
+CreateStream(request object, cancellationToken CancellationToken) IAsyncEnumerable<object?>
 interface IStreamPipelineBehavior
-Handle(request TRequest, next StreamHandlerDelegate<TResponse>, cancellationToken CancellationToken)
+Handle(request TRequest, next StreamHandlerDelegate<TResponse>, cancellationToken CancellationToken) IAsyncEnumerable<TResponse>
 interface IStreamRequestHandler
-Handle(request TRequest, cancellationToken CancellationToken)
+Handle(request TRequest, cancellationToken CancellationToken) IAsyncEnumerable<TResponse>
 class Mediator
 - _serviceProvider IServiceProvider
 - _publisher INotificationPublisher
@@ -280,18 +279,17 @@ class Mediator
 Mediator(serviceProvider IServiceProvider)
 Mediator(serviceProvider IServiceProvider, publisher INotificationPublisher)
 $LicenseKey string?
-Send(request IRequest<TResponse>, cancellationToken CancellationToken)
-Send(request TRequest, cancellationToken CancellationToken)
-Send(request object, cancellationToken CancellationToken)
-Publish(notification TNotification, cancellationToken CancellationToken)
-Publish(notification object, cancellationToken CancellationToken)
-# PublishCore(handlerExecutors IEnumerable<NotificationHandlerExecutor>, notification INotification, cancellationToken CancellationToken)
-- PublishNotification(notification INotification, cancellationToken CancellationToken)
-CreateStream(request IStreamRequest<TResponse>, cancellationToken CancellationToken)
-CreateStream(request object, cancellationToken CancellationToken)
+Send(request IRequest<TResponse>, cancellationToken CancellationToken) Task<TResponse>
+Send(request TRequest, cancellationToken CancellationToken) Task
+Send(request object, cancellationToken CancellationToken) Task<object?>
+Publish(notification TNotification, cancellationToken CancellationToken) Task
+Publish(notification object, cancellationToken CancellationToken) Task
+# PublishCore(handlerExecutors IEnumerable<NotificationHandlerExecutor>, notification INotification, cancellationToken CancellationToken) Task
+- PublishNotification(notification INotification, cancellationToken CancellationToken) Task
+CreateStream(request IStreamRequest<TResponse>, cancellationToken CancellationToken) IAsyncEnumerable<TResponse>
+CreateStream(request object, cancellationToken CancellationToken) IAsyncEnumerable<object?>
 class NotificationHandlerExecutor
 interface INotification
-interface IRequest
 interface IRequest
 interface IBaseRequest
 interface IStreamRequest
@@ -299,12 +297,12 @@ class Unit
 - $_value Unit
 $Value ref readonly Unit
 $Task Task<Unit>
-CompareTo(other Unit)
-- CompareTo(obj object?)
-GetHashCode()
-Equals(other Unit)
-Equals(obj object?)
-ToString()
+CompareTo(other Unit) int
+- CompareTo(obj object?) int
+GetHashCode() int
+Equals(other Unit) bool
+Equals(obj object?) bool
+ToString() string
 
 module MediatR.Entities
 class OpenBehavior
@@ -315,8 +313,8 @@ ServiceLifetime ServiceLifetime
 
 module MediatR.Internal
 class static HandlersOrderer
-$Prioritize(handlers IList<object>, request TRequest)
-- $RemoveOverridden(handlersData IList<ObjectDetails>)
+$Prioritize(handlers IList<object>, request TRequest) IList<object>
+- $RemoveOverridden(handlersData IList<ObjectDetails>) IEnumerable<ObjectDetails>
 class ObjectDetails
 Name string
 AssemblyName string?
@@ -325,15 +323,15 @@ Value object
 Type Type
 IsOverridden bool
 ObjectDetails(value object)
-Compare(x ObjectDetails?, y ObjectDetails?)
-- CompareByAssembly(x ObjectDetails, y ObjectDetails)
-- CompareByNamespace(x ObjectDetails, y ObjectDetails)
-- CompareByLocation(x ObjectDetails, y ObjectDetails)
+Compare(x ObjectDetails?, y ObjectDetails?) int
+- CompareByAssembly(x ObjectDetails, y ObjectDetails) int?
+- CompareByNamespace(x ObjectDetails, y ObjectDetails) int?
+- CompareByLocation(x ObjectDetails, y ObjectDetails) int
 
 module MediatR.Licensing
 class static BuildInfo
 $BuildDate DateTimeOffset?
-- $GetBuildDate()
+- $GetBuildDate() DateTimeOffset?
 enum Edition = Community, Standard, Professional, Enterprise
 class License
 @ License()
@@ -355,8 +353,8 @@ LicenseAccessor(loggerFactory ILoggerFactory)
 - _license License?
 - _lock object
 Current License
-- Initialize()
-- ValidateKey(licenseKey string)
+- Initialize() License
+- ValidateKey(licenseKey string) Claim[]
 class LicenseValidator
 - _logger ILogger
 - _buildDate DateTimeOffset?
@@ -367,8 +365,8 @@ enum ProductType = AutoMapper, MediatR, Bundle
 
 module Microsoft.Extensions.DependencyInjection
 class static MediatRServiceCollectionExtensions
-$AddMediatR(services IServiceCollection, configuration Action<MediatRServiceConfiguration>)
-$AddMediatR(services IServiceCollection, configuration MediatRServiceConfiguration)
+$AddMediatR(services IServiceCollection, configuration Action<MediatRServiceConfiguration>) IServiceCollection
+$AddMediatR(services IServiceCollection, configuration MediatRServiceConfiguration) IServiceCollection
 @ $CheckLicense(serviceProvider IServiceProvider)
 @ $LicenseChecked bool
 class MediatRServiceConfiguration
@@ -390,56 +388,56 @@ MaxGenericTypeRegistrations int
 RegistrationTimeout int
 RegisterGenericHandlers bool
 LicenseKey string?
-RegisterServicesFromAssemblyContaining()
-RegisterServicesFromAssemblyContaining(type Type)
-RegisterServicesFromAssembly(assembly Assembly)
-RegisterServicesFromAssemblies()
-AddBehavior(serviceLifetime ServiceLifetime)
-AddBehavior(serviceLifetime ServiceLifetime)
-AddBehavior(implementationType Type, serviceLifetime ServiceLifetime)
-AddBehavior(serviceType Type, implementationType Type, serviceLifetime ServiceLifetime)
-AddOpenBehavior(openBehaviorType Type, serviceLifetime ServiceLifetime)
-AddOpenBehaviors(openBehaviorTypes IEnumerable<Type>, serviceLifetime ServiceLifetime)
-AddOpenBehaviors(openBehaviors IEnumerable<OpenBehavior>)
-AddStreamBehavior(serviceLifetime ServiceLifetime)
-AddStreamBehavior(serviceType Type, implementationType Type, serviceLifetime ServiceLifetime)
-AddStreamBehavior(serviceLifetime ServiceLifetime)
-AddStreamBehavior(implementationType Type, serviceLifetime ServiceLifetime)
-AddOpenStreamBehavior(openBehaviorType Type, serviceLifetime ServiceLifetime)
-AddRequestPreProcessor(serviceLifetime ServiceLifetime)
-AddRequestPreProcessor(serviceType Type, implementationType Type, serviceLifetime ServiceLifetime)
-AddRequestPreProcessor(serviceLifetime ServiceLifetime)
-AddRequestPreProcessor(implementationType Type, serviceLifetime ServiceLifetime)
-AddOpenRequestPreProcessor(openBehaviorType Type, serviceLifetime ServiceLifetime)
-AddRequestPostProcessor(serviceLifetime ServiceLifetime)
-AddRequestPostProcessor(serviceType Type, implementationType Type, serviceLifetime ServiceLifetime)
-AddRequestPostProcessor(serviceLifetime ServiceLifetime)
-AddRequestPostProcessor(implementationType Type, serviceLifetime ServiceLifetime)
-AddOpenRequestPostProcessor(openBehaviorType Type, serviceLifetime ServiceLifetime)
+RegisterServicesFromAssemblyContaining() MediatRServiceConfiguration
+RegisterServicesFromAssemblyContaining(type Type) MediatRServiceConfiguration
+RegisterServicesFromAssembly(assembly Assembly) MediatRServiceConfiguration
+RegisterServicesFromAssemblies() MediatRServiceConfiguration
+AddBehavior(serviceLifetime ServiceLifetime) MediatRServiceConfiguration
+AddBehavior(serviceLifetime ServiceLifetime) MediatRServiceConfiguration
+AddBehavior(implementationType Type, serviceLifetime ServiceLifetime) MediatRServiceConfiguration
+AddBehavior(serviceType Type, implementationType Type, serviceLifetime ServiceLifetime) MediatRServiceConfiguration
+AddOpenBehavior(openBehaviorType Type, serviceLifetime ServiceLifetime) MediatRServiceConfiguration
+AddOpenBehaviors(openBehaviorTypes IEnumerable<Type>, serviceLifetime ServiceLifetime) MediatRServiceConfiguration
+AddOpenBehaviors(openBehaviors IEnumerable<OpenBehavior>) MediatRServiceConfiguration
+AddStreamBehavior(serviceLifetime ServiceLifetime) MediatRServiceConfiguration
+AddStreamBehavior(serviceType Type, implementationType Type, serviceLifetime ServiceLifetime) MediatRServiceConfiguration
+AddStreamBehavior(serviceLifetime ServiceLifetime) MediatRServiceConfiguration
+AddStreamBehavior(implementationType Type, serviceLifetime ServiceLifetime) MediatRServiceConfiguration
+AddOpenStreamBehavior(openBehaviorType Type, serviceLifetime ServiceLifetime) MediatRServiceConfiguration
+AddRequestPreProcessor(serviceLifetime ServiceLifetime) MediatRServiceConfiguration
+AddRequestPreProcessor(serviceType Type, implementationType Type, serviceLifetime ServiceLifetime) MediatRServiceConfiguration
+AddRequestPreProcessor(serviceLifetime ServiceLifetime) MediatRServiceConfiguration
+AddRequestPreProcessor(implementationType Type, serviceLifetime ServiceLifetime) MediatRServiceConfiguration
+AddOpenRequestPreProcessor(openBehaviorType Type, serviceLifetime ServiceLifetime) MediatRServiceConfiguration
+AddRequestPostProcessor(serviceLifetime ServiceLifetime) MediatRServiceConfiguration
+AddRequestPostProcessor(serviceType Type, implementationType Type, serviceLifetime ServiceLifetime) MediatRServiceConfiguration
+AddRequestPostProcessor(serviceLifetime ServiceLifetime) MediatRServiceConfiguration
+AddRequestPostProcessor(implementationType Type, serviceLifetime ServiceLifetime) MediatRServiceConfiguration
+AddOpenRequestPostProcessor(openBehaviorType Type, serviceLifetime ServiceLifetime) MediatRServiceConfiguration
 enum RequestExceptionActionProcessorStrategy = ApplyForUnhandledExceptions, ApplyForAllExceptions
 
 module MediatR.NotificationPublishers
 class ForeachAwaitPublisher
-Publish(handlerExecutors IEnumerable<NotificationHandlerExecutor>, notification INotification, cancellationToken CancellationToken)
+Publish(handlerExecutors IEnumerable<NotificationHandlerExecutor>, notification INotification, cancellationToken CancellationToken) Task
 class TaskWhenAllPublisher
-Publish(handlerExecutors IEnumerable<NotificationHandlerExecutor>, notification INotification, cancellationToken CancellationToken)
+Publish(handlerExecutors IEnumerable<NotificationHandlerExecutor>, notification INotification, cancellationToken CancellationToken) Task
 
 module MediatR.Pipeline
 interface IRequestExceptionAction
-Execute(request TRequest, exception TException, cancellationToken CancellationToken)
+Execute(request TRequest, exception TException, cancellationToken CancellationToken) Task
 interface IRequestExceptionHandler
-Handle(request TRequest, exception TException, state RequestExceptionHandlerState<TResponse>, cancellationToken CancellationToken)
+Handle(request TRequest, exception TException, state RequestExceptionHandlerState<TResponse>, cancellationToken CancellationToken) Task
 interface IRequestPostProcessor
-Process(request TRequest, response TResponse, cancellationToken CancellationToken)
+Process(request TRequest, response TResponse, cancellationToken CancellationToken) Task
 interface IRequestPreProcessor
-Process(request TRequest, cancellationToken CancellationToken)
+Process(request TRequest, cancellationToken CancellationToken) Task
 class RequestExceptionActionProcessorBehavior
 - _serviceProvider IServiceProvider
 RequestExceptionActionProcessorBehavior(serviceProvider IServiceProvider)
-Handle(request TRequest, next RequestHandlerDelegate<TResponse>, cancellationToken CancellationToken)
-- $GetExceptionTypes(exceptionType Type?)
-- GetActionsForException(exceptionType Type, request TRequest)
-- $GetMethodInfoForAction(exceptionType Type)
+Handle(request TRequest, next RequestHandlerDelegate<TResponse>, cancellationToken CancellationToken) Task<TResponse>
+- $GetExceptionTypes(exceptionType Type?) IEnumerable<Type>
+- GetActionsForException(exceptionType Type, request TRequest) IEnumerable<(Type ExceptionType,object Action)>
+- $GetMethodInfoForAction(exceptionType Type) MethodInfo
 class RequestExceptionHandlerState
 Handled bool
 Response TResponse?
@@ -447,18 +445,18 @@ SetHandled(response TResponse)
 class RequestExceptionProcessorBehavior
 - _serviceProvider IServiceProvider
 RequestExceptionProcessorBehavior(serviceProvider IServiceProvider)
-Handle(request TRequest, next RequestHandlerDelegate<TResponse>, cancellationToken CancellationToken)
-- $GetExceptionTypes(exceptionType Type?)
-- GetHandlersForException(exceptionType Type, request TRequest)
-- $GetMethodInfoForHandler(exceptionType Type)
+Handle(request TRequest, next RequestHandlerDelegate<TResponse>, cancellationToken CancellationToken) Task<TResponse>
+- $GetExceptionTypes(exceptionType Type?) IEnumerable<Type>
+- GetHandlersForException(exceptionType Type, request TRequest) IEnumerable<(Type ExceptionType,object Handler)>
+- $GetMethodInfoForHandler(exceptionType Type) MethodInfo
 class RequestPostProcessorBehavior
 - _postProcessors IEnumerable<IRequestPostProcessor<TRequest,TResponse>>
 RequestPostProcessorBehavior(postProcessors IEnumerable<IRequestPostProcessor<TRequest,TResponse>>)
-Handle(request TRequest, next RequestHandlerDelegate<TResponse>, cancellationToken CancellationToken)
+Handle(request TRequest, next RequestHandlerDelegate<TResponse>, cancellationToken CancellationToken) Task<TResponse>
 class RequestPreProcessorBehavior
 - _preProcessors IEnumerable<IRequestPreProcessor<TRequest>>
 RequestPreProcessorBehavior(preProcessors IEnumerable<IRequestPreProcessor<TRequest>>)
-Handle(request TRequest, next RequestHandlerDelegate<TResponse>, cancellationToken CancellationToken)
+Handle(request TRequest, next RequestHandlerDelegate<TResponse>, cancellationToken CancellationToken) Task<TResponse>
 
 module MediatR.Registration
 class static ServiceRegistrar
@@ -470,51 +468,48 @@ $SetGenericRequestHandlerRegistrationLimitations(configuration MediatRServiceCon
 $AddMediatRClassesWithTimeout(services IServiceCollection, configuration MediatRServiceConfiguration)
 $AddMediatRClasses(services IServiceCollection, configuration MediatRServiceConfiguration, cancellationToken CancellationToken)
 - $ConnectImplementationsToTypesClosing(openRequestInterface Type, services IServiceCollection, assembliesToScan IEnumerable<Assembly>, addIfAlreadyExists bool, configuration MediatRServiceConfiguration, cancellationToken CancellationToken)
-- $IsMatchingWithInterface(handlerType Type?, handlerInterface Type)
+- $IsMatchingWithInterface(handlerType Type?, handlerInterface Type) bool
 - $AddConcretionsThatCouldBeClosed(@interface Type, concretions List<Type>, services IServiceCollection)
-- $GetConcreteRegistrationTypes(openRequestHandlerInterface Type, concreteGenericTRequest Type, openRequestHandlerImplementation Type)
-- $GetConcreteRequestTypes(openRequestHandlerInterface Type, openRequestHandlerImplementation Type, assembliesToScan IEnumerable<Assembly>, cancellationToken CancellationToken)
-$GenerateCombinations(requestType Type, lists List<List<Type>>, depth int, cancellationToken CancellationToken)
+- $GetConcreteRegistrationTypes(openRequestHandlerInterface Type, concreteGenericTRequest Type, openRequestHandlerImplementation Type) (Type Service,Type Implementation)
+- $GetConcreteRequestTypes(openRequestHandlerInterface Type, openRequestHandlerImplementation Type, assembliesToScan IEnumerable<Assembly>, cancellationToken CancellationToken) List<Type>?
+$GenerateCombinations(requestType Type, lists List<List<Type>>, depth int, cancellationToken CancellationToken) List<List<Type>>
 - $AddAllConcretionsThatClose(openRequestInterface Type, concretions List<Type>, services IServiceCollection, assembliesToScan IEnumerable<Assembly>, cancellationToken CancellationToken)
-@ $CouldCloseTo(openConcretion Type, closedInterface Type)
-- $CanBeCastTo(pluggedType Type, pluginType Type)
-- $IsOpenGeneric(type Type)
-@ $FindInterfacesThatClose(pluggedType Type, templateType Type)
-- $FindInterfacesThatClosesCore(pluggedType Type, templateType Type)
-- $IsConcrete(type Type)
+@ $CouldCloseTo(openConcretion Type, closedInterface Type) bool
+- $CanBeCastTo(pluggedType Type, pluginType Type) bool
+- $IsOpenGeneric(type Type) bool
+@ $FindInterfacesThatClose(pluggedType Type, templateType Type) IEnumerable<Type>
+- $FindInterfacesThatClosesCore(pluggedType Type, templateType Type) IEnumerable<Type>
+- $IsConcrete(type Type) bool
 - $Fill(list IList<T>, value T)
-- $GetLoadableDefinedTypes(assembly Assembly)
-- $HasNestedGenericResponseType(openBehaviorType Type)
-- $TryMatchType(pattern Type, concrete Type, bindings Dictionary<Type,Type>)
+- $GetLoadableDefinedTypes(assembly Assembly) IEnumerable<Type>
+- $HasNestedGenericResponseType(openBehaviorType Type) bool
+- $TryMatchType(pattern Type, concrete Type, bindings Dictionary<Type,Type>) bool
 - $RegisterClosedBehaviorsFromAssemblies(openBehaviorType Type, services IServiceCollection, assemblies IEnumerable<Assembly>, lifetime ServiceLifetime)
 $AddRequiredServices(services IServiceCollection, serviceConfiguration MediatRServiceConfiguration)
 - $RegisterBehaviorIfImplementationsExist(services IServiceCollection, behaviorType Type, subBehaviorType Type)
 
 module MediatR.Wrappers
 class abstract NotificationHandlerWrapper
-Handle(notification INotification, serviceFactory IServiceProvider, publish Func<IEnumerable<NotificationHandlerExecutor>,INotification,CancellationToken,Task>, cancellationToken CancellationToken)
+Handle(notification INotification, serviceFactory IServiceProvider, publish Func<IEnumerable<NotificationHandlerExecutor>,INotification,CancellationToken,Task>, cancellationToken CancellationToken) Task
 class NotificationHandlerWrapperImpl
-Handle(notification INotification, serviceFactory IServiceProvider, publish Func<IEnumerable<NotificationHandlerExecutor>,INotification,CancellationToken,Task>, cancellationToken CancellationToken)
+Handle(notification INotification, serviceFactory IServiceProvider, publish Func<IEnumerable<NotificationHandlerExecutor>,INotification,CancellationToken,Task>, cancellationToken CancellationToken) Task
 class abstract RequestHandlerBase
-Handle(request object, serviceProvider IServiceProvider, cancellationToken CancellationToken)
+Handle(request object, serviceProvider IServiceProvider, cancellationToken CancellationToken) Task<object?>
 class abstract RequestHandlerWrapper
-Handle(request IRequest<TResponse>, serviceProvider IServiceProvider, cancellationToken CancellationToken)
-class abstract RequestHandlerWrapper
-Handle(request IRequest, serviceProvider IServiceProvider, cancellationToken CancellationToken)
+Handle(request IRequest<TResponse>, serviceProvider IServiceProvider, cancellationToken CancellationToken) Task<TResponse>
+Handle(request IRequest, serviceProvider IServiceProvider, cancellationToken CancellationToken) Task<Unit>
 class RequestHandlerWrapperImpl
-Handle(request object, serviceProvider IServiceProvider, cancellationToken CancellationToken)
-Handle(request IRequest<TResponse>, serviceProvider IServiceProvider, cancellationToken CancellationToken)
-class RequestHandlerWrapperImpl
-Handle(request object, serviceProvider IServiceProvider, cancellationToken CancellationToken)
-Handle(request IRequest, serviceProvider IServiceProvider, cancellationToken CancellationToken)
+Handle(request object, serviceProvider IServiceProvider, cancellationToken CancellationToken) Task<object?>
+Handle(request IRequest<TResponse>, serviceProvider IServiceProvider, cancellationToken CancellationToken) Task<TResponse>
+Handle(request IRequest, serviceProvider IServiceProvider, cancellationToken CancellationToken) Task<Unit>
 class abstract StreamRequestHandlerBase
-Handle(request object, serviceProvider IServiceProvider, cancellationToken CancellationToken)
+Handle(request object, serviceProvider IServiceProvider, cancellationToken CancellationToken) IAsyncEnumerable<object?>
 class abstract StreamRequestHandlerWrapper
-Handle(request IStreamRequest<TResponse>, serviceProvider IServiceProvider, cancellationToken CancellationToken)
+Handle(request IStreamRequest<TResponse>, serviceProvider IServiceProvider, cancellationToken CancellationToken) IAsyncEnumerable<TResponse>
 class StreamRequestHandlerWrapperImpl
-Handle(request object, serviceProvider IServiceProvider, cancellationToken CancellationToken)
-Handle(request IStreamRequest<TResponse>, serviceProvider IServiceProvider, cancellationToken CancellationToken)
-- $NextWrapper(items IAsyncEnumerable<T>, cancellationToken CancellationToken)
+Handle(request object, serviceProvider IServiceProvider, cancellationToken CancellationToken) IAsyncEnumerable<object?>
+Handle(request IStreamRequest<TResponse>, serviceProvider IServiceProvider, cancellationToken CancellationToken) IAsyncEnumerable<TResponse>
+- $NextWrapper(items IAsyncEnumerable<T>, cancellationToken CancellationToken) IAsyncEnumerable<T>
 
 module MediatR.Benchmarks
 class Benchmarks
@@ -522,8 +517,8 @@ class Benchmarks
 - _request Ping
 - _notification Pinged
 GlobalSetup()
-SendingRequests()
-PublishingNotifications()
+SendingRequests() Task
+PublishingNotifications() Task
 class sealed DotTraceDiagnoserAttribute
 DotTraceDiagnoserAttribute()
 Config IConfig
@@ -531,36 +526,36 @@ class sealed DotTraceDiagnoser
 - $DotTraceExecutableNotFoundErrorMessage string
 - _saveLocation string
 DotTraceDiagnoser()
-GetRunMode(benchmarkCase BenchmarkCase)
+GetRunMode(benchmarkCase BenchmarkCase) RunMode
 Handle(signal HostSignal, parameters DiagnoserActionParameters)
 - RunDotTrace(parameters DiagnoserActionParameters)
-- PrepareProcessStartInfo(parameters DiagnoserActionParameters)
-ProcessResults(results DiagnoserResults)
+- PrepareProcessStartInfo(parameters DiagnoserActionParameters) ProcessStartInfo
+ProcessResults(results DiagnoserResults) IEnumerable<Metric>
 DisplayResults(logger ILogger)
-Validate(validationParameters ValidationParameters)
+Validate(validationParameters ValidationParameters) IEnumerable<ValidationError>
 Ids IEnumerable<string>
 Exporters IEnumerable<IExporter>
 Analysers IEnumerable<IAnalyser>
-- $CanRunDotTrace()
+- $CanRunDotTrace() bool
 class GenericPipelineBehavior
 - _writer TextWriter
 GenericPipelineBehavior(writer TextWriter)
-Handle(request TRequest, next RequestHandlerDelegate<TResponse>, cancellationToken CancellationToken)
+Handle(request TRequest, next RequestHandlerDelegate<TResponse>, cancellationToken CancellationToken) Task<TResponse>
 class GenericRequestPostProcessor
 - _writer TextWriter
 GenericRequestPostProcessor(writer TextWriter)
-Process(request TRequest, response TResponse, cancellationToken CancellationToken)
+Process(request TRequest, response TResponse, cancellationToken CancellationToken) Task
 class GenericRequestPreProcessor
 - _writer TextWriter
 GenericRequestPreProcessor(writer TextWriter)
-Process(request TRequest, cancellationToken CancellationToken)
+Process(request TRequest, cancellationToken CancellationToken) Task
 class Ping
 Message string
 class PingHandler
-Handle(request Ping, cancellationToken CancellationToken)
+Handle(request Ping, cancellationToken CancellationToken) Task
 class Pinged
 class PingedHandler
-Handle(notification Pinged, cancellationToken CancellationToken)
+Handle(notification Pinged, cancellationToken CancellationToken) Task
 class Program
 $Main(args string[])
 
@@ -628,28 +623,28 @@ Provider IServiceProvider
 
 module MediatR.Tests
 class CreateStreamTests
-Should_resolve_main_handler()
-Should_resolve_main_handler_via_dynamic_dispatch()
-Should_resolve_main_handler_by_specific_interface()
+Should_resolve_main_handler() Task
+Should_resolve_main_handler_via_dynamic_dispatch() Task
+Should_resolve_main_handler_by_specific_interface() Task
 Should_raise_execption_on_null_request()
 Should_raise_execption_on_null_request_via_dynamic_dispatch()
 class ExceptionTests
 - _mediator IMediator
 ExceptionTests()
-Should_throw_for_send()
-Should_throw_for_void_send()
-Should_not_throw_for_publish()
-Should_throw_for_async_send()
-Should_throw_for_async_void_send()
-Should_not_throw_for_async_publish()
-Should_throw_argument_exception_for_send_when_request_is_null()
-Should_throw_argument_exception_for_void_send_when_request_is_null()
-Should_throw_argument_exception_for_publish_when_request_is_null()
-Should_throw_argument_exception_for_publish_when_request_is_null_object()
-Should_throw_argument_exception_for_publish_when_request_is_not_notification()
-Should_throw_exception_for_non_generic_send_when_exception_occurs()
-Should_throw_exception_for_non_request_send()
-Should_throw_exception_for_generic_send_when_exception_occurs()
+Should_throw_for_send() Task
+Should_throw_for_void_send() Task
+Should_not_throw_for_publish() Task
+Should_throw_for_async_send() Task
+Should_throw_for_async_void_send() Task
+Should_not_throw_for_async_publish() Task
+Should_throw_argument_exception_for_send_when_request_is_null() Task
+Should_throw_argument_exception_for_void_send_when_request_is_null() Task
+Should_throw_argument_exception_for_publish_when_request_is_null() Task
+Should_throw_argument_exception_for_publish_when_request_is_null_object() Task
+Should_throw_argument_exception_for_publish_when_request_is_not_notification() Task
+Should_throw_exception_for_non_generic_send_when_exception_occurs() Task
+Should_throw_exception_for_non_request_send() Task
+Should_throw_exception_for_generic_send_when_exception_occurs() Task
 class GenericRequestHandlerTests
 ShouldResolveAllCombinationsOfGenericHandler(numberOfClasses int, numberOfInterfaces int, numberOfTypeParameters int)
 ShouldRegisterTheCorrectAmountOfHandlers(numberOfClasses int, numberOfInterfaces int, numberOfTypeParameters int)
@@ -662,68 +657,68 @@ ShouldNotRegisterGenericHandlersWhenOptingOut()
 class GenericTypeConstraintsTests
 - _mediator IMediator
 GenericTypeConstraintsTests()
-Should_Resolve_Void_Return_Request()
-Should_Resolve_Response_Return_Request()
+Should_Resolve_Void_Return_Request() Task
+Should_Resolve_Response_Return_Request() Task
 class NotificationHandlerTests
-Should_call_abstract_handle_method()
+Should_call_abstract_handle_method() Task
 class NotificationPublisherTests
 - _output ITestOutputHelper
 NotificationPublisherTests(output ITestOutputHelper)
-Should_handle_sequentially_by_default()
+Should_handle_sequentially_by_default() Task
 class PipelineTests
-Should_wrap_with_behavior()
-Should_wrap_void_with_behavior()
-Should_wrap_generics_with_behavior()
-Should_wrap_void_generics_with_behavior()
-Should_handle_constrained_generics()
-Should_handle_concrete_and_open_generics()
+Should_wrap_with_behavior() Task
+Should_wrap_void_with_behavior() Task
+Should_wrap_generics_with_behavior() Task
+Should_wrap_void_generics_with_behavior() Task
+Should_handle_constrained_generics() Task
+Should_handle_concrete_and_open_generics() Task
 class PublishTests
-Should_resolve_main_handler()
-Should_resolve_main_handler_when_object_is_passed()
-Should_override_with_sequential_firing()
-Should_override_with_sequential_firing_through_injection()
-Should_resolve_handlers_given_interface()
-Should_resolve_main_handler_by_specific_interface()
+Should_resolve_main_handler() Task
+Should_resolve_main_handler_when_object_is_passed() Task
+Should_override_with_sequential_firing() Task
+Should_override_with_sequential_firing_through_injection() Task
+Should_resolve_handlers_given_interface() Task
+Should_resolve_main_handler_by_specific_interface() Task
 class SendTests
 - _serviceProvider IServiceProvider
 - _dependency Dependency
 - _mediator IMediator
 SendTests()
-Should_resolve_main_handler()
-Should_resolve_main_void_handler()
-Should_resolve_main_handler_via_dynamic_dispatch()
-Should_resolve_main_void_handler_via_dynamic_dispatch()
-Should_resolve_main_handler_by_specific_interface()
-Should_resolve_main_handler_by_given_interface()
-Should_raise_execption_on_null_request()
-Should_resolve_generic_handler()
-Should_resolve_generic_void_handler()
-Should_resolve_multiple_type_parameter_generic_handler()
-Should_resolve_closed_handler_if_defined()
-Should_resolve_open_handler_if_not_defined()
-TimeoutBehavior_Void_Should_Cancel_Long_Running_Task_And_Throw_Exception()
-TimeoutBehavior_NonVoid_Should_Cancel_Long_Running_Task_And_Throw_Exception()
+Should_resolve_main_handler() Task
+Should_resolve_main_void_handler() Task
+Should_resolve_main_handler_via_dynamic_dispatch() Task
+Should_resolve_main_void_handler_via_dynamic_dispatch() Task
+Should_resolve_main_handler_by_specific_interface() Task
+Should_resolve_main_handler_by_given_interface() Task
+Should_raise_execption_on_null_request() Task
+Should_resolve_generic_handler() Task
+Should_resolve_generic_void_handler() Task
+Should_resolve_multiple_type_parameter_generic_handler() Task
+Should_resolve_closed_handler_if_defined() Task
+Should_resolve_open_handler_if_not_defined() Task
+TimeoutBehavior_Void_Should_Cancel_Long_Running_Task_And_Throw_Exception() Task
+TimeoutBehavior_NonVoid_Should_Cancel_Long_Running_Task_And_Throw_Exception() Task
 class SendVoidInterfaceTests
-Should_resolve_main_void_handler()
+Should_resolve_main_void_handler() Task
 class ServiceFactoryCollectionBehavior
 class ServiceFactoryTests
-Should_throw_given_no_handler()
+Should_throw_given_no_handler() Task
 Should_not_throw_with_manual_registration()
 Should_throw_when_missing_required_configuration()
 class StreamPipelineTests
-Should_wrap_with_behavior()
-Should_wrap_generics_with_behavior()
-Should_handle_constrained_generics()
-Should_handle_concrete_and_open_generics()
+Should_wrap_with_behavior() Task
+Should_wrap_generics_with_behavior() Task
+Should_handle_constrained_generics() Task
+Should_handle_concrete_and_open_generics() Task
 class static TestContainer
-$Create(config Action<ServiceCollection>)
+$Create(config Action<ServiceCollection>) IServiceProvider
 class UnitTests
-Should_be_equal_to_each_other()
+Should_be_equal_to_each_other() Task
 Should_be_equitable()
 Should_tostring()
 Should_compareto_as_zero()
-$ValueData()
-$CompareToValueData()
+$ValueData() object[][]
+$CompareToValueData() object[][]
 Should_be_equal(value object, isEqual bool)
 Should_compareto_value_as_zero(value object)
 
@@ -769,8 +764,8 @@ class DerivingRequestsTests
 - _provider IServiceProvider
 - _mediator IMediator
 DerivingRequestsTests()
-ShouldReturnPingPong()
-ShouldReturnDerivedPingPong()
+ShouldReturnPingPong() Task
+ShouldReturnDerivedPingPong() Task
 class DuplicateAssemblyResolutionTests
 - _provider IServiceProvider
 DuplicateAssemblyResolutionTests()
@@ -792,84 +787,84 @@ class InternalPing
 class StreamPing
 Message string?
 class GenericHandler
-Handle(notification INotification, cancellationToken CancellationToken)
+Handle(notification INotification, cancellationToken CancellationToken) Task
 class DingAsyncHandler
-Handle(message Ding, cancellationToken CancellationToken)
+Handle(message Ding, cancellationToken CancellationToken) Task
 class PingedHandler
-Handle(notification Pinged, cancellationToken CancellationToken)
+Handle(notification Pinged, cancellationToken CancellationToken) Task
 class PingedAlsoHandler
-Handle(notification Pinged, cancellationToken CancellationToken)
+Handle(notification Pinged, cancellationToken CancellationToken) Task
 class PingedAlsoOpenHandler
-Handle(notification TNotification, cancellationToken CancellationToken)
+Handle(notification TNotification, cancellationToken CancellationToken) Task
 class Logger
 Messages IList<string>
 class PingHandler
 - _logger Logger
 PingHandler(logger Logger)
-Handle(message Ping, cancellationToken CancellationToken)
+Handle(message Ping, cancellationToken CancellationToken) Task<Pong>
 class DerivedPingHandler
 - _logger Logger
 DerivedPingHandler(logger Logger)
-Handle(message DerivedPing, cancellationToken CancellationToken)
+Handle(message DerivedPing, cancellationToken CancellationToken) Task<Pong>
 class ZingHandler
 - _output Logger
 ZingHandler(output Logger)
-Handle(message Zing, cancellationToken CancellationToken)
+Handle(message Zing, cancellationToken CancellationToken) Task<Zong>
 class PingStreamHandler
 - _output Logger
 PingStreamHandler(output Logger)
-Handle(request StreamPing, cancellationToken CancellationToken)
+Handle(request StreamPing, cancellationToken CancellationToken) IAsyncEnumerable<Pong>
 class DuplicateTest
 class DuplicateHandler1
-Handle(message DuplicateTest, cancellationToken CancellationToken)
+Handle(message DuplicateTest, cancellationToken CancellationToken) Task<string>
 class DuplicateHandler2
-Handle(message DuplicateTest, cancellationToken CancellationToken)
+Handle(message DuplicateTest, cancellationToken CancellationToken) Task<string>
 class InternalPingHandler
-Handle(request InternalPing, cancellationToken CancellationToken)
+Handle(request InternalPing, cancellationToken CancellationToken) Task
 class MyCustomMediator
-Send(request object, cancellationToken CancellationToken)
-CreateStream(request IStreamRequest<TResponse>, cancellationToken CancellationToken)
-CreateStream(request object, cancellationToken CancellationToken)
-Publish(notification object, cancellationToken CancellationToken)
-Publish(notification TNotification, cancellationToken CancellationToken)
-Send(request IRequest<TResponse>, cancellationToken CancellationToken)
-Send(request TRequest, cancellationToken CancellationToken)
+Send(request object, cancellationToken CancellationToken) Task<object?>
+CreateStream(request IStreamRequest<TResponse>, cancellationToken CancellationToken) IAsyncEnumerable<TResponse>
+CreateStream(request object, cancellationToken CancellationToken) IAsyncEnumerable<object?>
+Publish(notification object, cancellationToken CancellationToken) Task
+Publish(notification TNotification, cancellationToken CancellationToken) Task
+Send(request IRequest<TResponse>, cancellationToken CancellationToken) Task<TResponse>
+Send(request TRequest, cancellationToken CancellationToken) Task
 interface ITypeArgument
 class ConcreteTypeArgument
 class OpenGenericVoidRequest
 class OpenGenericVoidRequestHandler
-Handle(request OpenGenericVoidRequest<T>, cancellationToken CancellationToken)
+Handle(request OpenGenericVoidRequest<T>, cancellationToken CancellationToken) Task
 class OpenGenericReturnTypeRequest
 class OpenGenericReturnTypeRequestHandler
-Handle(request OpenGenericReturnTypeRequest<T>, cancellationToken CancellationToken)
+Handle(request OpenGenericReturnTypeRequest<T>, cancellationToken CancellationToken) Task<string>
 class GenericPing
 Pong T?
 class GenericPingHandler
-Handle(request GenericPing<T>, cancellationToken CancellationToken)
+Handle(request GenericPing<T>, cancellationToken CancellationToken) Task<T>
 class VoidGenericPing
 class VoidGenericPingHandler
-Handle(request VoidGenericPing<T>, cancellationToken CancellationToken)
+Handle(request VoidGenericPing<T>, cancellationToken CancellationToken) Task
 class Issue1118Tests
-- $BuildProvider()
-Publishing_BaseEvent_Should_Call_BaseEventHandler_Once()
-Publishing_DerivedEvent_Should_Call_BaseEventHandler_ExactlyOnce()
-Publishing_DerivedEvent_Should_Call_DerivedEventHandler_Once()
+- $BuildProvider() IServiceProvider
+Publishing_BaseEvent_Should_Call_BaseEventHandler_Once() Task
+Publishing_DerivedEvent_Should_Call_BaseEventHandler_ExactlyOnce() Task
+Publishing_DerivedEvent_Should_Call_DerivedEventHandler_Once() Task
 class NotificationPublisherTests
 ShouldResolveDefaultPublisher()
-ShouldSubstitutePublisherInstance()
-ShouldSubstitutePublisherServiceType()
-ShouldSubstitutePublisherServiceTypeWithWhenAll()
+ShouldSubstitutePublisherInstance() Task
+ShouldSubstitutePublisherServiceType() Task
+ShouldSubstitutePublisherServiceTypeWithWhenAll() Task
 class PipelineMultiCallToConstructorTests
-Should_not_call_constructor_multiple_times_when_using_a_pipeline()
+Should_not_call_constructor_multiple_times_when_using_a_pipeline() Task
 class PipelineTests
-Should_wrap_with_behavior()
-Should_wrap_generics_with_behavior()
-Should_register_pre_and_post_processors()
-Should_pick_up_specific_exception_behaviors()
+Should_wrap_with_behavior() Task
+Should_wrap_generics_with_behavior() Task
+Should_register_pre_and_post_processors() Task
+Should_pick_up_specific_exception_behaviors() Task
 Should_pick_up_base_exception_behaviors()
 Should_handle_exceptions_from_behaviors()
 Should_pick_up_exception_actions()
-Should_handle_constrained_generics()
+Should_handle_constrained_generics() Task
 Should_throw_when_adding_non_open_behavior()
 Should_throw_when_adding_non_open_stream_behavior()
 Should_throw_when_adding_random_generic_type_as_open_behavior()
@@ -880,12 +875,12 @@ Should_handle_inferred_pre_processor_registration()
 Should_handle_inferred_post_processor_registration()
 Should_handle_open_behaviors_registration_from_a_single_type()
 Should_auto_register_processors_when_configured_including_all_concrete_types()
-Should_register_correctly()
-Should_register_open_behaviors_correctly()
-Should_apply_open_behavior_with_nested_generic_response_type()
+Should_register_correctly() Task
+Should_register_open_behaviors_correctly() Task
+Should_apply_open_behavior_with_nested_generic_response_type() Task
 class StreamPipelineTests
-Should_wrap_with_behavior()
-Should_register_and_wrap_with_behavior()
+Should_wrap_with_behavior() Task
+Should_register_and_wrap_with_behavior() Task
 class TypeEvaluatorTests
 - _provider IServiceProvider
 - _services IServiceCollection
@@ -909,11 +904,11 @@ ShouldHandleKeyedServices()
 
 module MediatR.Tests.MicrosoftExtensionsDI
 class abstract BaseGenericRequestHandlerTests
-# $GenerateTypesClosingExceedsMaximumAssembly()
-# $GenerateHandlerRegistrationsExceedsMaximumAssembly()
-# $GenerateGenericTypeParametersExceedsMaximumAssembly()
-# $GenerateTimeoutOccursAssembly()
-# $GenerateOptOutAssembly()
+# $GenerateTypesClosingExceedsMaximumAssembly() Assembly
+# $GenerateHandlerRegistrationsExceedsMaximumAssembly() Assembly
+# $GenerateGenericTypeParametersExceedsMaximumAssembly() Assembly
+# $GenerateTimeoutOccursAssembly() Assembly
+# $GenerateOptOutAssembly() Assembly
 # $CreateHandlerForOptOutTest(moduleBuilder ModuleBuilder)
 # $CreateHandlerForMissingConstraintsTest(moduleBuilder ModuleBuilder)
 # $CreateHandlerForExceedsMaximumClassesTest(moduleBuilder ModuleBuilder)
@@ -922,15 +917,15 @@ class abstract BaseGenericRequestHandlerTests
 # $CreateHandlerForTimeoutOccursTest(moduleBuilder ModuleBuilder)
 # $CreateHandlerForCombinationsTest(moduleBuilder ModuleBuilder, numberOfGenericParameters int)
 # $CreateClass(moduleBuilder ModuleBuilder, className string, interfaceType Type)
-# $CreateInterface(moduleBuilder ModuleBuilder, interfaceName string)
-# $CreateAssemblyModuleBuilder(name string, classes int, interfaces int, handlerCreation Action<ModuleBuilder>)
-# $GenerateCombinationsTestAssembly(classes int, interfaces int, genericParameters int)
-# $GetGenericParameterNames(numberOfTypeParameters int)
+# $CreateInterface(moduleBuilder ModuleBuilder, interfaceName string) Type
+# $CreateAssemblyModuleBuilder(name string, classes int, interfaces int, handlerCreation Action<ModuleBuilder>) AssemblyBuilder
+# $GenerateCombinationsTestAssembly(classes int, interfaces int, genericParameters int) AssemblyBuilder
+# $GetGenericParameterNames(numberOfTypeParameters int) string[]
 # $CreateRequestHandler(moduleBuilder ModuleBuilder, requestName string, numberOfTypeParameters int, numberOfInterfaces int, includeConstraints bool)
 # $CreateTestClassesAndInterfaces(moduleBuilder ModuleBuilder, numberOfClasses int, numberOfInterfaces int)
-# GenerateCombinations(types Type[], interfaces int)
-# GenerateCombinationsRecursive(groups List<Type>[], currentGroup int)
-# $CalculateTotalCombinations(numberOfClasses int, numberOfInterfaces int, numberOfTypeParameters int)
+# GenerateCombinations(types Type[], interfaces int) List<Type[]>
+# GenerateCombinationsRecursive(groups List<Type>[], currentGroup int) List<Type[]>
+# $CalculateTotalCombinations(numberOfClasses int, numberOfInterfaces int, numberOfTypeParameters int) int
 
 module MediatR.Extensions.Microsoft.DependencyInjection.Tests.Included
 class Foo
@@ -941,53 +936,53 @@ Message string?
 class FooHandler
 - _logger Logger
 FooHandler(logger Logger)
-Handle(message Foo, cancellationToken CancellationToken)
+Handle(message Foo, cancellationToken CancellationToken) Task<Bar>
 
 module MediatR.Tests.Pipeline
 class RequestExceptionActionTests
-Should_run_all_exception_actions_that_match_base_type()
-Should_run_matching_exception_actions_only_once()
+Should_run_all_exception_actions_that_match_base_type() Task
+Should_run_matching_exception_actions_only_once() Task
 class RequestExceptionHandlerTests
-Should_run_exception_handler_and_allow_for_exception_not_to_throw()
-Should_run_exception_handler_and_allow_for_exception_to_be_still_thrown()
-Should_run_exception_handler_and_unwrap_expections_thrown_in_the_handler()
-Should_run_matching_exception_handlers_only_once()
+Should_run_exception_handler_and_allow_for_exception_not_to_throw() Task
+Should_run_exception_handler_and_allow_for_exception_to_be_still_thrown() Task
+Should_run_exception_handler_and_unwrap_expections_thrown_in_the_handler() Task
+Should_run_matching_exception_handlers_only_once() Task
 class RequestPostProcessorTests
-Should_run_postprocessors()
+Should_run_postprocessors() Task
 class RequestPreProcessorTests
-Should_run_preprocessors()
+Should_run_preprocessors() Task
 
 module MediatR.Tests.Pipeline.Streams
 class StreamPipelineBehaviorTests
-Should_run_pipeline_behavior()
+Should_run_pipeline_behavior() Task
 
 rel
 ConstrainedRequestPostProcessor impl IRequestPostProcessor
-GenericHandler impl INotificationHandler
-GenericPipelineBehavior impl IPipelineBehavior
-GenericRequestPostProcessor impl IRequestPostProcessor
-GenericRequestPreProcessor impl IRequestPreProcessor
+MediatR.Examples.GenericHandler impl INotificationHandler
+MediatR.Examples.GenericPipelineBehavior impl IPipelineBehavior
+MediatR.Examples.GenericRequestPostProcessor impl IRequestPostProcessor
+MediatR.Examples.GenericRequestPreProcessor impl IRequestPreProcessor
 Jing impl IRequest
 JingHandler impl IRequestHandler
-Ping impl IRequest
-PingHandler impl IRequestHandler
-Pinged impl INotification
-PingedHandler impl INotificationHandler
+MediatR.Examples.Ping impl IRequest
+MediatR.Examples.PingHandler impl IRequestHandler
+MediatR.Examples.Pinged impl INotification
+MediatR.Examples.PingedHandler impl INotificationHandler
 PongedHandler impl INotificationHandler
 ConstrainedPingedHandler impl INotificationHandler
-PingedAlsoHandler impl INotificationHandler
+MediatR.Examples.PingedAlsoHandler impl INotificationHandler
 Ponged impl INotification
 WrappingWriter extend TextWriter
 ConnectionException extend Exception
 ForbiddenException extend ConnectionException
 ResourceNotFoundException extend ConnectionException
 ServerException extend Exception
-CommonExceptionHandler impl IRequestExceptionHandler
+MediatR.Examples.ExceptionHandler.CommonExceptionHandler impl IRequestExceptionHandler
 ConnectionExceptionHandler impl IRequestExceptionHandler
 AccessDeniedExceptionHandler impl IRequestExceptionHandler
-ServerExceptionHandler impl IRequestExceptionHandler
-CommonExceptionHandler impl IRequestExceptionHandler
-ServerExceptionHandler extend ServerExceptionHandler
+MediatR.Examples.ExceptionHandler.ServerExceptionHandler impl IRequestExceptionHandler
+MediatR.Examples.ExceptionHandler.Overrides.CommonExceptionHandler impl IRequestExceptionHandler
+MediatR.Examples.ExceptionHandler.Overrides.ServerExceptionHandler extend ServerExceptionHandler
 PingResourceHandler impl IRequestHandler
 PingNewResourceHandler impl IRequestHandler
 PingResourceTimeoutHandler impl IRequestHandler
@@ -996,9 +991,9 @@ PingProtectedResourceHandler impl IRequestHandler
 LogExceptionAction impl IRequestExceptionAction
 PingResource extend Ping
 PingNewResource extend Ping
-PingResourceTimeout extend PingResource
+MediatR.Examples.ExceptionHandler.PingResourceTimeout extend PingResource
 PingProtectedResource extend PingResource
-PingResourceTimeout extend PingResourceTimeout
+MediatR.Examples.ExceptionHandler.Overrides.PingResourceTimeout extend PingResourceTimeout
 GenericStreamPipelineBehavior impl IStreamPipelineBehavior
 Sing impl IStreamRequest
 SingHandler impl IStreamRequestHandler
@@ -1019,26 +1014,22 @@ RequestPostProcessorBehavior impl IPipelineBehavior
 RequestPreProcessorBehavior impl IPipelineBehavior
 NotificationHandlerWrapperImpl extend NotificationHandlerWrapper
 RequestHandlerWrapper extend RequestHandlerBase
-RequestHandlerWrapper extend RequestHandlerBase
-RequestHandlerWrapperImpl extend RequestHandlerWrapper
 RequestHandlerWrapperImpl extend RequestHandlerWrapper
 StreamRequestHandlerWrapper extend StreamRequestHandlerBase
 StreamRequestHandlerWrapperImpl extend StreamRequestHandlerWrapper
 IRequest extend IBaseRequest
-IRequest extend IBaseRequest
 Unit impl IEquatable
-Unit impl IComparable
 Unit impl IComparable
 DotTraceDiagnoserAttribute extend Attribute
 DotTraceDiagnoserAttribute impl IConfigSource
 DotTraceDiagnoser impl IDiagnoser
-GenericPipelineBehavior impl IPipelineBehavior
-GenericRequestPostProcessor impl IRequestPostProcessor
-GenericRequestPreProcessor impl IRequestPreProcessor
-Ping impl IRequest
-PingHandler impl IRequestHandler
-Pinged impl INotification
-PingedHandler impl INotificationHandler
+MediatR.Benchmarks.GenericPipelineBehavior impl IPipelineBehavior
+MediatR.Benchmarks.GenericRequestPostProcessor impl IRequestPostProcessor
+MediatR.Benchmarks.GenericRequestPreProcessor impl IRequestPreProcessor
+MediatR.Benchmarks.Ping impl IRequest
+MediatR.Benchmarks.PingHandler impl IRequestHandler
+MediatR.Benchmarks.Pinged impl INotification
+MediatR.Benchmarks.PingedHandler impl INotificationHandler
 AutoFacDependencyInjectionTests extend BaseAssemblyResolutionTests
 DryIocDependencyInjectionTests extend BaseAssemblyResolutionTests
 LamarDependencyInjectionTests extend BaseAssemblyResolutionTests
@@ -1046,8 +1037,8 @@ LightInjectDependencyInjectionTests extend BaseAssemblyResolutionTests
 MicrosoftDependencyInjectionTests extend BaseAssemblyResolutionTests
 StashBoxDependencyInjectionTests extend BaseAssemblyResolutionTests
 BaseAssemblyResolutionTests impl IClassFixture
-Ding impl INotification
-InternalPing impl IRequest
+MediatR.DependencyInjectionTests.Contracts.Notifications.Ding impl INotification
+MediatR.DependencyInjectionTests.Contracts.Requests.InternalPing impl IRequest
 InternalVoidPing impl IRequest
 PrivatePing impl IRequest
 PrivateVoidPing impl IRequest
@@ -1063,19 +1054,19 @@ LightInjectServiceProviderFixture extend BaseServiceProviderFixture
 MicrosoftServiceProviderFixture extend BaseServiceProviderFixture
 StashBoxServiceProviderFixture extend BaseServiceProviderFixture
 GenericRequestHandlerTests extend BaseGenericRequestHandlerTests
-Ping impl IRequest
+MediatR.Extensions.Microsoft.DependencyInjection.Tests.Ping impl IRequest
 DerivedPing extend Ping
 Zing impl IRequest
-Ding impl IRequest
-Pinged impl INotification
-InternalPing impl IRequest
+MediatR.Extensions.Microsoft.DependencyInjection.Tests.Ding impl IRequest
+MediatR.Extensions.Microsoft.DependencyInjection.Tests.Pinged impl INotification
+MediatR.Extensions.Microsoft.DependencyInjection.Tests.InternalPing impl IRequest
 StreamPing impl IStreamRequest
-GenericHandler impl INotificationHandler
+MediatR.Extensions.Microsoft.DependencyInjection.Tests.GenericHandler impl INotificationHandler
 DingAsyncHandler impl IRequestHandler
-PingedHandler impl INotificationHandler
-PingedAlsoHandler impl INotificationHandler
+MediatR.Extensions.Microsoft.DependencyInjection.Tests.PingedHandler impl INotificationHandler
+MediatR.Extensions.Microsoft.DependencyInjection.Tests.PingedAlsoHandler impl INotificationHandler
 PingedAlsoOpenHandler impl INotificationHandler
-PingHandler impl IRequestHandler
+MediatR.Extensions.Microsoft.DependencyInjection.Tests.PingHandler impl IRequestHandler
 DerivedPingHandler impl IRequestHandler
 ZingHandler impl IRequestHandler
 PingStreamHandler impl IStreamRequestHandler

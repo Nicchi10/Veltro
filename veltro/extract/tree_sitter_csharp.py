@@ -360,7 +360,7 @@ def extract_enum(node) -> list:
             values.append(field_text(member, "name"))
     return ["enum " + name + " = " + ", ".join(values)]
 
-def collect_edges(node, kind: str, edges: list) -> None:
+def collect_edges(node, kind: str, module_path: str, edges: list) -> None:
     """
 
     Record the inheritance edges of a type from its base list.
@@ -370,10 +370,16 @@ def collect_edges(node, kind: str, edges: list) -> None:
     naming convention: a base named I[A-Z]... is an interface ('impl'),
     everything else is a base class ('extend').
 
+    The declaring module travels with the edge so render_vel can qualify the
+    source when its simple name is not unique (SPEC 6). The TARGET keeps the
+    name as written: which namespace it resolves to needs 'using' resolution,
+    which is beyond the parse level, and guessing would invent relations.
+
     Args:
         node: the type declaration
         kind (str): the Veltro kind keyword
-        edges (list): the running list of (from, kind, to) to append to
+        module_path (str): the module the declaring type lives in
+        edges (list): the running list of (from_module, from, kind, to) to append to
 
     """
     child_name = field_text(node, "name")
@@ -399,9 +405,9 @@ def collect_edges(node, kind: str, edges: list) -> None:
             edge_kind = "impl"
         else:
             edge_kind = "extend"
-        edges.append((child_name, edge_kind, base_name))
+        edges.append((module_path, child_name, edge_kind, base_name))
 
-def extract_type(node, edges: list) -> list:
+def extract_type(node, module_path: str, edges: list) -> list:
     """
 
     Turn one type declaration into its Veltro lines, appending its inheritance
@@ -409,6 +415,7 @@ def extract_type(node, edges: list) -> list:
 
     Args:
         node: a type declaration node
+        module_path (str): the module the type lives in
         edges (list)
 
     Returns:
@@ -416,7 +423,7 @@ def extract_type(node, edges: list) -> list:
 
     """
     kind = classify_kind(node)
-    collect_edges(node, kind, edges)
+    collect_edges(node, kind, module_path, edges)
 
     if kind == "enum":
         return extract_enum(node)
@@ -515,6 +522,28 @@ def add_type_lines(module_types: dict, type_name: str, lines: list) -> None:
         known.add(member_line)
         existing.append(member_line)
 
+def count_type_names(modules: dict) -> dict:
+    """
+
+    How many modules declare each simple type name.
+
+    A name carried by more than one module cannot identify a type on its own,
+    so a relation row that uses it stays unresolved (the 'Ping in three
+    namespaces' case).
+
+    Args:
+        modules (dict): module path -> {type name -> its lines}
+
+    Returns:
+        dict: type name -> how many modules declare it
+
+    """
+    counts = {}
+    for module_types in modules.values():
+        for type_name in module_types:
+            counts[type_name] = counts.get(type_name, 0) + 1
+    return counts
+
 def unique_edges(edges: list) -> list:
     """
 
@@ -577,7 +606,7 @@ def collect(node, namespace: str, modules: dict, edges: list, stats: dict) -> No
             type_name = field_text(child, "name")
             stats.setdefault("ids", set()).add(module_path + "." + type_name)
             module_types = modules.setdefault(module_path, {})
-            add_type_lines(module_types, type_name, extract_type(child, edges))
+            add_type_lines(module_types, type_name, extract_type(child, module_path, edges))
         else:
             collect(child, current, modules, edges, stats)
 
@@ -597,9 +626,15 @@ def render_vel(modules: dict, edges: list) -> str:
 
     deduplicated_edges = unique_edges(edges)
     if deduplicated_edges:
+        name_counts = count_type_names(modules)
         lines.append("rel")
-        for from_name, kind, to_name in deduplicated_edges:
-            lines.append(from_name + " " + kind + " " + to_name)
+        for from_module, from_name, kind, to_name in deduplicated_edges:
+            source = from_name
+            # SPEC 6: a reference is the simple name when it is unique, and the module-qualified id otherwise. Writing the bare name for a type
+            # declared in several modules leaves the row unresolvable, so the relation is lost
+            if name_counts.get(from_name, 0) > 1:
+                source = from_module + "." + from_name
+            lines.append(source + " " + kind + " " + to_name)
         lines.append("")
 
     return "\n".join(lines).rstrip() + "\n"

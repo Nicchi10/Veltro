@@ -480,17 +480,23 @@ def clause_bases(clause) -> list:
         names.append(base_name)
     return names
 
-def collect_edges(node, name: str, edges: list) -> None:
+def collect_edges(node, name: str, module_path: str, edges: list) -> None:
     """
 
     Record a type's inheritance edges. Unlike C#, TypeScript states the kind:
     a class's 'extends' is a base class ('extend'), its 'implements' is an
     interface ('impl'), an interface's 'extends' is always 'extend'.
 
+    The declaring module travels with the edge so render_vel can qualify the
+    source when its simple name is not unique (SPEC 6). The TARGET keeps the
+    name as written: which module it resolves to needs import resolution,
+    which is beyond the parse level, and guessing would invent relations.
+
     Args:
         node: the type declaration
         name (str): the declaring type's name
-        edges (list): the running list of (from, kind, to) to append to
+        module_path (str): the module the declaring type lives in
+        edges (list): the running list of (from_module, from, kind, to) to append to
 
     """
     heritage = first_child_of_type(node, "class_heritage")
@@ -498,17 +504,17 @@ def collect_edges(node, name: str, edges: list) -> None:
         for clause in heritage.named_children:
             if clause.type == "extends_clause":
                 for base in clause_bases(clause):
-                    edges.append((name, "extend", base))
+                    edges.append((module_path, name, "extend", base))
             elif clause.type == "implements_clause":
                 for base in clause_bases(clause):
-                    edges.append((name, "impl", base))
+                    edges.append((module_path, name, "impl", base))
 
     interface_extends = first_child_of_type(node, "extends_type_clause")
     if interface_extends is not None:
         for base in clause_bases(interface_extends):
-            edges.append((name, "extend", base))
+            edges.append((module_path, name, "extend", base))
 
-def extract_type(node, edges: list) -> list:
+def extract_type(node, module_path: str, edges: list) -> list:
     """
 
     Turn one type declaration into its Veltro lines, appending its inheritance
@@ -516,6 +522,7 @@ def extract_type(node, edges: list) -> list:
 
     Args:
         node: a type declaration node
+        module_path (str): the module the type lives in
         edges (list)
 
     Returns:
@@ -528,7 +535,7 @@ def extract_type(node, edges: list) -> list:
     if not name:
         return []
 
-    collect_edges(node, name, edges)
+    collect_edges(node, name, module_path, edges)
 
     if kind == "enum":
         return extract_enum(node, name)
@@ -635,6 +642,28 @@ def add_type_lines(module_types: dict, type_name: str, lines: list) -> None:
         known.add(member_line)
         existing.append(member_line)
 
+def count_type_names(modules: dict) -> dict:
+    """
+
+    How many modules declare each simple type name.
+
+    A name carried by more than one module cannot identify a type on its own,
+    so a relation row that uses it stays unresolved (the 'Ping in three
+    modules' case).
+
+    Args:
+        modules (dict): module path -> {type name -> its lines}
+
+    Returns:
+        dict: type name -> how many modules declare it
+
+    """
+    counts = {}
+    for module_types in modules.values():
+        for type_name in module_types:
+            counts[type_name] = counts.get(type_name, 0) + 1
+    return counts
+
 def unique_edges(edges: list) -> list:
     """
 
@@ -689,13 +718,13 @@ def collect(node, namespace, file_module: str, modules: dict, edges: list, stats
             body = child.child_by_field_name("body")
             collect(body if body is not None else child, inner, file_module, modules, edges, stats)
         elif child.type in TYPE_DECLARATIONS:
-            lines = extract_type(child, edges)
+            module_path = (namespace if namespace else file_module) or "global"
+            lines = extract_type(child, module_path, edges)
             if not lines:
                 continue
             kind = TYPE_DECLARATIONS[child.type]
             base_kind = "class" if kind.startswith("class") else kind
             stats[base_kind] = stats.get(base_kind, 0) + 1
-            module_path = (namespace if namespace else file_module) or "global"
             # TypeScript merges repeated 'interface' declarations into one type, so the self-audit counts distinct ids, not declarations (the parser folds the declarations into a single node).
             type_name = field_text(child, "name")
             stats.setdefault("ids", set()).add(module_path + "." + type_name)
@@ -719,9 +748,15 @@ def render_vel(modules: dict, edges: list) -> str:
 
     deduplicated_edges = unique_edges(edges)
     if deduplicated_edges:
+        name_counts = count_type_names(modules)
         lines.append("rel")
-        for from_name, kind, to_name in deduplicated_edges:
-            lines.append(from_name + " " + kind + " " + to_name)
+        for from_module, from_name, kind, to_name in deduplicated_edges:
+            source = from_name
+            # SPEC 6: a reference is the simple name when it is unique, and the module-qualified id otherwise. Writing the bare name for a type
+            # declared in several modules leaves the row unresolvable, so the relation is lost
+            if name_counts.get(from_name, 0) > 1:
+                source = from_module + "." + from_name
+            lines.append(source + " " + kind + " " + to_name)
         lines.append("")
 
     return "\n".join(lines).rstrip() + "\n"

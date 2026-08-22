@@ -312,18 +312,24 @@ def extract_enum(class_node) -> list:
                     values.append(target.id)
     return ["enum " + class_node.name + " = " + ", ".join(values)]
 
-def extract_class(class_node):
+def extract_class(class_node, module_path: str):
     """
 
     Turn a class definition into Veltro lines plus its inheritance edges.
 
+    The declaring module travels with the edge so render_vel can qualify the
+    source when its simple name is not unique (SPEC 6). The base keeps the name
+    as written: which module it comes from needs import resolution, which this
+    extractor does not do, and guessing would invent relations.
+
     Args:
         class_node (ast.ClassDef)
+        module_path (str): the module the class lives in
 
     Returns:
         (lines, edges):
             lines (list[str]): the declaration and its members
-            edges (list[tuple]): (child_name, 'extend', base_name)
+            edges (list[tuple]): (module_path, child_name, 'extend', base_name)
 
     """
     base_names = set()
@@ -347,7 +353,7 @@ def extract_class(class_node):
     edges = []
     for base in raw_bases:
         if base not in IGNORED_BASES:
-            edges.append((class_node.name, "extend", base))
+            edges.append((module_path, class_node.name, "extend", base))
 
     if kind == "enum":
         return extract_enum(class_node), edges
@@ -396,7 +402,7 @@ def extract_module(source: str, module_path: str):
     for node in tree.body:
         if not isinstance(node, ast.ClassDef):
             continue
-        lines, class_edges = extract_class(node)
+        lines, class_edges = extract_class(node, module_path)
         type_lines.extend(lines)
         edges.extend(class_edges)
 
@@ -434,14 +440,35 @@ def iter_python_files(package_dir: str):
                 dotted = dotted[:-len(".__init__")]
             yield absolute_path, dotted
 
-def render_vel(modules: list, all_edges: list) -> str:
+def count_type_names(type_ids) -> dict:
+    """
+
+    How many modules declare each simple type name, read off the '<module>.<Name>'
+    ids. A name carried by more than one module cannot identify a type on its
+    own, so a relation row that uses it stays unresolved.
+
+    Args:
+        type_ids (iterable[str]): the distinct type ids of the project
+
+    Returns:
+        dict: type name -> how many modules declare it
+
+    """
+    counts = {}
+    for type_id in type_ids:
+        name = type_id.rsplit(".", 1)[-1]
+        counts[name] = counts.get(name, 0) + 1
+    return counts
+
+def render_vel(modules: list, all_edges: list, name_counts: dict) -> str:
     """
 
     Assemble the final '.vel' text from per-module lines and the global edges.
 
     Args:
         modules (list[tuple[str, list[str]]]): (module_path, type_lines)
-        all_edges (list[tuple]): (from, kind, to)
+        all_edges (list[tuple]): (from_module, from, kind, to)
+        name_counts (dict): type name -> how many modules declare it
 
     Returns:
         str: the complete '.vel' document
@@ -458,8 +485,13 @@ def render_vel(modules: list, all_edges: list) -> str:
 
     if all_edges:
         lines.append("rel")
-        for from_name, kind, to_name in all_edges:
-            lines.append(from_name + " " + kind + " " + to_name)
+        for from_module, from_name, kind, to_name in all_edges:
+            source = from_name
+            # SPEC 6: a reference is the simple name when it is unique, and the module-qualified id otherwise. Writing the bare name for a type
+            # declared in several modules leaves the row unresolvable, so the relation is lost
+            if name_counts.get(from_name, 0) > 1:
+                source = from_module + "." + from_name
+            lines.append(source + " " + kind + " " + to_name)
         lines.append("")
 
     return "\n".join(lines).rstrip() + "\n"
@@ -497,14 +529,14 @@ def extract_project(package_dir: str):
         for kind in ("class", "interface", "enum"):
             stats[kind] += module_stats[kind]
 
-    return render_vel(modules, all_edges), stats
+    return render_vel(modules, all_edges, count_type_names(stats["ids"])), stats
 
 def extract_to_vel(source: str, module_path: str) -> str:
     """
     Convenience for tests: extract a single source string into '.vel' text
     """
-    type_lines, edges, _stats = extract_module(source, module_path)
-    return render_vel([(module_path, type_lines)], edges)
+    type_lines, edges, stats = extract_module(source, module_path)
+    return render_vel([(module_path, type_lines)], edges, count_type_names(stats["ids"]))
 
 # ============ CLI ============
 
