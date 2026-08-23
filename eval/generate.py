@@ -41,7 +41,7 @@ def load_model(source: str):
 
     """
     if os.path.isdir(source):
-        vel_text, _stats = extract_project(source)
+        vel_text, _stats, _index = extract_project(source)
         name = os.path.basename(os.path.normpath(source))
     else:
         with open(source, encoding="utf-8") as vel_file:

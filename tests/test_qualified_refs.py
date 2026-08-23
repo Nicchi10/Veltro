@@ -118,7 +118,7 @@ class TestPythonQualifiesAmbiguousSource(unittest.TestCase):
             handle.write("from .base import Base\n\n\nclass Ping(Base):\n    pass\n" "\n\nclass Solo(Base):\n    pass\n")
         with open(os.path.join(package, "beta.py"), "w", encoding="utf-8") as handle:
             handle.write("from .base import Base\n\n\nclass Ping(Base):\n    pass\n")
-        self.vel, _stats = extract_project(package)
+        self.vel, _stats, _index = extract_project(package)
 
     def tearDown(self):
         import shutil

@@ -54,6 +54,7 @@ if REPO_ROOT not in sys.path:
     sys.path.insert(0, REPO_ROOT)
 
 from veltro.parser import parse_text
+from veltro.index import new_index, add_location, write_index, index_path_for
 
 # Two grammars share this binding: 'typescript' rejects JSX but allows the '<T>expr' cast syntax, 'tsx' is the reverse. 
 # So .tsx/.jsx/.js (which may carry JSX) use the tsx grammar, .ts/.mts/.cts use the typescript one.
@@ -690,7 +691,7 @@ def unique_edges(edges: list) -> list:
         unique.append(edge)
     return unique
 
-def collect(node, namespace, file_module: str, modules: dict, edges: list, stats: dict) -> None:
+def collect(node, namespace, file_module: str, modules: dict, edges: list, stats: dict, spans: list) -> None:
     """
 
     Recursively walk the tree: unwrap 'export' statements, descend into
@@ -707,16 +708,19 @@ def collect(node, namespace, file_module: str, modules: dict, edges: list, stats
         modules (dict): module path -> {type name -> its lines} (modified in place)
         edges (list): the running inheritance edges (modified in place)
         stats (dict): counts per kind (modified in place)
+        spans (list): (type id, line, end_line) per DECLARATION met in this file,
+            for the source index (modified in place). The file itself is attached
+            by the caller, which is the one that knows which file this tree is
 
     """
     for child in node.children:
         if child.type == "export_statement":
-            collect(child, namespace, file_module, modules, edges, stats)
+            collect(child, namespace, file_module, modules, edges, stats, spans)
         elif child.type == "internal_module":
             name = namespace_name(child)
             inner = (namespace + "." + name) if namespace else name
             body = child.child_by_field_name("body")
-            collect(body if body is not None else child, inner, file_module, modules, edges, stats)
+            collect(body if body is not None else child, inner, file_module, modules, edges, stats, spans)
         elif child.type in TYPE_DECLARATIONS:
             module_path = (namespace if namespace else file_module) or "global"
             lines = extract_type(child, module_path, edges)
@@ -727,10 +731,13 @@ def collect(node, namespace, file_module: str, modules: dict, edges: list, stats
             stats[base_kind] = stats.get(base_kind, 0) + 1
             # TypeScript merges repeated 'interface' declarations into one type, so the self-audit counts distinct ids, not declarations (the parser folds the declarations into a single node).
             type_name = field_text(child, "name")
-            stats.setdefault("ids", set()).add(module_path + "." + type_name)
+            type_id = module_path + "." + type_name
+            stats.setdefault("ids", set()).add(type_id)
             add_type_lines(modules.setdefault(module_path, {}), type_name, lines)
+            # tree-sitter rows are 0-based, the index records 1-based lines
+            spans.append((type_id, child.start_point[0] + 1, child.end_point[0] + 1))
         else:
-            collect(child, namespace, file_module, modules, edges, stats)
+            collect(child, namespace, file_module, modules, edges, stats, spans)
 
 def render_vel(modules: dict, edges: list) -> str:
     """
@@ -818,25 +825,33 @@ def extract_project(directory: str):
         directory (str): path to the source folder to scan
 
     Returns:
-        (vel_text, stats):
+        (vel_text, stats, source_index):
             vel_text (str): the complete '.vel' document
             stats (dict): counts of each kind (class / interface / enum)
+            source_index (dict): the sidecar index, id -> where it is declared
 
     """
     modules = {}
     edges = []
     stats = {"class": 0, "interface": 0, "enum": 0}
 
+    # The index is rooted where the module paths are, so a 'file' and a 'module' read as the same thing ('packages/common/x.ts' <-> 'packages.common.x')
     base = os.path.dirname(os.path.abspath(directory))
+    source_index = new_index(base)
+
     for path in iter_source_files(directory):
         with open(path, "rb") as source_file:
             source = source_file.read()
         parser = Parser(grammar_for(path))
         tree = parser.parse(source)
         file_module = module_for(path, base)
-        collect(tree.root_node, None, file_module, modules, edges, stats)
+        # Spans are gathered per file, because collect() walks a tree and only the loop knows which file that tree came from
+        spans = []
+        collect(tree.root_node, None, file_module, modules, edges, stats, spans)
+        for type_id, line, end_line in spans:
+            add_location(source_index, type_id, path, line, end_line)
 
-    return render_vel(modules, edges), stats
+    return render_vel(modules, edges), stats, source_index
 
 def extract_to_vel(source_text: str, module_path: str, jsx: bool = False) -> str:
     """
@@ -848,7 +863,7 @@ def extract_to_vel(source_text: str, module_path: str, jsx: bool = False) -> str
     modules = {}
     edges = []
     stats = {"class": 0, "interface": 0, "enum": 0}
-    collect(tree.root_node, None, module_path, modules, edges, stats)
+    collect(tree.root_node, None, module_path, modules, edges, stats, [])
     return render_vel(modules, edges)
 
 # ============ CLI ============
@@ -859,7 +874,7 @@ def main(argv=None):
     parser.add_argument("--out", help="where to write the .vel (default: stdout)")
     arguments = parser.parse_args(argv)
 
-    vel_text, stats = extract_project(arguments.source)
+    vel_text, stats, source_index = extract_project(arguments.source)
     seen_types = stats["class"] + stats["interface"] + stats["enum"]
     unique_types = len(stats.get("ids", ()))
 
@@ -879,6 +894,10 @@ def main(argv=None):
         with open(arguments.out, "w", encoding="utf-8", newline="\n") as out_file:
             out_file.write(vel_text)
         print(f"[INFO] - written: {arguments.out}")
+        # The index travels next to the '.vel' it describes. It is a derived, checkout-specific artefact: regenerate it, do not commit it
+        index_path = index_path_for(arguments.out)
+        write_index(source_index, index_path)
+        print(f"[INFO] - source index: {index_path}  ({len(source_index['locations'])} types)")
     else:
         print()
         print(vel_text)

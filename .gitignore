@@ -8,6 +8,8 @@ venv/
 
 build/
 
+*.index.json
+
 node_modules/
 veltro-viewer/dist/
 

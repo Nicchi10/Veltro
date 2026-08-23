@@ -41,7 +41,7 @@ How to run it:
 
     5. Programmatically, from Python:
         from veltro.extract import extract_project, extract_to_vel
-        vel_text, stats = extract_project("path/to/package")   # a whole package
+        vel_text, stats, index = extract_project("path/to/package")   # a whole package
         vel_text = extract_to_vel(source_string, "my.module")  # a single source
 """
 
@@ -51,6 +51,7 @@ import re
 import argparse
 
 from veltro.parser import parse_text
+from veltro.index import new_index, add_location, write_index, index_path_for
 
 
 # Base classes that map a class onto a different Veltro kind.
@@ -390,14 +391,15 @@ def extract_module(source: str, module_path: str):
         (type_lines, edges, stats):
             type_lines (list[str]): all declaration lines for this module
             edges (list[tuple]): inheritance edges found here
-            stats (dict): counts per kind
+            stats (dict): counts per kind, the distinct ids, and 'spans', one
+                (type id, line, end_line) per declaration for the source index
 
     """
     tree = ast.parse(source)
 
     type_lines = []
     edges = []
-    stats = {"class": 0, "interface": 0, "enum": 0, "ids": set()}
+    stats = {"class": 0, "interface": 0, "enum": 0, "ids": set(), "spans": []}
 
     for node in tree.body:
         if not isinstance(node, ast.ClassDef):
@@ -409,7 +411,10 @@ def extract_module(source: str, module_path: str):
         # A class can be defined twice in one module (conditional definitions),
         # and the parser folds those into a single node, so the self-audit
         # counts distinct ids rather than declarations.
-        stats["ids"].add(module_path + "." + node.name)
+        type_id = module_path + "." + node.name
+        stats["ids"].add(type_id)
+        # 'ast' lines are already 1-based, which is what the index records
+        stats["spans"].append((type_id, node.lineno, node.end_lineno or node.lineno))
 
         header = lines[0]
         if header.startswith("enum "):
@@ -505,14 +510,19 @@ def extract_project(package_dir: str):
         package_dir (str): path to the package to scan
 
     Returns:
-        (vel_text, stats):
+        (vel_text, stats, source_index):
             vel_text (str): the complete '.vel' document
             stats (dict): counts of modules and of each kind
+            source_index (dict): the sidecar index, id -> where it is declared
 
     """
     modules = []
     all_edges = []
     stats = {"modules": 0, "class": 0, "interface": 0, "enum": 0, "ids": set()}
+
+    # The index is rooted where the module paths are, so a 'file' and a 'module' read as the same thing ('pydantic/main.py' <-> 'pydantic.main')
+    base = os.path.dirname(os.path.abspath(package_dir))
+    source_index = new_index(base)
 
     for absolute_path, module_path in iter_python_files(package_dir):
         with open(absolute_path, encoding="utf-8") as source_file:
@@ -526,10 +536,12 @@ def extract_project(package_dir: str):
         all_edges.extend(edges)
         stats["modules"] += 1
         stats["ids"].update(module_stats["ids"])
+        for type_id, line, end_line in module_stats["spans"]:
+            add_location(source_index, type_id, absolute_path, line, end_line)
         for kind in ("class", "interface", "enum"):
             stats[kind] += module_stats[kind]
 
-    return render_vel(modules, all_edges, count_type_names(stats["ids"])), stats
+    return render_vel(modules, all_edges, count_type_names(stats["ids"])), stats, source_index
 
 def extract_to_vel(source: str, module_path: str) -> str:
     """
@@ -557,7 +569,7 @@ def main(argv=None):
     parser.add_argument("--out", help="where to write the .vel (default: stdout)")
     arguments = parser.parse_args(argv)
 
-    vel_text, stats = extract_project(arguments.package)
+    vel_text, stats, source_index = extract_project(arguments.package)
 
     seen_types = stats["class"] + stats["interface"] + stats["enum"]
     unique_types = len(stats["ids"])
@@ -579,6 +591,10 @@ def main(argv=None):
         with open(arguments.out, "w", encoding="utf-8", newline="\n") as out_file:
             out_file.write(vel_text)
         print(f"[INFO] - written: {arguments.out}")
+        # The index travels next to the '.vel' it describes. It is a derived, checkout-specific artefact: regenerate it, do not commit it
+        index_path = index_path_for(arguments.out)
+        write_index(source_index, index_path)
+        print(f"[INFO] - source index: {index_path}  ({len(source_index['locations'])} types)")
     else:
         print()
         print(vel_text)

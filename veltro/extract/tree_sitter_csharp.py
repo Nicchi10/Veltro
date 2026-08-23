@@ -50,6 +50,7 @@ if REPO_ROOT not in sys.path:
     sys.path.insert(0, REPO_ROOT)
 
 from veltro.parser import parse_text
+from veltro.index import new_index, add_location, write_index, index_path_for
 
 CSHARP = Language(tscsharp.language())
 
@@ -570,7 +571,7 @@ def unique_edges(edges: list) -> list:
         unique.append(edge)
     return unique
 
-def collect(node, namespace: str, modules: dict, edges: list, stats: dict) -> None:
+def collect(node, namespace: str, modules: dict, edges: list, stats: dict, spans: list) -> None:
     """
 
     Recursively walk the tree: descend into namespaces (tracking the dotted
@@ -583,6 +584,9 @@ def collect(node, namespace: str, modules: dict, edges: list, stats: dict) -> No
         modules (dict): namespace -> {type name -> its lines} (modified in place)
         edges (list): the running inheritance edges (modified in place)
         stats (dict): counts per kind (modified in place)
+        spans (list): (type id, line, end_line) per DECLARATION met in this file,
+            for the source index (modified in place). The file itself is attached
+            by the caller, which is the one that knows which file this tree is
 
     """
     # A braced 'namespace Foo { ... }' applies to its body. A file-scoped
@@ -592,11 +596,11 @@ def collect(node, namespace: str, modules: dict, edges: list, stats: dict) -> No
     for child in node.children:
         if child.type == "file_scoped_namespace_declaration":
             current = namespace_name(child, namespace)
-            collect(child, current, modules, edges, stats)
+            collect(child, current, modules, edges, stats, spans)
         elif child.type == "namespace_declaration":
             inner = namespace_name(child, namespace)
             body = child.child_by_field_name("body")
-            collect(body if body is not None else child, inner, modules, edges, stats)
+            collect(body if body is not None else child, inner, modules, edges, stats, spans)
         elif child.type in TYPE_DECLARATIONS:
             kind = TYPE_DECLARATIONS[child.type]
             stats[kind] = stats.get(kind, 0) + 1
@@ -604,11 +608,14 @@ def collect(node, namespace: str, modules: dict, edges: list, stats: dict) -> No
             # A 'partial class' is one type declared over several files, so the self-audit counts distinct ids, not declarations 
             # (the parser folds the declarations into a single node)
             type_name = field_text(child, "name")
-            stats.setdefault("ids", set()).add(module_path + "." + type_name)
+            type_id = module_path + "." + type_name
+            stats.setdefault("ids", set()).add(type_id)
             module_types = modules.setdefault(module_path, {})
             add_type_lines(module_types, type_name, extract_type(child, module_path, edges))
+            # tree-sitter rows are 0-based, the index records 1-based lines
+            spans.append((type_id, child.start_point[0] + 1, child.end_point[0] + 1))
         else:
-            collect(child, current, modules, edges, stats)
+            collect(child, current, modules, edges, stats, spans)
 
 def render_vel(modules: dict, edges: list) -> str:
     """
@@ -657,23 +664,29 @@ def extract_project(directory: str):
         directory (str): path to the source folder to scan
 
     Returns:
-        (vel_text, stats):
+        (vel_text, stats, source_index):
             vel_text (str): the complete '.vel' document
             stats (dict): counts of each kind (class / interface / enum)
+            source_index (dict): the sidecar index, id -> where it is declared
 
     """
     parser = Parser(CSHARP)
     modules = {}
     edges = []
     stats = {"class": 0, "interface": 0, "enum": 0}
+    source_index = new_index(directory)
 
     for path in iter_csharp_files(directory):
         with open(path, "rb") as source_file:
             source = source_file.read()
         tree = parser.parse(source)
-        collect(tree.root_node, "", modules, edges, stats)
+        # Spans are gathered per file, because collect() walks a tree and only the loop knows which file that tree came from
+        spans = []
+        collect(tree.root_node, "", modules, edges, stats, spans)
+        for type_id, line, end_line in spans:
+            add_location(source_index, type_id, path, line, end_line)
 
-    return render_vel(modules, edges), stats
+    return render_vel(modules, edges), stats, source_index
 
 def extract_to_vel(source_text: str) -> str:
     """
@@ -684,7 +697,7 @@ def extract_to_vel(source_text: str) -> str:
     modules = {}
     edges = []
     stats = {"class": 0, "interface": 0, "enum": 0}
-    collect(tree.root_node, "", modules, edges, stats)
+    collect(tree.root_node, "", modules, edges, stats, [])
     return render_vel(modules, edges)
 
 # ============ CLI ============
@@ -695,7 +708,7 @@ def main(argv=None):
     parser.add_argument("--out", help="where to write the .vel (default: stdout)")
     arguments = parser.parse_args(argv)
 
-    vel_text, stats = extract_project(arguments.source)
+    vel_text, stats, source_index = extract_project(arguments.source)
     seen_types = stats["class"] + stats["interface"] + stats["enum"]
     unique_types = len(stats.get("ids", ()))
 
@@ -715,6 +728,10 @@ def main(argv=None):
         with open(arguments.out, "w", encoding="utf-8", newline="\n") as out_file:
             out_file.write(vel_text)
         print(f"[INFO] - written: {arguments.out}")
+        # The index travels next to the '.vel' it describes. It is a derived, checkout-specific artefact: regenerate it, do not commit it
+        index_path = index_path_for(arguments.out)
+        write_index(source_index, index_path)
+        print(f"[INFO] - source index: {index_path}  ({len(source_index['locations'])} types)")
     else:
         print()
         print(vel_text)
