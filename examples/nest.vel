@@ -2,12 +2,12 @@ veltro 1
 
 module packages.common.decorators.core.controller.decorator
 interface ControllerOptions
-path Any?
-host Any?
+path string | string[]?
+host string | RegExp | Array<string | RegExp>?
 
 module packages.common.decorators.http.request-mapping.decorator
 interface RequestMappingMetadata
-path Any?
+path string | string[]?
 method RequestMethod?
 
 module packages.common.decorators.http.route-params.decorator
@@ -34,27 +34,27 @@ enum VersioningType = URI, HEADER, MEDIA_TYPE, CUSTOM
 
 module packages.common.exceptions.bad-gateway.exception
 class BadGatewayException
-BadGatewayException(objectOrError any?, descriptionOrOptions Any)
+BadGatewayException(objectOrError any?, descriptionOrOptions string | HttpExceptionOptions)
 
 module packages.common.exceptions.bad-request.exception
 class BadRequestException
-BadRequestException(objectOrError any?, descriptionOrOptions Any)
+BadRequestException(objectOrError any?, descriptionOrOptions string | HttpExceptionOptions)
 
 module packages.common.exceptions.conflict.exception
 class ConflictException
-ConflictException(objectOrError any?, descriptionOrOptions Any)
+ConflictException(objectOrError any?, descriptionOrOptions string | HttpExceptionOptions)
 
 module packages.common.exceptions.forbidden.exception
 class ForbiddenException
-ForbiddenException(objectOrError any?, descriptionOrOptions Any)
+ForbiddenException(objectOrError any?, descriptionOrOptions string | HttpExceptionOptions)
 
 module packages.common.exceptions.gateway-timeout.exception
 class GatewayTimeoutException
-GatewayTimeoutException(objectOrError any?, descriptionOrOptions Any)
+GatewayTimeoutException(objectOrError any?, descriptionOrOptions string | HttpExceptionOptions)
 
 module packages.common.exceptions.gone.exception
 class GoneException
-GoneException(objectOrError any?, descriptionOrOptions Any)
+GoneException(objectOrError any?, descriptionOrOptions string | HttpExceptionOptions)
 
 module packages.common.exceptions.http-version-not-supported.exception
 class HttpVersionNotSupportedException
@@ -69,23 +69,23 @@ description string?
 httpExceptionOptions HttpExceptionOptions?
 class HttpException
 cause unknown
-HttpException(response Any, status number, options HttpExceptionOptions?)
+HttpException(response string | Record<string,any>, status number, options HttpExceptionOptions?)
 initCause()
 initMessage()
 initName()
-getResponse() Any
+getResponse() string | object
 getStatus() number
 $createBody(nil ''?, message HttpExceptionBodyMessage, statusCode number) HttpExceptionBody
 $createBody(message HttpExceptionBodyMessage, error string, statusCode number) HttpExceptionBody
 $createBody(custom Body) Body
-$createBody(arg0 Any, arg1 Any?, statusCode number?) Any
-$getDescriptionFrom(descriptionOrOptions Any) string
-$getHttpExceptionOptionsFrom(descriptionOrOptions Any) HttpExceptionOptions
-$extractDescriptionAndOptionsFrom(descriptionOrOptions Any) DescriptionAndOptions
+$createBody(arg0 null | HttpExceptionBodyMessage | Body, arg1 HttpExceptionBodyMessage | string?, statusCode number?) HttpExceptionBody | Body
+$getDescriptionFrom(descriptionOrOptions string | HttpExceptionOptions) string
+$getHttpExceptionOptionsFrom(descriptionOrOptions string | HttpExceptionOptions) HttpExceptionOptions
+$extractDescriptionAndOptionsFrom(descriptionOrOptions string | HttpExceptionOptions) DescriptionAndOptions
 
 module packages.common.exceptions.im-a-teapot.exception
 class ImATeapotException
-ImATeapotException(objectOrError any?, descriptionOrOptions Any)
+ImATeapotException(objectOrError any?, descriptionOrOptions string | HttpExceptionOptions)
 
 module packages.common.exceptions.internal-server-error.exception
 class InternalServerErrorException
@@ -96,43 +96,43 @@ class IntrinsicException
 
 module packages.common.exceptions.method-not-allowed.exception
 class MethodNotAllowedException
-MethodNotAllowedException(objectOrError any?, descriptionOrOptions Any)
+MethodNotAllowedException(objectOrError any?, descriptionOrOptions string | HttpExceptionOptions)
 
 module packages.common.exceptions.misdirected.exception
 class MisdirectedException
-MisdirectedException(objectOrError any?, descriptionOrOptions Any)
+MisdirectedException(objectOrError any?, descriptionOrOptions string | HttpExceptionOptions)
 
 module packages.common.exceptions.not-acceptable.exception
 class NotAcceptableException
-NotAcceptableException(objectOrError any?, descriptionOrOptions Any)
+NotAcceptableException(objectOrError any?, descriptionOrOptions string | HttpExceptionOptions)
 
 module packages.common.exceptions.not-found.exception
 class NotFoundException
-NotFoundException(objectOrError any?, descriptionOrOptions Any)
+NotFoundException(objectOrError any?, descriptionOrOptions string | HttpExceptionOptions)
 
 module packages.common.exceptions.not-implemented.exception
 class NotImplementedException
-NotImplementedException(objectOrError any?, descriptionOrOptions Any)
+NotImplementedException(objectOrError any?, descriptionOrOptions string | HttpExceptionOptions)
 
 module packages.common.exceptions.payload-too-large.exception
 class PayloadTooLargeException
-PayloadTooLargeException(objectOrError any?, descriptionOrOptions Any)
+PayloadTooLargeException(objectOrError any?, descriptionOrOptions string | HttpExceptionOptions)
 
 module packages.common.exceptions.precondition-failed.exception
 class PreconditionFailedException
-PreconditionFailedException(objectOrError any?, descriptionOrOptions Any)
+PreconditionFailedException(objectOrError any?, descriptionOrOptions string | HttpExceptionOptions)
 
 module packages.common.exceptions.request-timeout.exception
 class RequestTimeoutException
-RequestTimeoutException(objectOrError any?, descriptionOrOptions Any)
+RequestTimeoutException(objectOrError any?, descriptionOrOptions string | HttpExceptionOptions)
 
 module packages.common.exceptions.service-unavailable.exception
 class ServiceUnavailableException
-ServiceUnavailableException(objectOrError any?, descriptionOrOptions Any)
+ServiceUnavailableException(objectOrError any?, descriptionOrOptions string | HttpExceptionOptions)
 
 module packages.common.exceptions.unauthorized.exception
 class UnauthorizedException
-UnauthorizedException(objectOrError any?, descriptionOrOptions Any)
+UnauthorizedException(objectOrError any?, descriptionOrOptions string | HttpExceptionOptions)
 
 module packages.common.exceptions.unprocessable-entity.exception
 class UnprocessableEntityException
@@ -150,7 +150,7 @@ class StreamableFile
 # logError Any
 StreamableFile(buffer Uint8Array, options StreamableFileOptions?)
 StreamableFile(readable Readable, options StreamableFileOptions?)
-StreamableFile(bufferOrReadStream Any, options StreamableFileOptions)
+StreamableFile(bufferOrReadStream Uint8Array | Readable, options StreamableFileOptions)
 getStream() Readable
 getHeaders()
 errorHandler Any
@@ -169,7 +169,7 @@ end Any
 module packages.common.file-stream.interfaces.streamable-options.interface
 interface StreamableFileOptions
 type string?
-disposition Any?
+disposition string | string[]?
 length number?
 
 module packages.common.interfaces.abstract.interface
@@ -182,13 +182,13 @@ exclude T[]?
 
 module packages.common.interfaces.nest-application-context-options.interface
 class NestApplicationContextOptions
-logger Any?
+logger LoggerService | LogLevel[] | false?
 abortOnError boolean?
 bufferLogs boolean?
 autoFlushLogs boolean?
 preview boolean?
 snapshot boolean?
-moduleIdGeneratorAlgorithm Any?
+moduleIdGeneratorAlgorithm 'deep-hash' | 'reference'?
 instrument Any?
 forceConsole boolean?
 
@@ -197,26 +197,26 @@ interface GetOrResolveOptions
 strict boolean?
 each boolean?
 interface INestApplicationContext
-select(module Any, options SelectOptions?) INestApplicationContext
-get(typeOrToken Any) TResult
-get(typeOrToken Any, options Any) TResult
-get(typeOrToken Any, options Any) Array<TResult>
-get(typeOrToken Any, options GetOrResolveOptions?) Any
-resolve(typeOrToken Any) Promise<TResult>
-resolve(typeOrToken Any, contextId Any?) Promise<TResult>
-resolve(typeOrToken Any, contextId Any?, options Any?) Promise<TResult>
-resolve(typeOrToken Any, contextId Any?, options Any?) Promise<Array<TResult>>
-resolve(typeOrToken Any, contextId Any?, options GetOrResolveOptions?) Any
-registerRequestByContextId(request T, contextId Any)
+select(module Type<T>| DynamicModule, options SelectOptions?) INestApplicationContext
+get(typeOrToken Type<TInput>| Function | string | symbol) TResult
+get(typeOrToken Type<TInput>| Function | string | symbol, options { strict?: boolean; each?: undefined | false }) TResult
+get(typeOrToken Type<TInput>| Function | string | symbol, options { strict?: boolean; each: true }) Array<TResult>
+get(typeOrToken Type<TInput>| Function | string | symbol, options GetOrResolveOptions?) TResult | Array<TResult>
+resolve(typeOrToken Type<TInput>| Function | string | symbol) Promise<TResult>
+resolve(typeOrToken Type<TInput>| Function | string | symbol, contextId { id: number }?) Promise<TResult>
+resolve(typeOrToken Type<TInput>| Function | string | symbol, contextId { id: number }?, options { strict?: boolean; each?: undefined | false }?) Promise<TResult>
+resolve(typeOrToken Type<TInput>| Function | string | symbol, contextId { id: number }?, options { strict?: boolean; each: true }?) Promise<Array<TResult>>
+resolve(typeOrToken Type<TInput>| Function | string | symbol, contextId { id: number }?, options GetOrResolveOptions?) Promise<TResult | Array<TResult>>
+registerRequestByContextId(request T, contextId { id: number })
 close() Promise<void>
-useLogger(logger Any)
+useLogger(logger LoggerService | LogLevel[] | false)
 flushLogs()
-enableShutdownHooks(signals Any?, options ShutdownHooksOptions?) this
+enableShutdownHooks(signals ShutdownSignal[] | string[]?, options ShutdownHooksOptions?) this
 init() Promise<this>
 
 module packages.common.interfaces.nest-application-options.interface
 interface NestApplicationOptions
-cors Any?
+cors boolean | CorsOptions | CorsOptionsDelegate<any>?
 bodyParser boolean?
 httpsOptions HttpsOptions?
 rawBody boolean?
@@ -227,8 +227,8 @@ interface INestApplication
 use() this
 enableCors(options any?)
 enableVersioning(options VersioningOptions?) this
-listen(port Any, callback Any?) Promise<any>
-listen(port Any, hostname string, callback Any?) Promise<any>
+listen(port number | string, callback Any?) Promise<any>
+listen(port number | string, hostname string, callback Any?) Promise<any>
 getUrl() Promise<string>
 setGlobalPrefix(prefix string, options GlobalPrefixOptions?) this
 useWebSocketAdapter(adapter WebSocketAdapter) this
@@ -277,7 +277,7 @@ type VersioningType.HEADER
 header string
 interface UriVersioningOptions
 type VersioningType.URI
-prefix Any?
+prefix string | false?
 interface MediaTypeVersioningOptions
 type VersioningType.MEDIA_TYPE
 key string
@@ -315,7 +315,7 @@ catch(exception T, host ArgumentsHost) any
 
 module packages.common.interfaces.external.class-transform-options.interface
 interface ClassTransformOptions
-strategy Any?
+strategy 'excludeAll' | 'exposeAll'?
 groups string[]?
 version number?
 excludePrefixes string[]?
@@ -329,10 +329,10 @@ exposeUnsetFields boolean?
 
 module packages.common.interfaces.external.cors-options.interface
 interface CorsOptions
-origin Any?
-methods Any?
-allowedHeaders Any?
-exposedHeaders Any?
+origin StaticOrigin | CustomOrigin?
+methods string | string[]?
+allowedHeaders string | string[]?
+exposedHeaders string | string[]?
 credentials boolean?
 maxAge number?
 preflightContinue boolean?
@@ -358,8 +358,8 @@ secureOptions number?
 
 module packages.common.interfaces.external.transformer-package.interface
 interface TransformerPackage
-plainToInstance(cls Type<T>, plain unknown, options ClassTransformOptions?) Any
-classToPlain(object unknown, options ClassTransformOptions?) Any
+plainToInstance(cls Type<T>, plain unknown, options ClassTransformOptions?) T | T[]
+classToPlain(object unknown, options ClassTransformOptions?) Record<string,any>| Record<string,any>[]
 
 module packages.common.interfaces.external.validation-error.interface
 interface ValidationError
@@ -388,7 +388,7 @@ stopAtFirstError boolean?
 
 module packages.common.interfaces.external.validator-package.interface
 interface ValidatorPackage
-validate(object unknown, validatorOptions ValidatorOptions?) Any
+validate(object unknown, validatorOptions ValidatorOptions?) ValidationError[] | Promise<ValidationError[]>
 
 module packages.common.interfaces.features.arguments-host.interface
 interface HttpArgumentsHost
@@ -412,7 +412,7 @@ getType() TContext
 
 module packages.common.interfaces.features.can-activate.interface
 interface CanActivate
-canActivate(context ExecutionContext) Any
+canActivate(context ExecutionContext) boolean | Promise<boolean>| Observable<boolean>
 
 module packages.common.interfaces.features.execution-context.interface
 interface ExecutionContext
@@ -423,12 +423,12 @@ module packages.common.interfaces.features.nest-interceptor.interface
 interface CallHandler
 handle() Observable<T>
 interface NestInterceptor
-intercept(context ExecutionContext, next CallHandler<T>) Any
+intercept(context ExecutionContext, next CallHandler<T>) Observable<R>| Promise<Observable<R>>
 
 module packages.common.interfaces.features.pipe-transform.interface
 interface ArgumentMetadata
 type Paramtype
-metatype Any?
+metatype Type<any>| undefined?
 data string?
 interface PipeTransform
 transform(value T, metadata ArgumentMetadata) R
@@ -466,8 +466,8 @@ statusCode HttpStatus
 
 module packages.common.interfaces.http.http-server.interface
 interface HttpServer
-use(handler Any) any
-use(path string, handler Any) any
+use(handler | RequestHandler<TRequest,TResponse>| ErrorHandler<TRequest,TResponse>) any
+use(path string, handler | RequestHandler<TRequest,TResponse>| ErrorHandler<TRequest,TResponse>) any
 useBodyParser() any
 get(handler RequestHandler<TRequest,TResponse>) any
 get(path string, handler RequestHandler<TRequest,TResponse>) any
@@ -501,8 +501,8 @@ options(handler RequestHandler<TRequest,TResponse>) any
 options(path string, handler RequestHandler<TRequest,TResponse>) any
 search(handler RequestHandler<TRequest,TResponse>) any
 search(path string, handler RequestHandler<TRequest,TResponse>) any
-listen(port Any, callback Any?) any
-listen(port Any, hostname string, callback Any?) any
+listen(port number | string, callback Any?) any
+listen(port number | string, hostname string, callback Any?) any
 reply(response any, body any, statusCode number?) any
 status(response any, statusCode number) any
 end(response any, message string?) any
@@ -513,7 +513,7 @@ setHeader(response any, name string, value string) any
 setErrorHandler(handler Function, prefix string?) any
 setNotFoundHandler(handler Function, prefix string?) any
 useStaticAssets() this
-setBaseViewsDir(path Any) this
+setBaseViewsDir(path string | string[]) this
 setViewEngine(engineOrOptions any) this
 createMiddlewareFactory(method RequestMethod) Any
 getRequestHostname(request TRequest) string
@@ -532,7 +532,7 @@ normalizePath(path string) string
 
 module packages.common.interfaces.http.message-event.interface
 interface MessageEvent
-data Any
+data string | object
 id string?
 type string?
 retry number?
@@ -579,7 +579,7 @@ scope Scope
 
 module packages.common.interfaces.modules.module-metadata.interface
 interface ModuleMetadata
-imports Any?
+imports Array<Type<any>| DynamicModule | Promise<DynamicModule>| ForwardReference>?
 controllers Type<any>[]?
 providers Provider[]?
 exports Any?
@@ -602,7 +602,7 @@ inject never?
 interface FactoryProvider
 provide InjectionToken
 useFactory Any
-inject Any?
+inject Array<InjectionToken | OptionalFactoryDependency>?
 scope Scope?
 durable boolean?
 interface ExistingProvider
@@ -623,7 +623,7 @@ close(server TServer) any
 
 module packages.common.module-utils.configurable-module.builder
 interface ConfigurableModuleBuilderOptions
-optionsInjectionToken Any?
+optionsInjectionToken string | symbol?
 moduleName string?
 alwaysTransient boolean?
 class ConfigurableModuleBuilder
@@ -639,7 +639,7 @@ setFactoryMethodName(key FactoryClassMethodKey)
 build() ConfigurableModuleHost<ModuleOptions,StaticMethodKey,FactoryClassMethodKey,ExtraModuleDefinitionOptions>
 - constructInjectionTokenString() string
 - createConfigurableModuleCls() ConfigurableModuleCls<ModuleOptions,StaticMethodKey,FactoryClassMethodKey>
-- createTypeProxy(typeName Any)
+- createTypeProxy(typeName 'OPTIONS_TYPE' | 'ASYNC_OPTIONS_TYPE' | 'OptionsFactoryInterface')
 
 module packages.common.module-utils.interfaces.configurable-module-async-options.interface
 interface ConfigurableModuleAsyncOptions
@@ -652,14 +652,14 @@ provideInjectionTokensFrom Provider[]?
 module packages.common.module-utils.interfaces.configurable-module-host.interface
 interface ConfigurableModuleHost
 ConfigurableModuleClass ConfigurableModuleCls<ModuleOptions,MethodKey,FactoryClassMethodKey,ExtraModuleDefinitionOptions>
-MODULE_OPTIONS_TOKEN Any
+MODULE_OPTIONS_TOKEN string | symbol
 ASYNC_OPTIONS_TYPE Any
-OPTIONS_TYPE Any
+OPTIONS_TYPE ModuleOptions & Partial<ExtraModuleDefinitionOptions>
 
 module packages.common.pipes.default-value.pipe
 class DefaultValuePipe
 DefaultValuePipe(defaultValue R)
-transform(value T?, _metadata ArgumentMetadata?) Any
+transform(value T?, _metadata ArgumentMetadata?) T | R
 
 module packages.common.pipes.parse-array.pipe
 interface ParseArrayOptions
@@ -683,9 +683,9 @@ optional boolean?
 class ParseBoolPipe
 # exceptionFactory Any
 ParseBoolPipe(options ParseBoolPipeOptions?)
-transform(value Any, metadata ArgumentMetadata) Promise<boolean>
-# isTrue(value Any) boolean
-# isFalse(value Any) boolean
+transform(value string | boolean, metadata ArgumentMetadata) Promise<boolean>
+# isTrue(value string | boolean) boolean
+# isFalse(value string | boolean) boolean
 
 module packages.common.pipes.parse-date.pipe
 interface ParseDatePipeOptions
@@ -696,7 +696,7 @@ exceptionFactory Any?
 class ParseDatePipe
 # exceptionFactory Any
 ParseDatePipe(options ParseDatePipeOptions)
-transform(value Any) Any
+transform(value string | number | undefined | null) Date | null | undefined
 
 module packages.common.pipes.parse-enum.pipe
 interface ParseEnumPipeOptions
@@ -733,13 +733,13 @@ transform(value string, metadata ArgumentMetadata) Promise<number>
 
 module packages.common.pipes.parse-uuid.pipe
 interface ParseUUIDPipeOptions
-version Any?
+version '3' | '4' | '5' | '7'?
 errorHttpStatusCode ErrorHttpStatusCode?
 exceptionFactory Any?
 optional boolean?
 class ParseUUIDPipe
 # $uuidRegExps Any
-- version Any
+- version '3' | '4' | '5' | '7' | undefined
 # exceptionFactory Any
 ParseUUIDPipe(options ParseUUIDPipeOptions?)
 transform(value string, metadata ArgumentMetadata) Promise<string>
@@ -762,7 +762,7 @@ class ValidationPipe
 # validatorOptions ValidatorOptions
 # transformOptions ClassTransformOptions?
 # errorHttpStatusCode ErrorHttpStatusCode
-# expectedType Any
+# expectedType Type<any>| undefined
 # exceptionFactory Any
 # validateCustomDecorators boolean
 ValidationPipe(options ValidationPipeOptions?)
@@ -772,10 +772,10 @@ transform(value any, metadata ArgumentMetadata)
 createExceptionFactory()
 # toValidate(metadata ArgumentMetadata) boolean
 # transformPrimitive(value any, metadata ArgumentMetadata)
-# toEmptyIfNil(value T, metatype Any) Any
+# toEmptyIfNil(value T, metatype Type<unknown>| object) R | object | string
 # stripProtoKeys(value any)
 # isPrimitive(value unknown) boolean
-# validate(object object, validatorOptions ValidatorOptions?) Any
+# validate(object object, validatorOptions ValidatorOptions?) Promise<ValidationError[]>| ValidationError[]
 # flattenValidationErrors(validationErrors ValidationError[]) string[]
 # mapChildrenToValidationErrors(error ValidationError, parentPath string?) ValidationError[]
 # prependConstraintsWithParentProp(parentPath string, error ValidationError) ValidationError
@@ -835,7 +835,7 @@ transformerPackage TransformerPackage?
 class ClassSerializerInterceptor
 ClassSerializerInterceptor(reflector any, defaultOptions ClassSerializerInterceptorOptions)
 intercept(context ExecutionContext, next CallHandler) Observable<any>
-serialize(response Any, options ClassSerializerContextOptions) Any
+serialize(response PlainLiteralObject | Array<PlainLiteralObject>, options ClassSerializerContextOptions) PlainLiteralObject | Array<PlainLiteralObject>
 transformToPlain(plainOrClass any, options ClassSerializerContextOptions) PlainLiteralObject
 # getContextOptions(context ExecutionContext) ClassSerializerContextOptions?
 
@@ -852,7 +852,7 @@ json boolean?
 colors boolean?
 context string?
 forceConsole boolean?
-compact Any?
+compact boolean | number?
 maxArrayLength number?
 maxStringLength number?
 sorted Any?
@@ -869,7 +869,7 @@ ConsoleLogger()
 ConsoleLogger(context string)
 ConsoleLogger(options ConsoleLoggerOptions)
 ConsoleLogger(context string, options ConsoleLoggerOptions)
-ConsoleLogger(contextOrOptions Any?, options ConsoleLoggerOptions?)
+ConsoleLogger(contextOrOptions string | ConsoleLoggerOptions?, options ConsoleLoggerOptions?)
 log(message any, context string?)
 log(message any)
 log(message any)
@@ -894,7 +894,7 @@ setContext(context string)
 resetContext()
 isLevelEnabled(level LogLevel) boolean
 # getTimestamp() string
-# printMessages(messages unknown[], context Any, logLevel LogLevel, writeStreamType Any?, errorStack unknown?)
+# printMessages(messages unknown[], context Any, logLevel LogLevel, writeStreamType 'stdout' | 'stderr'?, errorStack unknown?)
 # printAsJson(message unknown, options Any)
 # getJsonLogObject(message unknown, options Any)
 # formatPid(pid number)
@@ -933,8 +933,8 @@ class Logger
 - $WrapBuffer MethodDecorator
 Logger()
 Logger(context string)
-Logger(context string, options Any?)
-Logger(context string?, options Any)
+Logger(context string, options { timestamp?: boolean }?)
+Logger(context string?, options { timestamp?: boolean })
 localInstance LoggerService
 error(message any, stack string?, context string?)
 error(message any)
@@ -978,7 +978,7 @@ $flush()
 $attachBuffer()
 $detachBuffer()
 $getTimestamp()
-$overrideLogger(logger Any)
+$overrideLogger(logger LoggerService | LogLevel[] | boolean)
 $isLevelEnabled(level LogLevel) boolean
 - registerLocalInstanceRef()
 
@@ -1053,20 +1053,20 @@ class NestApplicationContext
 # instanceLinksHost Any
 NestApplicationContext(container NestContainer, appOptions TOptions, contextModule Module?, scope Any)
 selectContextModule()
-select(moduleType Any, selectOptions SelectOptions?) INestApplicationContext
-get(typeOrToken Any) TResult
-get(typeOrToken Any, options Any) TResult
-get(typeOrToken Any, options Any) Array<TResult>
-get(typeOrToken Any, options GetOrResolveOptions) Any
-resolve(typeOrToken Any) Promise<TResult>
-resolve(typeOrToken Any, contextId Any?) Promise<TResult>
-resolve(typeOrToken Any, contextId Any?, options Any?) Promise<TResult>
-resolve(typeOrToken Any, contextId Any?, options Any?) Promise<Array<TResult>>
-resolve(typeOrToken Any, contextId Any, options GetOrResolveOptions) Any
+select(moduleType Type<T>| DynamicModule, selectOptions SelectOptions?) INestApplicationContext
+get(typeOrToken Type<TInput>| Function | string | symbol) TResult
+get(typeOrToken Type<TInput>| Function | string | symbol, options Any) TResult
+get(typeOrToken Type<TInput>| Function | string | symbol, options Any) Array<TResult>
+get(typeOrToken Type<TInput>| Abstract<TInput>| string | symbol, options GetOrResolveOptions) TResult | Array<TResult>
+resolve(typeOrToken Type<TInput>| Function | string | symbol) Promise<TResult>
+resolve(typeOrToken Type<TInput>| Function | string | symbol, contextId Any?) Promise<TResult>
+resolve(typeOrToken Type<TInput>| Function | string | symbol, contextId Any?, options Any?) Promise<TResult>
+resolve(typeOrToken Type<TInput>| Function | string | symbol, contextId Any?, options Any?) Promise<Array<TResult>>
+resolve(typeOrToken Type<TInput>| Abstract<TInput>| string | symbol, contextId Any, options GetOrResolveOptions) Promise<TResult | Array<TResult>>
 registerRequestByContextId(request T, contextId ContextId)
 init() Promise<this>
 close(signal string?) Promise<void>
-useLogger(logger Any)
+useLogger(logger LoggerService | LogLevel[] | false)
 flushLogs()
 flushLogsOnOverride()
 enableShutdownHooks(signals Any, options ShutdownHooksOptions) this
@@ -1115,9 +1115,9 @@ use() this
 useBodyParser() this
 enableCors(options any?)
 enableVersioning(options VersioningOptions) this
-listen(port Any) Promise<any>
-listen(port Any, hostname string) Promise<any>
-listen(port Any) Promise<any>
+listen(port number | string) Promise<any>
+listen(port number | string, hostname string) Promise<any>
+listen(port number | string) Promise<any>
 getUrl() Promise<string>
 - formatAddress(address any) string
 setGlobalPrefix(prefix string, options GlobalPrefixOptions?) this
@@ -1129,10 +1129,10 @@ useGlobalGuards() this
 useStaticAssets(options any) this
 useStaticAssets(path string, options any?) this
 useStaticAssets(pathOrOptions any, options any?) this
-setBaseViewsDir(path Any) this
+setBaseViewsDir(path string | string[]) this
 setViewEngine(engineOrOptions any) this
 - host() string?
-- getProtocol() Any
+- getProtocol() 'http' | 'https'
 - registerMiddleware(instance any)
 - applyInstanceDecoratorIfRegistered() T[]
 
@@ -1143,8 +1143,8 @@ class NestFactoryStatic
 - autoFlushLogs Any = false
 create(module IEntryNestModule, options NestApplicationOptions?) Promise<T>
 create(module IEntryNestModule, httpAdapter AbstractHttpAdapter, options NestApplicationOptions?) Promise<T>
-create(moduleCls IEntryNestModule, serverOrOptions Any?, options NestApplicationOptions?) Promise<T>
-createMicroservice(moduleCls IEntryNestModule, options Any?) Promise<INestMicroservice>
+create(moduleCls IEntryNestModule, serverOrOptions AbstractHttpAdapter | NestApplicationOptions?, options NestApplicationOptions?) Promise<T>
+createMicroservice(moduleCls IEntryNestModule, options NestMicroserviceOptions & T?) Promise<INestMicroservice>
 createApplicationContext(moduleCls IEntryNestModule, options NestApplicationContextOptions?) Promise<INestApplicationContext>
 - createNestInstance(instance T) T
 - initialize(module any, container NestContainer, graphInspector GraphInspector, config Any, options NestApplicationContextOptions, httpServer HttpServer?)
@@ -1154,8 +1154,8 @@ createApplicationContext(moduleCls IEntryNestModule, options NestApplicationCont
 - createExceptionZone(receiver Record<string,any>, prop string) Function
 - registerLoggerConfiguration(options NestApplicationContextOptions?)
 - createHttpAdapter(httpServer T?) AbstractHttpAdapter
-- isHttpServer(serverOrOptions Any) Any
-- setAbortOnError(serverOrOptions Any?, options Any?)
+- isHttpServer(serverOrOptions AbstractHttpAdapter | NestApplicationOptions) serverOrOptions is AbstractHttpAdapter
+- setAbortOnError(serverOrOptions AbstractHttpAdapter | NestApplicationOptions?, options NestApplicationContextOptions | NestApplicationOptions?)
 - createAdapterProxy(app NestApplication, adapter HttpServer) T
 - createGraphInspector(appOptions NestApplicationContextOptions, container NestContainer)
 
@@ -1174,7 +1174,7 @@ lazy boolean?
 class DependenciesScanner
 - applicationProvidersApplyMap ApplicationProviderWrapper[] = []
 DependenciesScanner(container NestContainer, metadataScanner MetadataScanner, graphInspector GraphInspector, applicationConfig Any)
-scan(module Type<any>, options Any?)
+scan(module Type<any>, options { overrides?: ModuleOverride[] }?)
 scanForModules() Promise<Module[]>
 insertModule(moduleDefinition any, scope Type<unknown>[]) Any
 scanModulesForDependencies(modules Map<string,Module>)
@@ -1185,13 +1185,13 @@ reflectDynamicMetadata(cls Type<Injectable>, token string)
 reflectExports(module Type<unknown>, token string)
 reflectInjectables(component Type<Injectable>, token string, metadataKey string)
 reflectParamInjectables(component Type<Injectable>, token string, metadataKey string)
-reflectKeyMetadata(component Type<Injectable>, key string, methodKey string) Any
+reflectKeyMetadata(component Type<Injectable>, key string, methodKey string) { methodKey: string; metadata: any }?
 calculateModulesDistance()
 insertImport(related any, token string, context string)
 isCustomProvider(provider Provider) Any
 insertProvider(provider Provider, token string)
-insertInjectable(injectable Any, token string, host Type<Injectable>, subtype EnhancerSubtype, methodKey string?)
-insertExportedProviderOrModule(toExport Any, token string)
+insertInjectable(injectable Type<Injectable>| object, token string, host Type<Injectable>, subtype EnhancerSubtype, methodKey string?)
+insertExportedProviderOrModule(toExport ForwardReference | DynamicModule | Type<unknown>, token string)
 insertController(controller Type<Controller>, token string)
 - insertOrOverrideModule(moduleDefinition ModuleDefinition, overrides ModuleOverride[], scope Type<unknown>[]) Any
 - getOverrideModuleByModule(module ModuleDefinition, overrides ModuleOverride[]) ModuleOverride?
@@ -1200,13 +1200,13 @@ reflectMetadata(metadataKey string, metatype Type<any>) T[]
 registerCoreModule(overrides ModuleOverride[]?)
 addScopedEnhancersMetadata()
 applyApplicationProviders()
-getApplyProvidersMap() Any
-getApplyRequestProvidersMap() Any
-isDynamicModule(module Any) Any
+getApplyProvidersMap() { [type: string]: Function }
+getApplyRequestProvidersMap() { [type: string]: Function }
+isDynamicModule(module Type<any>| DynamicModule) module is DynamicModule
 - isInjectable(metatype Type<any>) boolean
 - isController(metatype Type<any>) boolean
 - isExceptionFilter(metatype Type<any>) boolean
-- isForwardReference(module ModuleDefinition) Any
+- isForwardReference(module ModuleDefinition) module is ForwardReference
 - isRequestOrTransient(scope Scope) boolean
 
 module packages.core.adapters.http-adapter
@@ -1264,8 +1264,8 @@ search()
 options(handler RequestHandler)
 options(path any, handler RequestHandler)
 options()
-listen(port Any, callback Any?)
-listen(port Any, hostname string, callback Any?)
+listen(port string | number, callback Any?)
+listen(port string | number, hostname string, callback Any?)
 listen(port any, hostname any?, callback any?)
 getHttpServer() TServer
 setHttpServer(httpServer TServer)
@@ -1282,7 +1282,7 @@ class DiscoverableMetaHostCollection
 $metaHostLinks Any
 - $providersByMetaKey Any
 - $controllersByMetaKey Any
-$addClassMetaHostLink(target Any, metadataKey string)
+$addClassMetaHostLink(target Type | Function, metadataKey string)
 $inspectProvider(hostContainerRef ModulesContainer, instanceWrapper InstanceWrapper)
 $inspectController(hostContainerRef ModulesContainer, instanceWrapper InstanceWrapper)
 $insertByMetaKey(metaKey string, instanceWrapper InstanceWrapper, collection Map<string,Set<InstanceWrapper>>)
@@ -1304,7 +1304,7 @@ DiscoveryService(modulesContainer ModulesContainer)
 $createDecorator() DiscoverableDecorator<T>
 getProviders(options DiscoveryOptions, modules Module[]) InstanceWrapper[]
 getControllers(options DiscoveryOptions, modules Module[]) InstanceWrapper[]
-getMetadataByDecorator(decorator T, instanceWrapper InstanceWrapper, methodKey string?) Any
+getMetadataByDecorator(decorator T, instanceWrapper InstanceWrapper, methodKey string?) T extends DiscoverableDecorator<infer R>? R | undefined : T | undefined
 # getModules(options DiscoveryOptions) Module[]
 - includeWhitelisted(include Function[]) Module[]
 
@@ -1325,11 +1325,11 @@ CircularDependencyException(context string?)
 
 module packages.core.errors.exceptions.invalid-class-module.exception
 class InvalidClassModuleException
-InvalidClassModuleException(metatypeUsedAsAModule any, scope any[], classKind Any)
+InvalidClassModuleException(metatypeUsedAsAModule any, scope any[], classKind 'provider' | 'controller' | 'filter')
 
 module packages.core.errors.exceptions.invalid-class-scope.exception
 class InvalidClassScopeException
-InvalidClassScopeException(metatypeOrToken Any)
+InvalidClassScopeException(metatypeOrToken Type<any>| Abstract<any>| string | symbol)
 
 module packages.core.errors.exceptions.invalid-class.exception
 class InvalidClassException
@@ -1370,16 +1370,16 @@ UndefinedModuleException(parentModule any, index number, scope any[])
 
 module packages.core.errors.exceptions.unknown-dependencies.exception
 class UnknownDependenciesException
-moduleRef Any
-UnknownDependenciesException(type Any, context InjectorDependencyContext, moduleRef Module?, metadata Any?)
+moduleRef { id: string }?
+UnknownDependenciesException(type string | symbol, context InjectorDependencyContext, moduleRef Module?, metadata { id: string }?)
 
 module packages.core.errors.exceptions.unknown-element.exception
 class UnknownElementException
-UnknownElementException(name Any?)
+UnknownElementException(name string | symbol?)
 
 module packages.core.errors.exceptions.unknown-export.exception
 class UnknownExportException
-UnknownExportException(token Any, moduleName string)
+UnknownExportException(token string | symbol, moduleName string)
 
 module packages.core.errors.exceptions.unknown-module.exception
 class UnknownModuleException
@@ -1394,7 +1394,7 @@ class BaseExceptionFilterContext
 # moduleContext string
 BaseExceptionFilterContext(container NestContainer)
 createConcreteContext(metadata T, contextId Any, inquirerId string?) R
-getFilterInstance(filter Any, contextId Any, inquirerId string?) ExceptionFilter?
+getFilterInstance(filter Function | ExceptionFilter, contextId Any, inquirerId string?) ExceptionFilter?
 getInstanceByMetatype(metatype Type<unknown>) InstanceWrapper?
 reflectCatchExceptions(instance ExceptionFilter) Type<any>[]
 
@@ -1404,14 +1404,14 @@ class BaseExceptionFilter
 # httpAdapterHost HttpAdapterHost?
 BaseExceptionFilter(applicationRef HttpServer?)
 catch(exception T, host ArgumentsHost)
-handleUnknownError(exception T, host ArgumentsHost, applicationRef Any)
-isExceptionObject(err any) Any
-isHttpError(err any) Any
+handleUnknownError(exception T, host ArgumentsHost, applicationRef AbstractHttpAdapter | HttpServer)
+isExceptionObject(err any) err is Error
+isHttpError(err any) err is { statusCode: number; message: string }
 
 module packages.core.exceptions.exceptions-handler
 class ExceptionsHandler
 - filters ExceptionFilterMetadata[] = []
-next(exception Any, ctx ArgumentsHost)
+next(exception Error | HttpException, ctx ArgumentsHost)
 setCustomFilters(filters ExceptionFilterMetadata[])
 invokeCustomFilters(exception T, ctx ArgumentsHost) boolean
 
@@ -1424,20 +1424,20 @@ getGlobalMetadata(contextId Any, inquirerId string?) T
 module packages.core.exceptions.external-exception-filter
 class ExternalExceptionFilter
 - $logger Any
-catch(exception T, host ArgumentsHost) Any
+catch(exception T, host ArgumentsHost) R | Promise<R>
 
 module packages.core.exceptions.external-exceptions-handler
 class ExternalExceptionsHandler
 - filters ExceptionFilterMetadata[] = []
 next(exception Error, host ArgumentsHost) Promise<any>
 setCustomFilters(filters ExceptionFilterMetadata[])
-invokeCustomFilters(exception T, host ArgumentsHost) Any
+invokeCustomFilters(exception T, host ArgumentsHost) Promise<any>| null
 
 module packages.core.guards.guards-consumer
 class GuardsConsumer
 tryActivate(guards CanActivate[], args unknown[], instance Controller, callback Any, type TContext?) Promise<boolean>
 createContext(args unknown[], instance Controller, callback Any) ExecutionContextHost
-pickResult(result Any) Promise<boolean>
+pickResult(result boolean | Promise<boolean>| Observable<boolean>) Promise<boolean>
 
 module packages.core.guards.guards-context-creator
 class GuardsContextCreator
@@ -1445,7 +1445,7 @@ class GuardsContextCreator
 GuardsContextCreator(container NestContainer, config ApplicationConfig?)
 create(instance Controller, callback Any, module string, contextId Any, inquirerId string?) CanActivate[]
 createConcreteContext(metadata T, contextId Any, inquirerId string?) R
-getGuardInstance(metatype Any, contextId Any, inquirerId string?) CanActivate?
+getGuardInstance(metatype Function | CanActivate, contextId Any, inquirerId string?) CanActivate?
 getInstanceByMetatype(metatype Type<unknown>) InstanceWrapper?
 getGlobalMetadata(contextId Any, inquirerId string?) T
 
@@ -1473,18 +1473,18 @@ interface ContextIdResolver
 payload unknown
 resolve ContextIdResolverFn
 interface ContextIdStrategy
-attach(contextId ContextId, request T) Any
+attach(contextId ContextId, request T) ContextIdResolverFn | ContextIdResolver | undefined
 class ContextIdFactory
 - $strategy ContextIdStrategy?
 $create() ContextId
 $getByRequest(request T, propsToInspect string[]) ContextId
 $apply(strategy ContextIdStrategy)
-- $isContextIdResolverWithPayload(resolverOrResolverFn Any) Any
+- $isContextIdResolverWithPayload(resolverOrResolverFn ContextIdResolver | ContextIdResolverFn) resolverOrResolverFn is ContextIdResolver
 
 module packages.core.helpers.context-utils
 interface ParamProperties
 index number
-type Any
+type T | string
 data ParamData
 pipes PipeTransform[]
 extractValue IExtractor
@@ -1502,7 +1502,7 @@ getContextFactory(contextType TContext, instance object?, callback Function?) An
 module packages.core.helpers.execution-context-host
 class ExecutionContextHost
 - contextType Any = 'http'
-ExecutionContextHost(args any[], constructorRef Any, handler Function?)
+ExecutionContextHost(args any[], constructorRef Type<any>| null, handler Function?)
 setType(type TContext)
 getType() TContext
 getClass() Type<T>
@@ -1586,8 +1586,8 @@ module packages.core.injector.abstract-instance-resolver
 class abstract AbstractInstanceResolver
 # instanceLinksHost InstanceLinksHost
 # injector Injector
-# find(typeOrToken Any, options Any) Any
-# resolvePerContext(typeOrToken Any, contextModule Module, contextId ContextId, options GetOrResolveOptions?) Any
+# find(typeOrToken Type<TInput>| Abstract<TInput>| string | symbol, options { moduleId?: string; each?: boolean }) TResult | Array<TResult>
+# resolvePerContext(typeOrToken Type<TInput>| Abstract<TInput>| string | symbol, contextModule Module, contextId ContextId, options GetOrResolveOptions?) Promise<TResult | Array<TResult>>
 
 module packages.core.injector.compiler
 interface ModuleFactory
@@ -1598,8 +1598,8 @@ class ModuleCompiler
 ModuleCompiler(_moduleOpaqueKeyFactory ModuleOpaqueKeyFactory)
 moduleOpaqueKeyFactory ModuleOpaqueKeyFactory
 compile(moduleClsOrDynamic Any) Promise<ModuleFactory>
-extractMetadata(moduleClsOrDynamic Any) Any
-isDynamicModule(moduleClsOrDynamic Any) Any
+extractMetadata(moduleClsOrDynamic Type | ForwardReference | DynamicModule) Any
+isDynamicModule(moduleClsOrDynamic Type | DynamicModule | ForwardReference) moduleClsOrDynamic is DynamicModule
 
 module packages.core.injector.container
 class NestContainer
@@ -1628,19 +1628,19 @@ getModules() ModulesContainer
 getModuleCompiler() ModuleCompiler
 getModuleByKey(moduleKey string) Module?
 getInternalCoreModuleRef() Module?
-addImport(relatedModule Any, token string)
-addProvider(provider Provider, token string, enhancerSubtype EnhancerSubtype?) Any
+addImport(relatedModule Type<any>| DynamicModule, token string)
+addProvider(provider Provider, token string, enhancerSubtype EnhancerSubtype?) string | symbol | Function
 addInjectable(injectable Provider, token string, enhancerSubtype EnhancerSubtype, host Type<Injectable>?)
-addExportedProviderOrModule(toExport Any, token string)
+addExportedProviderOrModule(toExport Type<any>| DynamicModule, token string)
 addController(controller Type<any>, token string)
 clear()
-replace(toReplace any, options Any)
+replace(toReplace any, options { scope: any[] | null })
 bindGlobalScope()
 bindGlobalsToImports(moduleRef Module)
 bindGlobalModuleToModule(target Module, globalModule Module)
 getDynamicMetadataByToken(token string) Partial<DynamicModule>
 getDynamicMetadataByToken(token string, metadataKey K) DynamicModule[K]
-getDynamicMetadataByToken(token string, metadataKey Any?)
+getDynamicMetadataByToken(token string, metadataKey Exclude<keyof DynamicModule,'global' | 'module'>?)
 registerCoreModuleRef(moduleRef Module)
 getModuleTokenFactory() ModuleOpaqueKeyFactory
 registerRequestProvider(request T, contextId ContextId)
@@ -1648,13 +1648,13 @@ registerRequestProvider(request T, contextId ContextId)
 
 module packages.core.injector.injector
 interface PropertyDependency
-key Any
+key symbol | string
 name InjectorDependency
 isOptional boolean?
 instance any?
 interface InjectorDependencyContext
-key Any?
-name Any?
+key string | symbol?
+name Function | string | symbol?
 index number?
 dependencies InjectorDependency[]?
 interface ResolutionContext
@@ -1675,16 +1675,16 @@ applySettlementSignal(instancePerContext InstancePerContext<T>, host InstanceWra
 resolveConstructorParams(wrapper InstanceWrapper<T>, moduleRef Module, inject InjectorDependency[]?, callback Any, resolutionContext ResolutionContext, parentInquirer InstanceWrapper?)
 getClassDependencies(wrapper InstanceWrapper<T>) [InjectorDependency[],number[]]
 getFactoryProviderDependencies(wrapper InstanceWrapper<T>) [InjectorDependency[],number[]]
-reflectConstructorParams(type Any) any[]
-reflectOptionalParams(type Any) any[]
-reflectSelfParams(type Any) any[]
-resolveSingleParam(wrapper InstanceWrapper<T>, param Any, dependencyContext InjectorDependencyContext, moduleRef Module, resolutionContext ResolutionContext, keyOrIndex Any?)
-resolveParamToken(wrapper InstanceWrapper<T>, param Any)
-resolveComponentWrapper(moduleRef Module, token InjectionToken, dependencyContext InjectorDependencyContext, wrapper InstanceWrapper<T>, resolutionContext ResolutionContext, keyOrIndex Any?) Promise<InstanceWrapper>
-resolveComponentHost(moduleRef Module, instanceWrapper Any, resolutionContext ResolutionContext) Promise<InstanceWrapper>
-lookupComponent(providers Any, moduleRef Module, dependencyContext InjectorDependencyContext, wrapper InstanceWrapper<T>, resolutionContext ResolutionContext, keyOrIndex Any?) Promise<InstanceWrapper<T>>
-lookupComponentInParentModules(dependencyContext InjectorDependencyContext, moduleRef Module, wrapper InstanceWrapper<T>, resolutionContext ResolutionContext, keyOrIndex Any?)
-lookupComponentInImports(moduleRef Module, name InjectionToken, wrapper InstanceWrapper, moduleRegistry Set<string>, resolutionContext ResolutionContext, keyOrIndex Any?, isTraversing boolean?) Promise<any>
+reflectConstructorParams(type Type<unknown>| Function) any[]
+reflectOptionalParams(type Type<unknown>| Function) any[]
+reflectSelfParams(type Type<unknown>| Function) any[]
+resolveSingleParam(wrapper InstanceWrapper<T>, param Type<any>| string | symbol, dependencyContext InjectorDependencyContext, moduleRef Module, resolutionContext ResolutionContext, keyOrIndex symbol | string | number?)
+resolveParamToken(wrapper InstanceWrapper<T>, param Type<any>| string | symbol | ForwardReference)
+resolveComponentWrapper(moduleRef Module, token InjectionToken, dependencyContext InjectorDependencyContext, wrapper InstanceWrapper<T>, resolutionContext ResolutionContext, keyOrIndex symbol | string | number?) Promise<InstanceWrapper>
+resolveComponentHost(moduleRef Module, instanceWrapper InstanceWrapper<T | Promise<T>>, resolutionContext ResolutionContext) Promise<InstanceWrapper>
+lookupComponent(providers Map<Function | string | symbol,InstanceWrapper>, moduleRef Module, dependencyContext InjectorDependencyContext, wrapper InstanceWrapper<T>, resolutionContext ResolutionContext, keyOrIndex symbol | string | number?) Promise<InstanceWrapper<T>>
+lookupComponentInParentModules(dependencyContext InjectorDependencyContext, moduleRef Module, wrapper InstanceWrapper<T>, resolutionContext ResolutionContext, keyOrIndex symbol | string | number?)
+lookupComponentInImports(moduleRef Module, name InjectionToken, wrapper InstanceWrapper, moduleRegistry Set<string>, resolutionContext ResolutionContext, keyOrIndex symbol | string | number?, isTraversing boolean?) Promise<any>
 resolveProperties(wrapper InstanceWrapper<T>, moduleRef Module, inject InjectorDependency[]?, resolutionContext ResolutionContext, parentInquirer InstanceWrapper?) Promise<PropertyDependency[]>
 reflectProperties(type Type<T>) PropertyDependency[]
 applyProperties(instance T, properties PropertyDependency[])
@@ -1706,7 +1706,7 @@ loadPropertiesMetadata(metadata PropertyMetadata[], contextId ContextId, inquire
 - resolveScopedComponentHost(item InstanceWrapper, contextId ContextId, inquirer InstanceWrapper?, parentInquirer InstanceWrapper?)
 - isInquirerRequest(item InstanceWrapper, parentInquirer InstanceWrapper?)
 - isInquirer(param unknown, parentInquirer InstanceWrapper?)
-# addDependencyMetadata(keyOrIndex Any, hostWrapper InstanceWrapper, instanceWrapper InstanceWrapper)
+# addDependencyMetadata(keyOrIndex symbol | string | number, hostWrapper InstanceWrapper, instanceWrapper InstanceWrapper)
 - getTokenName(token InjectionToken) string
 - printResolvingDependenciesLog(token InjectionToken, inquirer InstanceWrapper?)
 - printLookingForProviderLog(token InjectionToken, moduleRef Module)
@@ -1725,8 +1725,8 @@ class InstanceLinksHost
 - instanceLinks Any
 InstanceLinksHost(container NestContainer)
 get(token InjectionToken) InstanceLink<T>
-get(token InjectionToken, options Any?) Any
-get(token InjectionToken, options Any) Any
+get(token InjectionToken, options { moduleId?: string; each?: boolean }?) InstanceLink<T>| Array<InstanceLink<T>>
+get(token InjectionToken, options { moduleId?: string; each?: boolean }) InstanceLink<T>| Array<InstanceLink<T>>
 - initialize()
 - addLink(wrapper InstanceWrapper, token InjectionToken, moduleRef Module, collectionName HostCollection)
 - getInstanceNameByToken(token InjectionToken) string
@@ -1761,7 +1761,7 @@ isPending boolean?
 donePromise Promise<unknown>?
 isConstructorCalled boolean?
 interface PropertyMetadata
-key Any
+key symbol | string
 wrapper InstanceWrapper
 interface InstanceMetadataStore
 dependencies InstanceWrapper[]?
@@ -1775,7 +1775,7 @@ host Module?
 isAlias boolean = false
 subtype EnhancerSubtype?
 scope Scope? = Scope.DEFAULT
-metatype Any
+metatype Type<T>| Function | null
 inject FactoryProvider['inject']?
 forwardRef boolean?
 durable boolean?
@@ -1783,11 +1783,11 @@ initTime number?
 settlementSignal SettlementSignal?
 - $logger LoggerService
 - values Any
-- transientMap Any?
+- transientMap | Map<string,WeakMap<ContextId,InstancePerContext<T>>>| undefined?
 - isTreeStatic boolean?
 - isTreeDurable boolean?
 - rootInquirer InstanceWrapper?
-InstanceWrapper(metadata Any)
+InstanceWrapper(metadata Partial<InstanceWrapper<T>>& Partial<InstancePerContext<T>>)
 id string
 instance T
 isNotMetatype boolean
@@ -1801,7 +1801,7 @@ removeInstanceByContextId(contextId ContextId, inquirerId string?)
 removeInstanceByInquirerId(contextId ContextId, inquirerId string)
 addCtorMetadata(index number, wrapper InstanceWrapper)
 getCtorMetadata() InstanceWrapper[]
-addPropertiesMetadata(key Any, wrapper InstanceWrapper)
+addPropertiesMetadata(key symbol | string, wrapper InstanceWrapper)
 getPropertiesMetadata() PropertyMetadata[]
 addEnhancerMetadata(wrapper InstanceWrapper)
 getEnhancersMetadata() InstanceWrapper[]
@@ -1822,7 +1822,7 @@ mergeWith(provider Provider)
 - isNewable() boolean
 - registerDependencyTreeParent(wrapper InstanceWrapper)
 - resetDependencyTreeState(lookupRegistry Any)
-- initialize(metadata Any)
+- initialize(metadata Partial<InstanceWrapper<T>>& Partial<InstancePerContext<T>>)
 - printIntrospectedAsRequestScoped()
 - printIntrospectedAsDurable()
 - isDebugMode() boolean
@@ -1844,7 +1844,7 @@ class abstract ModuleRef
 - _instanceLinksHost InstanceLinksHost
 # instanceLinksHost Any
 ModuleRef(container NestContainer)
-introspect(token Any) IntrospectionResult
+introspect(token Type<T>| string | symbol) IntrospectionResult
 registerRequestByContextId(request T, contextId ContextId)
 # instantiateClass(type Type<T>, moduleRef Module, contextId ContextId?) Promise<T>
 
@@ -1887,17 +1887,17 @@ addProvider(provider Provider) InjectionToken
 addProvider(provider Provider, enhancerSubtype EnhancerSubtype) InjectionToken
 addProvider(provider Provider, enhancerSubtype EnhancerSubtype?)
 isCustomProvider(provider Provider) Any
-addCustomProvider(provider Any, collection Any, enhancerSubtype EnhancerSubtype?)
-isCustomClass(provider any) Any
-isCustomValue(provider any) Any
-isCustomFactory(provider any) Any
-isCustomUseExisting(provider any) Any
-isDynamicModule(exported any) Any
+addCustomProvider(provider Any, collection Map<Function | string | symbol,any>, enhancerSubtype EnhancerSubtype?)
+isCustomClass(provider any) provider is ClassProvider
+isCustomValue(provider any) provider is ValueProvider
+isCustomFactory(provider any) provider is FactoryProvider
+isCustomUseExisting(provider any) provider is ExistingProvider
+isDynamicModule(exported any) exported is DynamicModule
 addCustomClass(provider ClassProvider, collection Map<InjectionToken,InstanceWrapper>, enhancerSubtype EnhancerSubtype?)
-addCustomValue(provider ValueProvider, collection Any, enhancerSubtype EnhancerSubtype?)
-addCustomFactory(provider FactoryProvider, collection Any, enhancerSubtype EnhancerSubtype?)
-addCustomUseExisting(provider ExistingProvider, collection Any, enhancerSubtype EnhancerSubtype?)
-addExportedProviderOrModule(toExport Any)
+addCustomValue(provider ValueProvider, collection Map<Function | string | symbol,InstanceWrapper>, enhancerSubtype EnhancerSubtype?)
+addCustomFactory(provider FactoryProvider, collection Map<Function | string | symbol,InstanceWrapper>, enhancerSubtype EnhancerSubtype?)
+addCustomUseExisting(provider ExistingProvider, collection Map<Function | string | symbol,InstanceWrapper>, enhancerSubtype EnhancerSubtype?)
+addExportedProviderOrModule(toExport Provider | string | symbol | DynamicModule)
 addCustomExportedProvider(provider Any)
 validateExportedProvider(token InjectionToken)
 addController(controller Type<Controller>)
@@ -1907,10 +1907,10 @@ replace(toReplace InjectionToken, options any)
 hasProvider(token InjectionToken) boolean
 hasInjectable(token InjectionToken) boolean
 getProviderByKey(name InjectionToken<T>) InstanceWrapper<T>
-getProviderById(id string) Any
-getControllerById(id string) Any
-getInjectableById(id string) Any
-getMiddlewareById(id string) Any
+getProviderById(id string) InstanceWrapper<T>| undefined
+getControllerById(id string) InstanceWrapper<T>| undefined
+getInjectableById(id string) InstanceWrapper<T>| undefined
+getMiddlewareById(id string) InstanceWrapper<T>| undefined
 getNonAliasProviders() Array<[InjectionToken,InstanceWrapper<Injectable>]>
 createModuleReferenceType() Type<ModuleRef>
 - isEntryProvider(metatype InjectionToken) boolean
@@ -1956,7 +1956,7 @@ $create(container NestContainer, scanner DependenciesScanner, moduleCompiler Mod
 
 module packages.core.injector.internal-core-module.internal-core-module
 class InternalCoreModule
-$register(providers Any) DynamicModule
+$register(providers Array<ValueProvider | FactoryProvider | ExistingProvider>) DynamicModule
 
 module packages.core.injector.lazy-module-loader.lazy-module-loader-options.interface
 interface LazyModuleLoaderLoadOptions
@@ -1972,11 +1972,11 @@ load(loaderFn Any, loadOpts LazyModuleLoaderLoadOptions?) Promise<ModuleRef>
 
 module packages.core.injector.opaque-key-factory.by-reference-module-opaque-key-factory
 class ByReferenceModuleOpaqueKeyFactory
-- keyGenerationStrategy Any
-ByReferenceModuleOpaqueKeyFactory(options Any?)
-createForStatic(moduleCls Type, originalRef Any) string
-createForDynamic(moduleCls Type<unknown>, dynamicMetadata Omit<DynamicModule,'module'>, originalRef Any) string
-- getOrCreateModuleId(moduleCls Type<unknown>, dynamicMetadata Any, originalRef Any) string
+- keyGenerationStrategy 'random' | 'shallow'
+ByReferenceModuleOpaqueKeyFactory(options { keyGenerationStrategy: 'random' | 'shallow' }?)
+createForStatic(moduleCls Type, originalRef Type | ForwardReference) string
+createForDynamic(moduleCls Type<unknown>, dynamicMetadata Omit<DynamicModule,'module'>, originalRef DynamicModule | ForwardReference) string
+- getOrCreateModuleId(moduleCls Type<unknown>, dynamicMetadata Partial<DynamicModule>| undefined, originalRef Type | DynamicModule | ForwardReference) string
 - hashString(value string) string
 - generateRandomString() string
 
@@ -1995,8 +1995,8 @@ getModuleName(metatype Type<any>) string
 
 module packages.core.injector.opaque-key-factory.interfaces.module-opaque-key-factory.interface
 interface ModuleOpaqueKeyFactory
-createForStatic(moduleCls Type, originalRef Any) string
-createForDynamic(moduleCls Type<unknown>, dynamicMetadata Omit<DynamicModule,'module'>, originalRef Any) string
+createForStatic(moduleCls Type, originalRef Type | ForwardReference) string
+createForDynamic(moduleCls Type<unknown>, dynamicMetadata Omit<DynamicModule,'module'>, originalRef DynamicModule | ForwardReference) string
 
 module packages.core.injector.topology-tree.topology-tree
 class TopologyTree
@@ -2010,7 +2010,7 @@ module packages.core.injector.topology-tree.tree-node
 class TreeNode
 value T
 children Any
-- parent Any
+- parent TreeNode<T>| null
 TreeNode()
 addChild(child TreeNode<T>)
 removeChild(child TreeNode<T>)
@@ -2041,7 +2041,7 @@ insertClassNode(moduleRef Module, wrapper InstanceWrapper, type Exclude<Node['me
 - insertModuleNode(moduleRef Module)
 - insertModuleToModuleEdges(moduleRef Module)
 - insertEnhancerEdge(entry EnhancerMetadataCacheEntry)
-- insertClassToClassEdge(source InstanceWrapper<T>, target InstanceWrapper, moduleRef Module, keyOrIndex Any, injectionType Any)
+- insertClassToClassEdge(source InstanceWrapper<T>, target InstanceWrapper, moduleRef Module, keyOrIndex number | string | symbol | undefined, injectionType 'constructor' | 'property' | 'decorator')
 - insertClassNodes(moduleRef Module)
 
 module packages.core.inspector.initialize-on-preview.allowlist
@@ -2087,7 +2087,7 @@ interface Edge
 id string
 source string
 target string
-metadata Any
+metadata ModuleToModuleEdgeMetadata | ClassToClassEdgeMetadata
 
 module packages.core.inspector.interfaces.enhancer-metadata-cache-entry.interface
 interface EnhancerMetadataCacheEntry
@@ -2134,7 +2134,7 @@ class InterceptorsContextCreator
 InterceptorsContextCreator(container NestContainer, config ApplicationConfig?)
 create(instance Controller, callback Any, module string, contextId Any, inquirerId string?) NestInterceptor[]
 createConcreteContext(metadata T, contextId Any, inquirerId string?) R
-getInterceptorInstance(metatype Any, contextId Any, inquirerId string?) NestInterceptor?
+getInterceptorInstance(metatype Function | NestInterceptor, contextId Any, inquirerId string?) NestInterceptor?
 getInstanceByMetatype(metatype Type<unknown>) InstanceWrapper?
 getGlobalMetadata(contextId Any, inquirerId string?) T
 
@@ -2210,16 +2210,16 @@ module packages.core.middleware.routes-mapper
 class RoutesMapper
 - pathsExplorer PathsExplorer
 RoutesMapper(container NestContainer, applicationConfig ApplicationConfig)
-mapRouteToRouteInfo(controllerOrRoute Any) RouteInfo[]
+mapRouteToRouteInfo(controllerOrRoute Type<any>| RouteInfo | string) RouteInfo[]
 - getRouteInfoFromPath(routePath string) RouteInfo[]
 - getRouteInfoFromObject(routeInfoObject RouteInfo) RouteInfo[]
 - getRouteInfoFromController(controller Type<any>, routePath string) RouteInfo[]
-- isRouteInfo(path Any, objectOrClass Any) Any
+- isRouteInfo(path string | string[] | undefined, objectOrClass Function | RouteInfo) objectOrClass is RouteInfo
 - normalizeGlobalPath(path string) string
-- getRoutePath(route Any) string?
+- getRoutePath(route Type<any>| RouteInfo) string?
 - getHostModuleOfController(metatype Type<unknown>) Module?
-- getModulePath(metatype Any) string?
-- getVersionMetadata(metatype Any) VersionValue?
+- getModulePath(metatype Type<unknown>| undefined) string?
+- getVersionMetadata(metatype Type<unknown>| Function) VersionValue?
 
 module packages.core.pipes.params-token-factory
 class ParamsTokenFactory
@@ -2237,7 +2237,7 @@ class PipesContextCreator
 PipesContextCreator(container NestContainer, config ApplicationConfig?)
 create(instance Controller, callback Any, moduleKey string, contextId Any, inquirerId string?) PipeTransform[]
 createConcreteContext(metadata T, contextId Any, inquirerId string?) R
-getPipeInstance(pipe Any, contextId Any, inquirerId string?) PipeTransform?
+getPipeInstance(pipe Function | PipeTransform, contextId Any, inquirerId string?) PipeTransform?
 getInstanceByMetatype(metatype Type<unknown>) InstanceWrapper?
 getGlobalMetadata(contextId Any, inquirerId string?) T
 setModuleContext(context string)
@@ -2252,7 +2252,7 @@ nativeFunctions Any
 ReplContext(app INestApplicationContext, nativeFunctionsClassRefs ReplFunctionClass[]?)
 writeToStdout(text string)
 - initializeContext()
-- introspectCollection(moduleRef Module, moduleKey ModuleKey, collection Any)
+- introspectCollection(moduleRef Module, moduleKey ModuleKey, collection keyof ModuleDebugEntry)
 - stringifyToken(token unknown) string
 - addNativeFunction(NativeFunctionRef ReplFunctionClass) InstanceType<ReplFunctionClass>[]
 - registerFunctionIntoGlobalScope(nativeFunction InstanceType<ReplFunctionClass>)
@@ -2273,14 +2273,14 @@ log(_message any, context string?)
 module packages.core.repl.native-functions.debug-repl-fn
 class DebugReplFn
 fnDefinition ReplFnDefinition
-action(moduleCls Any?)
+action(moduleCls Type<unknown>| string?)
 - printCtrlsAndProviders(moduleName string, moduleDebugEntry ModuleDebugEntry)
 - printCollection(title string, collectionValue Record<string,InjectionToken>)
 
 module packages.core.repl.native-functions.get-repl-fn
 class GetReplFn
 fnDefinition ReplFnDefinition
-action(token Any) any
+action(token string | symbol | Function | Type<any>) any
 
 module packages.core.repl.native-functions.help-repl-fn
 class HelpReplFn
@@ -2292,17 +2292,17 @@ module packages.core.repl.native-functions.methods-repl-fn
 class MethodsReplFn
 fnDefinition ReplFnDefinition
 - metadataScanner Any
-action(token Any)
+action(token Type<unknown>| string)
 
 module packages.core.repl.native-functions.resolve-repl-fn
 class ResolveReplFn
 fnDefinition ReplFnDefinition
-action(token Any, contextId any) Promise<any>
+action(token string | symbol | Function | Type<any>, contextId any) Promise<any>
 
 module packages.core.repl.native-functions.select-relp-fn
 class SelectReplFn
 fnDefinition ReplFnDefinition
-action(token Any) INestApplicationContext
+action(token DynamicModule | Type<unknown>) INestApplicationContext
 
 module packages.core.router.legacy-route-converter
 class LegacyRouteConverter
@@ -2325,7 +2325,7 @@ exploreMethodMetadata(instance Controller, prototype object, methodName string) 
 
 module packages.core.router.route-params-factory
 class RouteParamsFactory
-exchangeKeyForValue(key Any, data string) TResult?
+exchangeKeyForValue(key RouteParamtypes | string, data string) TResult?
 
 module packages.core.router.route-path-factory
 class RoutePathFactory
@@ -2333,9 +2333,9 @@ RoutePathFactory(applicationConfig ApplicationConfig)
 create(metadata RoutePathMetadata, requestMethod RequestMethod?) string[]
 getVersion(metadata RoutePathMetadata)
 getVersionPrefix(versioningOptions VersioningOptions) string
-appendToAllIfDefined(paths string[], fragmentToAppend Any) string[]
+appendToAllIfDefined(paths string[], fragmentToAppend string | string[] | undefined) string[]
 isExcludedFromGlobalPrefix(path string, requestMethod RequestMethod?, versionOrVersions VersionValue?, versioningOptions VersioningOptions?)
-- truncateVersionPrefixFromPath(path string, versionValue Any, versioningOptions VersioningOptions)
+- truncateVersionPrefixFromPath(path string, versionValue Exclude<VersionValue,typeof VERSION_NEUTRAL>, versioningOptions VersioningOptions)
 
 module packages.core.router.router-exception-filters
 class RouterExceptionFilters
@@ -2346,7 +2346,7 @@ getGlobalMetadata(contextId Any, inquirerId string?) T
 module packages.core.router.router-execution-context
 interface ParamProperties
 index number
-type Any
+type RouteParamtypes | string
 data ParamData
 pipes PipeTransform[]
 extractValue Any
@@ -2364,7 +2364,7 @@ reflectResponseHeaders(callback Any) CustomHeader[]
 reflectSse(callback Any) string
 exchangeKeysForValues(keys string[], metadata Record<number,RouteParamMetadata>, moduleContext string, contextId Any, inquirerId string?, contextFactory Any?) ParamProperties[]
 getParamValue(value T, pipes PipeTransform[]) Promise<unknown>
-isPipeable(type Any) boolean
+isPipeable(type number | string) boolean
 createGuardsFn(guards CanActivate[], instance Controller, callback Any, contextType TContext?) Any
 createPipesFn(pipes PipeTransform[], paramsOptions Any)
 createHandleResponseFn(callback Any, isResponseHandled boolean, redirectResponse RedirectResponse?, httpStatusCode number?) HandleResponseFn
@@ -2384,11 +2384,11 @@ class RouterExplorer
 - logger Any
 - exceptionFiltersCache Any
 RouterExplorer(metadataScanner MetadataScanner, container NestContainer, injector Injector, routerProxy RouterProxy, exceptionsFilter ExceptionsFilter, config ApplicationConfig, routePathFactory RoutePathFactory, graphInspector GraphInspector)
-explore(instanceWrapper InstanceWrapper, moduleKey string, httpAdapterRef T, host Any, routePathMetadata RoutePathMetadata)
+explore(instanceWrapper InstanceWrapper, moduleKey string, httpAdapterRef T, host string | RegExp | Array<string | RegExp>, routePathMetadata RoutePathMetadata)
 extractRouterPath(metatype Type<Controller>) string[]
-applyPathsToRouterProxy(router T, routeDefinitions RouteDefinition[], instanceWrapper InstanceWrapper, moduleKey string, routePathMetadata RoutePathMetadata, host Any)
-- applyCallbackToRouter(router T, routeDefinition RouteDefinition, instanceWrapper InstanceWrapper, moduleKey string, routePathMetadata RoutePathMetadata, host Any)
-- applyHostFilter(host Any, handler Function)
+applyPathsToRouterProxy(router T, routeDefinitions RouteDefinition[], instanceWrapper InstanceWrapper, moduleKey string, routePathMetadata RoutePathMetadata, host string | RegExp | Array<string | RegExp>)
+- applyCallbackToRouter(router T, routeDefinition RouteDefinition, instanceWrapper InstanceWrapper, moduleKey string, routePathMetadata RoutePathMetadata, host string | RegExp | Array<string | RegExp>)
+- applyHostFilter(host string | RegExp | Array<string | RegExp>, handler Function)
 - applyVersionFilter(router T, routePathMetadata RoutePathMetadata, handler Function)
 - createCallbackProxy(instance Controller, callback RouterProxyCallback, methodName string, moduleRef string, requestMethod RequestMethod, contextId Any, inquirerId string?)
 createRequestScopedHandler(instanceWrapper InstanceWrapper, requestMethod RequestMethod, moduleRef Module, moduleKey string, methodName string)
@@ -2426,7 +2426,7 @@ transformToResult(resultOrDeferred any)
 getStatusByMethod(requestMethod RequestMethod) number
 setHeaders(response TResponse, headers CustomHeader[])
 setStatus(response TResponse, statusCode number)
-sse(result Any, response TResponse, request TRequest, options Any?)
+sse(result TInput | Promise<TInput>, response TResponse, request TRequest, options Any?)
 - assertObservable(value any)
 
 module packages.core.router.routes-resolver
@@ -2438,14 +2438,14 @@ class RoutesResolver
 - routerExplorer RouterExplorer
 RoutesResolver(container NestContainer, applicationConfig ApplicationConfig, injector Injector, graphInspector GraphInspector)
 resolve(applicationRef T, globalPrefix string)
-registerRouters(routes Any, moduleName string, globalPrefix string, modulePath string, applicationRef HttpServer)
+registerRouters(routes Map<string | symbol | Function,InstanceWrapper<Controller>>, moduleName string, globalPrefix string, modulePath string, applicationRef HttpServer)
 registerNotFoundHandler()
 registerExceptionHandler()
 mapExternalException(err any)
-- isHttpFastifyError(error any) Any
+- isHttpFastifyError(error any) error is Error & { statusCode: number }
 - getModulePathMetadata(metatype Type<unknown>) string?
-- getHostMetadata(metatype Any) Any
-- getVersionMetadata(metatype Any) VersionValue?
+- getHostMetadata(metatype Type<unknown>| Function) string | string[] | undefined
+- getVersionMetadata(metatype Type<unknown>| Function) VersionValue?
 
 module packages.core.router.sse-stream
 interface ReadHeaders
@@ -2486,7 +2486,7 @@ registerExceptionHandler()
 
 module packages.core.router.interfaces.route-params-factory.interface
 interface IRouteParamsFactory
-exchangeKeyForValue(key Any, data any) TResult?
+exchangeKeyForValue(key RouteParamtypes | string, data any) TResult?
 
 module packages.core.router.interfaces.route-path-metadata.interface
 interface RoutePathMetadata
@@ -2512,10 +2512,10 @@ class Reflector
 $createDecorator(options CreateDecoratorOptions<TParam>?) ReflectableDecorator<TParam>
 $createDecorator(options CreateDecoratorWithTransformOptions<TParam,TTransformed>) ReflectableDecorator<TParam,TTransformed>
 $createDecorator(options CreateDecoratorOptions<TParam,TTransformed>) ReflectableDecorator<TParam,TTransformed>
-get(decorator T, target Any) Any
-get(metadataKey TKey, target Any) TResult
-get(metadataKeyOrDecorator TKey, target Any) TResult
-getAll(decorator ReflectableDecorator<TParam,TTransformed>, targets Any) Any
+get(decorator T, target Type<any>| Function) T extends ReflectableDecorator<any,infer R>? R : unknown
+get(metadataKey TKey, target Type<any>| Function) TResult
+get(metadataKeyOrDecorator TKey, target Type<any>| Function) TResult
+getAll(decorator ReflectableDecorator<TParam,TTransformed>, targets Any) TTransformed extends Array<any>? TTransformed : TTransformed[]
 getAll(metadataKey TKey, targets Any) TResult
 getAll(metadataKeyOrDecorator TKey, targets Any) TResult
 getAllAndMerge(decorator ReflectableDecorator<TParam,TTransformed>, targets Any) Any
@@ -2558,14 +2558,14 @@ class ListenersController
 - exceptionFiltersCache Any
 ListenersController(clientsContainer ClientsContainer, contextCreator RpcContextCreator, container NestContainer, injector Injector, clientFactory IClientProxyFactory, exceptionFiltersContext ExceptionFiltersContext, graphInspector GraphInspector)
 registerPatternHandlers(instanceWrapper InstanceWrapper<Controller>, serverInstance Server, moduleKey string)
-insertEntrypointDefinition(instanceWrapper InstanceWrapper, definition EventOrMessageListenerDefinition, transportId Any)
-forkJoinHandlersIfAttached(currentReturnValue Any, originalArgs unknown[], handlerRef MessageHandler)
+insertEntrypointDefinition(instanceWrapper InstanceWrapper, definition EventOrMessageListenerDefinition, transportId Transport | symbol)
+forkJoinHandlersIfAttached(currentReturnValue Promise<unknown>| Observable<unknown>, originalArgs unknown[], handlerRef MessageHandler)
 assignClientsToProperties(instance Controller)
 assignClientToInstance(instance Controller, property string, client T)
 createRequestScopedHandler(wrapper InstanceWrapper, pattern PatternMetadata, moduleRef Module, moduleKey string, methodKey string, defaultCallMetadata Record<string,any>, isEventHandler Any)
 - getContextId(request T, isTreeDurable boolean) ContextId
-transformToObservable(resultOrDeferred Any) Observable<T>
-transformToObservable(resultOrDeferred T) Any
+transformToObservable(resultOrDeferred Observable<T>| Promise<T>) Observable<T>
+transformToObservable(resultOrDeferred T) never extends Observable<ObservedValueOf<T>>? Observable<T>: Observable<ObservedValueOf<T>>
 transformToObservable(resultOrDeferred any)
 
 module packages.microservices.microservices-module
@@ -2576,8 +2576,8 @@ class MicroservicesModule
 register(container NestContainer, graphInspector GraphInspector, config ApplicationConfig, options TAppOptions)
 setupListeners(container NestContainer, serverInstance Server)
 setupClients(container NestContainer)
-bindListeners(controllers Any, serverInstance Server, moduleName string)
-bindClients(items Any)
+bindListeners(controllers Map<string | symbol | Function,InstanceWrapper<Controller>>, serverInstance Server, moduleName string)
+bindClients(items Map<string | symbol | Function,InstanceWrapper<unknown>>)
 close()
 
 module packages.microservices.nest-microservice
@@ -2605,7 +2605,7 @@ close() Promise<any>
 setIsInitialized(isInitialized boolean)
 setIsTerminated(isTerminated boolean)
 setIsInitHookCalled(isInitHookCalled boolean)
-on(event Any, callback Function)
+on(event string | number | symbol, callback Function)
 unwrap() T
 # closeApplication() Promise<any>
 # dispose() Promise<void>
@@ -2644,10 +2644,10 @@ class ClientKafka
 # logger Any
 # client Kafka? = null
 # parser KafkaParser? = null
-# initialized Any = null
+# initialized Promise<void>| null = null
 # responsePatterns string[] = []
-# consumerAssignments Any
-# brokers Any
+# consumerAssignments { [key: string]: number }
+# brokers string[] | BrokersFunction
 # clientId string
 # groupId string
 # producerOnlyMode boolean
@@ -2663,13 +2663,13 @@ bindTopics() Promise<void>
 createClient() T
 createResponseCallback() Any
 getConsumerAssignments()
-emitBatch(pattern any, data Any) Observable<TResult>
+emitBatch(pattern any, data { messages: TInput[] }) Observable<TResult>
 commitOffsets(topicPartitions TopicPartitionOffsetAndMetadata[]) Promise<void>
 unwrap() T
 on(event EventKey, callback EventCallback)
 # registerConsumerEventListeners()
 # registerProducerEventListeners()
-# dispatchBatchEvent(packets Any) Promise<any>
+# dispatchBatchEvent(packets ReadPacket<{ messages: TInput[] }>) Promise<any>
 # dispatchEvent(packet OutgoingEvent) Promise<any>
 # getReplyTopicPartition(topic string) string
 # publish(partialPacket ReadPacket, callback Any) Any
@@ -2684,7 +2684,7 @@ class ClientMqtt
 # subscriptionsCount Any
 # url string
 # mqttClient MqttClient? = null
-# connectionPromise Any = null
+# connectionPromise Promise<any>| null = null
 # isInitialConnection Any = false
 # isReconnecting Any = false
 # pendingEventListeners Any = []
@@ -2714,7 +2714,7 @@ module packages.microservices.client.client-nats
 class ClientNats
 # logger Any
 # natsClient Client? = null
-# connectionPromise Any = null
+# connectionPromise Promise<Client>| null = null
 # statusEventEmitter Any
 ClientNats(options Required<NatsOptions>['options'])
 close()
@@ -2723,7 +2723,7 @@ createClient() Promise<Client>
 handleStatusUpdates(client Client)
 on(event EventKey, callback EventCallback)
 unwrap() T
-createSubscriptionHandler(packet Any, callback Any)
+createSubscriptionHandler(packet ReadPacket & PacketId, callback Any)
 # publish(partialPacket ReadPacket, callback Any) Any
 # dispatchEvent(packet ReadPacket) Promise<any>
 # initializeSerializer(options NatsOptions['options'])
@@ -2734,12 +2734,12 @@ module packages.microservices.client.client-proxy-factory
 interface IClientProxyFactory
 create(clientOptions ClientOptions) ClientProxy
 class ClientProxyFactory
-$create(clientOptions Any) ClientGrpcProxy
-$create(clientOptions Any) ClientKafkaProxy
+$create(clientOptions { transport: Transport.GRPC } & ClientOptions) ClientGrpcProxy
+$create(clientOptions { transport: Transport.KAFKA } & ClientOptions) ClientKafkaProxy
 $create(clientOptions ClientOptions) ClientProxy
 $create(clientOptions CustomClientOptions) ClientProxy
-$create(clientOptions Any) Any
-- $isCustomClientOptions(options Any) Any
+$create(clientOptions ClientOptions | CustomClientOptions) ClientProxy | ClientGrpcProxy | ClientKafkaProxy
+- $isCustomClientOptions(options ClientOptions | CustomClientOptions) options is CustomClientOptions
 
 module packages.microservices.client.client-proxy
 class abstract ClientProxy
@@ -2754,7 +2754,7 @@ emit(pattern any, data TInput) Observable<TResult>
 # createObserver(observer Observer<T>) Any
 # serializeError(err any) any
 # serializeResponse(response any) any
-# assignPacketId(packet ReadPacket) Any
+# assignPacketId(packet ReadPacket) ReadPacket & PacketId
 # connect$(instance any, errorEvent Any, connectEvent Any) Observable<any>
 # getOptionsProp(obj Options, prop Attribute) Options[Attribute]
 # getOptionsProp(obj Options, prop Attribute, defaultValue DefaultValue) Required<Options>[Attribute]
@@ -2829,7 +2829,7 @@ handleMessage(packet unknown, options Any, callback Any?) Promise<void>
 # publish(message ReadPacket, callback Any) Any
 # dispatchEvent(packet ReadPacket) Promise<any>
 # initializeSerializer(options RmqOptions['options'])
-# mergeHeaders(requestHeaders Record<string,string>?) Any
+# mergeHeaders(requestHeaders Record<string,string>?) Record<string,string>| undefined
 # parseMessageContent(content Buffer)
 
 module packages.microservices.client.client-tcp
@@ -2841,7 +2841,7 @@ class ClientTCP
 # tlsOptions ConnectionOptions?
 # maxBufferSize number?
 # socket TcpSocket? = null
-# connectionPromise Any = null
+# connectionPromise Promise<any>| null = null
 # pendingEventListeners Any = []
 ClientTCP(options Required<TcpClientOptions>['options'])
 connect() Promise<any>
@@ -2866,10 +2866,10 @@ getGlobalMetadata(contextId Any, inquirerId string?) T
 
 module packages.microservices.context.request-context-host
 class RequestContextHost
-RequestContextHost(pattern Any, data TData, context TContext)
-$create(pattern Any, data TData, context TContext) RequestContext<TData,TContext>
+RequestContextHost(pattern string | Record<string,any>, data TData, context TContext)
+$create(pattern string | Record<string,any>, data TData, context TContext) RequestContext<TData,TContext>
 getData() TData
-getPattern() Any
+getPattern() string | Record<string,any>
 getContext() TContext
 
 module packages.microservices.context.rpc-context-creator
@@ -2950,9 +2950,9 @@ deserialize(value any)
 
 module packages.microservices.deserializers.incoming-request.deserializer
 class IncomingRequestDeserializer
-deserialize(value any, options Record<string,any>?) Any
+deserialize(value any, options Record<string,any>?) IncomingRequest | IncomingEvent
 isExternal(value any) boolean
-mapToSchema(value any, options Record<string,any>?) Any
+mapToSchema(value any, options Record<string,any>?) IncomingRequest | IncomingEvent
 
 module packages.microservices.deserializers.incoming-response.deserializer
 class IncomingResponseDeserializer
@@ -2962,7 +2962,7 @@ mapToSchema(value any) IncomingResponse
 
 module packages.microservices.deserializers.kafka-request.deserializer
 class KafkaRequestDeserializer
-mapToSchema(data KafkaRequest, options Record<string,any>?) Any
+mapToSchema(data KafkaRequest, options Record<string,any>?) IncomingRequest | IncomingEvent
 
 module packages.microservices.deserializers.kafka-response.deserializer
 class KafkaResponseDeserializer
@@ -2972,7 +2972,7 @@ module packages.microservices.deserializers.nats-request-json.deserializer
 class NatsRequestJSONDeserializer
 - jsonCodec NatsCodec<unknown>
 NatsRequestJSONDeserializer()
-deserialize(value Uint8Array, options Record<string,any>?) Any
+deserialize(value Uint8Array, options Record<string,any>?) IncomingRequest | IncomingEvent
 
 module packages.microservices.deserializers.nats-response-json.deserializer
 class NatsResponseJSONDeserializer
@@ -3042,7 +3042,7 @@ InvalidProtoDefinitionException(path string)
 
 module packages.microservices.errors.invalid-tcp-data-reception.exception
 class InvalidTcpDataReceptionException
-InvalidTcpDataReceptionException(err Any)
+InvalidTcpDataReceptionException(err string | Error)
 
 module packages.microservices.errors.max-packet-length-exceeded.exception
 class MaxPacketLengthExceededException
@@ -3080,24 +3080,24 @@ class BaseRpcExceptionFilter
 - $logger Any
 catch(exception T, host ArgumentsHost) Observable<R>
 handleUnknownError(exception T, status string)
-isError(exception any) Any
+isError(exception any) exception is Error
 
 module packages.microservices.exceptions.kafka-retriable-exception
 class KafkaRetriableException
-getError() Any
+getError() string | object
 
 module packages.microservices.exceptions.rpc-exception
 class RpcException
-RpcException(error Any)
+RpcException(error string | object)
 initMessage()
-getError() Any
+getError() string | object
 
 module packages.microservices.exceptions.rpc-exceptions-handler
 class RpcExceptionsHandler
 - filters RpcExceptionFilterMetadata[] = []
-handle(exception Any, host ArgumentsHost) Observable<any>
+handle(exception Error | RpcException, host ArgumentsHost) Observable<any>
 setCustomFilters(filters RpcExceptionFilterMetadata[])
-invokeCustomFilters(exception T, host ArgumentsHost) Any
+invokeCustomFilters(exception T, host ArgumentsHost) Observable<any>| null
 
 module packages.microservices.external.grpc-options.interface
 interface ChannelOptions
@@ -3110,9 +3110,9 @@ consumer(config ConsumerConfig) Consumer
 admin(config AdminConfig?) Admin
 logger() Logger
 interface KafkaConfig
-brokers Any
-ssl Any?
-sasl Any?
+brokers string[] | BrokersFunction
+ssl tls.ConnectionOptions | boolean?
+sasl SASLOptions | Mechanism?
 clientId string?
 connectionTimeout number?
 authenticationTimeout number?
@@ -3140,8 +3140,8 @@ transactionalId string?
 transactionTimeout number?
 maxInFlightRequests number?
 interface Message
-key Any?
-value Any
+key Buffer | string | null?
+value Buffer | string | null
 partition number?
 headers IHeaders?
 timestamp string?
@@ -3280,7 +3280,7 @@ interface LoggerEntryContent
 timestamp string
 message string
 interface BrokerMetadata
-brokers Any
+brokers Array<{ nodeId: number; host: string; port: number; rack?: string }>
 topicMetadata Any
 interface ApiVersions
 interface MessageSetEntry
@@ -3355,45 +3355,45 @@ name string
 retriable boolean
 helpUrl string?
 cause Error?
-KafkaJSError(e Any, metadata KafkaJSErrorMetadata?)
+KafkaJSError(e Error | string, metadata KafkaJSErrorMetadata?)
 class KafkaJSNonRetriableError
-KafkaJSNonRetriableError(e Any)
+KafkaJSNonRetriableError(e Error | string)
 class KafkaJSProtocolError
 code number
 type string
-KafkaJSProtocolError(e Any)
+KafkaJSProtocolError(e Error | string)
 class KafkaJSOffsetOutOfRange
 topic string
 partition number
-KafkaJSOffsetOutOfRange(e Any, metadata KafkaJSOffsetOutOfRangeMetadata?)
+KafkaJSOffsetOutOfRange(e Error | string, metadata KafkaJSOffsetOutOfRangeMetadata?)
 class KafkaJSNumberOfRetriesExceeded
 stack string
 retryCount number
 retryTime number
-KafkaJSNumberOfRetriesExceeded(e Any, metadata KafkaJSNumberOfRetriesExceededMetadata?)
+KafkaJSNumberOfRetriesExceeded(e Error | string, metadata KafkaJSNumberOfRetriesExceededMetadata?)
 class KafkaJSConnectionError
 broker string
-KafkaJSConnectionError(e Any, metadata KafkaJSConnectionErrorMetadata?)
+KafkaJSConnectionError(e Error | string, metadata KafkaJSConnectionErrorMetadata?)
 class KafkaJSRequestTimeoutError
 broker string
 correlationId number
 createdAt number
 sentAt number
 pendingDuration number
-KafkaJSRequestTimeoutError(e Any, metadata KafkaJSRequestTimeoutErrorMetadata?)
+KafkaJSRequestTimeoutError(e Error | string, metadata KafkaJSRequestTimeoutErrorMetadata?)
 class KafkaJSMetadataNotLoaded
 KafkaJSMetadataNotLoaded()
 class KafkaJSTopicMetadataNotLoaded
 topic string
-KafkaJSTopicMetadataNotLoaded(e Any, metadata KafkaJSTopicMetadataNotLoadedMetadata?)
+KafkaJSTopicMetadataNotLoaded(e Error | string, metadata KafkaJSTopicMetadataNotLoadedMetadata?)
 class KafkaJSStaleTopicMetadataAssignment
 topic string
 unknownPartitions number
-KafkaJSStaleTopicMetadataAssignment(e Any, metadata KafkaJSStaleTopicMetadataAssignmentMetadata?)
+KafkaJSStaleTopicMetadataAssignment(e Error | string, metadata KafkaJSStaleTopicMetadataAssignmentMetadata?)
 class KafkaJSServerDoesNotSupportApiKey
 apiKey number
 apiName string
-KafkaJSServerDoesNotSupportApiKey(e Any, metadata KafkaJSServerDoesNotSupportApiKeyMetadata?)
+KafkaJSServerDoesNotSupportApiKey(e Error | string, metadata KafkaJSServerDoesNotSupportApiKeyMetadata?)
 class KafkaJSBrokerNotFound
 KafkaJSBrokerNotFound()
 class KafkaJSPartialMessageError
@@ -3412,7 +3412,7 @@ class KafkaJSUnsupportedMagicByteInMessageSet
 KafkaJSUnsupportedMagicByteInMessageSet()
 class KafkaJSDeleteGroupsError
 groups DeleteGroupsResult[]
-KafkaJSDeleteGroupsError(e Any, groups KafkaJSDeleteGroupsErrorGroups[]?)
+KafkaJSDeleteGroupsError(e Error | string, groups KafkaJSDeleteGroupsErrorGroups[]?)
 class KafkaJSDeleteTopicRecordsError
 KafkaJSDeleteTopicRecordsError(metadata KafkaJSDeleteTopicRecordsErrorTopic)
 interface KafkaJSDeleteGroupsErrorGroups
@@ -3462,7 +3462,7 @@ port number?
 host string?
 hostname string?
 path string?
-protocol Any?
+protocol 'wss' | 'ws' | 'mqtt' | 'mqtts' | 'tcp' | 'ssl' | 'wx' | 'wxs'?
 wsOptions Any?
 keepalive number?
 clientId string?
@@ -3483,9 +3483,9 @@ resubscribe boolean?
 will Any?
 transformWsUrl Any?
 interface ISecureClientOptions
-key Any?
-cert Any?
-ca Any?
+key string | string[] | Buffer | Buffer[] | Record<string,any>[]?
+cert string | string[] | Buffer | Buffer[]?
+ca string | string[] | Buffer | Buffer[]?
 rejectUnauthorized boolean?
 interface IClientPublishOptions
 qos QoS
@@ -3530,13 +3530,13 @@ commandQueue boolean?
 enableOfflineQueue boolean?
 enableReadyCheck boolean?
 lazyConnect boolean?
-scripts Any?
+scripts Record<string,{ lua: string; numberOfKeys?: number; readOnly?: boolean }>?
 keyPrefix string?
 showFriendlyErrorStack boolean?
 disconnectTimeout number?
 tls ConnectionOptions?
 name string?
-role Any?
+role 'master' | 'slave'?
 sentinelUsername string?
 sentinelPassword string?
 sentinels Array<Partial<any>>?
@@ -3596,7 +3596,7 @@ class JsonSocket
 - maxBufferSize number
 JsonSocket(socket any, options JsonSocketOptions?)
 # handleSend(message any, callback Any?)
-# handleData(dataRaw Any)
+# handleData(dataRaw Buffer | string)
 - handleMessage(message any)
 - formatMessageData(message any)
 
@@ -3605,7 +3605,7 @@ class KafkaParser
 # keepBinary boolean
 KafkaParser(config KafkaParserConfig?)
 parse(data any) T
-decode(value Buffer) Any
+decode(value Buffer) object | string | null | Buffer
 
 module packages.microservices.helpers.kafka-reply-partition-assigner
 class KafkaReplyPartitionAssigner
@@ -3658,7 +3658,7 @@ close() any
 
 module packages.microservices.interfaces.deserializer.interface
 interface Deserializer
-deserialize(value TInput, options Record<string,any>?) Any
+deserialize(value TInput, options Record<string,any>?) TOutput | Promise<TOutput>
 
 module packages.microservices.interfaces.message-handler.interface
 interface MessageHandler
@@ -3711,11 +3711,11 @@ interface MsObjectPattern
 
 module packages.microservices.interfaces.request-context.interface
 interface RequestContext
-pattern Any
+pattern string | Record<string,any>
 data TData
 context TContext?
 getData() TData
-getPattern() Any
+getPattern() string | Record<string,any>
 getContext() TContext
 
 module packages.microservices.interfaces.serializer.interface
@@ -3733,18 +3733,18 @@ $registerAsync(options ClientsModuleAsyncOptions) DynamicModule
 
 module packages.microservices.module.interfaces.clients-module.interface
 interface ClientsModuleOptionsFactory
-createClientOptions() Any
+createClientOptions() Promise<ClientProvider>| ClientProvider
 interface ClientsProviderAsyncOptions
 useExisting Type<ClientsModuleOptionsFactory>?
 useClass Type<ClientsModuleOptionsFactory>?
 useFactory Any?
 inject any[]?
 extraProviders Provider[]?
-name Any
+name string | symbol
 
 module packages.microservices.record-builders.mqtt.record-builder
 interface MqttRecordOptions
-qos Any?
+qos 0 | 1 | 2?
 retain boolean?
 dup boolean?
 properties Any?
@@ -3772,13 +3772,13 @@ build() NatsRecord
 
 module packages.microservices.record-builders.rmq.record-builder
 interface RmqRecordOptions
-expiration Any?
+expiration string | number?
 userId string?
-CC Any?
+CC string | string[]?
 mandatory boolean?
 persistent boolean?
-deliveryMode Any?
-BCC Any?
+deliveryMode boolean | number?
+BCC string | string[]?
 contentType string?
 contentEncoding string?
 headers Record<string,string>?
@@ -3802,12 +3802,12 @@ serialize(value any)
 
 module packages.microservices.serializers.kafka-request.serializer
 interface KafkaRequest
-key Any
+key Buffer | string | null
 value T
 headers Record<string,any>
 class KafkaRequestSerializer
 serialize(value any)
-encode(value any) Any
+encode(value any) Buffer | string | null
 
 module packages.microservices.serializers.mqtt-record.serializer
 class MqttRecordSerializer
@@ -3821,7 +3821,7 @@ serialize(packet any) NatsRecord
 
 module packages.microservices.serializers.rmq-record.serializer
 class RmqRecordSerializer
-serialize(packet ReadPacket) Any
+serialize(packet ReadPacket) ReadPacket & Partial<RmqRecord>
 
 module packages.microservices.server.server-factory
 class ServerFactory
@@ -3846,10 +3846,10 @@ ServerGrpc(options Readonly<GrpcOptions>['options'])
 listen(callback Any)
 start(callback Any?)
 bindEvents()
-getServiceNames(grpcPkg any) Any
+getServiceNames(grpcPkg any) { name: string; service: any }[]
 getKeepaliveOptions()
 createService(grpcService any, name string)
-getMessageHandler(serviceName string, methodName string, streaming GrpcMethodStreamingType, grpcMethod Any) MessageHandler
+getMessageHandler(serviceName string, methodName string, streaming GrpcMethodStreamingType, grpcMethod { path?: string }) MessageHandler
 createPattern(service string, methodName string, streaming GrpcMethodStreamingType) string
 createServiceMethod(methodHandler Function, protoNativeHandler any, streamType GrpcMethodStreamingType) Function
 createUnaryServiceMethod(methodHandler Function) Function
@@ -3865,7 +3865,7 @@ addHandler(pattern unknown, callback MessageHandler, isEventHandler Any)
 createClient()
 lookupPackage(root any, packageName string)
 loadProto() any
-- collectDeepServices(name string, grpcDefinition any, accumulator Any)
+- collectDeepServices(name string, grpcDefinition any, accumulator { name: string; service: any }[])
 - parseDeepServiceName(name string, key string) string
 - createServices(grpcPkg any, packageName string)
 - bufferUntilDrained()
@@ -3878,7 +3878,7 @@ transportId TransportId = Transport.KAFKA
 # consumer Consumer? = null
 # producer Producer? = null
 # parser KafkaParser? = null
-# brokers Any
+# brokers string[] | BrokersFunction
 # clientId string
 # groupId string
 ServerKafka(options Required<KafkaOptions>['options'])
@@ -3895,11 +3895,11 @@ handleMessage(payload EachMessagePayload)
 unwrap() T
 on(event EventKey, callback EventCallback)
 - combineStreamsAndThrowIfRetriable(response$ Observable<any>, replayStream$ ReplaySubject<unknown>)
-sendMessage(message OutgoingResponse, replyTopic string, replyPartition Any, correlationId string, context KafkaContext) Promise<RecordMetadata[]>
+sendMessage(message OutgoingResponse, replyTopic string, replyPartition string | undefined | null, correlationId string, context KafkaContext) Promise<RecordMetadata[]>
 assignIsDisposedHeader(outgoingResponse OutgoingResponse, outgoingMessage Message)
 assignErrorHeader(outgoingResponse OutgoingResponse, outgoingMessage Message)
 assignCorrelationIdHeader(correlationId string, outgoingMessage Message)
-assignReplyPartition(replyPartition Any, outgoingMessage Message)
+assignReplyPartition(replyPartition string | null | undefined, outgoingMessage Message)
 handleEvent(pattern string, packet ReadPacket, context KafkaContext) Promise<any>
 # initializeSerializer(options KafkaOptions['options'])
 # initializeDeserializer(options KafkaOptions['options'])
@@ -3919,7 +3919,7 @@ createMqttClient() MqttClient
 getMessageHandler(pub MqttClient)
 handleMessage(channel string, buffer Buffer, pub MqttClient, originalPacket Record<string,any>?) Promise<any>
 getPublisher(client MqttClient, context MqttContext, id string) any
-parseMessage(content any) Any
+parseMessage(content any) ReadPacket & PacketId
 matchMqttPattern(pattern string, topic string)
 getHandlerByPattern(pattern string) MessageHandler?
 removeHandlerKeySharedPrefix(handlerKey string)
@@ -3981,7 +3981,7 @@ registerReconnectListener(client Any)
 registerReadyListener(client Any)
 registerEndListener(client Any)
 getClientOptions() Partial<RedisOptions['options']>
-createRetryStrategy(times number) Any
+createRetryStrategy(times number) undefined | number | void
 unwrap() T
 on(event EventKey, callback EventCallback)
 
@@ -3991,7 +3991,7 @@ transportId TransportId = Transport.RMQ
 # server AmqpConnectionManager? = null
 # channel ChannelWrapper? = null
 # connectionAttempts Any = 0
-# urls Any
+# urls string[] | RmqUrl[]
 # queue string
 # noAck boolean
 # queueOptions any
@@ -4035,7 +4035,7 @@ listen(callback Any)
 close()
 bindHandler(socket Socket)
 handleMessage(socket TcpSocket, rawMessage unknown)
-handleClose() Any
+handleClose() undefined | number | NodeJS.Timer
 unwrap() T
 on(event EventKey, callback EventCallback)
 # init()
@@ -4046,7 +4046,7 @@ on(event EventKey, callback EventCallback)
 
 module packages.microservices.server.server
 class abstract Server
-transportId Any?
+transportId Transport | symbol?
 # messageHandlers Any
 # logger LoggerService
 # serializer ConsumerSerializer
@@ -4055,7 +4055,7 @@ transportId Any?
 # onProcessingEndHook Any
 # _status$ Any
 status Observable<Status>
-setTransportId(transportId Any)
+setTransportId(transportId Transport | symbol)
 setOnProcessingStartHook(hook Any)
 setOnProcessingEndHook(hook Any)
 addHandler(pattern any, callback MessageHandler, isEventHandler Any, extras Record<string,any>)
@@ -4063,8 +4063,8 @@ getHandlers() Map<string,MessageHandler>
 getHandlerByPattern(pattern string) MessageHandler?
 send(stream$ Observable<any>, respond Any) Subscription
 handleEvent(pattern string, packet ReadPacket, context BaseRpcContext) Promise<any>
-transformToObservable(resultOrDeferred Any) Observable<T>
-transformToObservable(resultOrDeferred T) Any
+transformToObservable(resultOrDeferred Observable<T>| Promise<T>) Observable<T>
+transformToObservable(resultOrDeferred T) never extends Observable<ObservedValueOf<T>>? Observable<T>: Observable<ObservedValueOf<T>>
 transformToObservable(resultOrDeferred any)
 getOptionsProp(obj Options, prop Attribute) Options[Attribute]
 getOptionsProp(obj Options, prop Attribute, defaultValue DefaultValue) Required<Options>[Attribute]
@@ -4098,8 +4098,8 @@ getHeader(response any, name string)
 setHeader(response any, name string, value string)
 appendHeader(response any, name string, value string)
 normalizePath(path string) string
-listen(port Any, callback Any?) Server
-listen(port Any, hostname string, callback Any?) Server
+listen(port string | number, callback Any?) Server
+listen(port string | number, hostname string, callback Any?) Server
 listen(port any) Server
 close()
 set()
@@ -4107,12 +4107,12 @@ enable()
 disable()
 engine()
 useStaticAssets(path string, options ServeStaticOptions)
-setBaseViewsDir(path Any)
+setBaseViewsDir(path string | string[])
 setViewEngine(engine string)
 getRequestHostname(request any) string
 getRequestMethod(request any) string
 getRequestUrl(request any) string
-enableCors(options Any)
+enableCors(options CorsOptions | CorsOptionsDelegate<any>)
 createMiddlewareFactory(requestMethod RequestMethod) Any
 initHttpServer(options NestApplicationOptions)
 registerParserMiddleware(prefix string?, rawBody boolean?)
@@ -4123,30 +4123,30 @@ applyVersionFilter(handler Function, version VersionValue, versioningOptions Ver
 - trackOpenConnections()
 - closeOpenConnections()
 - isMiddlewareApplied(name string) boolean
-- setHeaderIfNotExists(response any, name string, value Any?)
+- setHeaderIfNotExists(response any, name string, value string | string[] | number?)
 - applyStreamHeaders(response any, streamable StreamableFile)
 
 module packages.platform-express.interfaces.nest-express-application.interface
 interface NestExpressApplication
 getHttpAdapter() HttpServer<Express.Request,Express.Response,Express>
-listen(port Any, callback Any?) Promise<TServer>
-listen(port Any, hostname string, callback Any?) Promise<TServer>
+listen(port number | string, callback Any?) Promise<TServer>
+listen(port number | string, hostname string, callback Any?) Promise<TServer>
 set() this
 engine() this
 enable() this
 disable() this
 useStaticAssets(options ServeStaticOptions) this
 useStaticAssets(path string, options ServeStaticOptions?) this
-enableCors(options Any?)
+enableCors(options CorsOptions | CorsOptionsDelegate<any>?)
 useBodyParser(parser NestExpressBodyParserType, options Omit<Options,'verify'>?) this
-setBaseViewsDir(path Any) this
+setBaseViewsDir(path string | string[]) this
 setViewEngine(engine string) this
 setLocal(key string, value any) this
 
 module packages.platform-express.interfaces.nest-express-body-parser-options.interface
 interface NestExpressBodyParserOptions
 inflate boolean?
-limit Any?
+limit number | string | undefined?
 type Any?
 
 module packages.platform-express.interfaces.serve-static-options.interface
@@ -4156,9 +4156,9 @@ etag boolean?
 extensions string[]?
 fallthrough boolean?
 immutable boolean?
-index Any?
+index boolean | string | string[]?
 lastModified boolean?
-maxAge Any?
+maxAge number | string?
 redirect boolean?
 setHeaders Any?
 prefix string?
@@ -4202,7 +4202,7 @@ intercept(context ExecutionContext, next CallHandler) Promise<Observable<any>>
 
 module packages.platform-express.multer.interfaces.files-upload-module.interface
 interface MulterOptionsFactory
-createMulterOptions() Any
+createMulterOptions() Promise<MulterModuleOptions>| MulterModuleOptions
 interface MulterModuleAsyncOptions
 useExisting Type<MulterOptionsFactory>?
 useClass Type<MulterOptionsFactory>?
@@ -4211,7 +4211,7 @@ inject any[]?
 
 module packages.platform-express.multer.interfaces.multer-options.interface
 interface MulterOptions
-dest Any?
+dest string | Function?
 storage any?
 limits Any?
 preservePath boolean?
@@ -4230,7 +4230,7 @@ class FastifyAdapter
 - onRequestHook Any?
 - onResponseHook Any?
 - isMiddieRegistered boolean
-- pendingMiddlewares Any = []
+- pendingMiddlewares Array<{ args: any[] }> = []
 - versioningOptions VersioningOptions?
 - versionConstraint Any
 isParserRegistered boolean
@@ -4238,9 +4238,9 @@ FastifyAdapter(instanceOrOptions Any?)
 setOnRequestHook(hook Any)
 setOnResponseHook(hook Any)
 init()
-listen(port Any, callback Any?)
-listen(port Any, hostname string, callback Any?)
-listen(listenOptions Any)
+listen(port string | number, callback Any?)
+listen(port string | number, hostname string, callback Any?)
+listen(listenOptions string | number | FastifyListenOptions)
 get()
 post()
 head()
@@ -4257,10 +4257,10 @@ move()
 lock()
 unlock()
 applyVersionFilter(handler Function, version VersionValue, versioningOptions VersioningOptions) VersionedRoute<TRequest,TReply>
-reply(response Any, body any, statusCode number?)
-status(response Any, statusCode number)
+reply(response TRawResponse | TReply, body any, statusCode number?)
+status(response TRawResponse | TReply, statusCode number)
 end(response TReply, message string?)
-render(response Any, view string, options any)
+render(response TReply & { view: Function }, view string, options any)
 redirect(response TReply, statusCode number, url string)
 setErrorHandler(handler Parameters<TInstance['setErrorHandler']>[0])
 setNotFoundHandler(handler Function)
@@ -4268,12 +4268,12 @@ getHttpServer() T
 getInstance() T
 register(plugin TRegister['0'], opts TRegister['1']?)
 inject() LightMyRequestChain
-inject(opts Any) Promise<LightMyRequestResponse>
-inject(opts Any?) Any
+inject(opts InjectOptions | string) Promise<LightMyRequestResponse>
+inject(opts InjectOptions | string?) LightMyRequestChain | Promise<LightMyRequestResponse>
 close()
 initHttpServer()
 useStaticAssets(options FastifyStaticOptions)
-setViewEngine(options Any)
+setViewEngine(options FastifyViewOptions | string)
 isHeadersSent(response TReply) boolean
 getHeader(response any, name string)
 setHeader(response TReply, name string, value string)
@@ -4282,15 +4282,15 @@ getRequestHostname(request TRequest) string
 getRequestMethod(request TRequest) string
 getRequestUrl(request TRequest) string
 getRequestUrl(request TRawRequest) string
-getRequestUrl(request Any) string
+getRequestUrl(request TRequest & TRawRequest) string
 enableCors(options FastifyCorsOptions?)
 registerParserMiddleware(prefix string?, rawBody boolean?)
-useBodyParser(type Any, rawBody boolean, options NestFastifyBodyParserOptions?, parser FastifyBodyParser<Buffer,TServer>?)
+useBodyParser(type string | string[] | RegExp, rawBody boolean, options NestFastifyBodyParserOptions?, parser FastifyBodyParser<Buffer,TServer>?)
 createMiddlewareFactory(requestMethod RequestMethod) Any
 getType() string
 use()
-# registerWithPrefix(factory Any, prefix Any)
-- isNativeResponse(response Any) Any
+# registerWithPrefix(factory | FastifyPluginCallback<any>| FastifyPluginAsync<any>| Promise<{ default: FastifyPluginCallback<any>}>| Promise<{ default: FastifyPluginAsync<any>}>, prefix Any)
+- isNativeResponse(response TRawResponse | TReply) response is TRawResponse
 - registerJsonContentParser(rawBody boolean?)
 - registerUrlencodedContentParser(rawBody boolean?)
 - registerMiddie()
@@ -4329,19 +4329,19 @@ query any?
 module packages.platform-fastify.interfaces.nest-fastify-application.interface
 interface NestFastifyApplication
 getHttpAdapter() HttpServer<FastifyRequest,FastifyReply,FastifyInstance>
-register(plugin Any, opts FastifyRegisterOptions<Options>?) Promise<FastifyInstance>
-useBodyParser(type Any, options NestFastifyBodyParserOptions?, parser FastifyBodyParser<Buffer,TServer>?) this
+register(plugin | FastifyPluginCallback<Options>| FastifyPluginAsync<Options>| Promise<{ default: FastifyPluginCallback<Options>}>| Promise<{ default: FastifyPluginAsync<Options>}>, opts FastifyRegisterOptions<Options>?) Promise<FastifyInstance>
+useBodyParser(type string | string[] | RegExp, options NestFastifyBodyParserOptions?, parser FastifyBodyParser<Buffer,TServer>?) this
 useStaticAssets(options FastifyStaticOptions) this
 enableCors(options FastifyCorsOptions?)
-setViewEngine(options Any) this
+setViewEngine(options FastifyViewOptions | string) this
 inject() LightMyRequestChain
-inject(opts Any) Promise<LightMyRequestResponse>
+inject(opts InjectOptions | string) Promise<LightMyRequestResponse>
 listen(opts FastifyListenOptions, callback Any?) Promise<TServer>
 listen(opts FastifyListenOptions?) Promise<TServer>
 listen(callback Any?) Promise<TServer>
-listen(port Any, callback Any?) Promise<TServer>
-listen(port Any, address string, callback Any?) Promise<TServer>
-listen(port Any, address string, backlog number, callback Any?) Promise<TServer>
+listen(port number | string, callback Any?) Promise<TServer>
+listen(port number | string, address string, callback Any?) Promise<TServer>
+listen(port number | string, address string, backlog number, callback Any?) Promise<TServer>
 
 module packages.platform-fastify.interfaces.external.fastify-static-options.interface
 interface SetHeadersResponse
@@ -4369,7 +4369,7 @@ interface ListRender
 interface ListOptions
 names string[]
 extendedFolderInfo boolean?
-jsonFormat Any?
+jsonFormat 'names' | 'extended'?
 interface ListOptionsJsonFormat
 format 'json'
 render ListRender?
@@ -4379,16 +4379,16 @@ render ListRender
 interface SendOptions
 acceptRanges boolean?
 cacheControl boolean?
-dotfiles Any?
+dotfiles 'allow' | 'deny' | 'ignore'?
 etag boolean?
 extensions string[]?
 immutable boolean?
-index Any?
+index string[] | string | false?
 lastModified boolean?
-maxAge Any?
+maxAge string | number?
 serveDotFiles boolean?
 interface FastifyStaticOptions
-root Any
+root string | string[] | URL | URL[]
 prefix string?
 prefixAvoidTrailingSlash boolean?
 serve boolean?
@@ -4397,24 +4397,24 @@ schemaHide boolean?
 setHeaders Any?
 redirect boolean?
 wildcard boolean?
-list Any?
+list boolean | ListOptionsJsonFormat | ListOptionsHtmlFormat?
 allowedPath Any?
 preCompressed boolean?
 acceptRanges boolean?
 cacheControl boolean?
-dotfiles Any?
+dotfiles 'allow' | 'deny' | 'ignore'?
 etag boolean?
 extensions string[]?
 immutable boolean?
-index Any?
+index string[] | string | false?
 lastModified boolean?
-maxAge Any?
+maxAge string | number?
 constraints RouteOptions['constraints']?
 
 module packages.platform-fastify.interfaces.external.fastify-view-options.interface
 interface FastifyViewOptions
 engine Any
-templates Any?
+templates string | string[]?
 includeViewExtension boolean?
 options object?
 charset string?
@@ -4430,10 +4430,10 @@ asyncProperyName string?
 module packages.platform-socket.io.adapters.io-adapter
 class IoAdapter
 - disconnectMap Any
-create(port number, options Any?) Server
+create(port number, options ServerOptions & { namespace?: string; server?: any }?) Server
 createIOServer(port number, options any?) any
 bindMessageHandlers(socket Socket, handlers MessageMappingProperties[], transform Any)
-mapPayload(payload unknown) Any
+mapPayload(payload unknown) { data: any; ack?: Function }
 close(server Server) Promise<void>
 
 module packages.platform-ws.adapters.ws-adapter
@@ -4443,7 +4443,7 @@ class WsAdapter
 # httpServersRegistry Any
 # wsServersRegistry Any
 # messageParser WsMessageParser
-WsAdapter(appOrHttpServer Any?, options WsAdapterOptions?)
+WsAdapter(appOrHttpServer INestApplicationContext | object?, options WsAdapterOptions?)
 create(port number, options Any?)
 bindMessageHandlers(client any, handlers MessageMappingProperties[], transform Any)
 bindMessageHandler(buffer any, handlersMap Map<string,MessageMappingProperties>, transform Any) Observable<any>
@@ -4470,7 +4470,7 @@ class TestingInjector
 # container NestContainer
 setMocker(mocker MockFactory)
 setContainer(container NestContainer)
-resolveComponentWrapper(moduleRef Module, name any, dependencyContext InjectorDependencyContext, wrapper InstanceWrapper<T>, resolutionContext ResolutionContext, keyOrIndex Any?) Promise<InstanceWrapper>
+resolveComponentWrapper(moduleRef Module, name any, dependencyContext InjectorDependencyContext, wrapper InstanceWrapper<T>, resolutionContext ResolutionContext, keyOrIndex string | number?) Promise<InstanceWrapper>
 resolveComponentHost(moduleRef Module, instanceWrapper InstanceWrapper<T>, resolutionContext ResolutionContext) Promise<InstanceWrapper>
 - mockWrapper(err Error, moduleRef Module, name any, wrapper InstanceWrapper<T>) Promise<InstanceWrapper>
 
@@ -4496,13 +4496,13 @@ overrideGuard(typeOrToken T) OverrideBy
 overrideInterceptor(typeOrToken T) OverrideBy
 overrideProvider(typeOrToken T) OverrideBy
 overrideModule(moduleToOverride ModuleDefinition) OverrideModule
-compile(options Any) Promise<TestingModule>
+compile(options Pick<NestApplicationContextOptions,'snapshot' | 'preview'>) Promise<TestingModule>
 - override(typeOrToken T, isProvider boolean) OverrideBy
 - createOverrideByBuilder(add Any) OverrideBy
 - applyOverloadsMap()
 - getModuleOverloads() ModuleOverride[]
 - getRootModule()
-- createInstancesOfDependencies(graphInspector GraphInspector, options Any)
+- createInstancesOfDependencies(graphInspector GraphInspector, options { preview?: boolean; snapshot?: boolean })
 - createModule(metadata ModuleMetadata)
 - applyLogger()
 
@@ -4510,11 +4510,11 @@ module packages.testing.testing-module
 class TestingModule
 # graphInspector GraphInspector
 TestingModule(container NestContainer, graphInspector GraphInspector, contextModule Module, applicationConfig ApplicationConfig, scope Type<any>[])
-- isHttpServer(serverOrOptions Any) Any
-createNestApplication(httpAdapter Any, options NestApplicationOptions?) T
+- isHttpServer(serverOrOptions Any) serverOrOptions is HttpServer | AbstractHttpAdapter
+createNestApplication(httpAdapter HttpServer | AbstractHttpAdapter, options NestApplicationOptions?) T
 createNestApplication(options NestApplicationOptions?) T
 createNestApplication(serverOrOptions Any, options NestApplicationOptions?) T
-createNestMicroservice(options Any) INestMicroservice
+createNestMicroservice(options NestMicroserviceOptions & T) INestMicroservice
 - createHttpAdapter(httpServer T?) AbstractHttpAdapter
 - applyLogger(options NestApplicationContextOptions?)
 - createAdapterProxy(app NestApplication, adapter HttpServer) T
@@ -4579,12 +4579,12 @@ scanForSocketServer(options T, port number) ServerAndEventStreamsHost
 - createSocketServer(options T, port number) ServerAndEventStreamsHost
 - decorateWithNamespace(options T, port number, targetServer unknown) ServerAndEventStreamsHost
 - getServerOfNamespace(options TOptions, port number, server TServer)
-- validateNamespace(namespace Any) Any
+- validateNamespace(namespace string | RegExp) string | RegExp
 
 module packages.websockets.sockets-container
 class SocketsContainer
 - serverAndEventStreamsHosts Any
-getAll() Any
+getAll() Map<string | RegExp,ServerAndEventStreamsHost>
 getOneByConfig(options T) ServerAndEventStreamsHost
 addOne(options T, host ServerAndEventStreamsHost)
 clear()
@@ -4595,7 +4595,7 @@ class WebSocketsController
 - logger Any
 - metadataExplorer Any
 WebSocketsController(socketServerProvider SocketServerProvider, config ApplicationConfig, contextCreator WsContextCreator, graphInspector GraphInspector, appOptions NestApplicationContextOptions)
-connectGatewayToServer(instance NestGateway, metatype Any, moduleKey string, instanceWrapperId string)
+connectGatewayToServer(instance NestGateway, metatype Type<unknown>| Function, moduleKey string, instanceWrapperId string)
 subscribeToServerEvents(instance NestGateway, options T, port number, moduleKey string, instanceWrapperId string)
 subscribeEvents(instance NestGateway, subscribersMap MessageMappingProperties[], observableServer ServerAndEventStreamsHost)
 getConnectionHandler(context WebSocketsController, instance NestGateway, subscribersMap MessageMappingProperties[], disconnect Subject<any>, connection Subject<any>)
@@ -4616,7 +4616,7 @@ class abstract AbstractWsAdapter
 # httpServer any
 - _forceCloseConnections boolean
 forceCloseConnections boolean
-AbstractWsAdapter(appOrHttpServer Any?)
+AbstractWsAdapter(appOrHttpServer INestApplicationContext | object?)
 bindClientConnect(server TServer, callback Function)
 bindClientDisconnect(client TClient, callback Function)
 close(server TServer)
@@ -4657,13 +4657,13 @@ enum WsParamtype = SOCKET, PAYLOAD, ACK
 
 module packages.websockets.errors.invalid-socket-port.exception
 class InvalidSocketPortException
-InvalidSocketPortException(port Any, type any)
+InvalidSocketPortException(port number | string, type any)
 
 module packages.websockets.errors.ws-exception
 class WsException
-WsException(error Any)
+WsException(error string | object)
 initMessage()
-getError() Any
+getError() string | object
 
 module packages.websockets.exceptions.base-ws-exception-filter
 interface ErrorPayload
@@ -4679,12 +4679,12 @@ BaseWsExceptionFilter(options BaseWsExceptionFilterOptions)
 catch(exception TError, host ArgumentsHost)
 handleError(client TClient, exception TError, cause ErrorPayload['cause'])
 handleUnknownError(exception TError, client TClient, data ErrorPayload['cause'])
-isExceptionObject(err any) Any
+isExceptionObject(err any) err is Error
 
 module packages.websockets.exceptions.ws-exceptions-handler
 class WsExceptionsHandler
 - filters ExceptionFilterMetadata[] = []
-handle(exception Any, host ArgumentsHost)
+handle(exception Error | WsException, host ArgumentsHost)
 setCustomFilters(filters ExceptionFilterMetadata[])
 invokeCustomFilters(exception T, args ArgumentsHost) boolean
 
@@ -4698,7 +4698,7 @@ exchangeKeyForValue(type number, data string?, args unknown[])
 
 module packages.websockets.interfaces.gateway-metadata.interface
 interface GatewayMetadata
-namespace Any?
+namespace string | RegExp?
 path string?
 serveClient boolean?
 adapter any?
@@ -4709,10 +4709,10 @@ pingInterval number?
 upgradeTimeout number?
 maxHttpBufferSize number?
 allowRequest Any?
-transports Any?
+transports Array<'polling' | 'websocket'>?
 allowUpgrades boolean?
-perMessageDeflate Any?
-httpCompression Any?
+perMessageDeflate boolean | object?
+httpCompression boolean | object?
 wsEngine string?
 initialPacket any?
 cookie any?

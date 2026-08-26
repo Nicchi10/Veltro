@@ -179,27 +179,30 @@ def annotation_type(node, field_name: str) -> str:
 def safe_type(type_string: str) -> str:
     """
 
-    Reduce a type to a single Veltro token, or 'Any' when it cannot be.
+    Drop a type the line format cannot carry, replacing it with 'Any'.
 
-    The .vel line format splits fields and arguments on spaces, so a type must
-    be ONE token: identifiers, generics ('Map<string,Foo>') and arrays ('Foo[]')
-    qualify. TypeScript's structural types do not: an inline object
-    ('{ a: number }'), a function type ('(x: number) => void'), an intersection
-    ('A & B') or a multi-member union all carry spaces, parens or braces that
-    would corrupt the line (the real case that bit us: a NestJS constructor
-    parameter typed with an inline object dumped '(request {' into the file).
-    Such types collapse to 'Any' rather than break the format.
+    Only two things genuinely break a member line: a PARENTHESIS, which is what
+    tells a method from a field and what the argument list is matched with (a
+    function type '(x: number) => void' has one, and a NestJS constructor
+    parameter typed that way is what first dumped '(request {' into a file), and
+    a NEWLINE, which ends the line.
+
+    Spaces and braces are NOT a problem: a field's type is everything between its
+    name and the '=', so an inline object ('{ a: number; b: string }'), an
+    intersection ('A & B') and a multi-member union read back exactly as written.
+    This rule used to reject them too, which flattened real TypeScript types into
+    'Any' for no reason.
 
     Args:
         type_string (str): an already space-collapsed candidate type
 
     Returns:
-        The type if it is a single safe token, else 'Any'
+        The type, or 'Any' when it cannot be written
 
     """
     if not type_string:
         return "Any"
-    if any(char in type_string for char in " (){}\n\t"):
+    if any(char in type_string for char in "()\n\r"):
         return "Any"
     return type_string
 

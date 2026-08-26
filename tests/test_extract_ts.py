@@ -182,9 +182,10 @@ class TestJavaScriptFallback(unittest.TestCase):
 
 class TestStructuralTypesAreSafe(unittest.TestCase):
 
-    def test_inline_object_and_function_types_collapse_to_any(self):
-        # the NestJS case: a constructor param typed with an inline object used
-        # to dump '(request {' into the .vel and break the parser
+    def test_only_a_parenthesis_forces_a_type_to_any(self):
+        # the NestJS case: a constructor param typed with an inline object used to dump '(request {' into the .vel and break the parser.
+        # A PARENTHESIS is what breaks a member line, because that is what tells a method from a field. Spaces and braces do not: a field's type is
+        # everything between its name and the '=', so it reads back as written
         source = (
             "export class RequestReader {\n"
             "  onError: (e: Error) => void;\n"
@@ -198,13 +199,17 @@ class TestStructuralTypesAreSafe(unittest.TestCase):
         model = parse_text(vel)
         node = model["nodes"][0]
         fields = {f["name"]: f for f in node["fields"]}
+
+        # a function type carries a parenthesis, so it cannot be written
         self.assertEqual(fields["onError"]["type"], "Any")
-        self.assertEqual(fields["meta"]["type"], "Any")
+        # an inline object can, and is worth keeping
+        self.assertEqual(fields["meta"]["type"], "{ id: number; tag: string }")
+
         methods = {m["name"]: m for m in node["methods"]}
-        self.assertEqual(methods["RequestReader"]["args"], [{"name": "request", "type": "Any"}])
-        # a 3-member union is not a single token -> Any; arg type also safe
-        self.assertEqual(methods["combine"]["args"], [{"name": "a", "type": "Any"}])
-        self.assertEqual(methods["combine"]["ret"], "Any")
+        self.assertEqual(methods["RequestReader"]["args"],[{"name": "request", "type": "{ headers: string[]; body: any }"}])
+        # intersections and multi-member unions survive too
+        self.assertEqual(methods["combine"]["args"], [{"name": "a", "type": "A & B"}])
+        self.assertEqual(methods["combine"]["ret"], "A | B | null")
 
     def test_computed_member_name_is_skipped(self):
         source = (
