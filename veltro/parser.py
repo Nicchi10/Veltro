@@ -296,11 +296,20 @@ def parse_member_line(line: str) -> Tuple[str, dict[str, Any]]:
         is_static = True
         body = body[1:].strip()
 
-    # Fields and methods are told apart by the presence of '('
-    if "(" in body:
+    # Fields and methods are told apart by the '(' that OPENS AN ARGUMENT LIST.
+    # Any '(' will not do: a field's default value can legitimately contain one
+    # ('cache Dict = field(default_factory=dict)', or a Java string constant that
+    # happens to mention a bracket), and reading those lines as methods turned
+    # real fields into malformed members.
+    # An argument list always comes BEFORE the '=' of a default, so that is what
+    # tells them apart, and it stays tolerant of a stray space ('Refresh (x int)').
+    open_paren = body.find("(")
+    equals = body.find("=")
+    opens_arguments = open_paren >= 0 and (equals < 0 or open_paren < equals)
+
+    if opens_arguments:
         return "method", parse_method(visibility, body, is_static)
-    else:
-        return "field", parse_field(visibility, body, is_static)
+    return "field", parse_field(visibility, body, is_static)
 
 # ============ DECLARATION PARSING ============
 

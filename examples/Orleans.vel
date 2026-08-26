@@ -27,8 +27,8 @@ FanOutGrain()
 Ping() ValueTask
 class sealed ActivationSheddingToyHostedService
 # ExecuteAsync(stoppingToken CancellationToken) Task
-- PrintUsage(i int, stats List<(int GrainCount,long UsageBytes)>, envStats EnvironmentStatistics, activationCount int)
-- $PlotAndPrintStats(stats List<(int GrainCount,long UsageBytes)>)
+- PrintUsage(i int, stats Any, envStats EnvironmentStatistics, activationCount int)
+- $PlotAndPrintStats(stats Any)
 class sealed ActivationSheddingToyGrain
 - _buffer byte[] = new byte[100_000]
 Ping() Task
@@ -1643,7 +1643,7 @@ ReadAll() Task<MembershipTableData>
 InsertRow(entry MembershipEntry, tableVersion TableVersion) Task<bool>
 UpdateRow(entry MembershipEntry, etag string, tableVersion TableVersion) Task<bool>
 UpdateIAmAlive(entry MembershipEntry) Task
-- Convert(entries List<(SiloInstanceTableEntry Entity,string ETag)>) MembershipTableData
+- Convert(entries Any) MembershipTableData
 - $Parse(tableEntry SiloInstanceTableEntry) MembershipEntry
 - $Convert(memEntry MembershipEntry, deploymentId string) SiloInstanceTableEntry
 - $ConvertPartial(memEntry MembershipEntry, deploymentId string) SiloInstanceTableEntry
@@ -1925,7 +1925,7 @@ UpdateIAmAlive() Task
 - $MembershipExecuteWithRetries(taskFunction Func<int,Task<T>>, timeout TimeSpan, retryValueFilter Func<T,int,bool>) Task<T>
 UpdateStatus(status SiloStatus) Task
 - TryUpdateMyStatusGlobalOnce(newStatus SiloStatus) Task<bool>
-- GetOrCreateLocalSiloEntry(table MembershipTableData, currentStatus SiloStatus) (MembershipEntry Entry,string? ETag)
+- GetOrCreateLocalSiloEntry(table MembershipTableData, currentStatus SiloStatus) Any
 - CreateLocalSiloEntry(currentStatus SiloStatus) MembershipEntry
 - ProcessTableUpdate(table MembershipTableData, caller string)
 - LogMissedIAmAlives(table MembershipTableData)
@@ -2186,7 +2186,7 @@ UpdateIAmAlive(entry MembershipEntry) Task
 DeleteMembershipTableEntries(clusterId string) Task
 - $GetTableVersion(versionKey string, entries QueryResult<KVPair[]>) TableVersion
 - GetVersionRowUpdate(version TableVersion) KVTxnOp
-- GetConsulSiloRegistration(siloAddress SiloAddress) Task<(ConsulSiloRegistration,TableVersion)>
+- GetConsulSiloRegistration(siloAddress SiloAddress) Any
 - $AssembleMembershipTableData(tableVersion TableVersion) MembershipTableData
 CleanupDefunctSiloEntries(beforeDate DateTimeOffset) Task
 - $LogDebugCouldNotFindSiloRegistrations(logger ILogger, clusterId string)
@@ -3077,13 +3077,11 @@ ConfirmationRetryDelay TimeSpan
 - $DefaultConfirmationRetryDelay TimeSpan
 class RedisGrainDirectoryOptions
 ConfigurationOptions StackExchange.Redis.ConfigurationOptions
-CreateMultiplexer System.Func<RedisGrainDirectoryOptions,System.Threading.Tasks.Task<(StackExchange.Redis.IConnectionMultiplexer Multiplexer,bool IsShared)>>
+CreateMultiplexer Any
 EntryExpiry System.TimeSpan?
-$DefaultCreateMultiplexer(options RedisGrainDirectoryOptions) System.Threading.Tasks.Task<(StackExchange.Redis.IConnectionMultiplexer Multiplexer,bool IsShared)>
+$DefaultCreateMultiplexer(options RedisGrainDirectoryOptions) Any
 ConfigurationOptions ConfigurationOptions
-CreateMultiplexer Func<RedisGrainDirectoryOptions,Task<(IConnectionMultiplexer Multiplexer,bool IsShared)>>
 EntryExpiry TimeSpan?
-$DefaultCreateMultiplexer(options RedisGrainDirectoryOptions) Task<(IConnectionMultiplexer Multiplexer,bool IsShared)>
 class RedisGrainDirectoryOptionsValidator
 RedisGrainDirectoryOptionsValidator(options RedisGrainDirectoryOptions, name string)
 ValidateConfiguration()
@@ -3091,13 +3089,11 @@ ValidateConfiguration()
 - _name string
 class RedisReminderTableOptions
 ConfigurationOptions StackExchange.Redis.ConfigurationOptions
-CreateMultiplexer System.Func<RedisReminderTableOptions,System.Threading.Tasks.Task<(StackExchange.Redis.IConnectionMultiplexer Multiplexer,bool IsShared)>>
+CreateMultiplexer Any
 EntryExpiry System.TimeSpan?
-$DefaultCreateMultiplexer(options RedisReminderTableOptions) System.Threading.Tasks.Task<(StackExchange.Redis.IConnectionMultiplexer Multiplexer,bool IsShared)>
+$DefaultCreateMultiplexer(options RedisReminderTableOptions) Any
 ConfigurationOptions ConfigurationOptions
-CreateMultiplexer Func<RedisReminderTableOptions,Task<(IConnectionMultiplexer Multiplexer,bool IsShared)>>
 EntryExpiry TimeSpan?
-$DefaultCreateMultiplexer(options RedisReminderTableOptions) Task<(IConnectionMultiplexer Multiplexer,bool IsShared)>
 class RedisReminderTableOptionsValidator
 RedisReminderTableOptionsValidator(options Microsoft.Extensions.Options.IOptions<RedisReminderTableOptions>)
 ValidateConfiguration()
@@ -3106,16 +3102,14 @@ RedisReminderTableOptionsValidator(options IOptions<RedisReminderTableOptions>)
 class sealed RedisStreamingOptions
 CheckpointPersistInterval System.TimeSpan
 ConfigurationOptions StackExchange.Redis.ConfigurationOptions
-CreateMultiplexer System.Func<RedisStreamingOptions,System.Threading.Tasks.Task<(StackExchange.Redis.IConnectionMultiplexer Multiplexer,bool IsShared)>>
+CreateMultiplexer Any
 EntryExpiry System.TimeSpan?
 MaxStreamLength long?
 UseApproximateMaxLength bool
-$DefaultCreateMultiplexer(options RedisStreamingOptions) System.Threading.Tasks.Task<(StackExchange.Redis.IConnectionMultiplexer Multiplexer,bool IsShared)>
+$DefaultCreateMultiplexer(options RedisStreamingOptions) Any
 ConfigurationOptions ConfigurationOptions
-CreateMultiplexer Func<RedisStreamingOptions,Task<(IConnectionMultiplexer Multiplexer,bool IsShared)>>
 EntryExpiry TimeSpan?
 CheckpointPersistInterval TimeSpan
-$DefaultCreateMultiplexer(options RedisStreamingOptions) Task<(IConnectionMultiplexer Multiplexer,bool IsShared)>
 class sealed RedisStreamReceiverOptions
 $DefaultFieldName string = "payload"
 $DefaultReadCount int = 1000
@@ -3699,7 +3693,7 @@ UpsertRow(entry ReminderEntry) System.Threading.Tasks.Task<string>
 AzureBasedReminderTable(loggerFactory ILoggerFactory, clusterOptions IOptions<ClusterOptions>, storageOptions IOptions<AzureTableReminderStorageOptions>)
 StartAsync(cancellationToken CancellationToken) Task
 StopAsync(cancellationToken CancellationToken) Task
-- ConvertFromTableEntryList(entries List<(ReminderTableEntry Entity,string ETag)>) ReminderTableData
+- ConvertFromTableEntryList(entries Any) ReminderTableData
 - ConvertFromTableEntry(tableEntry ReminderTableEntry, eTag string) ReminderEntry
 - $ConvertToTableEntry(remEntry ReminderEntry, serviceId string, deploymentId string) ReminderTableEntry
 TestOnlyClearTable() Task
@@ -3738,19 +3732,19 @@ RowKey string
 Timestamp DateTimeOffset?
 ETag ETag
 $ConstructRowKey(grainId GrainId, reminderName string) string
-$ConstructRowKeyBounds(grainId GrainId) (string LowerBound,string UpperBound)
+$ConstructRowKeyBounds(grainId GrainId) Any
 $ConstructPartitionKey(serviceId string, grainId GrainId) string
 $ConstructPartitionKey(serviceId string, number uint) string
-$ConstructPartitionKeyBounds(serviceId string) (string LowerBound,string UpperBound)
+$ConstructPartitionKeyBounds(serviceId string) Any
 ToString() string
 class sealed RemindersTableManager
 - _serviceId string
 - _clusterId string
 RemindersTableManager(serviceId string, clusterId string, options AzureStorageOperationOptions, loggerFactory ILoggerFactory)
-@ FindReminderEntries(begin uint, end uint) Task<List<(ReminderTableEntry Entity,string ETag)>>
-@ FindReminderEntries(grainId GrainId) Task<List<(ReminderTableEntry Entity,string ETag)>>
-@ FindReminderEntry(grainId GrainId, reminderName string) Task<(ReminderTableEntry Entity,string ETag)>
-- FindAllReminderEntries() Task<List<(ReminderTableEntry Entity,string ETag)>>
+@ FindReminderEntries(begin uint, end uint) Any
+@ FindReminderEntries(grainId GrainId) Any
+@ FindReminderEntry(grainId GrainId, reminderName string) Any
+- FindAllReminderEntries() Any
 @ UpsertRow(reminderEntry ReminderTableEntry) Task<string>
 @ DeleteReminderEntryConditionally(reminderEntry ReminderTableEntry, eTag string) Task<bool>
 @ DeleteTableEntries() Task
@@ -5826,12 +5820,12 @@ ActivateSiloInstance(entry SiloInstanceTableEntry) Task<string>
 FindAllGatewayProxyEndpoints() Task<IList<Uri>>
 DumpSiloInstanceTable() Task<string>
 @ MergeTableEntryAsync(data SiloInstanceTableEntry) Task<string>
-@ ReadSingleTableEntryAsync(partitionKey string, rowKey string) Task<(SiloInstanceTableEntry,string)>
+@ ReadSingleTableEntryAsync(partitionKey string, rowKey string) Any
 @ DeleteTableEntries(clusterId string) Task<int>
 CleanupDefunctSiloEntries(beforeDate DateTimeOffset) Task
-- DeleteEntriesBatch(entriesList List<(SiloInstanceTableEntry,string)>) Task
-@ FindSiloEntryAndTableVersionRow(siloAddress SiloAddress) Task<List<(SiloInstanceTableEntry,string)>>
-@ FindAllSiloEntries() Task<List<(SiloInstanceTableEntry,string)>>
+- DeleteEntriesBatch(entriesList Any) Task
+@ FindSiloEntryAndTableVersionRow(siloAddress SiloAddress) Any
+@ FindAllSiloEntries() Any
 @ TryCreateTableVersionEntryAsync() Task<bool>
 @ InsertSiloEntryConditionally(siloEntry SiloInstanceTableEntry, tableVersionEntry SiloInstanceTableEntry, tableVersionEtag string) Task<bool>
 @ UpdateSiloEntryConditionally(siloEntry SiloInstanceTableEntry, entryEtag string, tableVersionEntry SiloInstanceTableEntry, versionEtag string) Task<bool>
@@ -7784,7 +7778,7 @@ $AddDefaultServices(builder IClientBuilder)
 - $ApplyConfiguration(builder IClientBuilder)
 class GrainFactory
 - grainReferenceRuntime GrainReferenceRuntime
-- typedSystemTargetReferenceCache Dictionary<(GrainId,Type),ISystemTarget>
+- typedSystemTargetReferenceCache Any
 - referenceActivator GrainReferenceActivator
 - interfaceTypeResolver GrainInterfaceTypeResolver
 - interfaceTypeToGrainTypeResolver GrainInterfaceTypeToGrainTypeResolver
@@ -7869,7 +7863,7 @@ $LogStageCanceled(logger ILogger, stageName string)
 $LogCallbackError(logger ILogger, exception Exception, stageName string)
 $LogCancellationCallbackError(logger ILogger, exception Exception, stageName string)
 class sealed ClientGrainContext
-- _extensions ConcurrentDictionary<Type,(object Implementation,IAddressable Reference)>
+- _extensions Any
 - _components ConcurrentDictionary<Type,object>
 - _runtimeClient OutsideRuntimeClient
 - _grainReference GrainReference?
@@ -7887,8 +7881,8 @@ Equals(other IGrainContext?) bool
 GetComponent(componentType Type) object?
 GetTarget() object?
 SetComponent(instance TComponent?)
-GetOrSetExtension(newExtensionFunc Func<TExtension>) (TExtension,TExtensionInterface)
-- TryGetExtension(result (TExtension,TExtensionInterface)) bool
+GetOrSetExtension(newExtensionFunc Func<TExtension>) Any
+- TryGetExtension(result Any) bool
 - TryGetExtension(result TExtensionInterface?) bool
 GetExtension() TExtensionInterface
 ReceiveMessage(message object)
@@ -8561,7 +8555,7 @@ GrainReferenceActivator(serviceProvider System.IServiceProvider, providers Syste
 CreateReference(grainId Runtime.GrainId, interfaceType Runtime.GrainInterfaceType) Runtime.GrainReference
 - _serviceProvider IServiceProvider
 - _providers IGrainReferenceActivatorProvider[]
-- _activators Dictionary<(GrainType,GrainInterfaceType),IGrainReferenceActivator>
+- _activators Any
 GrainReferenceActivator(serviceProvider IServiceProvider, providers IEnumerable<IGrainReferenceActivatorProvider>)
 CreateReference(grainId GrainId, interfaceType GrainInterfaceType) GrainReference
 - CreateActivator(grainType GrainType, interfaceType GrainInterfaceType) IGrainReferenceActivator
@@ -8760,7 +8754,7 @@ GrainType GrainType
 Bindings ImmutableArray<ImmutableDictionary<string,string>>
 class GrainBindingsResolver
 GrainBindingsResolver(clusterManifestProvider Runtime.IClusterManifestProvider)
-GetAllBindings() (MajorMinorVersion Version,System.Collections.Immutable.ImmutableDictionary<Runtime.GrainType,GrainBindings>Bindings)
+GetAllBindings() Any
 GetBindings(grainType Runtime.GrainType) GrainBindings
 - $BindingPrefix string = WellKnownGrainTypeProperties.BindingPrefix + "."
 - $BindingIndexEnd char = '.'
@@ -8769,7 +8763,6 @@ GetBindings(grainType Runtime.GrainType) GrainBindings
 - _cache Cache
 GrainBindingsResolver(clusterManifestProvider IClusterManifestProvider)
 GetBindings(grainType GrainType) GrainBindings
-GetAllBindings() (MajorMinorVersion Version,ImmutableDictionary<GrainType,GrainBindings>Bindings)
 - GetCache() Cache
 - $BuildCache(clusterManifest ClusterManifest) Cache
 class GrainInterfaceTypeResolver
@@ -8829,7 +8822,7 @@ ClusterManifest(version MajorMinorVersion, silos ImmutableDictionary<SiloAddress
 ClusterManifest(version MajorMinorVersion, silos ImmutableDictionary<SiloAddress,GrainManifest>, allGrainManifests ImmutableArray<GrainManifest>)
 Silos ImmutableDictionary<SiloAddress,GrainManifest>
 AllGrainManifests ImmutableArray<GrainManifest>
-- $Deduplicate(silos ImmutableDictionary<SiloAddress,GrainManifest>, allGrainManifests ImmutableArray<GrainManifest>) (ImmutableDictionary<SiloAddress,GrainManifest>Silos,ImmutableArray<GrainManifest>AllGrainManifests)
+- $Deduplicate(silos ImmutableDictionary<SiloAddress,GrainManifest>, allGrainManifests ImmutableArray<GrainManifest>) Any
 - $HasDefaultComparers(dictionary ImmutableDictionary<TKey,TValue>) bool
 - $EnsureDefaultKeyComparer(dictionary ImmutableDictionary<TKey,TValue>, paramName string)
 class sealed DefaultGrainTypeAttribute
@@ -8971,7 +8964,7 @@ SiloManifestProvider(grainPropertiesProviders IEnumerable<IGrainPropertiesProvid
 SiloManifest GrainManifest
 GrainTypeMap GrainClassMap
 - $CreateInterfaceManifest(propertyProviders IEnumerable<IGrainInterfacePropertiesProvider>, grainTypeOptions IOptions<GrainTypeOptions>, grainInterfaceIdProvider GrainInterfaceTypeResolver) ImmutableDictionary<GrainInterfaceType,GrainInterfaceProperties>
-- $CreateGrainManifest(grainMetadataProviders IEnumerable<IGrainPropertiesProvider>, grainTypeOptions IOptions<GrainTypeOptions>, grainTypeProvider GrainTypeResolver) (ImmutableDictionary<GrainType,GrainProperties>,ImmutableDictionary<GrainType,Type>)
+- $CreateGrainManifest(grainMetadataProviders IEnumerable<IGrainPropertiesProvider>, grainTypeOptions IOptions<GrainTypeOptions>, grainTypeProvider GrainTypeResolver) Any
 - $ToImmutablePropertyDictionary(properties Dictionary<string,string>) ImmutableDictionary<string,string>
 
 module Orleans.Networking.Shared
@@ -9003,7 +8996,7 @@ Input PipeReader
 Output PipeWriter
 $CreateConnectionPair(inputOptions PipeOptions, outputOptions PipeOptions) DuplexPipePair
 class sealed IOQueue
-- _workItems ConcurrentQueue<(Action<object>Callback,object State)>
+- _workItems Any
 - _doingWork int
 Schedule(action Action<object>, state object)
 Execute()
@@ -9345,7 +9338,7 @@ AcceptExchangeRequest(request AcceptExchangeRequest) ValueTask<AcceptExchangeRes
 ResetCounters() ValueTask
 GetActivationCount() ValueTask<int>
 SetActivationCountOffset(activationCountOffset int) ValueTask
-GetGrainCallFrequencies() ValueTask<ImmutableArray<(Edge,ulong)>>
+GetGrainCallFrequencies() Any
 FlushBuffers() ValueTask
 class Edge
 Source EdgeVertex
@@ -9382,9 +9375,9 @@ ExecuteCommand(command int, arg object) Task<object>
 interface IProviderRuntime
 GrainFactory IGrainFactory
 ServiceProvider System.IServiceProvider
-BindExtension(newExtensionFunc System.Func<TExtension>) (TExtension Extension,TExtensionInterface ExtensionReference)
+BindExtension(newExtensionFunc System.Func<TExtension>) Any
 ServiceProvider IServiceProvider
-BindExtension(newExtensionFunc Func<TExtension>) (TExtension Extension,TExtensionInterface ExtensionReference)
+BindExtension(newExtensionFunc Func<TExtension>) Any
 class sealed ProviderInitializationException
 ProviderInitializationException()
 ProviderInitializationException(message string, innerException System.Exception)
@@ -9545,7 +9538,7 @@ class ClientProviderRuntime
 ClientProviderRuntime(grainFactory IInternalGrainFactory, serviceProvider IServiceProvider, clientContext ClientGrainContext)
 GrainFactory IGrainFactory
 ServiceProvider IServiceProvider
-BindExtension(newExtensionFunc Func<TExtension>) (TExtension Extension,TExtensionInterface ExtensionReference)
+BindExtension(newExtensionFunc Func<TExtension>) Any
 enum ProviderState = None, Initialized, Started, Closed
 class ProviderStateManager
 State ProviderState
@@ -9600,7 +9593,7 @@ ServiceProvider IServiceProvider
 GetStreamDirectory() StreamDirectory
 Reset(cleanup bool) Task
 ExecutingEntityIdentity() string
-BindExtension(newExtensionFunc Func<TExtension>) (TExtension,TExtensionInterface)
+BindExtension(newExtensionFunc Func<TExtension>) Any
 PubSub(pubSubType StreamPubSubType) IStreamPubSub
 Participate(lifecycle IClusterClientLifecycle)
 
@@ -10154,14 +10147,14 @@ class sealed HashBasedPlacement
 interface IAddressable
 interface IAsyncEnumerableGrainExtension
 DisposeAsync(requestId System.Guid) System.Threading.Tasks.ValueTask
-MoveNext(requestId System.Guid, cancellationToken System.Threading.CancellationToken) System.Threading.Tasks.ValueTask<(EnumerationResult Status,object Value)>
-MoveNext(requestId System.Guid) System.Threading.Tasks.ValueTask<(EnumerationResult Status,object Value)>
-StartEnumeration(requestId System.Guid, request IAsyncEnumerableRequest<T>, cancellationToken System.Threading.CancellationToken) System.Threading.Tasks.ValueTask<(EnumerationResult Status,object Value)>
-StartEnumeration(requestId System.Guid, request IAsyncEnumerableRequest<T>) System.Threading.Tasks.ValueTask<(EnumerationResult Status,object Value)>
-StartEnumeration(requestId Guid, request IAsyncEnumerableRequest<T>) ValueTask<(EnumerationResult Status,object Value)>
-StartEnumeration(requestId Guid, request IAsyncEnumerableRequest<T>, cancellationToken CancellationToken) ValueTask<(EnumerationResult Status,object Value)>
-MoveNext(requestId Guid) ValueTask<(EnumerationResult Status,object Value)>
-MoveNext(requestId Guid, cancellationToken CancellationToken) ValueTask<(EnumerationResult Status,object Value)>
+MoveNext(requestId System.Guid, cancellationToken System.Threading.CancellationToken) Any
+MoveNext(requestId System.Guid) Any
+StartEnumeration(requestId System.Guid, request IAsyncEnumerableRequest<T>, cancellationToken System.Threading.CancellationToken) Any
+StartEnumeration(requestId System.Guid, request IAsyncEnumerableRequest<T>) Any
+StartEnumeration(requestId Guid, request IAsyncEnumerableRequest<T>) Any
+StartEnumeration(requestId Guid, request IAsyncEnumerableRequest<T>, cancellationToken CancellationToken) Any
+MoveNext(requestId Guid) Any
+MoveNext(requestId Guid, cancellationToken CancellationToken) Any
 DisposeAsync(requestId Guid) ValueTask
 interface IAsyncEnumerableRequest
 MaxBatchSize int
@@ -10241,8 +10234,8 @@ GrainContext IGrainContext
 interface IGrainExtension
 interface IGrainExtensionBinder
 GetExtension() TExtensionInterface
-GetOrSetExtension(newExtensionFunc System.Func<TExtension>) (TExtension,TExtensionInterface)
-GetOrSetExtension(newExtensionFunc Func<TExtension>) (TExtension,TExtensionInterface)
+GetOrSetExtension(newExtensionFunc System.Func<TExtension>) Any
+GetOrSetExtension(newExtensionFunc Func<TExtension>) Any
 interface IGrainInterfaceTypeProvider
 TryGetGrainInterfaceType(type System.Type, grainInterfaceType GrainInterfaceType) bool
 TryGetGrainInterfaceType(type Type, grainInterfaceType GrainInterfaceType) bool
@@ -10528,7 +10521,7 @@ Endpoint IPEndPoint
 - $LastGenerationLock object
 - $LastGeneration long = 0
 - $epoch long
-- $siloAddressInterningCache Interner<(IPAddress Address,int Port,int Generation),SiloAddress>
+- $siloAddressInterningCache Any
 $New(ep IPEndPoint, gen int) SiloAddress
 $New(address IPAddress, port int, generation int) SiloAddress
 - SiloAddress(endpoint IPEndPoint, generation int)
@@ -10756,9 +10749,9 @@ CreateInstance(address GrainAddress) IGrainContext
 - _activatorProviders IGrainContextActivatorProvider[]
 - _configuratorProviders IConfigureGrainContextProvider[]
 - _resolver GrainPropertiesResolver
-- _activators ImmutableDictionary<GrainType,(IGrainContextActivator Activator,IConfigureGrainContext[] ConfigureActions)>
+- _activators Any
 GrainContextActivator(providers IEnumerable<IGrainContextActivatorProvider>, configureContextActions IEnumerable<IConfigureGrainContextProvider>, grainPropertiesResolver GrainPropertiesResolver)
-- CreateActivator(grainType GrainType) (IGrainContextActivator,IConfigureGrainContext[])
+- CreateActivator(grainType GrainType) Any
 class abstract GrainService
 # GrainService()
 # GrainService(grainId GrainId, silo Silo, loggerFactory Microsoft.Extensions.Logging.ILoggerFactory)
@@ -11039,7 +11032,7 @@ Deactivate(deactivationReason DeactivationReason, cancellationToken System.Threa
 Dispose()
 GetComponent() TComponent?
 GetExtension() TExtensionInterface
-GetOrSetExtension(newExtensionFunc System.Func<TExtension>) (TExtension,TExtensionInterface)
+GetOrSetExtension(newExtensionFunc System.Func<TExtension>) Any
 GetTarget() object?
 Migrate(requestContext System.Collections.Generic.Dictionary<string,object>?, cancellationToken System.Threading.CancellationToken)
 - GetComponent(componentType System.Type) object?
@@ -11078,7 +11071,7 @@ RegisterGrainTimer(callback Func<TState,CancellationToken,Task>, state TState, d
 - ToString(format string?, formatProvider IFormatProvider?) string
 - TryFormat(destination Span<char>, charsWritten int, format ReadOnlySpan<char>, provider IFormatProvider?) bool
 @ ToDetailedString() string
-GetOrSetExtension(newExtensionFunc Func<TExtension>) (TExtension,TExtensionInterface)
+GetOrSetExtension(newExtensionFunc Func<TExtension>) Any
 - GetComponent(componentType Type) object?
 Activate(requestContext Dictionary<string,object>?, cancellationToken CancellationToken)
 Deactivate(deactivationReason DeactivationReason, cancellationToken CancellationToken)
@@ -11183,7 +11176,7 @@ MethodName string
 Invoke() Task
 - $ThrowInvalidCall()
 - $ThrowBrokenCallFilterChain(filterName string)
-- GetMethodEntry() (MethodInfo ImplementationMethod,MethodInfo InterfaceMethod)
+- GetMethodEntry() Any
 class sealed InvalidSchedulingContextException
 InvalidSchedulingContextException(message string)
 InvalidSchedulingContextException(message string, innerException Exception)
@@ -11682,7 +11675,7 @@ class TagList
 class sealed MigrationContext
 @ _sessionPool SerializerSessionPool
 MigrationContext(sessionPool SerializerSessionPool)
-- _indices Dictionary<string,(int Offset,int Length)>
+- _indices Any
 - _buffer PooledBuffer
 AddBytes(key string, value ReadOnlySpan<byte>)
 AddBytes(key string, valueWriter Action<T,IBufferWriter<byte>>, value T)
@@ -11839,12 +11832,12 @@ class sealed AsyncEnumerableGrainExtension
 AsyncEnumerableGrainExtension(grainContext IGrainContext, messagingOptions IOptions<MessagingOptions>, logger ILogger<AsyncEnumerableGrainExtension>)
 DisposeAsync(requestId Guid) ValueTask
 - RemoveExpiredAsync(cancellationToken CancellationToken) ValueTask
-StartEnumeration(requestId Guid, request IAsyncEnumerableRequest<T>, cancellationToken CancellationToken) ValueTask<(EnumerationResult Status,object Value)>
-MoveNext(requestId Guid, cancellationToken CancellationToken) ValueTask<(EnumerationResult Status,object Value)>
-- MoveNextCore(entry EnumeratorState, requestId Guid, typedEnumerator IAsyncEnumerator<T>, cancellationToken CancellationToken) ValueTask<(EnumerationResult Status,object Value)>
-- AwaitMoveNextAsync(requestId Guid, typedEnumerator IAsyncEnumerator<T>, moveNextTask Task<bool>, cancellationToken CancellationToken) ValueTask<(EnumerationResult Status,object Value)>
+StartEnumeration(requestId Guid, request IAsyncEnumerableRequest<T>, cancellationToken CancellationToken) Any
+MoveNext(requestId Guid, cancellationToken CancellationToken) Any
+- MoveNextCore(entry EnumeratorState, requestId Guid, typedEnumerator IAsyncEnumerator<T>, cancellationToken CancellationToken) Any
+- AwaitMoveNextAsync(requestId Guid, typedEnumerator IAsyncEnumerator<T>, moveNextTask Task<bool>, cancellationToken CancellationToken) Any
 - RemoveEnumeratorAsync(requestId Guid) ValueTask
-- OnTerminateAsync(requestId Guid, status EnumerationResult, value object) ValueTask<(EnumerationResult Status,object Value)>
+- OnTerminateAsync(requestId Guid, status EnumerationResult, value object) Any
 DisposeAsync() ValueTask
 - DisposeEnumeratorAsync(enumerator EnumeratorState) ValueTask
 Dispose()
@@ -12177,7 +12170,7 @@ class sealed AsyncEnumeratorProxy
 - _cancellationTokenSource CancellationTokenSource?
 - _target IAsyncEnumerableGrainExtension
 - _requestId Guid
-- _current (EnumerationResult State,object Value)
+- _current Any
 - _batchIndex int
 - _disposed bool
 - _isInitialized bool
@@ -12286,7 +12279,7 @@ SourceGrainId GrainId
 MessageId CorrelationId
 class GrainCallCancellationManager
 - $MaxBatchSize int = 1_000
-- _workers ConcurrentDictionary<SiloAddress,(Task PumpTask,Channel<GrainCallCancellationRequest>WorkItemChannel,CancellationTokenSource Cts)>
+- _workers Any
 - _shuttingDownCts CancellationTokenSource
 - _serviceProvider IServiceProvider
 - _logger ILogger<GrainCallCancellationManager>
@@ -12301,7 +12294,7 @@ CancelCallsAsync(cancellationRequests List<GrainCallCancellationRequest>) ValueT
 SignalCancellation(targetSilo SiloAddress?, targetGrainId GrainId, sourceGrainId GrainId, messageId CorrelationId)
 - ProcessMembershipUpdates() Task
 - PumpCancellationQueue(targetSilo SiloAddress, workItems Channel<GrainCallCancellationRequest>, cancellationToken CancellationToken) Task
-- GetOrCreateWorker(targetSilo SiloAddress) (ChannelWriter<GrainCallCancellationRequest>Writer,CancellationTokenSource Cts)
+- GetOrCreateWorker(targetSilo SiloAddress) Any
 - RemoveWorker(targetSilo SiloAddress)
 - StartAsync(cancellationToken CancellationToken) Task
 - StopAsync(cancellationToken CancellationToken) Task
@@ -12375,7 +12368,7 @@ class sealed ActivationData
 - _shared GrainTypeSharedContext
 - _serviceScope IServiceScope
 - _workItemGroup WorkItemGroup
-- _waitingRequests List<(Message Message,CoarseStopwatch QueuedTime)>
+- _waitingRequests Any
 - _runningRequests Dictionary<Message,CoarseStopwatch>
 - _workSignal SingleWaiterAutoResetEvent
 - _lifecycle GrainLifecycle?
@@ -12459,7 +12452,7 @@ Dispose()
 DisposeAsync() ValueTask
 - $DisposeAsync(obj object) ValueTask
 - Equals(other IGrainContext?) bool
-GetOrSetExtension(newExtensionFunc Func<TExtension>) (TExtension,TExtensionInterface)
+GetOrSetExtension(newExtensionFunc Func<TExtension>) Any
 GetExtension() TExtensionInterface
 - IsCandidateForRemoval(wouldRemove bool) bool
 - RunMessageLoop() Task
@@ -12555,7 +12548,7 @@ interface IActivationMigrationManager
 MigrateAsync(target SiloAddress, grainId GrainId, migrationContext MigrationContext) ValueTask
 class sealed ActivationMigrationManager
 - $MaxBatchSize int = 1_000
-- _workers ConcurrentDictionary<SiloAddress,(Task PumpTask,Channel<MigrationWorkItem>WorkItemChannel)>
+- _workers Any
 - _workItemPool ObjectPool<MigrationWorkItem>
 - _shuttingDownCts CancellationTokenSource
 - _logger ILogger<ActivationMigrationManager>
@@ -12665,7 +12658,7 @@ class StatelessWorkerGrainContext
 - _shared StatelessWorkerGrainTypeSharedContext
 - _innerActivator IGrainContextActivator
 - _workers List<ActivationData> = []
-- _workItems ConcurrentQueue<(WorkItemType Type,object State)>
+- _workItems Any
 - _workSignal SingleWaiterAutoResetEvent
 - _disposalTask TaskCompletionSource
 - _messageLoopTask Task
@@ -12771,7 +12764,7 @@ class sealed HostedClient
 - grainFactory IInternalGrainFactory
 - siloMessageCenter MessageCenter
 - messagingTrace MessagingTrace
-- _extensions ConcurrentDictionary<Type,(object Implementation,IAddressable Reference)>
+- _extensions Any
 - _components ConcurrentDictionary<Type,object>
 - _serviceProviderScope IServiceScope
 - disposing bool
@@ -12801,8 +12794,8 @@ ReceiveMessage(message Message, cache IMessageReceiverCache)
 - RunClientMessagePump() Task
 - Participate(lifecycle ISiloLifecycle)
 Equals(other IGrainContext?) bool
-GetOrSetExtension(newExtensionFunc Func<TExtension>) (TExtension,TExtensionInterface)
-- TryGetExtension(result (TExtension,TExtensionInterface)) bool
+GetOrSetExtension(newExtensionFunc Func<TExtension>) Any
+- TryGetExtension(result Any) bool
 - TryGetExtension(result TExtensionInterface?) bool
 GetExtension() TExtensionInterface
 GetTarget() object?
@@ -12819,7 +12812,7 @@ class sealed InsideRuntimeClient
 - invokeExceptionLogger ILogger
 - loggerFactory ILoggerFactory
 - messagingOptions SiloMessagingOptions
-- callbacks ConcurrentDictionary<(GrainId,CorrelationId),CallbackData>
+- callbacks Any
 - interfaceToImplementationMapping InterfaceToImplementationMappingCache
 - sharedCallbackData SharedCallbackData
 - systemSharedCallbackData SharedCallbackData
@@ -12951,7 +12944,7 @@ Version MembershipVersion = version
 TryGetResult(version MembershipVersion, result T?) bool
 interface IRemoteGrainDirectory
 RegisterMany(addresses List<GrainAddress>) Task
-LookUpMany(grainAndETagList List<(GrainId GrainId,int Version)>) Task<List<AddressAndTag>>
+LookUpMany(grainAndETagList Any) Task<List<AddressAndTag>>
 AcceptSplitPartition(singleActivations List<GrainAddress>) Task
 class sealed ClusterManifestSystemTarget
 - _siloManifest GrainManifest
@@ -13257,17 +13250,17 @@ class sealed CachingIdSpanCodec
 - $SharedCache ConcurrentLruCache<IdSpan,IdSpan>
 - $PurgeAfterMilliseconds long = 2 * 60 * 1000
 - $GarbageCollectionIntervalMilliseconds long = 60 * 1000
-- _cache Dictionary<int,(byte[] Value,long LastSeen)>
+- _cache Any
 - _lastGarbageCollectionTimestamp long
 CachingIdSpanCodec()
 ReadRaw(reader Reader<TInput>) IdSpan
 - PurgeStaleEntries()
 WriteRaw(writer Writer<TBufferWriter>, value IdSpan)
 class sealed CachingSiloAddressCodec
-@ $SharedCache ConcurrentLruCache<SiloAddress,(SiloAddress Value,byte[] Encoded)>
+@ $SharedCache Any
 - $PurgeAfterMilliseconds long = 2 * 60 * 1000
 - $GarbageCollectionIntervalMilliseconds long = 60 * 1000
-- _cache Dictionary<int,(byte[] Encoded,SiloAddress Value,long LastSeen)>
+- _cache Any
 - _lastGarbageCollectionTimestamp long
 CachingSiloAddressCodec()
 ReadRaw(reader Reader<TInput>) SiloAddress
@@ -13292,10 +13285,10 @@ class sealed MessageSerializer
 - _requestContextCodec DictionaryCodec<string,object>
 - _bufferWriter PrefixingBufferWriter
 MessageSerializer(sessionPool SerializerSessionPool, memoryPool SharedMemoryPool, options MessagingOptions)
-TryRead(input ReadOnlySequence<byte>, message Message?) (int RequiredBytes,int HeaderLength,int BodyLength)
+TryRead(input ReadOnlySequence<byte>, message Message?) Any
 - ReadBodyObject(message Message, reader Reader<TInput>)
 - GetRawCodec(fieldType Type) ResponseCodec
-Write(writer PipeWriter, message Message) (int HeaderLength,int BodyLength)
+Write(writer PipeWriter, message Message) Any
 - ThrowIfLengthsInvalid(headerLength int, bodyLength int)
 - ThrowInvalidHeaderLength(headerLength int)
 - ThrowInvalidBodyLength(bodyLength int)
@@ -16363,7 +16356,7 @@ GetInterfaceType() System.Type
 GetMethod() System.Reflection.MethodInfo
 GetMethodName() string
 GetTarget() object
-# InvokeInner() System.Threading.Tasks.ValueTask<(global::Orleans.Runtime.EnumerationResult,object)>
+# InvokeInner() Any
 SetArgument(index int, value object)
 SetTarget(holder global::Orleans.Serialization.Invocation.ITargetHolder)
 class sealed Invokable_IAsyncEnumerableGrainExtension_GrainReference_Ext_3C6D7209
@@ -16395,7 +16388,7 @@ GetInterfaceType() System.Type
 GetMethod() System.Reflection.MethodInfo
 GetMethodName() string
 GetTarget() object
-# InvokeInner() System.Threading.Tasks.ValueTask<(global::Orleans.Runtime.EnumerationResult,object)>
+# InvokeInner() Any
 SetArgument(index int, value object)
 SetTarget(holder global::Orleans.Serialization.Invocation.ITargetHolder)
 TryCancel() bool
@@ -16410,7 +16403,7 @@ GetInterfaceType() System.Type
 GetMethod() System.Reflection.MethodInfo
 GetMethodName() string
 GetTarget() object
-# InvokeInner() System.Threading.Tasks.ValueTask<(global::Orleans.Runtime.EnumerationResult,object)>
+# InvokeInner() Any
 SetArgument(index int, value object)
 SetTarget(holder global::Orleans.Serialization.Invocation.ITargetHolder)
 class sealed Invokable_IAsyncEnumerableGrainExtension_GrainReference_Ext_E60EA75B_1
@@ -16427,7 +16420,7 @@ GetInterfaceType() System.Type
 GetMethod() System.Reflection.MethodInfo
 GetMethodName() string
 GetTarget() object
-# InvokeInner() System.Threading.Tasks.ValueTask<(global::Orleans.Runtime.EnumerationResult,object)>
+# InvokeInner() Any
 SetArgument(index int, value object)
 SetTarget(holder global::Orleans.Serialization.Invocation.ITargetHolder)
 TryCancel() bool
@@ -16569,7 +16562,7 @@ OnRehydrate(rehydrationContext IRehydrationContext)
 - $LogErrorStorageWriteFailed(logger ILogger, exception Exception, providerName string, stateName string, operation string, grainId GrainId, errorCode string?)
 - $LogErrorStorageDeleteFailed(logger ILogger, exception Exception, providerName string, stateName string, operation string, grainId GrainId, errorCode string?)
 class sealed StateStorageBridgeSharedMap
-- _instances ConcurrentDictionary<(string Name,IGrainStorage Store,Type StateType),object>
+- _instances Any
 - _loggerFactory ILoggerFactory = loggerFactory
 - _activatorProvider IActivatorProvider = activatorProvider
 Get(name string, store IGrainStorage) StateStorageBridgeShared<TState>
@@ -17029,7 +17022,7 @@ $ActivityExecuteJobHandler string = "execute durable job handler"
 $ActivityPersistShardBatch string = "persist durable job shard batch"
 $ActivityDeleteShard string = "delete durable job shard"
 - $MaxBatchLinks int = 128
-$CaptureTraceContext(activity Activity?) (string? TraceParent,string? TraceState)
+$CaptureTraceContext(activity Activity?) Any
 $TryParseTraceContext(traceParent string?, traceState string?, context ActivityContext) bool
 $StartScheduleActivity(request ScheduleJobRequest) Activity?
 $SetScheduledJobTags(activity Activity?, job DurableJob)
@@ -17128,17 +17121,17 @@ class sealed DurableJobReceiverExtension
 - $CompletedJobAttemptRetention TimeSpan
 - _grain IGrainContext
 - _shared DurableJobReceiverExtensionShared
-- _jobAttempts Dictionary<(string JobId,int DequeueCount),JobAttemptState> = []
+- _jobAttempts Any = []
 - _completedJobAttempts Queue<CompletedJobAttempt>
 - _completedJobAttemptCount int
 DurableJobReceiverExtension(grain IGrainContext, shared DurableJobReceiverExtensionShared)
 HandleDurableJobAsync(context IJobRunContext, cancellationToken CancellationToken) ValueTask<DurableJobRunResult>
 - StartJob(context IJobRunContext, cancellationToken CancellationToken) Task<DurableJobRunResult>
 - ExecuteHandlerAsync(handler IDurableJobHandler, context IJobRunContext, cancellationToken CancellationToken) Task<DurableJobRunResult>
-- GetJobStatusAsync(key (string JobId,int DequeueCount), context IJobRunContext, state JobAttemptState, newJob bool) ValueTask<DurableJobRunResult>
-- RecordCompletedJobAttempt(key (string JobId,int DequeueCount), state JobAttemptState)
+- GetJobStatusAsync(key Any, context IJobRunContext, state JobAttemptState, newJob bool) ValueTask<DurableJobRunResult>
+- RecordCompletedJobAttempt(key Any, state JobAttemptState)
 - PruneCompletedJobAttempts()
-- $GetExecutionKey(context IJobRunContext) (string JobId,int DequeueCount)
+- $GetExecutionKey(context IJobRunContext) Any
 - $LogErrorExecutingDurableJob(logger ILogger, exception Exception, jobId string, grainId GrainId)
 - $LogGrainDoesNotImplementHandler(logger ILogger, grainId GrainId)
 interface ILocalDurableJobManagerSystemTarget
@@ -17157,7 +17150,7 @@ MarkAsComplete()
 CancelJob(jobId string) bool
 RetryJobLater(jobContext IJobRunContext, newDueTime DateTimeOffset)
 RetryJobLater(jobId string, newDueTime DateTimeOffset, dequeueCount int) bool
-GetSnapshot() IReadOnlyList<(DurableJob Job,int DequeueCount)>
+GetSnapshot() Any
 Clear()
 GetAsyncEnumerator(cancellationToken CancellationToken) IAsyncEnumerator<IJobRunContext>
 - GetJobBucket(dueTime DateTimeOffset) JobBucket
@@ -17166,14 +17159,14 @@ GetAsyncEnumerator(cancellationToken CancellationToken) IAsyncEnumerator<IJobRun
 - WaitForQueueChangeOrDelayAsync(queueChanged Task, delay TimeSpan?, cancellationToken CancellationToken) Task
 - $CreateQueueChangedSource() TaskCompletionSource
 class sealed JobBucket
-- _jobs Dictionary<string,(DurableJob Job,int DequeueCount)>
+- _jobs Any
 Count int
 DueTime DateTimeOffset
-Jobs IEnumerable<(DurableJob Job,int DequeueCount)>
+Jobs Any
 JobBucket(dueTime DateTimeOffset)
 AddJob(job DurableJob, dequeueCount int)
 RemoveJob(jobId string) bool
-TryGetJob(jobId string, job (DurableJob Job,int DequeueCount)) bool
+TryGetJob(jobId string, job Any) bool
 class JobShardId
 - $RootSegment string = "jobs"
 - $ShardsSegment string = "shards"
@@ -18191,9 +18184,9 @@ ReadUInt64(index int, operandName string) ulong
 ReadString(index int, operandName string) string?
 StartArray(index int, operandName string) int
 ReadArrayItem(operandName string) bool
-ReadCurrentPair(operandName string, firstTypeInfo JsonTypeInfo<TFirst>, secondTypeInfo JsonTypeInfo<TSecond>) (TFirst? First,TSecond? Second)
-ReadCurrentPairRequired(operandName string, firstTypeInfo JsonTypeInfo<TFirst>, secondTypeInfo JsonTypeInfo<TSecond>) (TFirst First,TSecond Second)
-ReadCurrentPairRequiredFirst(operandName string, firstTypeInfo JsonTypeInfo<TFirst>, secondTypeInfo JsonTypeInfo<TSecond>) (TFirst First,TSecond? Second)
+ReadCurrentPair(operandName string, firstTypeInfo JsonTypeInfo<TFirst>, secondTypeInfo JsonTypeInfo<TSecond>) Any
+ReadCurrentPairRequired(operandName string, firstTypeInfo JsonTypeInfo<TFirst>, secondTypeInfo JsonTypeInfo<TSecond>) Any
+ReadCurrentPairRequiredFirst(operandName string, firstTypeInfo JsonTypeInfo<TFirst>, secondTypeInfo JsonTypeInfo<TSecond>) Any
 EnsureEnd(nextIndex int)
 SkipToEnd()
 - ReadCommandCore() string?
@@ -18401,13 +18394,12 @@ $CreateGrainDirectoryCache(services IServiceProvider, options GrainDirectoryOpti
 @ $DisposeGrainDirectoryCacheAsync(cache IGrainDirectoryCache) ValueTask
 - $CreateLruGrainDirectoryCache(services IServiceProvider, options GrainDirectoryOptions, directoryInstruments DirectoryInstruments) IGrainDirectoryCache
 interface IGrainDirectoryCache
-KeyValues System.Collections.Generic.IEnumerable<(GrainAddress ActivationAddress,int Version)>
+KeyValues Any
 AddOrUpdate(value GrainAddress, version int)
 Clear()
 LookUp(key GrainId, result GrainAddress, version int) bool
 Remove(key GrainAddress) bool
 Remove(key GrainId) bool
-KeyValues IEnumerable<(GrainAddress ActivationAddress,int Version)>
 interface IGrainDirectoryResolver
 TryResolveGrainDirectory(grainType GrainType, properties Orleans.Metadata.GrainProperties, grainDirectory Orleans.GrainDirectory.IGrainDirectory) bool
 TryResolveGrainDirectory(grainType GrainType, properties GrainProperties, grainDirectory IGrainDirectory) bool
@@ -18453,18 +18445,18 @@ class sealed ClientDirectory
 - _remoteDirectories IRemoteClientDirectory[]
 - _localClients ImmutableHashSet<GrainId> = ImmutableHashSet<GrainId>.Empty
 - _currentSnapshot ImmutableDictionary<GrainId,List<GrainAddress>> = ImmutableDictionary<GrainId, List<GrainAddress>>.Empty
-- _table ImmutableDictionary<SiloAddress,(ImmutableHashSet<GrainId>ConnectedClients,long Version)>
+- _table Any
 - _nextPublishTask Task?
 - _previousSuccessor SiloAddress?
-- _publishedTable ImmutableDictionary<SiloAddress,(ImmutableHashSet<GrainId>ConnectedClients,long Version)>?
+- _publishedTable Any
 ClientDirectory(grainFactory IInternalGrainFactory, siloDetails ILocalSiloDetails, messagingOptions IOptions<SiloMessagingOptions>, loggerFactory ILoggerFactory, clusterMembershipService IClusterMembershipService, timerFactory IAsyncTimerFactory, connectedClients IConnectedClientCollection, shared SystemTargetShared)
 Lookup(grainId GrainId) ValueTask<List<GrainAddress>>
 TryLocalLookup(grainId GrainId, addresses List<GrainAddress>?) bool
 - EnsureRefreshed()
-OnUpdateClientRoutes(update ImmutableDictionary<SiloAddress,(ImmutableHashSet<GrainId>ConnectedClients,long Version)>) Task
-GetClientRoutes(knownRoutes ImmutableDictionary<SiloAddress,long>) Task<ImmutableDictionary<SiloAddress,(ImmutableHashSet<GrainId>ConnectedClients,long Version)>>
-- UpdateRoutingTable(update ImmutableDictionary<SiloAddress,(ImmutableHashSet<GrainId>ConnectedClients,long Version)>?)
-- GetConnectedClients(previousClients ImmutableHashSet<GrainId>, previousVersion long) (ImmutableHashSet<GrainId>Clients,long Version)
+OnUpdateClientRoutes(update Any) Task
+GetClientRoutes(knownRoutes ImmutableDictionary<SiloAddress,long>) Any
+- UpdateRoutingTable(update Any)
+- GetConnectedClients(previousClients ImmutableHashSet<GrainId>, previousVersion long) Any
 - Run() Task
 - ShouldPublish() bool
 - SchedulePublishUpdates()
@@ -18524,7 +18516,7 @@ DisposeAsync() ValueTask
 - LogErrorProcessingMembershipUpdates(exception Exception)
 class sealed DirectoryMembershipSnapshot
 @ $DefaultGetRingBoundaries Func<SiloAddress,int,uint[]>
-- _ringBoundaries ImmutableArray<(uint Start,int MemberIndex,int PartitionIndex)>
+- _ringBoundaries Any
 - _rangesByMember RingRangeCollection[]
 - _partitionsByMember ImmutableArray<ImmutableArray<IGrainDirectoryPartition>>
 - _rangesByMemberPartition ImmutableArray<ImmutableArray<RingRange>>
@@ -18539,7 +18531,7 @@ GetMemberRangesByPartition(address SiloAddress) ImmutableArray<RingRange>
 - GetMemberRangesByPartition(memberIndex int) ImmutableArray<RingRange>
 RangeOwners RangeCollection
 ClusterMembershipSnapshot ClusterMembershipSnapshot
-- GetRangeInfo(index int) (RingRange Range,int MemberIndex,int PartitionIndex)
+- GetRangeInfo(index int) Any
 - GetRangeCore(index int) RingRange
 - TryGetMemberIndex(address SiloAddress?) int
 TryGetOwner(grainId GrainId, owner SiloAddress?, partitionReference IGrainDirectoryPartition?) bool
@@ -18593,10 +18585,10 @@ class sealed DistributedRemoteGrainDirectory
 - _logger ILogger<DistributedRemoteGrainDirectory>
 - _membershipService DirectoryMembershipService
 - _directoryInstruments DirectoryInstruments
-- _pendingOperations Queue<(string Name,object State,Func<DistributedRemoteGrainDirectory,object,Task>Action)>
+- _pendingOperations Any
 - _executorLock AsyncLock
 - DistributedRemoteGrainDirectory(directory DistributedGrainDirectory, membershipService DirectoryMembershipService, grainType GrainType, shared SystemTargetShared)
-@ $Create(directory DistributedGrainDirectory, membershipService DirectoryMembershipService, shared SystemTargetShared) (DistributedRemoteGrainDirectory DirectoryService,DistributedRemoteGrainDirectory CacheValidator)
+@ $Create(directory DistributedGrainDirectory, membershipService DirectoryMembershipService, shared SystemTargetShared) Any
 - EnsureDirectoryInitializedAsync(cancellationToken CancellationToken) Task
 - $CreateParallelOptions(cancellationToken CancellationToken) ParallelOptions
 - CreateTimeoutCts() CancellationTokenSource
@@ -18617,7 +18609,7 @@ UnregisterManyAsync(addresses List<GrainAddress>, cause UnregistrationCause, hop
 - UnregisterAsync(address GrainAddress, cause UnregistrationCause, cancellationToken CancellationToken) Task
 DeleteGrainAsync(grainId GrainId, hopCount int) Task
 RegisterMany(addresses List<GrainAddress>) Task
-LookUpMany(grainAndETagList List<(GrainId GrainId,int Version)>) Task<List<AddressAndTag>>
+LookUpMany(grainAndETagList Any) Task<List<AddressAndTag>>
 AcceptSplitPartition(singleActivations List<GrainAddress>) Task
 - $LogInformationLookUpManyReceived(logger ILogger, silo SiloAddress, count int)
 - $LogInformationAcceptSplitPartitionStarted(logger ILogger, silo SiloAddress, count int)
@@ -18636,7 +18628,7 @@ Remove(key GrainId) bool
 Remove(key GrainAddress) bool
 Clear()
 LookUp(key GrainId, result GrainAddress, version int) bool
-KeyValues IEnumerable<(GrainAddress ActivationAddress,int Version)>
+KeyValues Any
 class sealed GrainDirectoryHandoffManager
 - $RetryDelay TimeSpan
 - localDirectory LocalGrainDirectory
@@ -18644,7 +18636,7 @@ class sealed GrainDirectoryHandoffManager
 - clusterMembershipService IClusterMembershipService
 - grainFactory IInternalGrainFactory
 - logger ILogger
-- pendingOperations Queue<(string name,object state,Func<GrainDirectoryHandoffManager,object,Task>action)>
+- pendingOperations Any
 - executorLock AsyncLock
 @ GrainDirectoryHandoffManager(localDirectory LocalGrainDirectory, siloStatusOracle ISiloStatusOracle, clusterMembershipService IClusterMembershipService, grainFactory IInternalGrainFactory, loggerFactory ILoggerFactory)
 @ ProcessSiloAddEvent(addedSilo SiloAddress)
@@ -18695,7 +18687,7 @@ class sealed GrainDirectoryPartition
 - _logger ILogger<GrainDirectoryPartition>
 - _snapshotsDrainedTcs TaskCompletionSource
 - _viewUpdates AsyncEnumerable<DirectoryMembershipSnapshot>
-- _rangeLocks List<(RingRange Range,MembershipVersion Version,TaskCompletionSource Completion)> = []
+- _rangeLocks Any = []
 - _partitionSnapshots List<PartitionSnapshotState> = []
 - _viewChangeTasks List<Task> = []
 - ShutdownToken CancellationToken
@@ -18720,13 +18712,13 @@ GetPartitionReference(address SiloAddress, partitionIndex int) IGrainDirectoryPa
 - ProcessMembershipUpdate(current DirectoryMembershipSnapshot)
 - ReleaseRangeAsync(previous DirectoryMembershipSnapshot, current DirectoryMembershipSnapshot, removedRange RingRange) Task
 - AcquireRangeAsync(previous DirectoryMembershipSnapshot, current DirectoryMembershipSnapshot, addedRange RingRange) Task
-- LockRange(range RingRange, version MembershipVersion, operationName string) (TaskCompletionSource Lock,ValueStopwatch Stopwatch)
+- LockRange(range RingRange, version MembershipVersion, operationName string) Any
 - UnlockRange(range RingRange, version MembershipVersion, tcs TaskCompletionSource, heldDuration TimeSpan, operationName string)
 - TransferSnapshotAsync(current DirectoryMembershipSnapshot, previousOwnerRange RingRange, addedRange RingRange, previousOwner SiloAddress, partitionIndex int, previousVersion MembershipVersion) Task<bool>
 - RecoverPartitionRange(current DirectoryMembershipSnapshot, addedRange RingRange) Task
 - GetRegisteredActivations(current DirectoryMembershipSnapshot, range RingRange, isValidation bool) IAsyncEnumerable<List<GrainAddress>>
 @ $GetSnapshotTransferRanges(previousOwnerRange RingRange, addedRange RingRange) IEnumerable<RingRange>
-@ $GetSnapshotTransferQueryRanges(previousOwnerRange RingRange, addedRange RingRange) IEnumerable<(RingRange TransferRange,RingRange QueryRange)>
+@ $GetSnapshotTransferQueryRanges(previousOwnerRange RingRange, addedRange RingRange) Any
 @ $GetActivationQueryRanges(range RingRange) IEnumerable<RingRange>
 - InvokeOnClusterMember(siloAddress SiloAddress, func Func<Task<T>>, defaultValue T, operationName string) Task<T>
 - CheckIntegrityAsync() ValueTask
@@ -18835,8 +18827,8 @@ TryLocalLookup(grainId GrainId, address GrainAddress?) bool
 GetLocalCacheData(grain GrainId) GrainAddress?
 TryCachedLookup(grainId GrainId, address GrainAddress?) bool
 interface IRemoteClientDirectory
-OnUpdateClientRoutes(update ImmutableDictionary<SiloAddress,(ImmutableHashSet<GrainId>ConnectedClients,long Version)>) Task
-GetClientRoutes(knownRoutes ImmutableDictionary<SiloAddress,long>) Task<ImmutableDictionary<SiloAddress,(ImmutableHashSet<GrainId>ConnectedClients,long Version)>>
+OnUpdateClientRoutes(update Any) Task
+GetClientRoutes(knownRoutes ImmutableDictionary<SiloAddress,long>) Any
 class sealed LocalGrainDirectory
 - log ILogger
 - seed SiloAddress?
@@ -18979,14 +18971,14 @@ ToString() string
 - LogTraceRemovingGrain(grainId GrainId)
 - LogDebugMergingDisjointPartitions(grainId GrainId)
 class sealed LruGrainDirectoryCache
-- $ActivationAddressesMatch Func<(GrainAddress Address,int Version),GrainAddress,bool>
+- $ActivationAddressesMatch Any
 - _cacheSizeRegistration IDisposable
 LruGrainDirectoryCache(maxCacheSize int, maxCacheTTL TimeSpan, timeProvider TimeProvider, directoryInstruments DirectoryInstruments)
 AddOrUpdate(activationAddress GrainAddress, version int)
 Remove(key GrainId) bool
 Remove(grainAddress GrainAddress) bool
 LookUp(key GrainId, result GrainAddress, version int) bool
-KeyValues IEnumerable<(GrainAddress ActivationAddress,int Version)>
+KeyValues Any
 DisposeAsync() ValueTask
 - DisposeAsync() ValueTask
 class sealed RemoteGrainDirectory
@@ -19000,7 +18992,7 @@ UnregisterAsync(address GrainAddress, cause UnregistrationCause, hopCount int) T
 UnregisterManyAsync(addresses List<GrainAddress>, cause UnregistrationCause, hopCount int) Task
 DeleteGrainAsync(grainId GrainId, hopCount int) Task
 LookupAsync(grainId GrainId, hopCount int) Task<AddressAndTag>
-LookUpMany(grainAndETagList List<(GrainId GrainId,int Version)>) Task<List<AddressAndTag>>
+LookUpMany(grainAndETagList Any) Task<List<AddressAndTag>>
 AcceptSplitPartition(singleActivations List<GrainAddress>) Task
 RegisterAsync(address GrainAddress, hopCount int) Task<AddressAndTag>
 - LogRegisterMany(count int)
@@ -20084,13 +20076,13 @@ ReadValue(reader Reader<TInput>, field Field) T
 class static FieldHeaderCodec
 $ReadFieldHeader(reader Buffers.Reader<TInput>, field WireProtocol.Field)
 $ReadFieldHeader(reader Buffers.Reader<TInput>) WireProtocol.Field
-$ReadFieldHeaderForAnalysis(reader Buffers.Reader<TInput>) (WireProtocol.Field Field,string Type)
+$ReadFieldHeaderForAnalysis(reader Buffers.Reader<TInput>) Any
 $ReadFieldHeader(reader Reader<TInput>, field Field)
 $ReadFieldHeader(reader Reader<TInput>) Field
 - $ReadExtendedFieldHeader(reader Reader<TInput>, field Field)
 - $ReadType(reader Reader<TInput>, schemaType SchemaType) Type
-- $ReadTypeForAnalysis(reader Reader<TInput>, schemaType SchemaType) (Type type,string typeName)
-$ReadFieldHeaderForAnalysis(reader Reader<TInput>) (Field Field,string Type)
+- $ReadTypeForAnalysis(reader Reader<TInput>, schemaType SchemaType) Any
+$ReadFieldHeaderForAnalysis(reader Reader<TInput>) Any
 - $ReadFieldHeaderForAnalysisSlow(reader Reader<TInput>, field Field, type string)
 class sealed FloatCodec
 - ReadValue(reader Buffers.Reader<TInput>, field WireProtocol.Field) float
@@ -20992,23 +20984,13 @@ ValueTupleCodec(valueCodec IFieldCodec<T>)
 ReadValue(reader Buffers.Reader<TInput>, field WireProtocol.Field) System.ValueTuple<T>
 WriteField(writer Buffers.Writer<TBufferWriter>, fieldIdDelta uint, expectedType System.Type, value System.ValueTuple<T>)
 ValueTupleCodec(item1Codec IFieldCodec<T1>, item2Codec IFieldCodec<T2>)
-ReadValue(reader Buffers.Reader<TInput>, field WireProtocol.Field) (T1,T2)
-WriteField(writer Buffers.Writer<TBufferWriter>, fieldIdDelta uint, expectedType System.Type, value (T1,T2))
+ReadValue(reader Buffers.Reader<TInput>, field WireProtocol.Field) Any
+WriteField(writer Buffers.Writer<TBufferWriter>, fieldIdDelta uint, expectedType System.Type, value Any)
 ValueTupleCodec(item1Codec IFieldCodec<T1>, item2Codec IFieldCodec<T2>, item3Codec IFieldCodec<T3>)
-ReadValue(reader Buffers.Reader<TInput>, field WireProtocol.Field) (T1,T2,T3)
-WriteField(writer Buffers.Writer<TBufferWriter>, fieldIdDelta uint, expectedType System.Type, value (T1,T2,T3))
 ValueTupleCodec(item1Codec IFieldCodec<T1>, item2Codec IFieldCodec<T2>, item3Codec IFieldCodec<T3>, item4Codec IFieldCodec<T4>)
-ReadValue(reader Buffers.Reader<TInput>, field WireProtocol.Field) (T1,T2,T3,T4)
-WriteField(writer Buffers.Writer<TBufferWriter>, fieldIdDelta uint, expectedType System.Type, value (T1,T2,T3,T4))
 ValueTupleCodec(item1Codec IFieldCodec<T1>, item2Codec IFieldCodec<T2>, item3Codec IFieldCodec<T3>, item4Codec IFieldCodec<T4>, item5Codec IFieldCodec<T5>)
-ReadValue(reader Buffers.Reader<TInput>, field WireProtocol.Field) (T1,T2,T3,T4,T5)
-WriteField(writer Buffers.Writer<TBufferWriter>, fieldIdDelta uint, expectedType System.Type, value (T1,T2,T3,T4,T5))
 ValueTupleCodec(item1Codec IFieldCodec<T1>, item2Codec IFieldCodec<T2>, item3Codec IFieldCodec<T3>, item4Codec IFieldCodec<T4>, item5Codec IFieldCodec<T5>, item6Codec IFieldCodec<T6>)
-ReadValue(reader Buffers.Reader<TInput>, field WireProtocol.Field) (T1,T2,T3,T4,T5,T6)
-WriteField(writer Buffers.Writer<TBufferWriter>, fieldIdDelta uint, expectedType System.Type, value (T1,T2,T3,T4,T5,T6))
 ValueTupleCodec(item1Codec IFieldCodec<T1>, item2Codec IFieldCodec<T2>, item3Codec IFieldCodec<T3>, item4Codec IFieldCodec<T4>, item5Codec IFieldCodec<T5>, item6Codec IFieldCodec<T6>, item7Codec IFieldCodec<T7>)
-ReadValue(reader Buffers.Reader<TInput>, field WireProtocol.Field) (T1,T2,T3,T4,T5,T6,T7)
-WriteField(writer Buffers.Writer<TBufferWriter>, fieldIdDelta uint, expectedType System.Type, value (T1,T2,T3,T4,T5,T6,T7))
 ValueTupleCodec(item1Codec IFieldCodec<T1>, item2Codec IFieldCodec<T2>, item3Codec IFieldCodec<T3>, item4Codec IFieldCodec<T4>, item5Codec IFieldCodec<T5>, item6Codec IFieldCodec<T6>, item7Codec IFieldCodec<T7>, item8Codec IFieldCodec<T8>)
 ReadValue(reader Buffers.Reader<TInput>, field WireProtocol.Field) System.ValueTuple<T1,T2,T3,T4,T5,T6,T7,T8>
 WriteField(writer Buffers.Writer<TBufferWriter>, fieldIdDelta uint, expectedType System.Type, value System.ValueTuple<T1,T2,T3,T4,T5,T6,T7,T8>)
@@ -21021,28 +21003,18 @@ ReadValue(reader Reader<TInput>, field Field) ValueTuple<T>
 - ElementType2 Type
 - _item1Codec IFieldCodec<T1>
 - _item2Codec IFieldCodec<T2>
-WriteField(writer Writer<TBufferWriter>, fieldIdDelta uint, expectedType Type, value (T1,T2))
-ReadValue(reader Reader<TInput>, field Field) (T1,T2)
+WriteField(writer Writer<TBufferWriter>, fieldIdDelta uint, expectedType Type, value Any)
+ReadValue(reader Reader<TInput>, field Field) Any
 - ElementType3 Type
 - _item3Codec IFieldCodec<T3>
-WriteField(writer Writer<TBufferWriter>, fieldIdDelta uint, expectedType Type, value (T1,T2,T3))
-ReadValue(reader Reader<TInput>, field Field) (T1,T2,T3)
 - ElementType4 Type
 - _item4Codec IFieldCodec<T4>
-WriteField(writer Writer<TBufferWriter>, fieldIdDelta uint, expectedType Type, value (T1,T2,T3,T4))
-ReadValue(reader Reader<TInput>, field Field) (T1,T2,T3,T4)
 - ElementType5 Type
 - _item5Codec IFieldCodec<T5>
-WriteField(writer Writer<TBufferWriter>, fieldIdDelta uint, expectedType Type, value (T1,T2,T3,T4,T5))
-ReadValue(reader Reader<TInput>, field Field) (T1,T2,T3,T4,T5)
 - ElementType6 Type
 - _item6Codec IFieldCodec<T6>
-WriteField(writer Writer<TBufferWriter>, fieldIdDelta uint, expectedType Type, value (T1,T2,T3,T4,T5,T6))
-ReadValue(reader Reader<TInput>, field Field) (T1,T2,T3,T4,T5,T6)
 - ElementType7 Type
 - _item7Codec IFieldCodec<T7>
-WriteField(writer Writer<TBufferWriter>, fieldIdDelta uint, expectedType Type, value (T1,T2,T3,T4,T5,T6,T7))
-ReadValue(reader Reader<TInput>, field Field) (T1,T2,T3,T4,T5,T6,T7)
 - ElementType8 Type
 - _item8Codec IFieldCodec<T8>
 WriteField(writer Writer<TBufferWriter>, fieldIdDelta uint, expectedType Type, value ValueTuple<T1,T2,T3,T4,T5,T6,T7,T8>)
@@ -21054,17 +21026,12 @@ IsShallowCopyable() bool
 ValueTupleCopier(copier Cloning.IDeepCopier<T>)
 DeepCopy(input System.ValueTuple<T>, context Cloning.CopyContext) System.ValueTuple<T>
 ValueTupleCopier(copier1 Cloning.IDeepCopier<T1>, copier2 Cloning.IDeepCopier<T2>)
-DeepCopy(input (T1,T2), context Cloning.CopyContext) (T1,T2)
+DeepCopy(input Any, context Cloning.CopyContext) Any
 ValueTupleCopier(copier1 Cloning.IDeepCopier<T1>, copier2 Cloning.IDeepCopier<T2>, copier3 Cloning.IDeepCopier<T3>)
-DeepCopy(input (T1,T2,T3), context Cloning.CopyContext) (T1,T2,T3)
 ValueTupleCopier(copier1 Cloning.IDeepCopier<T1>, copier2 Cloning.IDeepCopier<T2>, copier3 Cloning.IDeepCopier<T3>, copier4 Cloning.IDeepCopier<T4>)
-DeepCopy(input (T1,T2,T3,T4), context Cloning.CopyContext) (T1,T2,T3,T4)
 ValueTupleCopier(copier1 Cloning.IDeepCopier<T1>, copier2 Cloning.IDeepCopier<T2>, copier3 Cloning.IDeepCopier<T3>, copier4 Cloning.IDeepCopier<T4>, copier5 Cloning.IDeepCopier<T5>)
-DeepCopy(input (T1,T2,T3,T4,T5), context Cloning.CopyContext) (T1,T2,T3,T4,T5)
 ValueTupleCopier(copier1 Cloning.IDeepCopier<T1>, copier2 Cloning.IDeepCopier<T2>, copier3 Cloning.IDeepCopier<T3>, copier4 Cloning.IDeepCopier<T4>, copier5 Cloning.IDeepCopier<T5>, copier6 Cloning.IDeepCopier<T6>)
-DeepCopy(input (T1,T2,T3,T4,T5,T6), context Cloning.CopyContext) (T1,T2,T3,T4,T5,T6)
 ValueTupleCopier(copier1 Cloning.IDeepCopier<T1>, copier2 Cloning.IDeepCopier<T2>, copier3 Cloning.IDeepCopier<T3>, copier4 Cloning.IDeepCopier<T4>, copier5 Cloning.IDeepCopier<T5>, copier6 Cloning.IDeepCopier<T6>, copier7 Cloning.IDeepCopier<T7>)
-DeepCopy(input (T1,T2,T3,T4,T5,T6,T7), context Cloning.CopyContext) (T1,T2,T3,T4,T5,T6,T7)
 ValueTupleCopier(copier1 Cloning.IDeepCopier<T1>, copier2 Cloning.IDeepCopier<T2>, copier3 Cloning.IDeepCopier<T3>, copier4 Cloning.IDeepCopier<T4>, copier5 Cloning.IDeepCopier<T5>, copier6 Cloning.IDeepCopier<T6>, copier7 Cloning.IDeepCopier<T7>, copier8 Cloning.IDeepCopier<T8>)
 DeepCopy(input System.ValueTuple<T1,T2,T3,T4,T5,T6,T7,T8>, context Cloning.CopyContext) System.ValueTuple<T1,T2,T3,T4,T5,T6,T7,T8>
 - DeepCopy(input object, context CopyContext) object
@@ -21922,7 +21889,7 @@ WriteEncodedType(writer Buffers.Writer<TBufferWriter>, type System.Type)
 WriteLengthPrefixed(writer Buffers.Writer<TBufferWriter>, type System.Type)
 - $Version1 byte = 1
 - _typeCache ConcurrentDictionary<Type,TypeKey>
-- _typeKeyCache ConcurrentDictionary<int,(TypeKey Key,Type Type)>
+- _typeKeyCache Any
 - _typeConverter TypeConverter
 - _getTypeKey Func<Type,TypeKey>
 WriteLengthPrefixed(writer Writer<TBufferWriter>, type Type)
@@ -21950,7 +21917,7 @@ TryParse(formatted string, result System.Type) bool
 - _wellKnownTypeToAlias Dictionary<QualifiedType,QualifiedType>
 - _allowedTypes ConcurrentDictionary<QualifiedType,bool>
 - _allowedTypesConfiguration HashSet<string>
-- $WellKnownTypeAliases List<(string DisplayName,string RuntimeName)>
+- $WellKnownTypeAliases Any
 TypeConverter(formatters IEnumerable<ITypeConverter>, typeNameFilters IEnumerable<ITypeNameFilter>, typeFilters IEnumerable<ITypeFilter>, options IOptions<TypeManifestOptions>, typeResolver TypeResolver)
 - ConsumeMetadata(metadata TypeManifestOptions)
 Format(type Type, allowAllTypes bool) string
@@ -22925,7 +22892,7 @@ TryGetNextMessage(cursorObj object, message Orleans.Streams.IBatchContainer) boo
 - purgeMetadataInterval TimeSpan
 - periodicMonitoring PeriodicAction
 - periodicMetadaPurging PeriodicAction
-- lastPurgedToken Dictionary<StreamId,(DateTime TimeStamp,StreamSequenceToken Token)>
+- lastPurgedToken Any
 PooledQueueCache(cacheDataAdapter ICacheDataAdapter, logger ILogger, cacheMonitor ICacheMonitor, cacheMonitorWriteInterval TimeSpan?, purgeMetadataInterval TimeSpan?)
 GetCursor(streamId StreamId, sequenceToken StreamSequenceToken) object
 - ReportCacheMessageStatistics()
@@ -23162,7 +23129,7 @@ class SiloProviderRuntime
 SiloProviderRuntime(grainContextAccessor IGrainContextAccessor, grainFactory IGrainFactory, serviceProvider IServiceProvider)
 GrainFactory IGrainFactory
 ServiceProvider IServiceProvider
-BindExtension(newExtensionFunc Func<TExtension>) (TExtension,TExtensionInterface)
+BindExtension(newExtensionFunc Func<TExtension>) Any
 class SiloStreamProviderRuntime
 - consistentRingProvider IConsistentRingProvider
 - runtimeClient InsideRuntimeClient
@@ -23179,11 +23146,11 @@ ServiceProvider IServiceProvider
 SiloStreamProviderRuntime(consistentRingProvider IConsistentRingProvider, runtimeClient InsideRuntimeClient, implicitStreamSubscriberTable ImplicitStreamSubscriberTable, loggerFactory ILoggerFactory, siloDetails ILocalSiloDetails, grainContextAccessor IGrainContextAccessor)
 PubSub(pubSubType StreamPubSubType) IStreamPubSub
 InitializePullingAgents(streamProviderName string, adapterFactory IQueueAdapterFactory, queueAdapter IQueueAdapter) Task<IPersistentStreamPullingManager>
-- CreateBackoffProviders(streamProviderName string) (IBackoffProvider,IBackoffProvider)
+- CreateBackoffProviders(streamProviderName string) Any
 - CreateQueueBalancer(streamProviderName string) IStreamQueueBalancer
 ExecutingEntityIdentity() string
 GetStreamDirectory() StreamDirectory
-BindExtension(newExtensionFunc Func<TExtension>) (TExtension,TExtensionInterface)
+BindExtension(newExtensionFunc Func<TExtension>) Any
 - LogInfoSuccessfullyCreatedQueueBalancer(balancerType Type, streamProviderName string)
 
 module Orleans.Streaming.Diagnostics
@@ -24643,7 +24610,7 @@ class sealed NatsStreamConsumer
 - _consumer INatsJSConsumer?
 - _consecutiveInitFailures int
 - $InitLogInterval int = 100
-GetMessages(messageCount int, cancellationToken CancellationToken) Task<(NatsStreamMessage[] Messages,int Count)>
+GetMessages(messageCount int, cancellationToken CancellationToken) Any
 Initialize(cancellationToken CancellationToken) Task
 - LogConsumerReinitializationAttempt(attempt int, provider string, stream string, partition uint)
 - LogConsumerReinitialized(attempts int, provider string, stream string, partition uint)
@@ -24893,7 +24860,7 @@ OnRead(grainId GrainId) Task
 OnWrite(grainId GrainId) Task
 OnClear(grainId GrainId) Task
 interface ITestClusterPortAllocator
-AllocateConsecutivePortPairs(numPorts int) (int,int)
+AllocateConsecutivePortPairs(numPorts int) Any
 AllocateConsecutivePortPairs(numPorts int) ValueTuple<int,int>
 class sealed RandomlyInjectedInconsistentStateException
 RandomlyInjectedInconsistentStateException()
@@ -25149,7 +25116,7 @@ SiloBuilderConfiguratorTypes List<string>
 ClientBuilderConfiguratorTypes List<string>
 ToDictionary() Dictionary<string,string>
 class TestClusterPortAllocator
-AllocateConsecutivePortPairs(numPorts int) (int,int)
+AllocateConsecutivePortPairs(numPorts int) Any
 Dispose()
 # Dispose(disposing bool)
 - _disposed bool
@@ -25269,9 +25236,9 @@ HasWarningsOrErrors bool
 AssertNoWarningsOrErrors()
 Clear()
 FormatAllEntries() string
-FormatAllEntriesWithSize() (string Content,long SizeBytes)
+FormatAllEntriesWithSize() Any
 FormatEntries(minimumLevel Microsoft.Extensions.Logging.LogLevel) string
-FormatEntriesWithSize(minimumLevel Microsoft.Extensions.Logging.LogLevel) (string Content,long SizeBytes)
+FormatEntriesWithSize(minimumLevel Microsoft.Extensions.Logging.LogLevel) Any
 GetEntries(minimumLevel Microsoft.Extensions.Logging.LogLevel) System.Collections.Generic.IEnumerable<LogEntry>
 HasEntriesAtOrAbove(level Microsoft.Extensions.Logging.LogLevel) bool
 Log(logLevel Microsoft.Extensions.Logging.LogLevel, eventId Microsoft.Extensions.Logging.EventId, state TState, exception System.Exception?, formatter System.Func<TState,System.Exception?,string>, category string)
@@ -25281,7 +25248,7 @@ GetEntries(minimumLevel LogLevel) IEnumerable<LogEntry>
 HasEntriesAtOrAbove(level LogLevel) bool
 Log(logLevel LogLevel, eventId EventId, state TState, exception Exception?, formatter Func<TState,Exception?,string>, category string)
 FormatEntries(minimumLevel LogLevel) string
-FormatEntriesWithSize(minimumLevel LogLevel) (string Content,long SizeBytes)
+FormatEntriesWithSize(minimumLevel LogLevel) Any
 - $FormatEntries(entries IEnumerable<LogEntry>) string
 - $FormatEntry(entry LogEntry) string
 - $PrintException(exception Exception?) string
@@ -25582,10 +25549,9 @@ UtcNow() System.DateTime
 UtcNow() DateTime
 interface ITransactionAgent
 Abort(transactionInfo TransactionInfo) System.Threading.Tasks.Task
-Resolve(transactionInfo TransactionInfo) System.Threading.Tasks.Task<(TransactionalStatus Status,System.Exception exception)>
+Resolve(transactionInfo TransactionInfo) Any
 StartTransaction(readOnly bool, timeout System.TimeSpan) System.Threading.Tasks.Task<TransactionInfo>
 StartTransaction(readOnly bool, timeout TimeSpan) Task<TransactionInfo>
-Resolve(transactionInfo TransactionInfo) Task<(TransactionalStatus Status,Exception exception)>
 Abort(transactionInfo TransactionInfo) Task
 interface ITransactionalStateStorageEvents
 Cancel(sequenceNumber long)
@@ -25905,7 +25871,7 @@ Limit double
 $DEFAULT_LIMIT double = 700
 class DisabledTransactionAgent
 Abort(transactionInfo TransactionInfo) Task
-Resolve(transactionInfo TransactionInfo) Task<(TransactionalStatus Status,Exception exception)>
+Resolve(transactionInfo TransactionInfo) Any
 StartTransaction(readOnly bool, timeout TimeSpan) Task<TransactionInfo>
 enum OrleansTransactionsErrorCode = OrleansTransactions
 class ResourceFactoryRegistry
@@ -25920,9 +25886,9 @@ class TransactionAgent
 - overloadDetector ITransactionOverloadDetector
 TransactionAgent(clock IClock, logger ILogger<TransactionAgent>, statistics ITransactionAgentStatistics, overloadDetector ITransactionOverloadDetector)
 StartTransaction(readOnly bool, timeout TimeSpan) Task<TransactionInfo>
-Resolve(transactionInfo TransactionInfo) Task<(TransactionalStatus,Exception)>
-- CommitReadOnlyTransaction(transactionInfo TransactionInfo, resources List<KeyValuePair<ParticipantId,AccessCounter>>) Task<(TransactionalStatus,Exception)>
-- CommitReadWriteTransaction(transactionInfo TransactionInfo, writeResources List<ParticipantId>, resources List<KeyValuePair<ParticipantId,AccessCounter>>, manager KeyValuePair<ParticipantId,AccessCounter>) Task<(TransactionalStatus,Exception)>
+Resolve(transactionInfo TransactionInfo) Any
+- CommitReadOnlyTransaction(transactionInfo TransactionInfo, resources List<KeyValuePair<ParticipantId,AccessCounter>>) Any
+- CommitReadWriteTransaction(transactionInfo TransactionInfo, writeResources List<ParticipantId>, resources List<KeyValuePair<ParticipantId,AccessCounter>>, manager KeyValuePair<ParticipantId,AccessCounter>) Any
 Abort(transactionInfo TransactionInfo) Task
 - CollateParticipants(participants Dictionary<ParticipantId,AccessCounter>, writers List<ParticipantId>, resources List<KeyValuePair<ParticipantId,AccessCounter>>, manager KeyValuePair<ParticipantId,AccessCounter>?)
 - LogTraceStartTransaction(totalMilliseconds StopwatchLogRecord, transactionId Guid, timeStamp DateTimeLogRecord)
@@ -27238,10 +27204,7 @@ CheckConsistency(tolerateGenericTimeouts bool, tolerateUnknownExceptions bool)
 RunRandomTransactionSequence(partition int, count int, grainFactory IGrainFactory, output System.Action<string>) System.Threading.Tasks.Task
 - options ConsistencyTestOptions
 - output Action<string>
-- tuples Dictionary<int,// Grain
-                          SortedDictionary<int,// SeqNo
-                          Dictionary<string,// WriterTx
-                          HashSet<string>>>>
+- tuples Any
 - succeeded HashSet<string>
 - aborted HashSet<string>
 - indoubt Dictionary<string,string>
@@ -28619,16 +28582,14 @@ RedisClusteringException(message string, innerException Exception)
 # RedisClusteringException(info SerializationInfo, context StreamingContext)
 class RedisClusteringOptions
 ConfigurationOptions StackExchange.Redis.ConfigurationOptions
-CreateMultiplexer System.Func<RedisClusteringOptions,System.Threading.Tasks.Task<(StackExchange.Redis.IConnectionMultiplexer Multiplexer,bool IsShared)>>
+CreateMultiplexer Any
 CreateRedisKey System.Func<Configuration.ClusterOptions,StackExchange.Redis.RedisKey>
 EntryExpiry System.TimeSpan?
-$DefaultCreateMultiplexer(options RedisClusteringOptions) System.Threading.Tasks.Task<(StackExchange.Redis.IConnectionMultiplexer Multiplexer,bool IsShared)>
+$DefaultCreateMultiplexer(options RedisClusteringOptions) Any
 $DefaultCreateRedisKey(clusterOptions Configuration.ClusterOptions) StackExchange.Redis.RedisKey
 ConfigurationOptions ConfigurationOptions
-CreateMultiplexer Func<RedisClusteringOptions,Task<(IConnectionMultiplexer Multiplexer,bool IsShared)>>
 CreateRedisKey Func<ClusterOptions,RedisKey>
 EntryExpiry TimeSpan?
-$DefaultCreateMultiplexer(options RedisClusteringOptions) Task<(IConnectionMultiplexer Multiplexer,bool IsShared)>
 $DefaultCreateRedisKey(clusterOptions ClusterOptions) RedisKey
 class RedisClusteringOptionsValidator
 RedisClusteringOptionsValidator(options Microsoft.Extensions.Options.IOptions<RedisClusteringOptions>)
@@ -28765,19 +28726,17 @@ $Create(services System.IServiceProvider, name string) RedisGrainStorage
 $Create(services IServiceProvider, name string) RedisGrainStorage
 class RedisStorageOptions
 ConfigurationOptions StackExchange.Redis.ConfigurationOptions?
-CreateMultiplexer System.Func<RedisStorageOptions,System.Threading.Tasks.Task<(StackExchange.Redis.IConnectionMultiplexer Multiplexer,bool IsShared)>>
+CreateMultiplexer Any
 DeleteStateOnClear bool
 EntryExpiry System.TimeSpan?
 GetStorageKey System.Func<string,Runtime.GrainId,StackExchange.Redis.RedisKey>?
 GrainStorageSerializer Storage.IGrainStorageSerializer
 InitStage int
-$DefaultCreateMultiplexer(options RedisStorageOptions) System.Threading.Tasks.Task<(StackExchange.Redis.IConnectionMultiplexer Multiplexer,bool IsShared)>
+$DefaultCreateMultiplexer(options RedisStorageOptions) Any
 GrainStorageSerializer IGrainStorageSerializer
 ConfigurationOptions ConfigurationOptions?
-CreateMultiplexer Func<RedisStorageOptions,Task<(IConnectionMultiplexer Multiplexer,bool IsShared)>>
 EntryExpiry TimeSpan?
 GetStorageKey Func<string,GrainId,RedisKey>?
-$DefaultCreateMultiplexer(options RedisStorageOptions) Task<(IConnectionMultiplexer Multiplexer,bool IsShared)>
 class static RedisStorageOptionsExtensions
 $UseGetRedisKeyIgnoringGrainType(optionsBuilder Microsoft.Extensions.Options.OptionsBuilder<RedisStorageOptions>)
 $UseGetRedisKeyIgnoringGrainType(optionsBuilder OptionsBuilder<RedisStorageOptions>)
@@ -28821,7 +28780,7 @@ class static RedisReminderSerializer
 - $JsonContext RedisReminderJsonContext
 @ $SerializeMember() string
 @ $DeserializeMember(value string) string[]
-@ $GetFilter() (string From,string To)
+@ $GetFilter() Any
 class RedisReminderJsonContext
 class RedisReminderTable
 - _hashSetKey RedisKey
@@ -28842,12 +28801,12 @@ UpsertRow(entry ReminderEntry) Task<string>
 Dispose()
 DisposeAsync() ValueTask
 - $ConvertToEntry(reminderValue string) ReminderEntry
-- GetFilter(grainHash uint) (RedisValue from,RedisValue to)
-- GetFilter(grainId GrainId) (RedisValue from,RedisValue to)
-- GetFilter(grainId GrainId, reminderName string) (RedisValue from,RedisValue to)
-- GetFilter(grainId GrainId, reminderName string, eTag string) (RedisValue from,RedisValue to)
-- GetFilter() (RedisValue from,RedisValue to)
-- ConvertFromEntry(entry ReminderEntry) (RedisValue eTag,RedisValue value)
+- GetFilter(grainHash uint) Any
+- GetFilter(grainId GrainId) Any
+- GetFilter(grainId GrainId, reminderName string) Any
+- GetFilter(grainId GrainId, reminderName string, eTag string) Any
+- GetFilter() Any
+- ConvertFromEntry(entry ReminderEntry) Any
 - LogDebugUpsertRow(entry ReminderEntryLogValue, eTag string)
 
 module OrleansCodeGen.Orleans.Reminders.Redis
@@ -28958,7 +28917,7 @@ GetEvents() IEnumerable<Tuple<T,StreamSequenceToken>>
 ImportRequestContext() bool
 $ToRedisValue(serializer Serializer<RedisStreamBatchContainer>, streamId StreamId, events IEnumerable<T>, requestContext Dictionary<string,object>) RedisValue
 $FromStreamEntry(serializer Serializer<RedisStreamBatchContainer>, entry StreamEntry, fieldName string) RedisStreamBatchContainer
-@ $ParseEntryId(entryId RedisValue) (long SequenceNumber,long RedisSequenceNumber)
+@ $ParseEntryId(entryId RedisValue) Any
 class sealed RedisStreamSequenceToken
 RedisStreamSequenceToken(entryId string, sequenceNumber long, redisSequenceNumber long, eventIndex int)
 RedisStreamSequenceToken()
@@ -29225,9 +29184,9 @@ class static LifecycleStageInspector
 - $NoOpStart Func<CancellationToken,Task> = _ => Task.CompletedTask
 - $NoOpStop Func<CancellationToken,Task> = _ => Task.CompletedTask
 $GetStages(lifecycle ISiloLifecycleSubject) LifecycleStageInfo[]
-- $BuildStages(entries IEnumerable<(int Stage,string StageName,string Name,object InnerObserver)>) LifecycleStageInfo[]
-- $EnumerateMonitored(monitored System.Collections.IEnumerable) IEnumerable<(int Stage,string StageName,string Name,object InnerObserver)>
-- $EnumerateOrdered(ordered System.Collections.IEnumerable) IEnumerable<(int Stage,string StageName,string Name,object InnerObserver)>
+- $BuildStages(entries Any) LifecycleStageInfo[]
+- $EnumerateMonitored(monitored System.Collections.IEnumerable) Any
+- $EnumerateOrdered(ordered System.Collections.IEnumerable) Any
 - $BuildObserver(name string, inner object) LifecycleObserverInfo
 - $TryReadDelegateField(owner object, ownerType Type, fieldName string) Delegate
 - $IsNoOp(d Delegate) bool
@@ -29332,7 +29291,7 @@ GetLifecycleStages() Task<Immutable<LifecycleStageInfo[]>>
 
 module Orleans.Dashboard.Implementation.Helpers
 class static GrainStateHelper
-$GetGrainId(id string, implementationType Type) (object,string)
+$GetGrainId(id string, implementationType Type) Any
 $GetPropertiesAndFieldsForGrainState(implementationType Type) IEnumerable<Type>
 $GenerateGetGrainMethod(grainFactory IGrainFactory, grainId object, keyExtension string) MethodInfo
 
@@ -29521,7 +29480,7 @@ SupportedDiagnostics ImmutableArray<DiagnosticDescriptor>
 Initialize(context AnalysisContext)
 - $CollectTypeAliases(context SymbolAnalysisContext, aliasMap ConcurrentDictionary<string,ConcurrentBag<TypeAliasInfo>>, aliasAttributeSymbol INamedTypeSymbol)
 - $CheckMethodAliases(context SymbolAnalysisContext, aliasMap ConcurrentDictionary<string,ConcurrentBag<TypeAliasInfo>>, aliasAttributeSymbol INamedTypeSymbol)
-- $ParsePrefixAndNumericSuffix(input string) (string Prefix,ulong Suffix)
+- $ParsePrefixAndNumericSuffix(input string) Any
 - $GetNumericSuffixLength(input string) int
 class AliasClashAttributeCodeFix
 FixableDiagnosticIds ImmutableArray<string>
@@ -29837,16 +29796,16 @@ class FieldIdAssignmentHelper
 - _constructorParameters ImmutableArray<IParameterSymbol>
 - _libraryTypes LibraryTypes
 - _memberSymbols ISymbol[]
-- _symbols Dictionary<ISymbol,(uint,bool)>
+- _symbols Any
 IsValidForSerialization bool
 FailureReason string?
 Members IEnumerable<ISymbol>
 FieldIdAssignmentHelper(typeSymbol INamedTypeSymbol, constructorParameters ImmutableArray<IParameterSymbol>, implicitMemberSelectionStrategy GenerateFieldIds, libraryTypes LibraryTypes)
-TryGetSymbolKey(symbol ISymbol, key (uint,bool)) bool
+TryGetSymbolKey(symbol ISymbol, key Any) bool
 - HasMemberWithIdAnnotation() bool
 - GetMembers(symbol INamedTypeSymbol) IEnumerable<ISymbol>
 - ExtractFieldIdAnnotations() bool
-- $GetCanonicalNameAndFieldId(typeSymbol ITypeSymbol, name string) (string,uint)
+- $GetCanonicalNameAndFieldId(typeSymbol ITypeSymbol, name string) Any
 - GenerateImplicitFieldIds() bool
 class InvokableGenerator
 - _codeGenerator CodeGenerator
@@ -29878,7 +29837,7 @@ $GetCompoundTypeAliasComponents(invokableId InvokableMethodId, containingInterfa
 $GetSimpleClassName(method InvokableMethodDescription) string
 - GetFieldDeclarations(method InvokableMethodDescription, fieldDescriptions List<InvokerFieldDescription>) MemberDeclarationSyntax[]
 - GetTypesArray(method InvokableMethodDescription, typeSymbols IEnumerable<ITypeSymbol>) ExpressionSyntax
-- GenerateConstructor(simpleClassName string, method InvokableMethodDescription, baseClassType INamedTypeSymbol) (ConstructorDeclarationSyntax Constructor,List<TypeSyntax>ConstructorArguments)
+- GenerateConstructor(simpleClassName string, method InvokableMethodDescription, baseClassType INamedTypeSymbol) Any
 - GetFieldDescriptions(method InvokableMethodDescription) List<InvokerFieldDescription>
 class sealed LibraryTypes
 - _shallowCopyableTypes ConcurrentDictionary<ITypeSymbol,bool>
@@ -30011,12 +29970,12 @@ class ProxyGenerator
 - _codeGenerator CodeGenerator
 ProxyGenerator(codeGenerator CodeGenerator)
 - LibraryTypes LibraryTypes
-Generate(interfaceDescription ProxyInterfaceDescription) (ClassDeclarationSyntax,GeneratedProxyDescription)
+Generate(interfaceDescription ProxyInterfaceDescription) Any
 $GetSimpleClassName(interfaceDescription ProxyInterfaceDescription) string
 - GetFieldDescriptions(interfaceDescription ProxyInterfaceDescription) List<GeneratedFieldDescription>
 - GetFieldDeclarations(fieldDescriptions List<GeneratedFieldDescription>) MemberDeclarationSyntax[]
 - CreateProxyMethods(fieldDescriptions List<GeneratedFieldDescription>, interfaceDescription ProxyInterfaceDescription) MemberDeclarationSyntax[]
-- CreateAsyncProxyMethodBody(fieldDescriptions List<GeneratedFieldDescription>, methodDescription ProxyMethodDescription) (bool IsAsync,BlockSyntax body)
+- CreateAsyncProxyMethodBody(fieldDescriptions List<GeneratedFieldDescription>, methodDescription ProxyMethodDescription) Any
 - GenerateConstructors(simpleClassName string, fieldDescriptions List<GeneratedFieldDescription>, baseType INamedTypeSymbol) MemberDeclarationSyntax[]
 - GetParameterSyntax(index int, parameter IParameterSymbol, typeParameterSubstitutions Dictionary<ITypeParameterSymbol,string>) ParameterSyntax
 class Resources
@@ -30101,7 +30060,7 @@ IsEmptyConstructable bool
 UseActivator bool
 TrackReferences bool
 OmitDefaultMemberValues bool
-TypeParameters List<(string Name,ITypeParameterSymbol Parameter)>
+TypeParameters Any
 SerializationHooks List<INamedTypeSymbol>
 IsShallowCopyable bool
 IsUnsealedImmutable bool
@@ -30158,7 +30117,7 @@ IsSealedType bool
 IsAbstractType bool
 IsEnumType bool
 IsGenericType bool
-TypeParameters List<(string Name,ITypeParameterSymbol Parameter)>
+TypeParameters Any
 Members List<IMemberDescription>
 Compilation Compilation
 UseActivator bool
@@ -30182,11 +30141,11 @@ ProxyBase InvokableMethodProxyBase
 Method IMethodSymbol
 InvokableBaseTypes IReadOnlyDictionary<INamedTypeSymbol,INamedTypeSymbol>
 ResponseTimeoutTicks long?
-CustomInitializerMethods List<(string MethodName,TypedConstant MethodArgument)>
+CustomInitializerMethods Any
 GeneratedMethodId string
 MethodId string
-AllTypeParameters List<(string Name,ITypeParameterSymbol Parameter)>
-MethodTypeParameters List<(string Name,ITypeParameterSymbol Parameter)>
+AllTypeParameters Any
+MethodTypeParameters Any
 TypeParameterSubstitutions Dictionary<ITypeParameterSymbol,string>
 HasAlias bool
 ContainingInterface INamedTypeSymbol
@@ -30237,9 +30196,9 @@ DetectedActivators List<INamedTypeSymbol>
 DefaultCopiers Dictionary<ISerializableTypeDescription,TypeSyntax>
 DetectedCopiers List<INamedTypeSymbol>
 DetectedConverters List<INamedTypeSymbol>
-TypeAliases List<(TypeSyntax Type,string Alias)>
+TypeAliases Any
 CompoundTypeAliases CompoundTypeAliasTree
-WellKnownTypeIds List<(TypeSyntax Type,uint Id)>
+WellKnownTypeIds Any
 ApplicationParts HashSet<string>
 @ ProxyBaseTypeInvokableBaseTypes Dictionary<INamedTypeSymbol,Dictionary<INamedTypeSymbol,INamedTypeSymbol>>
 class sealed CompoundTypeAliasTree
@@ -30317,7 +30276,7 @@ InterfaceType INamedTypeSymbol
 Methods List<ProxyMethodDescription>
 SemanticModel SemanticModel
 GeneratedNamespace string
-TypeParameters List<(string Name,ITypeParameterSymbol Parameter)>
+TypeParameters Any
 ProxyBaseType INamedTypeSymbol
 - $ValidateBaseClass(l LibraryTypes, baseClass INamedTypeSymbol)
 Equals(other ProxyInterfaceDescription) bool
@@ -30334,13 +30293,13 @@ GeneratedInvokable ConstructedGeneratedInvokableDescription
 ProxyInterface ProxyInterfaceDescription
 Method IMethodSymbol
 InvokableId InvokableMethodId
-TypeParameters List<(string Name,ITypeParameterSymbol Parameter)>
-MethodTypeParameters List<(string Name,ITypeParameterSymbol Parameter)>
-TypeParametersWithArguments ImmutableArray<(ITypeParameterSymbol Parameter,ITypeSymbol Argument)>
+TypeParameters Any
+MethodTypeParameters Any
+TypeParametersWithArguments Any
 TypeParameterSubstitutions Dictionary<ITypeParameterSymbol,string>
 InvokableBaseTypes IReadOnlyDictionary<INamedTypeSymbol,INamedTypeSymbol>
 InvokableKey InvokableMethodId
-CustomInitializerMethods List<(string,TypedConstant)>
+CustomInitializerMethods Any
 GeneratedMethodId string
 MethodId string
 HasAlias bool
@@ -30370,7 +30329,7 @@ IsSealedType bool
 IsAbstractType bool
 IsEnumType bool
 IsGenericType bool
-TypeParameters List<(string Name,ITypeParameterSymbol Parameter)>
+TypeParameters Any
 Members List<IMemberDescription>
 Compilation Compilation
 ActivatorConstructorParameters List<TypeSyntax>
@@ -30590,8 +30549,8 @@ $Member(instance ExpressionSyntax, member IdentifierNameSyntax) MemberAccessExpr
 $Member(instance ExpressionSyntax, member GenericNameSyntax) MemberAccessExpressionSyntax
 $Member(instance ExpressionSyntax, member string) MemberAccessExpressionSyntax
 $ToGenericName(identifier string) GenericNameSyntax
-$AddGenericTypeParameters(classDeclaration ClassDeclarationSyntax, typeParameters List<(string Name,ITypeParameterSymbol Parameter)>) ClassDeclarationSyntax
-$GetTypeParameterConstraints(typeParameter List<(string Name,ITypeParameterSymbol Parameter)>) List<(string Name,List<TypeParameterConstraintSyntax>Constraints)>
+$AddGenericTypeParameters(classDeclaration ClassDeclarationSyntax, typeParameters Any) ClassDeclarationSyntax
+$GetTypeParameterConstraints(typeParameter Any) Any
 
 module Orleans.Caching
 class ConcurrentLruCache
@@ -30639,12 +30598,12 @@ Trim(itemCount int)
 - TrimWarmOrHot(reason ItemRemovedReason)
 - Cycle(hotCount int)
 - CycleDuringWarmup(hotCount int)
-- CycleHot(hotCount int) (ItemDestination,int)
-- CycleHotUnchecked(removedReason ItemRemovedReason) (ItemDestination,int)
-- CycleWarm(count int) (ItemDestination,int)
-- CycleWarmUnchecked(removedReason ItemRemovedReason) (ItemDestination,int)
-- CycleCold(count int) (ItemDestination,int)
-- TryRemoveCold(removedReason ItemRemovedReason) (ItemDestination,int)
+- CycleHot(hotCount int) Any
+- CycleHotUnchecked(removedReason ItemRemovedReason) Any
+- CycleWarm(count int) Any
+- CycleWarmUnchecked(removedReason ItemRemovedReason) Any
+- CycleCold(count int) Any
+- TryRemoveCold(removedReason ItemRemovedReason) Any
 - LastWarmToCold() int
 - ConstrainCold(coldCount int, removedReason ItemRemovedReason)
 - Move(item LruItem, where ItemDestination, removedReason ItemRemovedReason) int
@@ -30691,7 +30650,7 @@ CapacityPartition(totalCapacity int, warmRatio double)
 Cold int
 Warm int
 Hot int
-- $ComputeQueueCapacity(capacity int, warmRatio double) (int hot,int warm,int cold)
+- $ComputeQueueCapacity(capacity int, warmRatio double) Any
 class sealed Counter
 Counter()
 Count() long
@@ -30760,22 +30719,22 @@ class GrainVersionManifest
 GrainVersionManifest(clusterManifestProvider IClusterManifestProvider)
 LatestVersion MajorMinorVersion
 GetLocalVersion(interfaceType GrainInterfaceType) ushort
-GetAvailableVersions(interfaceType GrainInterfaceType) (MajorMinorVersion Version,ushort[] Result)
-GetSupportedSilos(interfaceType GrainInterfaceType, version ushort) (MajorMinorVersion Version,SiloAddress[] Result)
-GetSupportedSilos(grainType GrainType) (MajorMinorVersion Version,SiloAddress[] Result)
-GetSupportedSilos(grainType GrainType, interfaceType GrainInterfaceType, versions ushort[]) (MajorMinorVersion Version,Dictionary<ushort,SiloAddress[]>Result)
+GetAvailableVersions(interfaceType GrainInterfaceType) Any
+GetSupportedSilos(interfaceType GrainInterfaceType, version ushort) Any
+GetSupportedSilos(grainType GrainType) Any
+GetSupportedSilos(grainType GrainType, interfaceType GrainInterfaceType, versions ushort[]) Any
 - GetCache() Cache
 - $BuildLocalVersionMap(manifest GrainManifest) Dictionary<GrainInterfaceType,ushort>
 - $BuildCache(clusterManifest ClusterManifest) Cache
 class CachedVersionSelectorManager
-- suitableSilosCache ConcurrentDictionary<(GrainType Type,GrainInterfaceType Interface,ushort Version),CachedEntry>
+- suitableSilosCache Any
 - grainInterfaceVersions GrainVersionManifest
 CachedVersionSelectorManager(grainInterfaceVersions GrainVersionManifest, versionSelectorManager VersionSelectorManager, compatibilityDirectorManager CompatibilityDirectorManager)
 VersionSelectorManager VersionSelectorManager
 CompatibilityDirectorManager CompatibilityDirectorManager
 GetSuitableSilos(grainType GrainType, interfaceId GrainInterfaceType, requestedVersion ushort) CachedEntry
 ResetCache()
-- GetSuitableSilosImpl(key (GrainType Type,GrainInterfaceType Interface,ushort Version)) CachedEntry
+- GetSuitableSilosImpl(key Any) CachedEntry
 class GrainVersionStore
 - grainFactory IInternalGrainFactory
 - services IServiceProvider
@@ -30891,7 +30850,7 @@ class sealed ConsistentRingProvider
 - myKey int
 - statusListeners List<IRingRangeListener>
 - _siloStatusOracle ISiloStatusOracle
-- lastNotification (IRingRange OldRange,IRingRange NewRange,bool Increased)
+- lastNotification Any
 ConsistentRingProvider(siloAddr SiloAddress, loggerFactory ILoggerFactory, siloStatusOracle ISiloStatusOracle)
 GetPrimaryTargetSilo(key uint) SiloAddress
 GetMyRange() IRingRange
@@ -30923,14 +30882,14 @@ RangeChangeNotification(old IRingRange, now IRingRange, increased bool)
 class sealed VirtualBucketsRingProvider
 - statusListeners List<IRingRangeListener>
 - bucketsMap SortedDictionary<uint,SiloAddress>
-- sortedBucketsList (uint Hash,SiloAddress SiloAddress)[]
+- sortedBucketsList Any
 - logger ILogger
 - myAddress SiloAddress
 - numBucketsPerSilo int
 - _siloStatusOracle ISiloStatusOracle
 - running bool
 - myRange IRingRange
-- lastNotification (IRingRange OldRange,IRingRange NewRange,bool Increased)
+- lastNotification Any
 @ VirtualBucketsRingProvider(siloAddress SiloAddress, loggerFactory ILoggerFactory, numVirtualBuckets int, siloStatusOracle ISiloStatusOracle, consistentRingInstruments ConsistentRingInstruments)
 - Stop()
 GetMyRange() IRingRange
@@ -30941,9 +30900,9 @@ UnSubscribeFromRangeChangeEvents(observer IRingRangeListener) bool
 - AddServer(silo SiloAddress)
 - RemoveServer(silo SiloAddress)
 - UpdateRange() IRingRange
-- $CalculateRange(list (uint Hash,SiloAddress SiloAddress)[], silo SiloAddress) IRingRange
+- $CalculateRange(list Any, silo SiloAddress) IRingRange
 ToString() string
-@ GetRanges() List<(SiloAddress Key,IRingRangeInternal Value)>
+@ GetRanges() Any
 SiloStatusChangeNotification(updatedSilo SiloAddress, status SiloStatus)
 GetPrimaryTargetSilo(key uint) SiloAddress
 - CalculateTargetSilo(hash uint, excludeThisSiloIfStopping bool) SiloAddress
@@ -31105,7 +31064,7 @@ SuspendRebalancing(duration TimeSpan?) Task
 - $ComputeHarmonicMean(values Dictionary<SiloAddress,ResourceStatistics>.ValueCollection) double
 - ComputeAllowedEntropyDeviation(totalActivations int) double
 - ComputeAdaptiveScaling(siloCount int, rebalancingCycle int) double
-- $FormSiloPairs(statistics Dictionary<SiloAddress,ResourceStatistics>) List<(SiloAddress,SiloAddress)>
+- $FormSiloPairs(statistics Dictionary<SiloAddress,ResourceStatistics>) Any
 - StartSession()
 - StopSession(reason StopReason, duration TimeSpan?)
 - SuspendFor(duration TimeSpan)
@@ -31174,10 +31133,10 @@ TriggerExchangeRequest() ValueTask
 - GetLocalActivationCount() int
 AcceptExchangeRequest(request AcceptExchangeRequest) ValueTask<AcceptExchangeResponse>
 - $CalculateImbalance(left int, right int) int
-- $CreateCandidateHeaps(local List<CandidateVertex>, remote ImmutableArray<CandidateVertex>) (MaxHeap<CandidateVertexHeapElement>Local,MaxHeap<CandidateVertexHeapElement>Remote)
+- $CreateCandidateHeaps(local List<CandidateVertex>, remote ImmutableArray<CandidateVertex>) Any
 @ FinalizeProtocol(giving ImmutableArray<GrainId>, accepting ImmutableArray<GrainId>, targetSilo SiloAddress, newlyAnchoredGrains HashSet<GrainId>) Task
 @ $PruneAffectedEdges(edgeWeights FrequentEdgeCounter, affected HashSet<GrainId>, anchoredFilter AnchoredGrainsFilter?) Task
-- CreateCandidateSets(migrationCandidates List<IGrouping<GrainId,VertexEdge>>, silos SiloAddress[]) List<(SiloAddress Silo,List<CandidateVertex>Candidates,long TransferScore)>
+- CreateCandidateSets(migrationCandidates List<IGrouping<GrainId,VertexEdge>>, silos SiloAddress[]) Any
 - GetCandidatesForSilo(migrationCandidates List<IGrouping<GrainId,VertexEdge>>, otherSilo SiloAddress) List<CandidateVertex>
 - $ComputeAnchoredGrains(migrationCandidates List<IGrouping<GrainId,VertexEdge>>) HashSet<GrainId>
 - GetMigrationCandidates() List<IGrouping<GrainId,VertexEdge>>
@@ -31185,7 +31144,7 @@ AcceptExchangeRequest(request AcceptExchangeRequest) ValueTask<AcceptExchangeRes
 Participate(observer ISiloLifecycle)
 - Dispose()
 - SiloStatusChangeNotification(updatedSilo SiloAddress, status SiloStatus)
-GetGrainCallFrequencies() ValueTask<ImmutableArray<(Edge,ulong)>>
+GetGrainCallFrequencies() Any
 class sealed BlockedBloomFilter
 - $BlockSize int = 32
 - $Ln2Squared double = 0.4804530139182014246671025263266649717305529515945455
@@ -31237,7 +31196,7 @@ Add(element TElement)
 enum VertexLocation = Unknown, Local, Remote
 class sealed CandidateVertexHeapElement
 Vertex CandidateVertex
-ConnectedVertices List<(CandidateVertexHeapElement Element,long TransferScore)>
+ConnectedVertices Any
 Id GrainId
 AccumulatedTransferScore long
 Location VertexLocation
@@ -31568,7 +31527,7 @@ $UseInMemoryConnectionTransport(clientBuilder IClientBuilder, hub InMemoryTransp
 - $CreateInMemoryConnectionFactory(hub InMemoryTransportConnectionHub) Func<IServiceProvider,object,IConnectionFactory>
 - $CreateInMemoryConnectionListenerFactory(hub InMemoryTransportConnectionHub) Func<IServiceProvider,object,IConnectionListenerFactory>
 class InMemoryTransportListener
-- _acceptQueue Channel<(InMemoryTransportConnection Connection,TaskCompletionSource<bool>ConnectionAcceptedTcs)>
+- _acceptQueue Any
 - _hub InMemoryTransportConnectionHub
 - _loggerFactory ILoggerFactory
 - _memoryPool SharedMemoryPool
@@ -31671,7 +31630,7 @@ class ReadWriteLock
 - cachedMinId Guid
 ReadWriteLock(options IOptions<TransactionalStateOptions>, queue TransactionQueue<TState>, storageWorker BatchWorker, logger ILogger, activationLifetime IActivationLifetime)
 EnterLock(transactionId Guid, priority DateTime, counter AccessCounter, isRead bool, exclusiveLock bool, task Func<TResult>) Task<TResult>
-ValidateLock(transactionId Guid, accessCount AccessCounter) Task<(TransactionalStatus Status,TransactionRecord<TState>State)>
+ValidateLock(transactionId Guid, accessCount AccessCounter) Any
 Notify()
 TryGetRecord(transactionId Guid, record TransactionRecord<TState>) bool
 AbortExecutingTransactions(exception Exception) Task
@@ -31857,7 +31816,7 @@ ReadStateBinaryAsync() Task
 ReadStateStreamAsync() Task
 - $CreateBlobServiceClient() BlobServiceClient
 - $CreateOptions(client BlobServiceClient, serializer IGrainStorageSerializer, containerName string) AzureBlobStorageOptions
-- CreateStorage(name string, options AzureBlobStorageOptions, activatorProvider IActivatorProvider) (AzureBlobGrainStorage Storage,IBlobContainerFactory Factory)
+- CreateStorage(name string, options AzureBlobStorageOptions, activatorProvider IActivatorProvider) Any
 - CreateSerializer(kind StorageSerializerKind) IGrainStorageSerializer
 - $CreateJsonSerializer() OrleansJsonSerializer
 class AzureBlobWriteStateStreamingBenchmark
@@ -31879,7 +31838,7 @@ WriteStateBinaryAsync() Task
 WriteStateStreamAsync() Task
 - $CreateBlobServiceClient() BlobServiceClient
 - $CreateOptions(client BlobServiceClient, serializer IGrainStorageSerializer, containerName string) AzureBlobStorageOptions
-- CreateStorage(name string, options AzureBlobStorageOptions, activatorProvider IActivatorProvider) (AzureBlobGrainStorage Storage,IBlobContainerFactory Factory)
+- CreateStorage(name string, options AzureBlobStorageOptions, activatorProvider IActivatorProvider) Any
 - CreateSerializer(kind StorageSerializerKind) IGrainStorageSerializer
 - $CreateJsonSerializer() OrleansJsonSerializer
 class sealed BenchmarkState
@@ -33267,7 +33226,7 @@ Ring_1Fsec1J() Task
 - VerificationScenario(testKey uint) Task
 - VerifyKey(key uint, silos List<SiloAddress>) Task
 - getSilosToFail(fail Fail, numOfFailures int) Task<List<SiloHandle>>
-- GetReminderTableGrainAddresses(tableGrainId GrainId) Task<(SiloAddress DirectoryAddress,SiloAddress ActivationSiloAddress)>
+- GetReminderTableGrainAddresses(tableGrainId GrainId) Any
 - $AssertEventually(assertion Func<Task>, timeout TimeSpan) Task
 - $AssertEventually(assertion Func<Task>, timeout TimeSpan, delayBetweenIterations TimeSpan) Task
 class RequestContextTests_Silo
@@ -33411,13 +33370,13 @@ SetState(state int) ValueTask
 GetGrainAddress() ValueTask<GrainAddress>
 interface IMigrationPersistentStateTracingTestGrain
 SetState(a int, b int) ValueTask
-GetState() ValueTask<(int A,int B)>
+GetState() Any
 GetGrainAddress() ValueTask<GrainAddress>
 class MigrationPersistentStateTracingTestGrain
 - _stateA IPersistentState<MigrationTracingTestGrainState>
 - _stateB IPersistentState<MigrationTracingTestGrainState>
 MigrationPersistentStateTracingTestGrain(stateA IPersistentState<MigrationTracingTestGrainState>, stateB IPersistentState<MigrationTracingTestGrainState>)
-GetState() ValueTask<(int A,int B)>
+GetState() Any
 SetState(a int, b int) ValueTask
 GetGrainAddress() ValueTask<GrainAddress>
 class DeactivateAfterDisposeAsyncFilter
@@ -33630,7 +33589,7 @@ TraceContextPreservedInCrossSiloGrainToGrainCall() Task
 - PrintActivityDiagnostics()
 interface ITraceContextPropagationGrain
 GetTraceContextInfo() Task<TraceContextInfo>
-GetNestedTraceContextInfo() Task<(TraceContextInfo Local,TraceContextInfo Nested)>
+GetNestedTraceContextInfo() Any
 class TraceContextInfo
 ActivityId string
 TraceId string
@@ -33644,7 +33603,7 @@ Kind ActivityKind
 IsRemote bool
 class TraceContextPropagationGrain
 GetTraceContextInfo() Task<TraceContextInfo>
-GetNestedTraceContextInfo() Task<(TraceContextInfo Local,TraceContextInfo Nested)>
+GetNestedTraceContextInfo() Any
 class GrainLevelCallFilterTests
 - fixture Fixture
 GrainLevelCallFilterTests(fixture Fixture)
@@ -33664,7 +33623,7 @@ class TestDirectoryCache
 TestDirectoryCache(serviceProvider IServiceProvider)
 InnerCache IGrainDirectoryCache
 Operations ConcurrentQueue<CacheOperation>
-KeyValues IEnumerable<(GrainAddress ActivationAddress,int Version)>
+KeyValues Any
 AddOrUpdate(value GrainAddress, version int)
 Clear()
 LookUp(key GrainId, result GrainAddress, version int) bool
@@ -33929,8 +33888,8 @@ EnsureEmulatorStorageForTesting() bool
 class CommonStorageTests
 CommonStorageTests(storage IGrainStorage)
 Storage IGrainStorage
-@ GetTestReferenceAndState(grainId long, version string) (GrainId GrainId,GrainState<TestState1>GrainState)
-@ GetTestReferenceAndState(grainId string, version string) (GrainId GrainId,GrainState<TestState1>GrainState)
+@ GetTestReferenceAndState(grainId long, version string) Any
+@ GetTestReferenceAndState(grainId string, version string) Any
 @ PersistenceStorage_Relational_WriteReadIdCyrillic() Task
 @ PersistenceStorage_WriteDuplicateFailsWithInconsistentStateException() Task<InconsistentStateException>
 @ PersistenceStorage_WriteInconsistentFailsWithInconsistentStateException() Task<InconsistentStateException>
@@ -34458,7 +34417,7 @@ SiloInstanceTable_Unregister_CheckData() Task
 SiloInstanceTable_FindAllGatewayProxyEndpoints() Task
 SiloAddress_ToFrom_RowKey()
 - RegisterSiloInstance() SiloInstanceTableEntry
-- FindSiloEntry(siloAddr SiloAddress) Task<(SiloInstanceTableEntry Entity,string ETag)>
+- FindSiloEntry(siloAddr SiloAddress) Any
 - $CheckSiloInstanceTableEntry(referenceEntry SiloInstanceTableEntry, entry SiloInstanceTableEntry)
 class static StorageEmulatorUtilities
 $EnsureEmulatorIsNotUsed()
@@ -35103,13 +35062,13 @@ MembershipTable_CleanupDefunctSiloEntries() Task
 - $CreateMembershipEntryForTest() MembershipEntry
 - $GetUtcNowWithSecondsResolution() DateTime
 - $CreateSiloAddressForTest() SiloAddress
-- CreateNewMembershipTableAsync(serviceId string, clusterId string, cassandraTtl bool) Task<(IMembershipTable,IGatewayListProvider)>
+- CreateNewMembershipTableAsync(serviceId string, clusterId string, cassandraTtl bool) Any
 - CreateSession() Task<ISession>
-- CreateNewMembershipTableAsync(cassandraTtl bool) Task<(IMembershipTable,IGatewayListProvider)>
+- CreateNewMembershipTableAsync(cassandraTtl bool) Any
 A_Test() Task
 class CassandraContainer
-RunImage() Task<(IContainer container,ushort exposedPort,Cluster cluster,ISession session)>
-- _innerRunImage Lazy<Task<(IContainer container,ushort exposedPort,Cluster cluster,ISession session)>>
+RunImage() Any
+- _innerRunImage Any
 Name string
 class static SiloAddressUtils
 - $s_localEndpoint IPEndPoint
@@ -35330,10 +35289,10 @@ RedisGrainDirectory_DisposeAsyncBeforeInitialize_BehavesAsDisposed() Task
 - $AssertSharedMultiplexerNotDisposed(connection IConnectionMultiplexer, initialize Func<Task>, dispose Func<Task>) Task
 - $AssertExclusiveMultiplexerDisposed(getConnection Func<ConnectionMultiplexer>, initialize Func<Task>, dispose Func<Task>) Task
 - $GetDispose(provider TProvider, useAsyncDispose bool) Func<Task>
-- CreateStorage(createMultiplexer Func<RedisStorageOptions,Task<(IConnectionMultiplexer Multiplexer,bool IsShared)>>) (RedisGrainStorage Provider,Func<Task>Initialize)
-- $CreateMembershipTable(createMultiplexer Func<RedisClusteringOptions,Task<(IConnectionMultiplexer Multiplexer,bool IsShared)>>) (RedisMembershipTable Provider,Func<Task>Initialize)
-- $CreateReminderTable(createMultiplexer Func<RedisReminderTableOptions,Task<(IConnectionMultiplexer Multiplexer,bool IsShared)>>) (RedisReminderTable Provider,Func<Task>Initialize)
-- $CreateDirectory(createMultiplexer Func<RedisGrainDirectoryOptions,Task<(IConnectionMultiplexer Multiplexer,bool IsShared)>>) (RedisGrainDirectory Provider,Func<Task>Initialize)
+- CreateStorage(createMultiplexer Any) Any
+- $CreateMembershipTable(createMultiplexer Any) Any
+- $CreateReminderTable(createMultiplexer Any) Any
+- $CreateDirectory(createMultiplexer Any) Any
 
 module Tester.Redis.Clustering
 class RedisMembershipTableTests
@@ -36286,7 +36245,7 @@ CancellationTokenCallbackResolve(cancellationToken CancellationToken, callId Gui
 CallOtherCancellationTokenCallbackResolve(target ICancellationTestSystemTarget, callId Guid) Task<bool>
 CancellationTokenCallbackThrow(cancellationToken CancellationToken, callId Guid) Task
 WasCallCancelled(callId Guid) Task<bool>
-WaitForCancellation(callId Guid, timeout TimeSpan) Task<(bool WasCancelled,Exception? Error)>
+WaitForCancellation(callId Guid, timeout TimeSpan) Any
 interface ICatalogTestGrain
 Initialize() Task
 BlastCallNewGrains(nGrains int, startingKey long, nCallsToEach int) Task
@@ -36333,16 +36292,16 @@ BecomeConsumer(streamId Guid, providerToUse string) Task
 StopConsuming() Task
 GetNumberConsumed() Task<int>
 interface IDeadlockNonReentrantGrain
-CallNext_1(callChain List<(long GrainId,bool Blocking)>, currCallIndex int) Task
-CallNext_2(callChain List<(long GrainId,bool Blocking)>, currCallIndex int) Task
+CallNext_1(callChain Any, currCallIndex int) Task
+CallNext_2(callChain Any, currCallIndex int) Task
 interface IDeadlockReentrantGrain
-CallNext_1(callChain List<(long GrainId,bool Blocking)>, currCallIndex int) Task
-CallNext_2(callChain List<(long GrainId,bool Blocking)>, currCallIndex int) Task
+CallNext_1(callChain Any, currCallIndex int) Task
+CallNext_2(callChain Any, currCallIndex int) Task
 interface ICallChainObserver
 OnEnter(grain string, callIndex int) Task
 OnExit(grain string, callIndex int) Task
 interface ICallChainReentrancyGrain
-CallChain(observer ICallChainObserver, callChain List<(string TargetGrain,ReentrancyCallType CallType)>, callIndex int, cancellationToken CancellationToken) Task
+CallChain(observer ICallChainObserver, callChain Any, callIndex int, cancellationToken CancellationToken) Task
 UnblockWaiters(cancellationToken CancellationToken) Task
 enum ReentrancyCallType = Regular, AllowCallChainReentrancy, SuppressCallChainReentrancy
 interface IDurableJobGrain
@@ -36611,7 +36570,7 @@ CallOtherCancellationTokenCallbackResolve(target ILongRunningTaskGrain<T>, callI
 GrainCancellationTokenCallbackThrow(tc GrainCancellationToken, callId Guid) Task
 CancellationTokenCallbackThrow(tc CancellationToken, callId Guid) Task
 GetLastValue() Task<T>
-WatchCancellations(cancellationToken CancellationToken) IAsyncEnumerable<(Guid CallId,Exception Error)>
+WatchCancellations(cancellationToken CancellationToken) Any
 interface IGenericGrainWithConstraints
 GetCount() Task<int>
 Add(item B) Task
@@ -36708,7 +36667,7 @@ Unsubscribe(observer ILongRunningObserver) Task
 NotifyLongWait(delay TimeSpan, callId Guid, cancellationToken CancellationToken) Task
 NotifyCancellationTokenCallbackResolve(callId Guid, cancellationToken CancellationToken) Task<bool>
 NotifyInterleavingLongWait(delay TimeSpan, callId Guid, cancellationToken CancellationToken) Task
-GetProcessedCancellations() Task<List<(Guid CallId,Exception? Error)>>
+GetProcessedCancellations() Any
 ClearProcessedCancellations() Task
 interface IMethodInterceptionGrain
 One() Task<string>
@@ -36798,7 +36757,7 @@ GetValuesWithError(errorIndex int, waitAfterYield bool, errorMessage string, can
 SleepyEnumerable(id Guid, delay TimeSpan, cancellationToken CancellationToken) IAsyncEnumerable<int>
 GetCanceledCalls() ValueTask<HashSet<Guid>>
 WaitForCall(id Guid) ValueTask
-GetIncomingCalls() ValueTask<List<(string InterfaceName,string MethodName)>>
+GetIncomingCalls() Any
 interface IObserverGrain
 SetTarget(target ISimpleObserverableGrain) Task
 Subscribe(observer ISimpleGrainObserver) Task
@@ -37037,13 +36996,13 @@ class ReminderState
 Registered DateTime?
 Unregistered DateTime?
 Fired List<DateTime>
-Log List<(DateTime,string)>
+Log Any
 interface IReminderTestGrain2
 StartReminder(reminderName string, period TimeSpan?, validate bool) Task<IGrainReminder>
 StopReminder(reminderName string) Task
 StopReminder(reminder IGrainReminder) Task
 GetReminderPeriod(reminderName string) Task<TimeSpan>
-GetReminderDueTimeAndPeriod(reminderName string) Task<(TimeSpan DueTime,TimeSpan Period)>
+GetReminderDueTimeAndPeriod(reminderName string) Any
 GetCounter(name string) Task<long>
 GetReminderObject(reminderName string) Task<IGrainReminder>
 GetRemindersList() Task<List<IGrainReminder>>
@@ -37340,7 +37299,7 @@ GetActivationId() Task<string>
 GetActivationAddress(grain IGrain) Task<string>
 SignalSelfViaOther() Task
 SendSignalTo(grain IOneWayGrain) Task
-WaitForSignal() Task<(int NumSignals,string SignallerId)>
+WaitForSignal() Any
 Signal(id string) Task
 interface ICanBeOneWayGrain
 Notify(observer ISimpleGrainObserver) Task
@@ -37907,23 +37866,23 @@ class CustomPlacement_FixedSiloGrain
 class CustomPlacement_ExcludeOneGrain
 class CustomPlacement_RequestContextBased
 class DeadlockGrain
-@ $CallNext(grainFactory IGrainFactory, callChain List<(long GrainId,bool Blocking)>, currCallIndex int) Task
+@ $CallNext(grainFactory IGrainFactory, callChain Any, currCallIndex int) Task
 class DeadlockNonReentrantGrain
 - logger ILogger
 DeadlockNonReentrantGrain(loggerFactory ILoggerFactory)
 - Id string
-CallNext_1(callChain List<(long GrainId,bool Blocking)>, currCallIndex int) Task
-CallNext_2(callChain List<(long GrainId,bool Blocking)>, currCallIndex int) Task
+CallNext_1(callChain Any, currCallIndex int) Task
+CallNext_2(callChain Any, currCallIndex int) Task
 class DeadlockReentrantGrain
 - logger ILogger
 DeadlockReentrantGrain(loggerFactory ILoggerFactory)
 - Id string
-CallNext_1(callChain List<(long GrainId,bool Blocking)>, currCallIndex int) Task
-CallNext_2(callChain List<(long GrainId,bool Blocking)>, currCallIndex int) Task
+CallNext_1(callChain Any, currCallIndex int) Task
+CallNext_2(callChain Any, currCallIndex int) Task
 class CallChainReentrancyGrain
 - _unblocker TaskCompletionSource
 - Id string
-CallChain(observer ICallChainObserver, callChain List<(string TargetGrain,ReentrancyCallType CallType)>, callIndex int, cancellationToken CancellationToken) Task
+CallChain(observer ICallChainObserver, callChain Any, callIndex int, cancellationToken CancellationToken) Task
 UnblockWaiters(cancellationToken CancellationToken) Task
 class DerivedServiceType
 DerivedServiceTypeMethod1() Task<string>
@@ -38152,7 +38111,7 @@ ScheduleDelayedPingToSelfAndDeactivate(target IGenericPingSelf<T>, t T, delay Ti
 OnActivateAsync(cancellationToken CancellationToken) Task
 OnDeactivateAsync(deactivationReason DeactivationReason, cancellationToken CancellationToken) Task
 class LongRunningTaskGrain
-- _cancelledCalls Channel<(Guid CallId,Exception Error)>
+- _cancelledCalls Any
 - lastValue T
 GrainCancellationTokenCallbackThrow(ct GrainCancellationToken, callId Guid) Task
 CancellationTokenCallbackThrow(ct CancellationToken, callId Guid) Task
@@ -38174,7 +38133,7 @@ LongWait(ct CancellationToken, delay TimeSpan, callId Guid) Task
 LongRunningTask(t T, delay TimeSpan) Task<T>
 GetRuntimeInstanceId() Task<string>
 GetRuntimeInstanceIdWithDelay(delay TimeSpan) Task<string>
-WatchCancellations(cancellationToken CancellationToken) IAsyncEnumerable<(Guid CallId,Exception Error)>
+WatchCancellations(cancellationToken CancellationToken) Any
 class GenericGrainWithContraints
 - collection A
 OnActivateAsync(cancellationToken CancellationToken) Task
@@ -38400,7 +38359,7 @@ OnDeactivateAsync(reason DeactivationReason, cancellationToken CancellationToken
 RegisterCountObserver(handleId Guid, expectedCount int, observer IMultipleSubscriptionConsumerObserver) Task
 - OnNext(items IList<SequentialItem<int>>, countCapture int, count Counter) Task
 - OnError(e Exception, countCapture int, error Counter) Task
-- GetCounts(handleId Guid) (int ConsumedCount,int ErrorCount)?
+- GetCounts(handleId Guid) Any
 - NotifyObservers()
 class NoOpTestGrain
 class NullStateGrain
@@ -38413,14 +38372,14 @@ SetTarget(target ISimpleObserverableGrain) Task
 Subscribe(observer ISimpleGrainObserver) Task
 StateChanged(a int, b int)
 class ObserverWithCancellationGrain
-- _processedCancellations List<(Guid CallId,Exception? Error)> = []
+- _processedCancellations Any = []
 - _observer ILongRunningObserver?
 Subscribe(observer ILongRunningObserver) Task
 Unsubscribe(observer ILongRunningObserver) Task
 NotifyLongWait(delay TimeSpan, callId Guid, cancellationToken CancellationToken) Task
 NotifyCancellationTokenCallbackResolve(callId Guid, cancellationToken CancellationToken) Task<bool>
 NotifyInterleavingLongWait(delay TimeSpan, callId Guid, cancellationToken CancellationToken) Task
-GetProcessedCancellations() Task<List<(Guid CallId,Exception? Error)>>
+GetProcessedCancellations() Any
 ClearProcessedCancellations() Task
 class PolymorphicTestGrain
 F1Method() Task<string>
@@ -39226,7 +39185,7 @@ GetRuntimeInstanceId() string
 SetValue(x int) Task
 - GetValue() Task<int>
 class ObservableGrain
-- _localCalls List<(string InterfaceName,string MethodName)>
+- _localCalls Any
 - _updates Channel<string>
 - _receivedCalls Dictionary<Guid,TaskCompletionSource> = []
 - _canceledCalls HashSet<Guid> = []
@@ -39239,7 +39198,7 @@ Complete() ValueTask
 Fail() ValueTask
 Deactivate() ValueTask
 OnNext(data string) ValueTask
-GetIncomingCalls() ValueTask<List<(string InterfaceName,string MethodName)>>
+GetIncomingCalls() Any
 Invoke(context IIncomingGrainCallContext) Task
 SleepyEnumerable(id Guid, delay TimeSpan, cancellationToken CancellationToken) IAsyncEnumerable<int>
 class static TestRuntimeEnvironmentUtility
@@ -39491,7 +39450,7 @@ StopReminder(reminderName string) Task
 - GetMissingReminders() Task
 StopReminder(reminder IGrainReminder) Task
 GetReminderPeriod(reminderName string) Task<TimeSpan>
-GetReminderDueTimeAndPeriod(reminderName string) Task<(TimeSpan DueTime,TimeSpan Period)>
+GetReminderDueTimeAndPeriod(reminderName string) Any
 GetCounter(name string) Task<long>
 GetReminderObject(reminderName string) Task<IGrainReminder>
 GetRemindersList() Task<List<IGrainReminder>>
@@ -39900,7 +39859,7 @@ GetPrimaryForGrain() Task<SiloAddress>
 StateChanged(a int, b int)
 SendSignalTo(grain IOneWayGrain) Task
 SignalSelfViaOther() Task
-WaitForSignal() Task<(int NumSignals,string SignallerId)>
+WaitForSignal() Any
 Signal(id string) Task
 class CanBeOneWayGrain
 - count int
@@ -40722,7 +40681,7 @@ StopTimer(name string) Task
 - LogStatus(what string, timerName string)
 class TimerRequestGrain
 - completionSource TaskCompletionSource<int>
-- _allTimerCallsTasks List<TaskCompletionSource<(object,CancellationToken)>>
+- _allTimerCallsTasks Any
 GetRuntimeInstanceId() Task<string>
 StartAndWaitTimerTick(dueTime TimeSpan) Task
 StartStuckTimer(dueTime TimeSpan) Task
@@ -40783,7 +40742,7 @@ RunSelfDisposingTimer() Task
 - LogStatus(what string)
 class PocoTimerRequestGrain
 - completionSource TaskCompletionSource<int>
-- _allTimerCallsTasks List<TaskCompletionSource<(object,CancellationToken)>>
+- _allTimerCallsTasks Any
 GrainContext IGrainContext
 PocoTimerRequestGrain(grainContext IGrainContext)
 GetRuntimeInstanceId() Task<string>
@@ -40888,7 +40847,7 @@ GrainInterfaceMethod_ShouldTriggerDiagnostic(grainInterface string) Task
 GrainInterfaceMethod_ShouldNotTriggerDiagnostic(grainInterface string) Task
 DifferentGrainInterfaceMethod_ShouldNotTriggerDiagnostic(grainInterface string) Task
 class AlwaysInterleaveDiagnosticAnalyzerTest
-# GetDiagnosticsAsync(source string) Task<(Diagnostic[],string)>
+# GetDiagnosticsAsync(source string) Any
 AlwaysInterleave_Analyzer_NoWarningsIfAttributeIsNotUsed() Task
 AlwaysInterleave_Analyzer_NoWarningsIfAttributeIsUsedOnInterface() Task
 AlwaysInterleave_Analyzer_WarningIfAttributeisUsedOnGrainClass() Task
@@ -40957,7 +40916,7 @@ class abstract DiagnosticAnalyzerTestBase
 $GrainInterfaces IEnumerable<object[]>
 # CreateDiagnosticAnalyzer() DiagnosticAnalyzer
 # AssertNoDiagnostics(source string) Task
-# GetDiagnosticsAsync(source string) Task<(Diagnostic[],string)>
+# GetDiagnosticsAsync(source string) Any
 # GetDiagnosticsFullSourceAsync(source string) Task<Diagnostic[]>
 - $CreateProject(source string) Project
 class GenerateAliasAttributesAnalyzerTest
@@ -42186,7 +42145,7 @@ class ServiceLifecycleTests
 - _subject CancelableSiloLifecycleSubject
 - $Timeout TimeSpan
 ServiceLifecycleTests(output ITestOutputHelper)
-- $RegisterCallback(stage IServiceLifecycleStage, action Action<object?,CancellationToken>?, state object?, terminateOnError bool) (Task<object?>Task,IDisposable Registration)
+- $RegisterCallback(stage IServiceLifecycleStage, action Action<object?,CancellationToken>?, state object?, terminateOnError bool) Any
 BasicCallbackExecution() Task
 Stage_WaitAsync() Task
 Stage_WaitAsync_Cancellation() Task
@@ -42509,13 +42468,13 @@ class MyMigrationStateClass
 Value int
 interface IMigrationTestGrain_IPersistentStateOfT
 SetState(a int, b int) ValueTask
-GetState() ValueTask<(int A,int B)>
+GetState() Any
 GetGrainAddress() ValueTask<GrainAddress>
 class MigrationTestGrainWithInjectedMemoryStorage
 - _stateA IPersistentState<MyMigrationStateClass>
 - _stateB IPersistentState<MyMigrationStateClass>
 MigrationTestGrainWithInjectedMemoryStorage(stateA IPersistentState<MyMigrationStateClass>, stateB IPersistentState<MyMigrationStateClass>)
-GetState() ValueTask<(int A,int B)>
+GetState() Any
 SetState(a int, b int) ValueTask
 GetGrainAddress() ValueTask<GrainAddress>
 
@@ -42734,7 +42693,7 @@ MultipleMixedDeactivations() Task
 class MockClusterMembershipService
 - version long = 0
 - refreshCallCount int
-- statuses Dictionary<SiloAddress,(SiloStatus Status,string Name)>
+- statuses Any
 - snapshot ClusterMembershipSnapshot
 - updates AsyncEnumerable<ClusterMembershipSnapshot>
 - CurrentSnapshot ClusterMembershipSnapshot
@@ -42743,15 +42702,15 @@ RefreshCallCount int
 LastRefreshMinimumVersion MembershipVersion
 - MembershipUpdates IAsyncEnumerable<ClusterMembershipSnapshot>
 Target IClusterMembershipService
-MockClusterMembershipService(initialStatuses Dictionary<SiloAddress,(SiloStatus Status,string Name)>)
+MockClusterMembershipService(initialStatuses Any)
 UpdateSiloStatus(siloAddress SiloAddress, siloStatus SiloStatus, name string)
-@ $ToSnapshot(statuses Dictionary<SiloAddress,(SiloStatus Status,string Name)>, version long) ClusterMembershipSnapshot
+@ $ToSnapshot(statuses Any, version long) ClusterMembershipSnapshot
 Refresh(minimumVersion MembershipVersion, cancellationToken CancellationToken) ValueTask
 TryKill(siloAddress SiloAddress) Task<bool>
 class MockLocalGrainDirectory
 - singleOperationDelay TimeSpan
 - batchOperationDelay TimeSpan
-UnregistrationReceived List<(GrainAddress activationAddress,UnregistrationCause cause)>
+UnregistrationReceived Any
 UnregistrationCounter int
 MockLocalGrainDirectory(singleOperationDelay TimeSpan, batchOperationDelay TimeSpan)
 Reset()
@@ -42785,7 +42744,7 @@ class ClientDirectoryTests
 - _loggerFactory ILoggerFactory
 - _lifecycle SiloLifecycleSubject
 - _timers List<DelegateAsyncTimer>
-- _timerCalls Channel<(TimeSpan? DelayOverride,TaskCompletionSource<bool>Completion)>
+- _timerCalls Any
 - _timerFactory DelegateAsyncTimerFactory
 - _clusterMembershipService MockClusterMembershipService
 - _grainFactory IInternalGrainFactory
@@ -42861,7 +42820,7 @@ EqualRangeInvariants(count int)
 - $AssertIntersectionsMatchIndependentModel(left RingRange, right RingRange)
 - $GetExpectedIntersections(left RingRange, right RingRange) IEnumerable<RingRange>
 - $Contains(range RingRange, candidate RingRange) bool
-- $ToIntervals(range RingRange) IEnumerable<(uint Start,uint End)>
+- $ToIntervals(range RingRange) Any
 - $FromInclusiveInterval(start uint, end uint) RingRange
 
 module NonSilo.Tests.ScheduledJobs
@@ -42905,9 +42864,9 @@ ValidateConfiguration_WithSlowStartDisabled_AllowsNonPositiveInitialConcurrency(
 - $ConfigureGrainFactoryWithSlowJobExecution(factory IInternalGrainFactory, executionAction Func<Task>)
 - $ConfigureGrainFactoryWithSelectiveFailures(factory IInternalGrainFactory, completedJobs List<string>, failedJobs List<string>, jobExecutionCount int)
 - $CreateGrainFactoryWithCanceledExecution() IInternalGrainFactory
-- $CreateGrainFactoryWithPollingBehavior() (IInternalGrainFactory,StrongBox<int>)
-- $CreateGrainFactoryWithPollingThenFailure() (IInternalGrainFactory,StrongBox<int>)
-- $CreateGrainFactoryWithTimedPolling(pollDelayMs int, pollTimestamps List<DateTimeOffset>) (IInternalGrainFactory,StrongBox<int>)
+- $CreateGrainFactoryWithPollingBehavior() Any
+- $CreateGrainFactoryWithPollingThenFailure() Any
+- $CreateGrainFactoryWithTimedPolling(pollDelayMs int, pollTimestamps List<DateTimeOffset>) Any
 
 module NonSilo.Tests.DurableJobs
 class DurableJobsInstrumentsTests
@@ -42962,8 +42921,8 @@ ScheduleJobAsync_WhenJobIsDueInFuture_DoesNotDispatchImmediately() Task
 - $CreateMessagingProcessingInstruments() MessagingProcessingInstruments
 - $CreateSubstituteShard(id string, start DateTimeOffset, end DateTimeOffset) IJobShard
 - $CreateJournaledServices(storageProvider VolatileJournalStorageProvider, timeProvider TimeProvider) ServiceProvider
-- $CreateCompletingGrainFactory() (IInternalGrainFactory GrainFactory,TaskCompletionSource<IJobRunContext>HandledJob)
-- $CreateCountingGrainFactory(timeProvider TimeProvider) (IInternalGrainFactory GrainFactory,TaskCompletionSource<IJobRunContext>HandledJob,Func<int>GetHandleCount)
+- $CreateCompletingGrainFactory() Any
+- $CreateCountingGrainFactory(timeProvider TimeProvider) Any
 - $AdvanceUntilCompletedAsync(timeProvider FakeTimeProvider, task Task, advanceBy TimeSpan) Task
 class ShardClaimBudgetTests
 - $RampUpDuration TimeSpan
@@ -43245,7 +43204,7 @@ class ClusterHealthMonitorTests
 - membershipGossiper IMembershipGossiper
 - lifecycle SiloLifecycleSubject
 - timers List<DelegateAsyncTimer>
-- timerCalls ConcurrentQueue<(TimeSpan? DelayOverride,TaskCompletionSource<bool>Completion)>
+- timerCalls Any
 - timerFactory DelegateAsyncTimerFactory
 - localSiloHealthMonitor ILocalSiloHealthMonitor
 - membershipTable InMemoryMembershipTable
@@ -43272,11 +43231,11 @@ ClusterHealthMonitor_SilosWithStaleCreatedOrJoiningState_Disabled() Task
 - CreateClusterHealthMonitorTestRig(clusterMembershipOptions ClusterMembershipOptions) ClusterHealthMonitorTestRig
 class InMemoryMembershipTable
 - tableLock object
-- calls List<(string,object)>
-- entries ImmutableList<(MembershipEntry,string)>
+- calls Any
+- entries Any
 InMemoryMembershipTable()
 InMemoryMembershipTable(version TableVersion)
-Calls List<(string Method,object Arguments)>
+Calls Any
 OnReadAll Action
 OnCleanupDefunctSiloEntries Action<DateTimeOffset>
 Version TableVersion
@@ -43300,7 +43259,7 @@ class MembershipAgentTests
 - membershipGossiper IMembershipGossiper
 - lifecycle SiloLifecycleSubject
 - timers List<DelegateAsyncTimer>
-- timerCalls ConcurrentDictionary<string,ConcurrentQueue<(TimeSpan? DelayOverride,TaskCompletionSource<bool>Completion)>>
+- timerCalls Any
 - timerFactory DelegateAsyncTimerFactory
 - membershipTable InMemoryMembershipTable
 - clusterMembershipOptions IOptions<ClusterMembershipOptions>
@@ -43392,7 +43351,7 @@ class SiloHealthMonitorTests
 - _localSiloDetails ILocalSiloDetails
 - _localSilo SiloAddress
 - _timers List<DelegateAsyncTimer>
-- _timerCalls Channel<(TimeSpan? DelayOverride,TaskCompletionSource<bool>Completion)>
+- _timerCalls Any
 - _timerFactory DelegateAsyncTimerFactory
 - _localSiloHealthMonitor ILocalSiloHealthMonitor
 - _prober IRemoteSiloProber
@@ -44209,9 +44168,9 @@ RollingUpgrade_LocalToDistributed_NoErrors() Task
 - $WaitForDirectoryViewAsync(membershipService DirectoryMembershipService, targetVersion MembershipVersion, expectedMembers HashSet<SiloAddress>, stage string, cancellationToken CancellationToken) Task<DirectoryMembershipSnapshot>
 - $IsExpectedDirectoryView(view DirectoryMembershipSnapshot, targetVersion MembershipVersion, expectedMembers HashSet<SiloAddress>) bool
 - ValidateDirectoryIntegrityAsync(cluster InProcessTestCluster, stage string) Task
-- $GetDirectoryActivations(cluster InProcessTestCluster) List<(InProcessSiloHandle Silo,GrainAddress Address)>
+- $GetDirectoryActivations(cluster InProcessTestCluster) Any
 - $UsesGrainDirectory(activation IGrainContext) bool
-- $CheckActivationRegistrationsWithLocalDirectoryAsync(activations List<(InProcessSiloHandle Silo,GrainAddress Address)>, stage string) Task
+- $CheckActivationRegistrationsWithLocalDirectoryAsync(activations Any, stage string) Task
 - $CheckActivationRegistrationAsync(grainLocator GrainLocator, activationAddress GrainAddress, siloAddress SiloAddress, stage string) Task
 - $IsExpectedClientRoutingTableCancellation(error string) bool
 - $IsExpectedDirectoryPartitionRejection(error string) bool
@@ -44236,7 +44195,7 @@ Recovery_MetadataLessJournal_UsesConfiguredFormat() Task
 Recovery_EmptyJournalWithStaleMetadata_WritesConfiguredFormat() Task
 Migration_WithUnregisteredRetiredState_ThrowsClearError() Task
 JsonRecovery_MalformedJournal_ThrowsFormatKeyError(jsonLines string, expectedInnerMessage string) Task
-@ CreateTestSystemWithJsonCodec(storage IJournalStorage?, jsonOptions System.Text.Json.JsonSerializerOptions?) (IJournaledStateManager Manager,IJournalStorage Storage,ILifecycleSubject Lifecycle)
+@ CreateTestSystemWithJsonCodec(storage IJournalStorage?, jsonOptions System.Text.Json.JsonSerializerOptions?) Any
 - $CreateJsonStorage() VolatileJournalStorage
 - $CreateJsonOptions() System.Text.Json.JsonSerializerOptions
 - $CreateJsonServiceProvider(jsonOptions System.Text.Json.JsonSerializerOptions) ServiceProvider
@@ -44643,7 +44602,7 @@ GetItems() Task<IReadOnlyList<string>>
 interface ITestDurableGrainInterface
 GetActivationId() Task<Guid>
 SetValues(name string, counter int) Task
-GetValues() Task<(string Name,int Counter)>
+GetValues() Any
 interface ITestMultiCollectionGrain
 GetActivationId() Task<Guid>
 AddToDictionary(key string, value int) Task
@@ -44687,7 +44646,7 @@ DisposeAsync() Task
 # ConfigureServices(services IServiceCollection)
 # CreateStorage(serviceProvider IServiceProvider, grainContext IGrainContext) IJournalStorage
 - $ConfigureBinaryJournalingServices(services IServiceCollection)
-- CreateTestComponents(listName string, grainId GrainId) (JournaledStateManager Manager,DurableList<T>List,IJournalStorage Storage)
+- CreateTestComponents(listName string, grainId GrainId) Any
 DurableList_BasicOperations_Test() Task
 DurableList_Persistence_Test() Task
 DurableList_ComplexValues_Test() Task
@@ -44862,7 +44821,7 @@ class abstract JournalingTestBase
 # ManagerOptions JournaledStateManagerOptions
 # JournalingTestBase()
 # CreateStorage() IJournalStorage
-@ CreateTestSystem(storage IJournalStorage?, provider TimeProvider?, journalFormat IJournalFormat?) (IJournaledStateManager Manager,IJournalStorage Storage,ILifecycleSubject Lifecycle)
+@ CreateTestSystem(storage IJournalStorage?, provider TimeProvider?, journalFormat IJournalFormat?) Any
 - $CreateServiceProvider(journalFormat IJournalFormat?) ServiceProvider
 # $ConfigureBinaryJournalingServices(services IServiceCollection, journalFormat IJournalFormat?)
 class sealed KeyedJournalingRegistrationTests
@@ -45014,7 +44973,7 @@ BinaryFormat_Read_ReportsMalformedFrameOffsetAfterCompleteEntries()
 - $CreateWriter(bytes ReadOnlySpan<byte>) ArcBufferWriter
 - $CreateLegacyWriter(streamId JournalStreamId, payload ReadOnlySpan<byte>) ArcBufferWriter
 - $ReadAll(data ArcBuffer, consumer IReplayConsumer)
-- $ReadEntry(input ArcBuffer, offset int) (uint Length,uint StreamId,byte[] Payload)
+- $ReadEntry(input ArcBuffer, offset int) Any
 - $GetVarUInt32ByteCount(value uint) int
 class StateManagerTests
 StateManager_RegisterState_Test() Task
@@ -45093,7 +45052,7 @@ class DurableValueTestGrain
 - _name IDurableValue<string> = name
 - _counter IDurableValue<int> = counter
 SetValues(name string, counter int) Task
-GetValues() Task<(string Name,int Counter)>
+GetValues() Any
 GetActivationId() Task<Guid>
 class TestMultiCollectionGrain
 - _activationId Guid
@@ -45167,7 +45126,7 @@ Ping() Task
 class StatePreservationRebalancingTests
 - $ErrorMessage string
 Should_Migrate_And_Preserve_State_When_Hosting_Silo_Dies() Task
-- FindRebalancerHost(target SiloAddress) Task<(SiloAddress,int)>
+- FindRebalancerHost(target SiloAddress) Any
 class StaticRebalancingTests
 Should_Move_Activations_From_Silo1_And_Silo3_To_Silo2_And_Silo4() Task
 
@@ -45696,7 +45655,7 @@ InSiloClientCancellationTokenPassing(delay int) Task
 - $WaitForCallCancellation(systemTarget ICancellationTestSystemTarget, callId Guid) Task
 MultipleConcurrentSystemTargetRequestsCancellation() Task
 class sealed CancellationTestSystemTarget
-- _cancelledCalls ConcurrentDictionary<Guid,(TaskCompletionSource<bool>Tcs,Exception? Error)>
+- _cancelledCalls Any
 - _localSiloDetails ILocalSiloDetails
 CancellationTestSystemTarget(localSiloDetails ILocalSiloDetails, shared SystemTargetShared)
 - Participate(lifecycle ISiloLifecycle)
@@ -45708,7 +45667,7 @@ CancellationTokenCallbackResolve(cancellationToken CancellationToken, callId Gui
 CallOtherCancellationTokenCallbackResolve(target ICancellationTestSystemTarget, callId Guid) Task<bool>
 CancellationTokenCallbackThrow(cancellationToken CancellationToken, callId Guid) Task
 WasCallCancelled(callId Guid) Task<bool>
-WaitForCancellation(callId Guid, timeout TimeSpan) Task<(bool WasCancelled,Exception? Error)>
+WaitForCancellation(callId Guid, timeout TimeSpan) Any
 - _cancelledCallsLock object
 - RecordCancellation(callId Guid, error Exception?)
 class sealed CancellationTokenTests_WaitForAcknowledgement
@@ -45787,7 +45746,7 @@ class ConsistentRingProviderTests
 ConsistentRingProvider_Test1()
 ConsistentRingProvider_Test2()
 ConsistentRingProvider_Test3()
-- $GetQueueHistogram(siloRanges List<(SiloAddress Key,List<IRingRangeInternal>Value)>, totalNumQueues int) Dictionary<SiloAddress,List<int>>
+- $GetQueueHistogram(siloRanges Any, totalNumQueues int) Dictionary<SiloAddress,List<int>>
 - $CreateConsistentRingInstruments() ConsistentRingInstruments
 
 module UnitTests.StuckGrainTests
@@ -45847,25 +45806,25 @@ class StorageDataSet2CyrillicIdsAndGrainNames
 - $NumCases int = 3
 - $Symbols SymbolSet
 - $StringLength long = 15L
-$GetTestData(testNum int) (string,GrainId,GrainState<TestStateGeneric1<TStateData>>)
+$GetTestData(testNum int) Any
 GetEnumerator() IEnumerator<object[]>
 - GetEnumerator() IEnumerator
 class sealed StorageDataSetGeneric
 - $NumCases int = 3
-$GetTestData(testNum int) (string,GrainId,GrainState<TestStateGeneric1<TStateData>>)
+$GetTestData(testNum int) Any
 GetEnumerator() IEnumerator<object[]>
 - GetEnumerator() IEnumerator
 class sealed StorageDataSetPlain
 - $NumCases int = 3
 - $Symbols SymbolSet
 - $StringLength long = 15L
-$GetTestData(testNum int) (string,GrainId,GrainState<TestState1>)
+$GetTestData(testNum int) Any
 GetEnumerator() IEnumerator<object[]>
 - GetEnumerator() IEnumerator
 class sealed StorageDataSetGenericHuge
 - $NumCases int = 3
 - $CountOfCharacters Range<long>
-$GetTestData(testNum int) (string,GrainId,GrainState<TestStateGeneric1<TStateData>>)
+$GetTestData(testNum int) Any
 GetEnumerator() IEnumerator<object[]>
 - GetEnumerator() IEnumerator
 class TestState1
@@ -48261,7 +48220,7 @@ TypeEncodingTests()
 CompoundTypeAliasesAreEncodedAsExpected()
 GeneratedProxyClassesHaveExpectedCompoundTypeNames()
 GeneratedProxyClassesHaveExpectedCompoundTypeNames_Generic()
-- SerializePayload(original object) (byte[] Serialized,string FormattedBitStream)
+- SerializePayload(original object) Any
 AliasAttributeIsApplied()
 class MyTypeAliasClass
 class MyCompoundTypeAliasBaseClass
@@ -48596,7 +48555,7 @@ class ActivationCancellationLoggingTests
 - _fixture Fixture
 - _output ITestOutputHelper
 ActivationCancellationLoggingTests(fixture Fixture, output ITestOutputHelper)
-- GetActivationLogs() (IReadOnlyList<LogEntry>ErrorLogs,IReadOnlyList<LogEntry>WarningLogs,IReadOnlyList<LogEntry>InfoLogs)
+- GetActivationLogs() Any
 - $AssertLogEventExists(logs IEnumerable<LogEntry>, eventId int)
 - $AssertLogEventNotExists(logs IEnumerable<LogEntry>, eventId int)
 OperationCanceledException_WhenCancellationTokenObserved_LogsInfoNotError() Task
@@ -48821,10 +48780,10 @@ class sealed GatewayDiagnosticObserver
 $Create() GatewayDiagnosticObserver
 - GatewayDiagnosticObserver()
 WaitForClientDroppedAsync(siloAddress SiloAddress, clientId GrainId, cancellationToken CancellationToken) Task
-WaitForClientsDroppedAsync(clients IEnumerable<(SiloAddress SiloAddress,GrainId ClientId)>, cancellationToken CancellationToken) Task
+WaitForClientsDroppedAsync(clients Any, cancellationToken CancellationToken) Task
 Dispose()
 class sealed GrainDiagnosticObserver
-- _waiters ConcurrentDictionary<(GrainId GrainId,string EventName),List<TaskCompletionSource<object?>>>
+- _waiters Any
 - _createdEvents ConcurrentBag<GrainLifecycleEvents.Created>
 - _activatedEvents ConcurrentBag<GrainLifecycleEvents.Activated>
 - _deactivatingEvents ConcurrentBag<GrainLifecycleEvents.Deactivating>
@@ -48852,8 +48811,8 @@ WaitForActivationCountAsync(grainTypeName string, expectedCount int, timeout Tim
 Clear()
 - WaitForEventAsync(grainId GrainId, eventName string, timeout TimeSpan) Task<object?>
 - GetExistingEvent(grainId GrainId, eventName string) object?
-- CreateWaiter(key (GrainId GrainId,string EventName)) TaskCompletionSource<object?>
-- RemoveWaiter(key (GrainId GrainId,string EventName), waiter TaskCompletionSource<object?>)
+- CreateWaiter(key Any) TaskCompletionSource<object?>
+- RemoveWaiter(key Any, waiter TaskCompletionSource<object?>)
 - SignalWaiters(grainId GrainId, eventName string, payload object)
 - OnNext(value GrainLifecycleEvents.LifecycleEvent)
 - OnError(error Exception)

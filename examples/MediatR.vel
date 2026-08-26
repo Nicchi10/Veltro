@@ -295,7 +295,7 @@ interface IBaseRequest
 interface IStreamRequest
 class Unit
 - $_value Unit
-$Value ref readonly Unit
+$Value Any
 $Task Task<Unit>
 CompareTo(other Unit) int
 - CompareTo(obj object?) int
@@ -436,7 +436,7 @@ class RequestExceptionActionProcessorBehavior
 RequestExceptionActionProcessorBehavior(serviceProvider IServiceProvider)
 Handle(request TRequest, next RequestHandlerDelegate<TResponse>, cancellationToken CancellationToken) Task<TResponse>
 - $GetExceptionTypes(exceptionType Type?) IEnumerable<Type>
-- GetActionsForException(exceptionType Type, request TRequest) IEnumerable<(Type ExceptionType,object Action)>
+- GetActionsForException(exceptionType Type, request TRequest) Any
 - $GetMethodInfoForAction(exceptionType Type) MethodInfo
 class RequestExceptionHandlerState
 Handled bool
@@ -447,7 +447,7 @@ class RequestExceptionProcessorBehavior
 RequestExceptionProcessorBehavior(serviceProvider IServiceProvider)
 Handle(request TRequest, next RequestHandlerDelegate<TResponse>, cancellationToken CancellationToken) Task<TResponse>
 - $GetExceptionTypes(exceptionType Type?) IEnumerable<Type>
-- GetHandlersForException(exceptionType Type, request TRequest) IEnumerable<(Type ExceptionType,object Handler)>
+- GetHandlersForException(exceptionType Type, request TRequest) Any
 - $GetMethodInfoForHandler(exceptionType Type) MethodInfo
 class RequestPostProcessorBehavior
 - _postProcessors IEnumerable<IRequestPostProcessor<TRequest,TResponse>>
@@ -470,7 +470,7 @@ $AddMediatRClasses(services IServiceCollection, configuration MediatRServiceConf
 - $ConnectImplementationsToTypesClosing(openRequestInterface Type, services IServiceCollection, assembliesToScan IEnumerable<Assembly>, addIfAlreadyExists bool, configuration MediatRServiceConfiguration, cancellationToken CancellationToken)
 - $IsMatchingWithInterface(handlerType Type?, handlerInterface Type) bool
 - $AddConcretionsThatCouldBeClosed(@interface Type, concretions List<Type>, services IServiceCollection)
-- $GetConcreteRegistrationTypes(openRequestHandlerInterface Type, concreteGenericTRequest Type, openRequestHandlerImplementation Type) (Type Service,Type Implementation)
+- $GetConcreteRegistrationTypes(openRequestHandlerInterface Type, concreteGenericTRequest Type, openRequestHandlerImplementation Type) Any
 - $GetConcreteRequestTypes(openRequestHandlerInterface Type, openRequestHandlerImplementation Type, assembliesToScan IEnumerable<Assembly>, cancellationToken CancellationToken) List<Type>?
 $GenerateCombinations(requestType Type, lists List<List<Type>>, depth int, cancellationToken CancellationToken) List<List<Type>>
 - $AddAllConcretionsThatClose(openRequestInterface Type, concretions List<Type>, services IServiceCollection, assembliesToScan IEnumerable<Assembly>, cancellationToken CancellationToken)

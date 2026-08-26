@@ -1,0 +1,54 @@
+{
+  "veltro": 1,
+  "nodes": [
+    {
+      "id": "m.C",
+      "kind": "class",
+      "name": "C",
+      "module": "m",
+      "fields": [
+        {
+          "vis": "+",
+          "name": "validators",
+          "type": "dict<str,int>",
+          "default": "field(default_factory=dict)"
+        },
+        {
+          "vis": "-",
+          "name": "NOTE",
+          "type": "String",
+          "default": "\"see the docs (section 2) for details\"",
+          "static": true
+        }
+      ],
+      "methods": [
+        {
+          "vis": "+",
+          "name": "run",
+          "args": [
+            {
+              "name": "ttl",
+              "type": "int"
+            }
+          ],
+          "ret": "bool"
+        },
+        {
+          "vis": "-",
+          "name": "helper"
+        },
+        {
+          "vis": "+",
+          "name": "Refresh",
+          "args": [
+            {
+              "name": "spaced",
+              "type": "int"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "edges": []
+}

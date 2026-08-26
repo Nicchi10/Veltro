@@ -120,7 +120,22 @@ are two different types and stay separate.
 ## 4. Members (one per line)
 
 A member line is `[<vis>] <name><signature?> <type?>`, fields and methods are
-told apart by the presence of `(`.
+told apart by the `(` that **opens an argument list**.
+
+Not by any `(`: a field's default may legitimately contain one
+(`validators dict<str,int> = field(default_factory=dict)`, or a string constant
+that happens to mention a bracket). An argument list always comes before the
+`=` of a default, and that is what separates the two:
+
+```
+run(ttl int) bool                             <- method: '(' before any '='
+validators dict<str,int> = field(x=dict)      <- field:  '(' after the '='
+```
+
+A parenthesis inside a type cannot be told apart this way, so an extractor
+must not emit one (a C# named tuple `Task<(Foo a,bool b)>` becomes `Any`).
+Spaces inside a type are fine: a field's type is everything between its name and
+the `=`, so `path list<int | str>` reads back exactly as written.
 
 **Public is implicit**: a member with no visibility marker is public, since
 public is the common case, omitting the marker saves a token on almost every

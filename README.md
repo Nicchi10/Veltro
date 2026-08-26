@@ -84,8 +84,8 @@ Java via the [Java extractor](veltro/extract/java), C# via the
 | [Pydantic](https://github.com/pydantic/pydantic) | Python | 360 | 20,168 | +20% | +30% |
 | [Spring](https://github.com/spring-projects/spring-framework) (spring-beans) | Java | 323 | 41,463 | +22% | +34% |
 | [Kafka](https://github.com/apache/kafka) (clients) | Java | 1,287 | 174,594 | +13% | +32% |
-| [MediatR](https://github.com/jbogard/MediatR) | C# | 216 | 9,896 | +24% | +32% |
-| [Orleans](https://github.com/dotnet/orleans) | C# | 6,055 | 692,077 | +18% | +26% |
+| [MediatR](https://github.com/jbogard/MediatR) | C# | 216 | 9,875 | +24% | +32% |
+| [Orleans](https://github.com/dotnet/orleans) | C# | 6,055 | 687,997 | +18% | +26% |
 | [NestJS](https://github.com/nestjs/nest) (packages) | TS | 599 | 36,907 | +33% | +38% |
 | [Angular](https://github.com/angular/angular) (packages) | TS | 3,274 | 193,956 | +31% | +37% |
 

@@ -133,7 +133,54 @@ def python_type_to_veltro(raw_type: str) -> str:
     # Generic brackets, then collapse spacing around '< > ,'.
     text = text.replace("[", "<").replace("]", ">")
     text = re.sub(r"\s*([<>,])\s*", r"\1", text)
-    return text
+    return safe_type(text)
+
+def safe_type(type_string: str) -> str:
+    """
+
+    Drop a type the line format cannot carry, replacing it with 'Any'.
+
+    Only two things genuinely break a member line: a PARENTHESIS, which is what
+    tells a method from a field and what the argument list is matched with, and a
+    NEWLINE, which ends the line. Spaces are fine -- a field's type is everything
+    between its name and the '=', so 'list<int | str>' reads back exactly as
+    written -- and this rule deliberately keeps them, since Python unions would
+    otherwise be flattened to 'Any' by the hundred.
+
+    Args:
+        type_string (str): an already translated candidate type
+
+    Returns:
+        The type, or 'Any' when it cannot be written
+
+    """
+    if not type_string:
+        return ""
+    if any(character in type_string for character in "()\n\r"):
+        return "Any"
+    return type_string
+
+def safe_default(value_text: str) -> str:
+    """
+
+    Keep a field default only when it is a single, readable line.
+
+    A default is informative, not load-bearing, so anything that would break the
+    line-oriented '.vel' is dropped rather than corrupted. Parentheses are FINE
+    here: the parser tells a field from a method by the '(' that opens an
+    argument list, which always precedes the '=' of a default.
+
+    Args:
+        value_text (str)
+
+    Returns:
+        The value, or "" when it is unsafe to keep
+
+    """
+    value_text = value_text.strip()
+    if not value_text or "\n" in value_text or "\r" in value_text:
+        return ""
+    return value_text
 
 def annotation_to_type(annotation) -> str:
     """
@@ -213,7 +260,9 @@ def extract_field(ann_assign) -> str:
 
     line = member_prefix(name, is_static) + " " + type_string
     if ann_assign.value is not None:
-        line += " = " + ast.unparse(ann_assign.value)
+        default = safe_default(ast.unparse(ann_assign.value))
+        if default:
+            line += " = " + default
     return line
 
 def extract_property(func_node) -> str:

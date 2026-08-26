@@ -1,0 +1,9 @@
+veltro 1
+
+module m
+class C
+validators dict<str,int> = field(default_factory=dict)
+- $NOTE String = "see the docs (section 2) for details"
+run(ttl int) bool
+- helper()
+Refresh (spaced int)

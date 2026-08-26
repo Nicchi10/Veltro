@@ -125,7 +125,31 @@ def csharp_type_to_veltro(type_text: str) -> str:
 
     """
     collapsed = re.sub(r"\s*([<>,])\s*", r"\1", type_text)
-    return collapsed.strip()
+    return safe_type(collapsed.strip())
+
+def safe_type(type_string: str) -> str:
+    """
+
+    Drop a type the line format cannot carry, replacing it with 'Any'.
+
+    Only two things genuinely break a member line: a PARENTHESIS, which is what
+    tells a method from a field and what the argument list is matched with, and a
+    NEWLINE, which ends the line. A C# named value tuple has both a parenthesis
+    and a space -- 'Task<(IConnectionMultiplexer Multiplexer,bool IsShared)>' --
+    and made the member line unreadable, 80 times in Orleans.
+
+    Args:
+        type_string (str): an already space-collapsed candidate type
+
+    Returns:
+        The type, or 'Any' when it cannot be written
+
+    """
+    if not type_string:
+        return ""
+    if any(character in type_string for character in "()\n\r"):
+        return "Any"
+    return type_string
 
 def simple_name(type_text: str) -> str:
     """

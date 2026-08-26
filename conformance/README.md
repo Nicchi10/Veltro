@@ -78,6 +78,7 @@ This equivalence defines a deterministic result that a machine can verify and re
 | `derived_assoc`  | an association edge derived from a field's type |
 | `keyword_field`  | a public field named like a keyword keeps its `+` |
 | `docs`           | a `>` doc line attaching to the next declaration |
+| `default_parens`  | a `(` in a field's DEFAULT does not make the line a method: only a `(` opening an argument list does |
 | `merge_declarations` | a type declared twice is ONE node: members, modifiers and enum values are unioned |
 | `merge_scope`    | merging is by **id**, never by name: the same simple name in two modules stays two types |
 
