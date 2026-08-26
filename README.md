@@ -222,5 +222,5 @@ standard library only at runtime. The viewer is **TypeScript** on Canvas2D (not
 SVG/DOM, which dies past a few thousand nodes), with the layout computed off the
 main thread in a Web Worker by a high-dimensional embedding, deterministic, so
 the same model always lands in the same shape, and remembered per model.
-WebGL is the escape hatch if a model ever outgrows Canvas2D, at 7,848 types it
-has not.
+WebGL is the escape hatch if a model ever outgrows Canvas2D: at the ~7,800 nodes
+of the largest model measured, it has not.

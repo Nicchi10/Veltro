@@ -60,7 +60,7 @@ a silo.
 
 It is a **verbatim subset** of Veltro's own parse of that public codebase:
 nothing was renamed, invented or hand-authored, so what you see is what the
-parser emits. The full parse, all 7,848 types, is
+parser emits. The full parse, all 6,055 types, is
 [`examples/Orleans.vel`](../examples/Orleans.vel), and you can reproduce it
 yourself:
 
@@ -110,9 +110,14 @@ laptop.
 ## Scale, honestly
 
 The renderer is Canvas2D, not WebGL, and it holds the frame budget on the full
-Orleans model, **7,848 types: 2.0 ms frame work at p95, 0% dropped frames**,
-measured in a real browser. WebGL stays on the roadmap, not on the critical
-path.
+Orleans model: **2.0 ms frame work at p95, 0% dropped frames**, measured in a
+real browser. WebGL stays on the roadmap, not on the critical path.
+
+That run was made against a 7,848-node build of the model. The same file parses
+to 6,055 nodes today, because repeated declarations of one type (C#
+`partial class`) are now merged instead of each becoming its own node, so the
+figure above is a ceiling measured under a heavier load rather than a reading of
+what the demo renders now.
 
 Two things this particular demo does not show, because 186 types are too few
 to trigger them: the LOD-0 view, where whole modules collapse into single blobs
