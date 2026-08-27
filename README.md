@@ -101,8 +101,8 @@ Against every other class-diagram format, on a representative slice of pydantic
 | 1 | **Veltro** | **211** | - |
 | 2 | yUML | 213 | +1% |
 | 3 | Nomnoml | 222 | +5% |
-| 4 | Mermaid | 254 | +20% |
-| 5 | D2 | 273 | +29% |
+| 4 | Mermaid | 261 | +24% |
+| 5 | D2 | 304 | +44% |
 | 6 | PlantUML | 332 | +57% |
 | 7 | Graphviz DOT | 352 | +67% |
 
