@@ -1,0 +1,81 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "veltro"
+version = "0.1.0"
+description = "A token-frugal, AI-native language that describes a codebase as a graph of types"
+readme = "README.md"
+requires-python = ">=3.9"
+license = { file = "LICENSE" }
+authors = [{ name = "NG10" }]
+keywords = ["architecture", "uml", "type-graph", "llm", "codebase", "diagram"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Topic :: Software Development :: Documentation",
+]
+
+# The core is what it takes to READ a '.vel': parse it, validate it, query it,
+# slice it, render it to PlantUML / Mermaid / D2. All of that is stdlib except
+# the schema check, so the core is one dependency. Everything heavier belongs to
+# an extra, because someone who only wants to parse a '.vel' must not be made to
+# install two LLM SDKs, a tokenizer and a plotting library.
+dependencies = [
+    "jsonschema>=4.0",
+]
+
+[project.optional-dependencies]
+
+# The tree-sitter extractors (C#, TypeScript/JS). The Python extractor uses
+# 'ast' and needs nothing; the Java extractor is a standalone Java program.
+extract = [
+    "tree_sitter",
+    "tree_sitter_c_sharp",
+    "tree_sitter_typescript",
+]
+
+# The token benchmarks under bench/. 'transformers' is only for
+# compare_formats_ollama.py (a non-OpenAI tokenizer), and it is the single
+# heaviest dependency in the repo.
+bench = [
+    "tiktoken>=0.5",
+    "transformers>=5.14.1",
+]
+
+# The LLM comprehension eval under eval/: the paid-API runner and the hero chart.
+# eval/run_claude_code.py shells out to the Claude Code CLI and needs no SDK.
+eval = [
+    "openai>=1.0",
+    "anthropic",
+    "google-generativeai",
+    "matplotlib",
+]
+
+# Everything the full test suite needs: tests/ import the tree-sitter
+# extractors, the bench slice and the eval scorer.
+dev = [
+    "veltro[extract,bench,eval]",
+]
+
+[project.urls]
+Homepage = "https://github.com/Nicchi10/Veltro"
+Repository = "https://github.com/Nicchi10/Veltro"
+Issues = "https://github.com/Nicchi10/Veltro/issues"
+
+[project.scripts]
+veltro = "veltro.__main__:main"
+
+[tool.setuptools]
+# Listed explicitly rather than auto-discovered: bench/, eval/, tests/ and
+# conformance/ are part of the repository, not of the installed package.
+packages = ["veltro", "veltro.export", "veltro.extract"]
+
+[tool.setuptools.package-data]
+# The schemas are the contract the CLI validates against, so they have to travel
+# with the code: they live inside the package (veltro/schemas/) for exactly that
+# reason. Data files, not a package - there is no __init__.py to import.
+veltro = ["schemas/*.json"]

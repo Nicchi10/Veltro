@@ -132,10 +132,14 @@ codebase (e.g. [`eval/subjects/pydantic/REPORT.md`](eval/subjects/pydantic/REPOR
 
 ### Reproduce it
 
-> Note: the repo has many separate "test sections", check the libraries to install if you only want to try out specific features (particularly transformers)
+> Note: the repo has many separate "test sections", so the dependencies are split
+> into extras. Reading a `.vel` (parse / find / show / deps / map / export) needs
+> only `jsonschema`; the commands below need `[bench]`, and the eval needs
+> `[eval]`. `pip install -r requirements.txt` still installs everything
 
 ```bash
-pip install -r requirements.txt
+pip install -e ".[bench]"        # or: pip install -e .          (core only)
+                                 # or: pip install -e ".[dev]"   (everything)
 
 # 1. whole-project comparison (Veltro vs PlantUML vs Mermaid), all from one model
 python bench/scale_bench.py path/to/some/package
@@ -160,8 +164,9 @@ veltro/                        the Python package
   |--- parser.py               .vel  ->  type-graph model (the ONE parser, format is language-agnostic)
   |--- export/                 model  ->  PlantUML / Mermaid / D2 (fair benchmarking, the Rosetta way out)
   |--- extract/                repository -> .vel file (cover more languages)
-model.schema.json              the type-graph contract (nodes + edges) shared by every piece
+  |--- schemas/                the type-graph contract (nodes + edges) shared by every piece
 SPEC.md                        the .vel language specification
+pyproject.toml                 the package: a one-dependency core, plus extras per section
 docs/                          the built viewer, published as the live demo (GitHub Pages)
 examples/                      real architectures extracted to .vel (e.g. pydantic.vel)
 bench/                         token benchmarks + the vendored PlantUML sample
@@ -190,7 +195,7 @@ extract_java   |
 | Piece | Role |
 |-------|------|
 | [`SPEC.md`](SPEC.md) | The `.vel` grammar + relation-kind -> UML mapping |
-| [`model.schema.json`](model.schema.json) | The intermediate type-graph schema (single source of truth) |
+| [`veltro/schemas/model.schema.json`](veltro/schemas/model.schema.json) | The intermediate type-graph schema (single source of truth) |
 | [`veltro/parser.py`](veltro/parser.py) | `.vel` -> model, with schema validation |
 | [`veltro/extract/python_ast.py`](veltro/extract/python_ast.py) | Python source -> `.vel` (deterministic, no LLM) |
 | [`veltro/extract/tree_sitter_csharp.py`](veltro/extract/tree_sitter_csharp.py) | C# source -> `.vel` (deterministic, no LLM) |

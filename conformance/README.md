@@ -13,7 +13,7 @@ that drives any implementation through it.
 A conforming parser is a command that:
 
 - reads `.vel` text on **stdin**
-- writes the model JSON (per [`model.schema.json`](../model.schema.json)) on **stdout**
+- writes the model JSON (per [`model.schema.json`](../veltro/schemas/model.schema.json)) on **stdout**
 - exits non-zero on a parse error
 
 ## Layout

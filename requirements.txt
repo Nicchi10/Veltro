@@ -1,9 +1,16 @@
-jsonschema>=4.0     
-tiktoken>=0.5       
-openai>=1.0
-anthropic         
-tree_sitter
-tree_sitter_c_sharp
-tree_sitter_typescript
-matplotlib
-transformers>=5.14.1
+# Everything, for a contributor who wants to run every part of the repo.
+# The dependencies themselves are declared in pyproject.toml, this file only
+# points at them, so there is one list to keep true and not two.
+#
+# If you only want to READ a '.vel' - parse, validate, query, slice, export
+# install the core instead, which is 'jsonschema' and nothing else:
+#
+#     pip install -e .
+#
+# Or pick just the part you need:
+#
+#     pip install -e ".[extract]"   # the tree-sitter extractors (C#, TS/JS)
+#     pip install -e ".[bench]"     # the token benchmarks under bench/
+#     pip install -e ".[eval]"      # the LLM comprehension eval under eval/
+
+-e .[dev]

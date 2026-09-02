@@ -5,7 +5,7 @@ veltro.__main__.py
 Command line entry point:  python -m veltro <file.vel>
 
 Parses a '.vel' file, prints a short summary, validates the result against
-'model.schema.json' (requires the 'jsonschema' package), and writes the
+'veltro/schemas/model.schema.json' (requires the 'jsonschema' package), and writes the
 JSON model next to the source (or to the path given with --out)
 
 """
@@ -23,17 +23,44 @@ from veltro.query import (edges_of, find_types, load_index_beside, location_line
                           neighbourhood_ids, resolve_one, slice_vel)
 
 
+def schema_path(name: str = "model.schema.json"):
+    """
+
+    Where a schema file is, or None when it is nowhere to be found.
+
+    The schemas live INSIDE the package ('veltro/schemas/') so that they travel
+    with an installed wheel: the CLI validates every model against
+    'model.schema.json', so a 'pip install veltro' that could not find it would
+    ship a validator with no contract. The repository root is still searched
+    second, because that is where these files used to sit and an older checkout
+    (or a copy dropped there by hand) must keep working.
+
+    Args:
+        name (str): the schema file name
+
+    Returns:
+        str | None: the first path that exists
+
+    """
+    here = os.path.dirname(os.path.abspath(__file__))
+    candidates = [
+        os.path.join(here, "schemas", name),
+        os.path.join(os.path.dirname(here), name),
+    ]
+    for candidate in candidates:
+        if os.path.exists(candidate):
+            return candidate
+    return None
+
 def load_schema():
     """
-    Load model.schema.json from the repository root, if it is there
+    Load model.schema.json, from the package or from the repository root
     """
-    
-    here = os.path.dirname(os.path.abspath(__file__))
-    repo_root = os.path.dirname(here)
-    schema_path = os.path.join(repo_root, "model.schema.json")
-    if not os.path.exists(schema_path):
+
+    path = schema_path()
+    if path is None:
         return None
-    with open(schema_path, encoding="utf-8") as schema_file:
+    with open(path, encoding="utf-8") as schema_file:
         return json.load(schema_file)
 
 def find_duplicate_ids(model: dict) -> list:

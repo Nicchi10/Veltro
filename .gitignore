@@ -7,6 +7,8 @@ venv/
 *.class
 
 build/
+dist/
+*.egg-info/
 
 *.index.json
 
