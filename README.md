@@ -15,6 +15,7 @@
 </p>
 
 <p align="center">
+  <a href="https://github.com/Nicchi10/Veltro/actions/workflows/ci.yml"><img src="https://github.com/Nicchi10/Veltro/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
   <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/license-MIT-blue" alt="MIT License" /></a>
   <img src="https://img.shields.io/badge/input_used-19.9k_tokens-ff5b00" alt="Input used" />
   <img src="https://img.shields.io/badge/tokens_saved-17--31%25-ff5b00" alt="Tokens saved" />
@@ -88,6 +89,12 @@ Java via the [Java extractor](veltro/extract/java), C# via the
 | [Orleans](https://github.com/dotnet/orleans) | C# | 6,055 | 687,997 | +18% | +26% |
 | [NestJS](https://github.com/nestjs/nest) (packages) | TS | 599 | 39,236 | +32% | +36% |
 | [Angular](https://github.com/angular/angular) (packages) | TS | 3,274 | 206,067 | +29% | +35% |
+
+Every row but Rich is recomputed on each push by
+[`bench/check_readme_table.py`](bench/check_readme_table.py) — a table nobody
+re-measures goes stale in silence, and this one already had. Rich is the
+exception because no `rich.vel` is committed, so reproducing it needs a checkout
+of Rich itself.
 
 The Java, C# and TypeScript rows are cross-language evidence: the token saving
 holds on real Python, Java, C# and TypeScript code, not a single ecosystem, and
@@ -171,6 +178,8 @@ docs/                          the built viewer, published as the live demo (Git
 examples/                      real architectures extracted to .vel (e.g. pydantic.vel)
 bench/                         token benchmarks + the vendored PlantUML sample
   |--- formats/                the same slice encoded in 7 formats, for the ranking
+  |--- check_readme_table.py   recompute the README token table, fail if it drifted
+.github/workflows/ci.yml       core install on 3.9/3.13 + Windows, extras, conformance, the table
 eval/                          LLM comprehension eval: generate/run/score/report (see eval/README.md)
   |--- leaderboard.csv         the editable results dataset -> per-project subjects/<name>/REPORT.md 
   |--- results/                a .json for each repo and the responses to the questions

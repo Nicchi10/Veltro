@@ -1,6 +1,11 @@
 """
 Tests for the TypeScript/JavaScript -> Veltro extractor.
 
+The extractor is an extra ('pip install veltro[extract]'), so these tests SKIP
+rather than ERROR when tree-sitter is absent: a core install is a supported way
+to have the repo, and a red suite that only means "you did not ask for the
+extractors" teaches everyone to ignore red.
+
 Run with:  python -m unittest discover tests
 """
 
@@ -12,8 +17,15 @@ REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if REPO_ROOT not in sys.path:
     sys.path.insert(0, REPO_ROOT)
 
-from veltro.extract.tree_sitter_typescript import extract_to_vel, ts_type_to_veltro
 from veltro.parser import parse_text
+
+try:
+    from veltro.extract.tree_sitter_typescript import extract_to_vel, ts_type_to_veltro
+    HAS_TREE_SITTER = True
+except ImportError:
+    HAS_TREE_SITTER = False
+
+NEEDS_TREE_SITTER = unittest.skipUnless(HAS_TREE_SITTER, "needs the [extract] extra (tree-sitter)")
 
 
 FIXTURE = '''\
@@ -54,6 +66,7 @@ export class User {
 '''
 
 
+@NEEDS_TREE_SITTER
 class TestTypeScriptExtractor(unittest.TestCase):
 
     def setUp(self):
@@ -144,6 +157,7 @@ class TestTypeScriptExtractor(unittest.TestCase):
         )
 
 
+@NEEDS_TREE_SITTER
 class TestNamespaceModule(unittest.TestCase):
 
     def test_namespace_overrides_file_module(self):
@@ -159,6 +173,7 @@ class TestNamespaceModule(unittest.TestCase):
         self.assertEqual(model["nodes"][0]["id"], "Core.Models.Thing")
 
 
+@NEEDS_TREE_SITTER
 class TestJavaScriptFallback(unittest.TestCase):
 
     def test_untyped_js_members_default_to_any(self):
@@ -180,6 +195,7 @@ class TestJavaScriptFallback(unittest.TestCase):
         self.assertEqual(move["args"], [{"name": "dx", "type": "Any"}, {"name": "dy", "type": "Any"}])
 
 
+@NEEDS_TREE_SITTER
 class TestStructuralTypesAreSafe(unittest.TestCase):
 
     def test_only_a_parenthesis_forces_a_type_to_any(self):
@@ -227,6 +243,7 @@ class TestStructuralTypesAreSafe(unittest.TestCase):
         self.assertEqual(method_names, [])        # computed-name method dropped
 
 
+@NEEDS_TREE_SITTER
 class TestReservedNameField(unittest.TestCase):
 
     def test_field_named_like_keyword_keeps_plus(self):
@@ -243,6 +260,7 @@ class TestReservedNameField(unittest.TestCase):
         self.assertEqual(field_names, ["module", "name"])
 
 
+@NEEDS_TREE_SITTER
 class TestTypeTranslation(unittest.TestCase):
 
     def test_translations(self):

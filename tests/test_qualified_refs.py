@@ -18,9 +18,18 @@ if REPO_ROOT not in sys.path:
     sys.path.insert(0, REPO_ROOT)
 
 from veltro.extract.python_ast import extract_project
-from veltro.extract.tree_sitter_csharp import extract_to_vel as csharp_to_vel
-from veltro.extract.tree_sitter_typescript import extract_to_vel as typescript_to_vel
 from veltro.parser import parse_text
+
+# The Python extractor is core ('ast'), the other two are the [extract] extra,
+# so a core install still checks the rule on Python instead of skipping it all.
+try:
+    from veltro.extract.tree_sitter_csharp import extract_to_vel as csharp_to_vel
+    from veltro.extract.tree_sitter_typescript import extract_to_vel as typescript_to_vel
+    HAS_TREE_SITTER = True
+except ImportError:
+    HAS_TREE_SITTER = False
+
+NEEDS_TREE_SITTER = unittest.skipUnless(HAS_TREE_SITTER, "needs the [extract] extra (tree-sitter)")
 
 
 CSHARP_HOMONYMS = """\
@@ -75,6 +84,7 @@ class QualifiedReferenceChecks:
             self.assertIn(to_id, ids)
 
 
+@NEEDS_TREE_SITTER
 class TestCSharpQualifiesAmbiguousSource(unittest.TestCase, QualifiedReferenceChecks):
 
     def setUp(self):
@@ -90,6 +100,7 @@ class TestCSharpQualifiesAmbiguousSource(unittest.TestCase, QualifiedReferenceCh
         self.assert_both_relations_resolve(self.vel)
 
 
+@NEEDS_TREE_SITTER
 class TestTypeScriptQualifiesAmbiguousSource(unittest.TestCase, QualifiedReferenceChecks):
 
     def setUp(self):

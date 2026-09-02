@@ -19,6 +19,13 @@ if REPO_ROOT not in sys.path:
 
 from veltro.parser import parse_member_line, parse_text
 
+# The C# extractor is the [extract] extra: on a core install its one test skips
+try:
+    import tree_sitter
+    HAS_TREE_SITTER = True
+except ImportError:
+    HAS_TREE_SITTER = False
+
 
 class TestFieldVersusMethod(unittest.TestCase):
 
@@ -98,6 +105,7 @@ class TestTypesWithSpaces(unittest.TestCase):
 
 class TestExtractorsRefuseUnwritableTypes(unittest.TestCase):
 
+    @unittest.skipUnless(HAS_TREE_SITTER, "needs the [extract] extra (tree-sitter)")
     def test_csharp_named_tuple_becomes_any(self):
         # 'Task<(IConnectionMultiplexer Multiplexer,bool IsShared)>' cannot be written: the parenthesis is what tells a method from a field
         from veltro.extract.tree_sitter_csharp import safe_type

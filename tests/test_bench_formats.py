@@ -21,6 +21,13 @@ from bench.slice_formats import (FORMATS_DIR, GENERATED, SLICE_VEL, load_formats
                                  missing_from, model_vocabulary)
 from veltro.parser import parse_file
 
+# Counting tokens is the [bench] extra: the parity checks below need nothing
+try:
+    import tiktoken
+    HAS_TIKTOKEN = True
+except ImportError:
+    HAS_TIKTOKEN = False
+
 
 class TestSliceFormats(unittest.TestCase):
 
@@ -59,8 +66,8 @@ class TestSliceFormats(unittest.TestCase):
             crippled = crippled.replace("= " + default, "")
         self.assertNotEqual(missing_from(crippled, vocabulary), [])
 
+    @unittest.skipUnless(HAS_TIKTOKEN, "needs the [bench] extra (tiktoken)")
     def test_veltro_is_still_the_densest(self):
-        import tiktoken
         encoder = tiktoken.get_encoding("o200k_base")
         counts = {}
         for label in self.texts:

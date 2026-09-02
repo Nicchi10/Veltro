@@ -1,0 +1,96 @@
+name: CI
+
+# What each job is for:
+#
+# - 'tests' proves the promise the packaging makes: a CORE install (jsonschema
+#   and nothing else) parses, validates, queries, slices and exports a '.vel'
+#   It runs on the oldest and the newest supported Python, and on Windows,
+#   because that is where this project is written and the code writes files
+#   with an explicit newline
+# - 'extractors' installs the [extract] and [bench] extras, so the tests that
+#   SKIP on a core install actually run somewhere
+# - 'readme-table' recomputes the token table. It is the most quoted claim in
+#   the repository and it moves whenever the parser or an exporter changes.
+# - 'extras' only checks that every extra still resolves and imports. It caught
+#   nothing yet, but the [eval] extra listed a dependency ('google-generativeai')
+#   that had never been declared, so nobody could run that provider
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+
+  tests:
+    name: core install (${{ matrix.os }}, py${{ matrix.python }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { os: ubuntu-latest, python: "3.9" }
+          - { os: ubuntu-latest, python: "3.13" }
+          - { os: windows-latest, python: "3.13" }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Install the core only
+        run: pip install -e .
+      - name: The core is one dependency
+        run: pip list
+      - name: Unit tests
+        run: python -m unittest discover tests
+      - name: Conformance suite
+        run: python conformance/run.py
+      # Not covered by the unit tests: that the INSTALLED package finds its own schema
+      # It read it from the repository root until the packaging work,
+      # which is a path that does not exist once 'veltro' is installed.
+      - name: The CLI parses and validates a shipped example
+        run: python -m veltro examples/pydantic.vel --out pydantic.model.json
+      - name: The query CLI answers with a slice
+        run: python -m veltro map examples/pydantic.vel --around pydantic.main.BaseModel --depth 1
+
+  extractors:
+    name: extractors and bench (py3.12)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install the extras the tests need
+        run: pip install -e ".[extract,bench]"
+      - name: Unit tests, nothing skipped
+        run: python -m unittest discover tests
+      - name: Conformance suite
+        run: python conformance/run.py
+
+  readme-table:
+    name: the README table is reproducible
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install the bench extra
+        run: pip install -e ".[bench]"
+      - name: Recompute every row
+        run: python bench/check_readme_table.py
+
+  extras:
+    name: every extra installs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install everything
+        run: pip install -e ".[dev]"
+      - name: Every declared dependency imports
+        run: python -c "import jsonschema, tiktoken, transformers, openai, anthropic, matplotlib, tree_sitter, tree_sitter_c_sharp, tree_sitter_typescript; import google.generativeai; print('all extras import')"
