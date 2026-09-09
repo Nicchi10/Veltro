@@ -129,8 +129,13 @@ The honest result: there is **no robust comprehension winner** - the ranking
 shuffles by model and the formats sit in overlapping bands. Veltro reads **as
 well** as PlantUML / Mermaid / D2 (matched on partial-credit F1) at the lowest
 token cost, we claim parity, not superiority. On the strict exact-match metric it
-can trail a few points (the flip side of factoring relations into a distant
-`rel` block), and that closes on a capable model.
+can trail a few points on a weak model, and that closes on a capable one. We used
+to blame the distant `rel` block for it; measuring the subjects killed that
+explanation (every format puts relations at 87-96% of the file) and pointed at
+something more interesting: part of the gap is the price of the compression
+itself, because the redundant `+` markers Veltro deletes are also cues a weak
+reader leans on. The evidence is in
+[`eval/error_profile.py`](eval/error_profile.py).
 
 The full methodology, the per-language results, the honest caveats (and the
 home-field handicap Veltro reads under) and how to reproduce them all live in
