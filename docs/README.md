@@ -81,6 +81,11 @@ python -m veltro path/to/yours.vel
 The model lands next to the source (or wherever `--out` points), and that file
 is what you drag onto the page.
 
+`python -m veltro` has four more commands - `find`, `show`, `deps` and `map` -
+that answer a question about the graph instead of handing over the whole thing.
+`map --around <type>` is the terminal's version of what the viewer does when you
+click a node. See [`CLI.md`](../CLI.md).
+
 Extractors for Python, Java, C# and TypeScript live in the
 [main README](../README.md), so you can go from a repository you have never
 opened to a navigable map of it without writing a `.vel` file by hand.

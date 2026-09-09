@@ -118,6 +118,41 @@ away readability: it keeps one member per line (clean git diffs), modules, and
 the type-graph model, while the runners-up (yUML, Nomnoml) collapse each type
 onto a single unreadable line to compete.
 
+## Query it, don't read it
+
+Being the cheapest format is not enough at scale. `examples/Orleans.vel` is
+6,055 types and **687,997 tokens**: no compression ratio turns that into
+something you paste into a prompt. So the CLI answers a question with a
+bounded payload instead of handing over the file.
+
+```bash
+python -m veltro find  examples/pydantic.vel Encoder          # which types are there
+python -m veltro show  examples/pydantic.vel Base64Encoder    # one type, as .vel
+python -m veltro deps  examples/pydantic.vel Base64Encoder    # what it touches, what touches it
+python -m veltro map   examples/Orleans.vel --around Silo --depth 1   # a slice of the graph
+```
+
+Measured on Orleans, against reading the whole file
+(`python bench/query_cost.py`):
+
+| command | tokens | share of the file |
+|---------|--------|-------------------|
+| `map --module Orleans.Runtime` | 86,718 | 12.60% |
+| `map --around Silo --depth 1` | 4,629 | **0.67%** |
+| `show Silo` | 945 | **0.14%** |
+| `deps Silo` | 163 | **0.02%** |
+
+`show` and `map` print valid `.vel`, so a slice goes straight back into a
+prompt. A bare name that means two types is refused, with the candidates
+listed, rather than silently answered about the wrong one. And with the source
+index the extractor writes beside the `.vel`, `show --code` prints the
+declaration's actual source.
+
+**Full reference: [`CLI.md`](CLI.md)** - every command, every option, the source
+index, and how to call the same logic from Python (it is pure functions in
+[`veltro/query.py`](veltro/query.py), so the viewer and any future editor
+plugin reuse it rather than reimplement it).
+
 ## Comprehension (does the model still understand it?)
 
 Fewer tokens are worthless if the model reads the diagram worse. So we test it:
@@ -159,8 +194,11 @@ python bench/scale_bench.py path/to/some/package
 # 2. the 7-format ranking on the bundled pydantic slice
 python bench/compare_formats.py
 
-# 3. just extract a Python package to .vel
+# 3. just extract a Python package to .vel (writes the source index beside it)
 python -m veltro.extract.python_ast path/to/some/package --out build/out.vel
+
+# 4. what a bounded answer costs against reading the whole graph
+python bench/query_cost.py
 ```
 
 The comprehension eval (generate -> ask a model -> score -> leaderboard) has its
@@ -174,16 +212,21 @@ The examples are not hand-written: they are extracted from real projects
 ```
 veltro/                        the Python package
   |--- parser.py               .vel  ->  type-graph model (the ONE parser, format is language-agnostic)
+  |--- query.py                find / show / deps / map, as pure functions the CLI and the viewer share
+  |--- index.py                the sidecar: every type id -> the file:line it is declared at
+  |--- __main__.py             the command line (see CLI.md)
   |--- export/                 model  ->  PlantUML / Mermaid / D2 (fair benchmarking, the Rosetta way out)
   |--- extract/                repository -> .vel file (cover more languages)
   |--- schemas/                the type-graph contract (nodes + edges) shared by every piece
 SPEC.md                        the .vel language specification
+CLI.md                         the command line reference
 pyproject.toml                 the package: a one-dependency core, plus extras per section
 docs/                          the built viewer, published as the live demo (GitHub Pages)
 examples/                      real architectures extracted to .vel (e.g. pydantic.vel)
 bench/                         token benchmarks + the vendored PlantUML sample
   |--- formats/                the same slice encoded in 7 formats, for the ranking
   |--- check_readme_table.py   recompute the README token table, fail if it drifted
+  |--- query_cost.py           what a bounded answer costs against reading the whole .vel
 .github/workflows/ci.yml       core install on 3.9/3.13 + Windows, extras, conformance, the table
 eval/                          LLM comprehension eval: generate/run/score/report (see eval/README.md)
   |--- leaderboard.csv         the editable results dataset -> per-project subjects/<name>/REPORT.md 
@@ -209,11 +252,14 @@ extract_java   |
 | Piece | Role |
 |-------|------|
 | [`SPEC.md`](SPEC.md) | The `.vel` grammar + relation-kind -> UML mapping |
+| [`CLI.md`](CLI.md) | The command line: `parse` / `find` / `show` / `deps` / `map` |
 | [`veltro/schemas/model.schema.json`](veltro/schemas/model.schema.json) | The intermediate type-graph schema (single source of truth) |
 | [`veltro/parser.py`](veltro/parser.py) | `.vel` -> model, with schema validation |
 | [`veltro/extract/python_ast.py`](veltro/extract/python_ast.py) | Python source -> `.vel` (deterministic, no LLM) |
 | [`veltro/extract/tree_sitter_csharp.py`](veltro/extract/tree_sitter_csharp.py) | C# source -> `.vel` (deterministic, no LLM) |
 | [`veltro/extract/java/VeltroJavaExtractor.java`](veltro/extract/java/VeltroJavaExtractor.java) | Java source -> `.vel` (deterministic, no LLM) |
+| [`veltro/query.py`](veltro/query.py) | find / show / deps / map, as pure functions over model + index |
+| [`veltro/index.py`](veltro/index.py) | the sidecar mapping every type back to `file:line` |
 | [`veltro/export/`](veltro/export) | model -> PlantUML / Mermaid / D2 |
 | [`examples/pydantic.vel`](examples/pydantic.vel) | Pydantic's architecture, extracted to `.vel` |
 | [`eval/`](eval) | comprehension eval (OpenAI / Anthropic APIs) + token/accuracy leaderboard |

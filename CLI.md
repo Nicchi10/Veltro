@@ -1,0 +1,242 @@
+# The Veltro CLI
+
+`python -m veltro <command>`, or just `veltro <command>` after `pip install`.
+
+Five commands: `parse` turns a `.vel` into the JSON model, and `find` / `show` /
+`deps` / `map` answer a question about the graph with a bounded payload.
+
+```bash
+pip install veltro          # the core: jsonschema and nothing else
+```
+
+## Why the query commands exist
+
+A real project's `.vel` either fits in a context window or it does not, and
+there is nothing in between. `examples/Orleans.vel` is 6,055 types and
+**687,997 tokens**: no amount of compression makes that a thing you paste into
+a prompt.
+
+So the tool has to answer a question instead of handing over the file.
+Measured on Orleans, against reading the whole thing:
+
+| command | tokens | share of the file |
+|---------|--------|-------------------|
+| `map --module Orleans.Runtime` | 86,718 | 12.60% |
+| `map --around Silo --depth 1` | 4,629 | **0.67%** |
+| `show Silo` | 945 | **0.14%** |
+| `deps Silo` | 163 | **0.02%** |
+
+Reproduce the table with `python bench/query_cost.py` (needs the `[bench]`
+extra for `tiktoken`).
+
+Every one of these prints valid `.vel` (`map` and `show`), so a slice can be
+fed straight back to a model, or to Veltro itself.
+
+---
+
+## `parse` - validate a file and write the model
+
+```bash
+python -m veltro parse examples/pydantic.vel
+python -m veltro parse examples/pydantic.vel --out build/pydantic.model.json
+python -m veltro parse examples/pydantic.vel --no-derive
+```
+
+```
+[INFO] - nodes: 360  (332 classes, 23 interfaces, 5 enums)
+[INFO] - edges: 286  (247 written, 39 derived)
+[INFO] - validation: OK
+[INFO] - written: examples/pydantic.model.json
+```
+
+| option | meaning |
+|--------|---------|
+| `--out PATH` | where to write the JSON (default: next to the source, `.model.json`) |
+| `--no-derive` | do not derive association edges from field types |
+
+Validation runs the model against
+[`model.schema.json`](veltro/schemas/model.schema.json) and the one rule the
+schema cannot express: node ids must be unique. A model that fails is still
+written, it is what you need in order to debug it, but the command exits
+non-zero.
+
+`python -m veltro file.vel` (no command) still works and means `parse`.
+
+## `find` - which types are there
+
+```bash
+python -m veltro find examples/pydantic.vel Encoder
+```
+
+```
+pydantic.types.EncoderProtocol  interface
+pydantic.types.Base64Encoder  class
+pydantic.types.Base64UrlEncoder  class
+```
+
+| option | meaning |
+|--------|---------|
+| `--kind class\|interface\|enum` | keep only one kind |
+| `--module PREFIX` | keep only modules starting with this |
+| `--limit N` | how many to print (default 20) |
+
+The pattern matches the name or the id, and may be empty, so
+`find x.vel "" --kind enum --module pydantic.v1` is a legitimate listing. When
+more matched than were shown, the command says so rather than truncating in
+silence.
+
+With a [source index](#the-source-index) beside the `.vel`, each row also
+carries `file:line`.
+
+## `show` - one type, as `.vel`
+
+```bash
+python -m veltro show examples/pydantic.vel Base64Encoder
+```
+
+```
+module pydantic.types
+class Base64Encoder
+$decode(data bytes) bytes
+$encode(value bytes) bytes
+$get_json_format() Literal<base64>
+rel extend pydantic.types.EncoderProtocol
+# no source index: run the extractor to create one
+```
+
+| option | meaning |
+|--------|---------|
+| `--code` | also print the declaration's source, using the index |
+| `--root PATH` | read the source from here instead of the root recorded in the index |
+
+`--root` is for a checkout that has moved since the index was built.
+
+## `deps` - what it touches, and what touches it
+
+```bash
+python -m veltro deps examples/pydantic.vel Base64Encoder
+```
+
+```
+out (1):
+  extend     pydantic.types.EncoderProtocol
+in (0):
+```
+
+| option | meaning |
+|--------|---------|
+| `--direction in\|out\|both` | default `both` |
+| `--limit N` | how many per direction (default 30) |
+
+Edges derived from a field type are marked `(derived)`, so a written
+inheritance relation is never confused with an association Veltro inferred.
+
+## `map` - a slice of the graph
+
+```bash
+python -m veltro map examples/pydantic.vel --around Base64Encoder --depth 1
+```
+
+```
+veltro 1
+
+module pydantic.types
+interface EncoderProtocol
+$decode(data bytes) bytes
+$encode(value bytes) bytes
+$get_json_format() str
+class Base64Encoder
+$decode(data bytes) bytes
+$encode(value bytes) bytes
+$get_json_format() Literal<base64>
+
+rel
+Base64Encoder extend EncoderProtocol
+```
+
+| option | meaning |
+|--------|---------|
+| `--around TYPE` | only this type's neighbourhood |
+| `--depth N` | how many relations to follow from `--around` (default 1) |
+| `--module PREFIX` | only the types of this module |
+
+With neither option it prints the whole graph, which is a round trip through the
+canonical serializer rather than a copy of the input: indentation is dropped,
+generics are normalised, repeated declarations are merged.
+
+---
+
+## A bare name that means two types is refused
+
+`show`, `deps` and `map --around` take a node id (`pydantic.main.BaseModel`) or
+a simple name. When the simple name is ambiguous they do not guess: they
+list the candidates and exit non-zero.
+
+```bash
+python -m veltro show examples/pydantic.vel BaseModel
+```
+
+```
+[ERROR] - 'BaseModel' is declared in 2 modules, say which:
+  pydantic.main.BaseModel
+  pydantic.v1.main.BaseModel
+```
+
+That is deliberate. Picking the first match would quietly answer a question
+about the wrong type, and in a pipeline nobody would ever find out.
+
+## The source index
+
+A `.vel` is a map with no coordinates: a C# namespace has no relation to the
+directory tree, and a TS module path is ambiguous when a file name contains
+dots. So the way back from the graph to the code is an explicit sidecar,
+`x.vel` -> `x.index.json`, described by
+[`index.schema.json`](veltro/schemas/index.schema.json).
+
+The extractors write it automatically:
+
+```bash
+python -m veltro.extract.python_ast path/to/package --out build/thing.vel
+# [INFO] - written: build/thing.vel
+# [INFO] - source index: build/thing.index.json  (<n> types)
+```
+
+- It lives outside the `.vel` on purpose. The `.vel` is what enters a
+  model's context; a `file:line` on every type would cost tokens on every read,
+  for something only tools use.
+- A location is a list, because one type is legitimately declared in several
+  files. On Orleans that is 1,578 types - and `Silo`'s first span is a 22-line
+  API stub while the real 668-line implementation is the second, so recording
+  only the first would hide the actual code.
+- It is a build artefact and is gitignored. Line numbers move at the first
+  edit, and an index pointing at the wrong line is worse than no index.
+- The Java extractor does not produce one yet (it is a standalone Java program).
+
+Without an index everything still works except `show --code`, `show` and `find`
+just stop printing locations, and `show` says so.
+
+## Exit codes
+
+`0` on success. Non-zero when a file does not parse, a model fails validation, a
+bare name is ambiguous, a type does not exist, or `--code` is asked for without
+an index.
+
+## Using it from Python
+
+The CLI is a thin wrapper: the logic is pure functions in
+[`veltro/query.py`](veltro/query.py) over `(model, index)`, so a viewer, an
+editor plugin or an agent tool reuses it instead of shelling out or
+reimplementing it.
+
+```python
+from veltro.parser import parse_file
+from veltro.query import find_types, neighbourhood_ids, resolve_one, slice_vel
+
+model = parse_file("examples/pydantic.vel")
+node, candidates = resolve_one(model, "Base64Encoder")
+wanted = neighbourhood_ids(model, node["id"], 1)
+print(slice_vel(model, wanted))
+```
+
+`resolve_one` returns `(None, candidates)` for an ambiguous name, the same rule
+the CLI enforces, in the same place, for the same reason.

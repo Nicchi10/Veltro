@@ -70,7 +70,7 @@ jobs:
         run: python conformance/run.py
 
   readme-table:
-    name: the README table is reproducible
+    name: the published numbers are reproducible
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
@@ -79,8 +79,11 @@ jobs:
           python-version: "3.12"
       - name: Install the bench extra
         run: pip install -e ".[bench]"
-      - name: Recompute every row
+      - name: Recompute every row of the token table
         run: python bench/check_readme_table.py
+      # The query-cost table is quoted in TWO documents, so it has two chances to go stale; both are checked against a live run of the CLI
+      - name: Recompute what a query costs
+        run: python bench/query_cost.py --check
 
   extras:
     name: every extra installs
