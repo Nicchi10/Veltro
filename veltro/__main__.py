@@ -157,7 +157,7 @@ def command_parse(arguments) -> int:
     Parse a '.vel', report it, validate it, and write the JSON model
     """
     try:
-        model = parse_file(arguments.source, derive_associations=not arguments.no_derive)
+        model = parse_file(arguments.source, derive_associations=not arguments.no_derive, derive_signatures=arguments.derive_from_signatures)
     except VeltroSyntaxError as error:
         print(f"[ERROR] - syntax: {error}")
         return 1
@@ -184,7 +184,7 @@ def command_parse(arguments) -> int:
     return 0
 
 
-def load_for_query(source: str):
+def load_for_query(source: str, derive_signatures: bool = False):
     """
 
     Read a '.vel' and the source index sitting next to it, for a read-only
@@ -192,12 +192,13 @@ def load_for_query(source: str):
 
     Args:
         source (str): path to the '.vel'
+        derive_signatures (bool): also derive 'depend' edges from method signatures
 
     Returns:
         (model, source_index): the index is None when it has not been generated
 
     """
-    model = parse_file(source)
+    model = parse_file(source, derive_signatures=derive_signatures)
     return model, load_index_beside(source)
 
 
@@ -284,7 +285,7 @@ def command_deps(arguments) -> int:
     """
     List what a type touches and what touches it
     """
-    model, _source_index = load_for_query(arguments.source)
+    model, _source_index = load_for_query(arguments.source, arguments.derive_from_signatures)
     node, candidates = resolve_one(model, arguments.type)
     if node is None:
         return report_ambiguous(arguments.type, candidates)
@@ -365,6 +366,7 @@ def build_parser():
     parse_command.add_argument("source", help="path to the .vel file")
     parse_command.add_argument("--out", help="where to write the JSON model")
     parse_command.add_argument("--no-derive", action="store_true", help="do not derive association edges from field types")
+    parse_command.add_argument("--derive-from-signatures", action="store_true", help="also derive 'depend' edges from method argument and return types (opt-in)")
     parse_command.set_defaults(run=command_parse)
 
     find_command = subparsers.add_parser("find", help="list the types matching a name")
@@ -387,6 +389,7 @@ def build_parser():
     deps_command.add_argument("type", help="a node id, or a simple name when unambiguous")
     deps_command.add_argument("--direction", choices=["in", "out", "both"], default="both")
     deps_command.add_argument("--limit", type=int, default=30, help="how many per direction (default 30)")
+    deps_command.add_argument("--derive-from-signatures", action="store_true", help="also count dependencies taken from method signatures (opt-in)")
     deps_command.set_defaults(run=command_deps)
 
     map_command = subparsers.add_parser("map", help="print a slice of the graph as .vel")

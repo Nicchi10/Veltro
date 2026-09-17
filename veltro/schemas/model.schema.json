@@ -15,7 +15,7 @@
     },
     "edges": {
       "type": "array",
-      "description": "Relations between nodes, `derived: true` means the viewer inferred it from a member type rather than reading it from a rel table",
+      "description": "Relations between nodes, `derived: true` means it was inferred from a member rather than read from a rel table: an `assoc` from a field type, or (opt-in, SPEC 6.2) a `depend` from a method signature",
       "items": { "$ref": "#/definitions/edge" }
     }
   },

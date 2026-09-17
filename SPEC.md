@@ -171,9 +171,9 @@ $Success() ValidationResult                <- `$` prefix = static
   from UML import), is type-only: `Route(ILlmInvocation)`
 - The return type follows the `)` after a single space; **absent = void**.
   Constructors are written like any other method (e.g. `New(...)`) and are
-  modelled as void in v0, telling a constructor apart from a void method is
-  deferred until edges are derived from method signatures (today they are
-  derived only from field types).
+  modelled as void. Deriving edges from signatures (§6.2) does not need to tell
+  them apart: a constructor's parameters are dependencies exactly like any other
+  method's, so the model keeps no constructor flag.
 
 ### 4.3 Visibility & modifiers
 
@@ -239,12 +239,35 @@ References are simple names when unique, else module-qualified.
 |-------------|----------------------|----------|-------------------|
 | `extend`    | generalization       | `<\|--`  | written           |
 | `impl`      | realization          | `<\|..`  | written           |
-| `depend`    | dependency           | `..>`    | written           |
-| `assoc`     | association          | `-->`    | derived from member type |
+| `depend`    | dependency           | `..>`    | written / derived from a signature (opt-in, §6.2) |
+| `assoc`     | association          | `-->`    | derived from a field type |
 | `aggregate` | aggregation          | `o--`    | derived / written |
 | `compose`   | composition          | `*--`    | derived / written |
 
 An explicit row wins over a derived edge between the same pair.
+
+### 6.2 Dependencies derived from signatures (opt-in)
+
+A type that receives its collaborators through a constructor or a method
+(`Service(repository Repository)`, `setLogger(logger Logger)`) holds no field of
+their type, so §0.2's field-based derivation gives it no edge. A parser MAY
+offer, **off by default**, a second derivation:
+
+- every type named in a method's argument types or return type becomes a
+  `depend` edge marked `derived: true`, never `assoc`: a parameter is "uses a",
+  a field is "holds a", and the model keeps them distinct;
+- the same filters as field derivation: names that are not types of the model
+  (primitives, external types) and self references produce nothing;
+- a pair that already has an edge, written or derived from a field, keeps it,
+  because that edge says more than a signature does; a pair named by several
+  signatures is one edge.
+
+It is opt-in because it changes the graph, and with it the answer to "what does
+`X` depend on" for anything built from the model. Measured on the shipped
+examples (`python bench/signature_edges.py`) it adds 0.2x to 1.4x the edges -
+most on NestJS, least on pydantic - and roughly halves the types with no edge
+at all. A conforming parser run with default options derives nothing from a
+signature (conformance case `signature_not_derived`).
 
 ---
 

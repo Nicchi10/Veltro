@@ -53,6 +53,7 @@ python -m veltro parse examples/pydantic.vel --no-derive
 |--------|---------|
 | `--out PATH` | where to write the JSON (default: next to the source, `.model.json`) |
 | `--no-derive` | do not derive association edges from field types |
+| `--derive-from-signatures` | also derive `depend` edges from method argument and return types ([SPEC §6.2](SPEC.md)) |
 
 Validation runs the model against
 [`model.schema.json`](veltro/schemas/model.schema.json) and the one rule the
@@ -127,9 +128,30 @@ in (0):
 |--------|---------|
 | `--direction in\|out\|both` | default `both` |
 | `--limit N` | how many per direction (default 30) |
+| `--derive-from-signatures` | also count what the type receives or returns through its methods |
 
 Edges derived from a field type are marked `(derived)`, so a written
 inheritance relation is never confused with an association Veltro inferred.
+
+By default a dependency passed in through a constructor or a method is
+invisible, because associations are derived from **fields**. `BeanFactoryAware`
+receives its `BeanFactory` through a setter and holds no field of that type:
+
+```bash
+python -m veltro deps examples/spring-beans.vel BeanFactoryAware --derive-from-signatures
+```
+
+```
+out (2):
+  extend     org.springframework.beans.factory.Aware
+  depend     org.springframework.beans.factory.BeanFactory  (derived)
+in (8):
+  ...
+```
+
+Without the flag the `depend` row is not there. It is opt-in because it changes
+the graph - 0.2x to 1.4x more edges across the shipped examples
+(`python bench/signature_edges.py`).
 
 ## `map` - a slice of the graph
 

@@ -638,10 +638,73 @@ def derive_association_edges(nodes: list[dict[str, Any]], explicit_edges: list[d
 
     return derived_edges
 
+def derive_signature_edges(nodes: list[dict[str, Any]], existing_edges: list[dict[str, Any]], name_index: dict[str, str]) -> list[dict[str, Any]]:
+    """
+    Create dependency edges from the types in method signatures (OPT-IN).
+
+    A codebase that wires its dependencies through constructor or method
+    parameters ('BeanFactoryAware.setBeanFactory(BeanFactory)', constructor
+    injection in Spring and NestJS) holds no field of that type, so the
+    field-based derivation finds nothing. Argument and return types say "this
+    type uses that one", which is a dependency, so they become 'depend' edges
+    marked 'derived: True' - never 'assoc', so a consumer can still tell "holds
+    a" from "uses a".
+
+    Constructors need no special treatment: a constructor is a method, and its
+    parameters are dependencies like any other method's.
+
+    A pair that already has an edge (written in 'rel', or derived from a field)
+    is skipped: that edge says more than a signature does.
+
+    Args:
+        nodes (list[dict[str, Any]]): the parsed type nodes
+        existing_edges (list[dict[str, Any]]): every edge already in the model
+        name_index (dict[str, str]): maps names to node ids
+
+    Returns:
+        list[dict[str, Any]]: the derived dependency edges (marked 'derived')
+    """
+    covered_pairs = set()
+    for edge in existing_edges:
+        covered_pairs.add((edge["from"], edge["to"]))
+
+    derived_edges = []
+
+    for node in nodes:
+        from_id = node["id"]
+        for method in node.get("methods", []):
+            type_strings = []
+            for argument in method.get("args", []):
+                type_strings.append(argument.get("type", ""))
+            type_strings.append(method.get("ret", ""))
+
+            for type_string in type_strings:
+                for referenced_name in extract_type_names(type_string or ""):
+                    target_id = name_index.get(referenced_name)
+
+                    # Same filters as the field derivation: unknown names, self references, pairs already said
+                    if target_id is None:
+                        continue
+                    if target_id == from_id:
+                        continue
+                    pair = (from_id, target_id)
+                    if pair in covered_pairs:
+                        continue
+
+                    covered_pairs.add(pair)
+                    derived_edges.append({
+                        "from": from_id,
+                        "kind": "depend",
+                        "to": target_id,
+                        "derived": True,
+                    })
+
+    return derived_edges
+
 
 # ============ MAIN PARSING LOOP ============
 
-def parse_text(text: str, derive_associations=True) -> dict[str, Any]:
+def parse_text(text: str, derive_associations=True, derive_signatures=False) -> dict[str, Any]:
     """
    Analyzes the Veltro source code and transforms it into a graph model.
 
@@ -659,6 +722,9 @@ def parse_text(text: str, derive_associations=True) -> dict[str, Any]:
     Args:
         text (str): The '.vel' file content to analyze
         derive_associations (bool): If True, automaticaly adds the relationships derived to fields kind
+        derive_signatures (bool): If True, also adds 'depend' edges derived from method argument and
+            return types. Off by default: it changes the graph (up to 1.4x the edges on nest), and so the
+            ground truth of anything generated from it
 
     Returns:
         dict[str, Any]: The resulting model containing 'veltro' (version), 'nodes' (list of classes/interfaces) and 'edges' (relationships)
@@ -758,16 +824,22 @@ def parse_text(text: str, derive_associations=True) -> dict[str, Any]:
         derived = derive_association_edges(model["nodes"], explicit_edges, name_index)
         model["edges"].extend(derived)
 
+    # After the field associations, so a pair that holds a field keeps its stronger 'assoc'
+    if derive_signatures:
+        derived = derive_signature_edges(model["nodes"], model["edges"], name_index)
+        model["edges"].extend(derived)
+
     return model
 
-def parse_file(path, derive_associations=True):
+def parse_file(path, derive_associations=True, derive_signatures=False):
     """
     Reads a '.vel' file from disk and parse it
-    
+
     Args:
         path (Path): to '.vel' file
         derive_associations (bool): parser command input
+        derive_signatures (bool): also derive 'depend' edges from method signatures
     """
     with open(path, encoding="utf-8") as source_file:
         text = source_file.read()
-    return parse_text(text, derive_associations)
+    return parse_text(text, derive_associations, derive_signatures)

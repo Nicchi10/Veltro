@@ -1,0 +1,46 @@
+{
+  "veltro": 1,
+  "nodes": [
+    {
+      "id": "m.A",
+      "kind": "class",
+      "name": "A",
+      "module": "m",
+      "fields": [],
+      "methods": [
+        {
+          "vis": "+",
+          "name": "A",
+          "args": [
+            {
+              "name": "b",
+              "type": "B"
+            }
+          ]
+        },
+        {
+          "vis": "+",
+          "name": "make",
+          "ret": "C"
+        }
+      ]
+    },
+    {
+      "id": "m.B",
+      "kind": "class",
+      "name": "B",
+      "module": "m",
+      "fields": [],
+      "methods": []
+    },
+    {
+      "id": "m.C",
+      "kind": "class",
+      "name": "C",
+      "module": "m",
+      "fields": [],
+      "methods": []
+    }
+  ],
+  "edges": []
+}
