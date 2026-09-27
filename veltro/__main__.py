@@ -19,8 +19,8 @@ import jsonschema
 from veltro.parser import parse_file, VeltroSyntaxError
 from veltro.export.vel import render_node
 from veltro.index import read_span, spans_of
-from veltro.query import (edges_of, find_types, load_index_beside, location_line,
-                          neighbourhood_ids, resolve_one, slice_vel)
+from veltro.query import (budgeted_ids, edges_of, find_types, load_index_beside,
+                          location_line, neighbourhood_ids, resolve_one, slice_vel)
 
 
 def schema_path(name: str = "model.schema.json"):
@@ -306,17 +306,62 @@ def command_deps(arguments) -> int:
     return 0
 
 
+def token_counter(encoding_name: str):
+    """
+
+    A text -> token count function, or None when no tokenizer is installed.
+
+    A budget is a promise, so it is not approximated. Measured on real slices of
+    the shipped examples, a 'characters / 4' estimate runs from -22% to +55%
+    against the real count and a lexical one from -48% to +44%: a budget that
+    can overshoot by half is not a budget. So '--budget' asks for a tokenizer
+    and refuses without one, the same way 'show' refuses an ambiguous name.
+
+    Args:
+        encoding_name (str): a tiktoken encoding, e.g. 'o200k_base'
+
+    Returns:
+        callable | None: the counter, or None when tiktoken is absent
+
+    """
+    try:
+        import tiktoken
+    except ImportError:
+        return None
+
+    encoder = tiktoken.get_encoding(encoding_name)
+
+    def count(text: str) -> int:
+        return len(encoder.encode(text))
+
+    return count
+
+
 def command_map(arguments) -> int:
     """
     Print a slice of the graph as '.vel', ready to drop into a context
     """
+    measure = None
+    if arguments.budget is not None:
+        if arguments.budget <= 0:
+            print("[ERROR] - --budget must be a positive number of tokens", file=sys.stderr)
+            return 1
+        measure = token_counter(arguments.encoding)
+        if measure is None:
+            print("[ERROR] - --budget needs a tokenizer: pip install 'veltro[tokenizer]'", file=sys.stderr)
+            return 1
+
     model, _source_index = load_for_query(arguments.source)
 
     if arguments.around:
         node, candidates = resolve_one(model, arguments.around)
         if node is None:
             return report_ambiguous(arguments.around, candidates)
-        wanted = neighbourhood_ids(model, node["id"], arguments.depth)
+        # With a budget and no explicit --depth, walk as far as the graph goes and let the budget decide where to stop, which is the whole point.
+        depth = arguments.depth
+        if depth is None:
+            depth = len(model["nodes"]) if arguments.budget is not None else 1
+        wanted = neighbourhood_ids(model, node["id"], depth)
     elif arguments.module:
         wanted = []
         for node in find_types(model, "", None, arguments.module):
@@ -325,6 +370,16 @@ def command_map(arguments) -> int:
         wanted = []
         for node in model["nodes"]:
             wanted.append(node["id"])
+
+    if measure is not None:
+        asked = len(wanted)
+        wanted = budgeted_ids(model, wanted, arguments.budget, measure)
+        if not wanted:
+            print(f"[ERROR] - nothing fits in {arguments.budget} tokens, not even one type", file=sys.stderr)
+            return 1
+        # stderr, so stdout stays a clean '.vel' that can be piped
+        spent = measure(slice_vel(model, wanted))
+        print(f"[INFO] - {len(wanted)} of {asked} types, {spent} of {arguments.budget} tokens", file=sys.stderr)
 
     print(slice_vel(model, wanted), end="")
     return 0
@@ -396,7 +451,9 @@ def build_parser():
     map_command.add_argument("source", help="path to the .vel file")
     map_command.add_argument("--module", help="only the types of this module (prefix match)")
     map_command.add_argument("--around", help="only the neighbourhood of this type")
-    map_command.add_argument("--depth", type=int, default=1, help="how many relations to follow from --around (default 1)")
+    map_command.add_argument("--depth", type=int, default=None, help="how many relations to follow from --around (default 1, or as far as the budget allows with --budget)")
+    map_command.add_argument("--budget", type=int, help="keep the slice under this many tokens, nearest types first (needs the [tokenizer] extra)")
+    map_command.add_argument("--encoding", default="o200k_base", help="the tiktoken encoding --budget counts with (default o200k_base)")
     map_command.set_defaults(run=command_map)
 
     return parser

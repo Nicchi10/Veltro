@@ -179,12 +179,40 @@ Base64Encoder extend EncoderProtocol
 | option | meaning |
 |--------|---------|
 | `--around TYPE` | only this type's neighbourhood |
-| `--depth N` | how many relations to follow from `--around` (default 1) |
+| `--depth N` | how many relations to follow from `--around` (default 1, or as far as the budget allows with `--budget`) |
 | `--module PREFIX` | only the types of this module |
+| `--budget N` | keep the slice under N tokens, nearest types first |
+| `--encoding NAME` | the tiktoken encoding `--budget` counts with (default `o200k_base`) |
 
-With neither option it prints the whole graph, which is a round trip through the
+With none of them it prints the whole graph, which is a round trip through the
 canonical serializer rather than a copy of the input: indentation is dropped,
 generics are normalised, repeated declarations are merged.
+
+### `--budget`: as much architecture as fits
+
+An agent has a context window, not a wish. `--budget` walks outward from the
+subject and stops at the last type that still fits:
+
+```bash
+python -m veltro map examples/Orleans.vel --around Silo --budget 2000
+```
+
+```
+[INFO] - 5 of 4872 types, 1513 of 2000 tokens
+```
+
+(the report goes to **stderr**, so stdout stays a clean `.vel` you can pipe.)
+
+What gets dropped is what is furthest away: the walk is breadth-first, so the
+budget is spent on the subject and its nearest neighbours first. Without an
+explicit `--depth` the walk goes as far as the graph allows and the budget
+alone decides where to stop.
+
+**It refuses to run without a tokenizer** (`pip install "veltro[tokenizer]"`),
+rather than estimating. Measured on real slices of the shipped examples, a
+`characters / 4` estimate lands between −22% and +55% of the true count and a
+lexical one between −48% and +44%. A budget that can overshoot by half is not a
+budget, so this follows the same rule as `show`: refuse rather than guess.
 
 ---
 

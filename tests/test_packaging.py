@@ -15,6 +15,7 @@ Run with:  python -m unittest discover tests
 """
 
 import ast
+import tempfile
 import os
 import sys
 import unittest
@@ -32,6 +33,10 @@ SCHEMAS_DIR = os.path.join(PACKAGE_DIR, "schemas")
 EXTRA_MODULES = ("tree_sitter_csharp.py", "tree_sitter_typescript.py")
 
 CORE_DEPENDENCIES = {"jsonschema"}
+
+# Allowed in the package, but ONLY as a guarded import: the feature that needs it must degrade into a readable error instead of a traceback. 'tiktoken' is
+# 'map --budget', which refuses to run rather than estimate a token count
+OPTIONAL_DEPENDENCIES = {"tiktoken"}
 
 
 def core_source_files():
@@ -84,6 +89,55 @@ def imported_root_modules(path: str):
     return roots
 
 
+def guarded_modules(path: str):
+    """
+
+    The top-level module names imported inside a 'try' that catches ImportError.
+
+    That shape is what turns a missing package into a readable message instead
+    of a traceback, so it is the only way a non-core dependency may appear in
+    the package at all.
+
+    Args:
+        path (str): the '.py' file to read
+
+    Returns:
+        set[str]: the root of every optionally-imported module
+
+    """
+    with open(path, encoding="utf-8") as source_file:
+        tree = ast.parse(source_file.read(), filename=path)
+
+    guarded = set()
+    for node in ast.walk(tree):
+        if not isinstance(node, ast.Try):
+            continue
+
+        catches_import_error = False
+        for handler in node.handlers:
+            names = []
+            if isinstance(handler.type, ast.Name):
+                names = [handler.type]
+            elif isinstance(handler.type, ast.Tuple):
+                names = handler.type.elts
+            for name in names:
+                if isinstance(name, ast.Name) and name.id in ("ImportError", "ModuleNotFoundError"):
+                    catches_import_error = True
+
+        if not catches_import_error:
+            continue
+
+        for statement in node.body:
+            for inner in ast.walk(statement):
+                if isinstance(inner, ast.Import):
+                    for alias in inner.names:
+                        guarded.add(alias.name.split(".")[0])
+                elif isinstance(inner, ast.ImportFrom):
+                    if inner.level == 0 and inner.module:
+                        guarded.add(inner.module.split(".")[0])
+    return guarded
+
+
 class TestSchemasShipWithTheCode(unittest.TestCase):
 
     def test_both_schemas_are_inside_the_package(self):
@@ -114,8 +168,49 @@ class TestCoreStaysThin(unittest.TestCase):
     def test_core_imports_nothing_but_the_stdlib_and_jsonschema(self):
         allowed = set(sys.stdlib_module_names) | CORE_DEPENDENCIES | {"veltro"}
         for path in core_source_files():
-            extra = imported_root_modules(path) - allowed
+            # an optional dependency counts as allowed only where it is guarded
+            permitted = allowed | (OPTIONAL_DEPENDENCIES & guarded_modules(path))
+            extra = imported_root_modules(path) - permitted
             self.assertEqual(extra, set(), f"{os.path.relpath(path, REPO_ROOT)} imports {sorted(extra)}, which the core does not install")
+
+
+class TestTheGuardedImportRule(unittest.TestCase):
+    """
+    The exemption for an optional dependency must not become a blanket
+    allowlist: it has to hold only where the import is actually guarded.
+    """
+
+    def module_holding(self, source: str) -> str:
+        directory = tempfile.mkdtemp()
+        path = os.path.join(directory, "sample.py")
+        with open(path, "w", encoding="utf-8", newline="\n") as sample:
+            sample.write(source)
+        return path
+
+    def test_a_guarded_import_is_recognised(self):
+        path = self.module_holding("try:\n    import tiktoken\nexcept ImportError:\n    tiktoken = None\n")
+        self.assertEqual(guarded_modules(path), {"tiktoken"})
+
+    def test_module_not_found_error_counts_too(self):
+        path = self.module_holding("try:\n    import tiktoken\nexcept ModuleNotFoundError:\n    tiktoken = None\n")
+        self.assertEqual(guarded_modules(path), {"tiktoken"})
+
+    def test_a_tuple_of_caught_errors_counts(self):
+        path = self.module_holding("try:\n    import tiktoken\nexcept (ValueError, ImportError):\n    tiktoken = None\n")
+        self.assertEqual(guarded_modules(path), {"tiktoken"})
+
+    def test_a_bare_import_is_not_guarded(self):
+        path = self.module_holding("import tiktoken\n")
+        self.assertEqual(guarded_modules(path), set())
+
+    def test_a_try_that_catches_something_else_does_not_count(self):
+        path = self.module_holding("try:\n    import tiktoken\nexcept ValueError:\n    pass\n")
+        self.assertEqual(guarded_modules(path), set())
+
+    def test_the_real_cli_guards_its_optional_dependency(self):
+        path = os.path.join(PACKAGE_DIR, "__main__.py")
+        self.assertIn("tiktoken", imported_root_modules(path))
+        self.assertIn("tiktoken", guarded_modules(path), "map --budget must degrade into a message, not a traceback")
 
 
 if __name__ == "__main__":

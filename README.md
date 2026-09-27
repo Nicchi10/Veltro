@@ -130,6 +130,7 @@ python -m veltro find  examples/pydantic.vel Encoder          # which types are 
 python -m veltro show  examples/pydantic.vel Base64Encoder    # one type, as .vel
 python -m veltro deps  examples/pydantic.vel Base64Encoder    # what it touches, what touches it
 python -m veltro map   examples/Orleans.vel --around Silo --depth 1   # a slice of the graph
+python -m veltro map   examples/Orleans.vel --around Silo --budget 2000  # as much as fits
 ```
 
 Measured on Orleans, against reading the whole file
@@ -143,7 +144,11 @@ Measured on Orleans, against reading the whole file
 | `deps Silo` | 163 | **0.02%** |
 
 `show` and `map` print valid `.vel`, so a slice goes straight back into a
-prompt. A bare name that means two types is refused, with the candidates
+prompt. `map --budget N` is the one an agent wants: it walks outward from a
+type and stops at the last one that still fits in N tokens, nearest first. It
+needs a real tokenizer and refuses without one, because a measured `chars / 4`
+estimate is off by up to +55% on real slices and a budget that can overshoot by
+half is not a budget. A bare name that means two types is refused, with the candidates
 listed, rather than silently answered about the wrong one. And with the source
 index the extractor writes beside the `.vel`, `show --code` prints the
 declaration's actual source.

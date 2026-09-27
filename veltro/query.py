@@ -237,6 +237,54 @@ def slice_vel(model: dict, wanted_ids) -> str:
     return export_vel(sub_model(model, wanted_ids))
 
 
+def budgeted_ids(model: dict, ordered_ids: list, budget: int, measure) -> list:
+    """
+
+    The longest PREFIX of 'ordered_ids' whose slice fits in 'budget' tokens.
+
+    A prefix, not a selection: the caller decides what matters by the order it
+    passes in. From 'neighbourhood_ids' that order is breadth-first, so the
+    budget is spent on the closest types first and what gets dropped is the
+    furthest away, which is the honest thing to lose.
+
+    'measure' is injected rather than imported. Counting tokens for real needs a
+    tokenizer, which is not a dependency of the core, and this module must stay
+    importable with nothing but the standard library. It also keeps the rule
+    testable without one.
+
+    The rendered size only grows as nodes are added, so the fit is found by
+    bisection: a handful of renders instead of one per node, which matters when
+    the graph has thousands of them.
+
+    Args:
+        model (dict): a type-graph model
+        ordered_ids (list[str]): candidate ids, most wanted first
+        budget (int): the most tokens the rendered slice may cost
+        measure (callable): text -> token count
+
+    Returns:
+        list[str]: the prefix that fits, empty when even the first id does not
+
+    """
+    if not ordered_ids or budget <= 0:
+        return []
+
+    # Nothing to decide when the whole thing already fits
+    if measure(slice_vel(model, ordered_ids)) <= budget:
+        return list(ordered_ids)
+
+    low = 0                      # known to fit (the empty slice always does)
+    high = len(ordered_ids)      # known not to fit
+    while high - low > 1:
+        middle = (low + high) // 2
+        if measure(slice_vel(model, ordered_ids[:middle])) <= budget:
+            low = middle
+        else:
+            high = middle
+
+    return list(ordered_ids[:low])
+
+
 def location_line(source_index: dict, node_id: str) -> str:
     """
 
