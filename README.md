@@ -201,6 +201,7 @@ python bench/compare_formats.py
 
 # 3. just extract a Python package to .vel (writes the source index beside it)
 python -m veltro.extract.python_ast path/to/some/package --out build/out.vel
+#    virtualenvs, caches, build output and tests are pruned; it says what it skipped --exclude GLOB to skip more, --include-tests to keep the tests
 
 # 4. what a bounded answer costs against reading the whole graph
 python bench/query_cost.py
@@ -222,6 +223,7 @@ veltro/                        the Python package
   |--- __main__.py             the command line (see CLI.md)
   |--- export/                 model  ->  PlantUML / Mermaid / D2 (fair benchmarking, the Rosetta way out)
   |--- extract/                repository -> .vel file (cover more languages)
+  |     |--- walk.py           which files an extractor may read, shared by all of them
   |--- schemas/                the type-graph contract (nodes + edges) shared by every piece
 SPEC.md                        the .vel language specification
 CLI.md                         the command line reference

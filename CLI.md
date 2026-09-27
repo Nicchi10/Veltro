@@ -247,9 +247,43 @@ The extractors write it automatically:
 
 ```bash
 python -m veltro.extract.python_ast path/to/package --out build/thing.vel
+# [INFO] - 32 files read, 10 directories pruned (__pycache__, .git, build, tests, venv)
 # [INFO] - written: build/thing.vel
 # [INFO] - source index: build/thing.index.json  (<n> types)
 ```
+
+### What an extractor reads
+
+| language | command |
+|----------|---------|
+| Python | `python -m veltro.extract.python_ast <dir> --out x.vel` |
+| C# | `python -m veltro.extract.tree_sitter_csharp <dir> --out x.vel` |
+| TypeScript / JavaScript | `python -m veltro.extract.tree_sitter_typescript <dir> --out x.vel` |
+| Java | `veltro/extract/java/` (a standalone Java program, see its README) |
+
+All three share one pruning policy
+([`veltro/extract/walk.py`](veltro/extract/walk.py)) and print what they left
+out, because silence is how someone ends up believing their project has 25,000
+types. Pointing the Python extractor at this repository's root used to return
+exactly that, 99.6% of it from the virtualenv.
+
+Pruned everywhere: `.git`, `node_modules`, `venv` / `.venv` / `site-packages`,
+`__pycache__` and the other caches, `vendor`, `third_party`, `coverage`.
+Build output is pruned per language, `bin` / `obj` / `packages` for C#,
+`dist` / `out` / `build` for TypeScript, `build` / `dist` for Python, because a
+monorepo keeps its *source* in `packages` (nest and angular both do), and
+pruning that name everywhere would quietly return an empty graph.
+
+Test directories and test files (`tests/`, `test_*.py`, `*.spec.ts`, `*Tests.cs`)
+are skipped too: they mirror the production types and drown them.
+
+| option | meaning |
+|--------|---------|
+| `--exclude GLOB` | skip anything matching, relative to the source root (repeatable) |
+| `--include-tests` | read the tests as well |
+
+`.gitignore` is not read. A half-implemented ignore file silently drops real
+source, which is a worse failure than reading too much; use `--exclude`.
 
 - It lives outside the `.vel` on purpose. The `.vel` is what enters a
   model's context; a `file:line` on every type would cost tokens on every read,

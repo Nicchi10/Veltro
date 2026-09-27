@@ -51,6 +51,7 @@ if REPO_ROOT not in sys.path:
 
 from veltro.parser import parse_text
 from veltro.index import new_index, add_location, write_index, index_path_for
+from veltro.extract.walk import add_walk_arguments, describe, iter_source_files, new_report
 
 CSHARP = Language(tscsharp.language())
 
@@ -670,22 +671,38 @@ def render_vel(modules: dict, edges: list) -> str:
 
     return "\n".join(lines).rstrip() + "\n"
 
-def iter_csharp_files(directory: str):
+def iter_csharp_files(directory: str, keep_tests: bool = False, exclude=(), report: dict = None):
     """
-    Yield every .cs file path under a directory, recursively
-    """
-    for current_root, _dirs, files in os.walk(directory):
-        for file_name in sorted(files):
-            if file_name.endswith(".cs"):
-                yield os.path.join(current_root, file_name)
 
-def extract_project(directory: str):
+    Yield every '.cs' file worth extracting, recursively.
+
+    'bin', 'obj', 'packages' and the test projects are pruned by the shared
+    walk: build output holds generated copies of the same types, and a test
+    project mirrors the production ones.
+
+    Args:
+        directory (str): the source tree to scan
+        keep_tests (bool): read test files and directories too
+        exclude (iterable[str]): extra glob patterns to skip
+        report (dict): filled in with what was read and pruned
+
+    Yields:
+        str: absolute path of each '.cs' file
+
+    """
+    for absolute_path in iter_source_files(directory, (".cs",), keep_tests, exclude, report):
+        yield absolute_path
+
+def extract_project(directory: str, keep_tests: bool = False, exclude=(), report: dict = None):
     """
 
     Extract a whole C# source tree into '.vel' text.
 
     Args:
         directory (str): path to the source folder to scan
+        keep_tests (bool): read test files and directories too
+        exclude (iterable[str]): extra glob patterns to skip
+        report (dict): filled in with what the walk read and pruned
 
     Returns:
         (vel_text, stats, source_index):
@@ -700,7 +717,7 @@ def extract_project(directory: str):
     stats = {"class": 0, "interface": 0, "enum": 0}
     source_index = new_index(directory)
 
-    for path in iter_csharp_files(directory):
+    for path in iter_csharp_files(directory, keep_tests, exclude, report):
         with open(path, "rb") as source_file:
             source = source_file.read()
         tree = parser.parse(source)
@@ -730,9 +747,11 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description="Extract Veltro '.vel' from a C# source tree")
     parser.add_argument("source", help="path to the C# source directory")
     parser.add_argument("--out", help="where to write the .vel (default: stdout)")
+    add_walk_arguments(parser)
     arguments = parser.parse_args(argv)
 
-    vel_text, stats, source_index = extract_project(arguments.source)
+    report = new_report()
+    vel_text, stats, source_index = extract_project(arguments.source, arguments.include_tests, arguments.exclude, report)
     seen_types = stats["class"] + stats["interface"] + stats["enum"]
     unique_types = len(stats.get("ids", ()))
 
@@ -742,6 +761,7 @@ def main(argv=None):
     in_model = len(model["nodes"])
     audit = "MATCH" if in_model == unique_types else "MISMATCH"
 
+    print(f"[INFO] - {describe(report)}")
     print(f"[INFO] - types seen: {seen_types} ({stats['class']} classes, {stats['interface']} interfaces, {stats['enum']} enums)")
     if seen_types != unique_types:
         print(f"[INFO] - unique types: {unique_types}  (merged partial/duplicate declarations: {seen_types - unique_types})")

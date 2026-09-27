@@ -52,6 +52,7 @@ import argparse
 
 from veltro.parser import parse_text
 from veltro.index import new_index, add_location, write_index, index_path_for
+from veltro.extract.walk import add_walk_arguments, describe, iter_source_files, new_report
 
 
 # Base classes that map a class onto a different Veltro kind.
@@ -477,22 +478,33 @@ def extract_module(source: str, module_path: str):
 
 # ============ PROJECT WALK ============
 
-def iter_python_files(package_dir: str):
+def iter_python_files(package_dir: str, keep_tests: bool = False, exclude=(), report: dict = None):
     """
-    Yield (absolute_path, dotted_module) for every .py file under package_dir
+
+    Yield (absolute_path, dotted_module) for every .py file worth extracting.
+
+    The walk prunes virtualenvs, caches, build output and tests (see
+    veltro/extract/walk.py). Without that, pointing this at a project root
+    reads site-packages and reports someone else's architecture.
+
+    Args:
+        package_dir (str): the package to scan
+        keep_tests (bool): read test files and directories too
+        exclude (iterable[str]): extra glob patterns to skip
+        report (dict): filled in with what was read and pruned
+
+    Yields:
+        (str, str): absolute path and dotted module path
+
     """
     base = os.path.dirname(os.path.abspath(package_dir))
-    for current_root, _dirs, files in os.walk(package_dir):
-        for file_name in sorted(files):
-            if not file_name.endswith(".py"):
-                continue
-            absolute_path = os.path.join(current_root, file_name)
-            relative = os.path.relpath(absolute_path, base)
-            without_ext = relative[:-len(".py")]
-            dotted = without_ext.replace(os.sep, ".")
-            if dotted.endswith(".__init__"):
-                dotted = dotted[:-len(".__init__")]
-            yield absolute_path, dotted
+    for absolute_path in iter_source_files(package_dir, (".py",), keep_tests, exclude, report):
+        relative = os.path.relpath(absolute_path, base)
+        without_ext = relative[:-len(".py")]
+        dotted = without_ext.replace(os.sep, ".")
+        if dotted.endswith(".__init__"):
+            dotted = dotted[:-len(".__init__")]
+        yield absolute_path, dotted
 
 def count_type_names(type_ids) -> dict:
     """
@@ -550,13 +562,16 @@ def render_vel(modules: list, all_edges: list, name_counts: dict) -> str:
 
     return "\n".join(lines).rstrip() + "\n"
 
-def extract_project(package_dir: str):
+def extract_project(package_dir: str, keep_tests: bool = False, exclude=(), report: dict = None):
     """
 
     Extract a whole package directory into '.vel' text.
 
     Args:
         package_dir (str): path to the package to scan
+        keep_tests (bool): read test files and directories too
+        exclude (iterable[str]): extra glob patterns to skip
+        report (dict): filled in with what the walk read and pruned
 
     Returns:
         (vel_text, stats, source_index):
@@ -573,7 +588,7 @@ def extract_project(package_dir: str):
     base = os.path.dirname(os.path.abspath(package_dir))
     source_index = new_index(base)
 
-    for absolute_path, module_path in iter_python_files(package_dir):
+    for absolute_path, module_path in iter_python_files(package_dir, keep_tests, exclude, report):
         with open(absolute_path, encoding="utf-8") as source_file:
             source = source_file.read()
 
@@ -616,9 +631,11 @@ def main(argv=None):
     )
     parser.add_argument("package", help="path to the Python package directory")
     parser.add_argument("--out", help="where to write the .vel (default: stdout)")
+    add_walk_arguments(parser)
     arguments = parser.parse_args(argv)
 
-    vel_text, stats, source_index = extract_project(arguments.package)
+    report = new_report()
+    vel_text, stats, source_index = extract_project(arguments.package, arguments.include_tests, arguments.exclude, report)
 
     seen_types = stats["class"] + stats["interface"] + stats["enum"]
     unique_types = len(stats["ids"])
@@ -629,6 +646,7 @@ def main(argv=None):
     in_model = len(model["nodes"])
     audit = "MATCH" if in_model == unique_types else "MISMATCH"
 
+    print(f"[INFO] - {describe(report)}")
     print(f"[INFO] - modules: {stats['modules']}")
     print(f"[INFO] - types seen in AST: {seen_types} ({stats['class']} classes, {stats['interface']} interfaces,{stats['enum']} enums)")
     if seen_types != unique_types:

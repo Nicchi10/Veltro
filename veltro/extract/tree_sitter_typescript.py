@@ -55,6 +55,8 @@ if REPO_ROOT not in sys.path:
 
 from veltro.parser import parse_text
 from veltro.index import new_index, add_location, write_index, index_path_for
+from veltro.extract.walk import add_walk_arguments, describe, new_report
+from veltro.extract import walk as walk_module
 
 # Two grammars share this binding: 'typescript' rejects JSX but allows the '<T>expr' cast syntax, 'tsx' is the reverse. 
 # So .tsx/.jsx/.js (which may carry JSX) use the tsx grammar, .ts/.mts/.cts use the typescript one.
@@ -96,11 +98,8 @@ VALID_MEMBER_NAME = re.compile(r"^[A-Za-z_$][\w$]*$")
 SOURCE_EXTENSIONS = (".d.ts", ".tsx", ".ts", ".mts", ".cts", ".jsx", ".js", ".mjs", ".cjs")
 TSX_EXTENSIONS = (".tsx", ".jsx", ".js", ".mjs", ".cjs")
 
-# Directories that hold vendored code, build output or tests, never the architecture under study. Pruned during the walk.
-SKIP_DIRS = {"node_modules", "dist", "build", "out", ".git", "test", "tests", "__tests__", "__mocks__", "e2e"}
-
-# Test files mirror production types and would pollute the graph with fixtures (the NestJS lesson: integration/sample apps drowned the real framework).
-TEST_FILE_SUFFIXES = (".spec.ts", ".spec.tsx", ".spec.js", ".spec.jsx", ".test.ts", ".test.tsx", ".test.js", ".test.jsx")
+# The pruning policy used to live here as SKIP_DIRS / TEST_FILE_SUFFIXES. It now lives in veltro/extract/walk.py and covers every language: this extractor was
+# the only one that pruned anything, and the Python one was reading virtualenvs.
 
 # ============ TREE / NAME / TYPE HELPERS ============
 
@@ -805,27 +804,39 @@ def module_for(absolute_path: str, base: str) -> str:
         dotted = dotted[:-len(".index")]
     return dotted
 
-def iter_source_files(directory: str):
+def iter_source_files(directory: str, keep_tests: bool = False, exclude=(), report: dict = None):
     """
-    Yield every TS/JS source file path under a directory, recursively, pruning
-    vendored / build / test directories and *.spec / *.test files so the graph
-    is the production architecture, not fixtures (see SKIP_DIRS, TEST_FILE_SUFFIXES)
-    """
-    for current_root, dirs, files in os.walk(directory):
-        dirs[:] = [name for name in dirs if name not in SKIP_DIRS]
-        for file_name in sorted(files):
-            if file_name.endswith(TEST_FILE_SUFFIXES):
-                continue
-            if file_name.endswith(SOURCE_EXTENSIONS):
-                yield os.path.join(current_root, file_name)
 
-def extract_project(directory: str):
+    Yield every TS/JS source file worth extracting, recursively.
+
+    Pruning vendored, build and test directories is what keeps the graph the
+    production architecture rather than fixtures (the NestJS lesson: the sample
+    apps outnumbered the framework). The policy is shared with the other
+    extractors, in veltro/extract/walk.py.
+
+    Args:
+        directory (str): the source tree to scan
+        keep_tests (bool): read test files and directories too
+        exclude (iterable[str]): extra glob patterns to skip
+        report (dict): filled in with what was read and pruned
+
+    Yields:
+        str: absolute path of each source file
+
+    """
+    for absolute_path in walk_module.iter_source_files(directory, SOURCE_EXTENSIONS, keep_tests, exclude, report):
+        yield absolute_path
+
+def extract_project(directory: str, keep_tests: bool = False, exclude=(), report: dict = None):
     """
 
     Extract a whole TS/JS source tree into '.vel' text.
 
     Args:
         directory (str): path to the source folder to scan
+        keep_tests (bool): read test files and directories too
+        exclude (iterable[str]): extra glob patterns to skip
+        report (dict): filled in with what the walk read and pruned
 
     Returns:
         (vel_text, stats, source_index):
@@ -842,7 +853,7 @@ def extract_project(directory: str):
     base = os.path.dirname(os.path.abspath(directory))
     source_index = new_index(base)
 
-    for path in iter_source_files(directory):
+    for path in iter_source_files(directory, keep_tests, exclude, report):
         with open(path, "rb") as source_file:
             source = source_file.read()
         parser = Parser(grammar_for(path))
@@ -875,9 +886,11 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description="Extract Veltro '.vel' from a TypeScript/JavaScript source tree")
     parser.add_argument("source", help="path to the TS/JS source directory")
     parser.add_argument("--out", help="where to write the .vel (default: stdout)")
+    add_walk_arguments(parser)
     arguments = parser.parse_args(argv)
 
-    vel_text, stats, source_index = extract_project(arguments.source)
+    report = new_report()
+    vel_text, stats, source_index = extract_project(arguments.source, arguments.include_tests, arguments.exclude, report)
     seen_types = stats["class"] + stats["interface"] + stats["enum"]
     unique_types = len(stats.get("ids", ()))
 
@@ -887,6 +900,7 @@ def main(argv=None):
     in_model = len(model["nodes"])
     audit = "MATCH" if in_model == unique_types else "MISMATCH"
 
+    print(f"[INFO] - {describe(report)}")
     print(f"[INFO] - types seen: {seen_types} ({stats['class']} classes, {stats['interface']} interfaces, {stats['enum']} enums)")
     if seen_types != unique_types:
         print(f"[INFO] - unique types: {unique_types}  (merged duplicate declarations: {seen_types - unique_types})")
