@@ -118,6 +118,35 @@ away readability: it keeps one member per line (clean git diffs), modules, and
 the type-graph model, while the runners-up (yUML, Nomnoml) collapse each type
 onto a single unreadable line to compete.
 
+## From a repository to a map, in one command
+
+```bash
+pip install "veltro[extract]"
+veltro extract .
+```
+
+```
+[INFO] - found: java (1 files), python (33 files), typescript (2 files)
+[INFO] - python: 33 files, 1 types
+[INFO] - typescript: 2 files, 7 types
+[INFO] - 8 types, 2 relations
+[INFO] - written: Veltro.vel
+[INFO] - source index: Veltro.index.json  (8 types)
+[WARN] - 1 java files were found but not read: the Java extractor is a standalone Java program
+[WARN] - only 8 types in 35 files: Veltro models TYPES, so a repository built out of free functions gives it little to describe
+```
+
+One command, every language in the repository, **one** `.vel` and **one** source
+index mapping each type back to `file:line`. Virtualenvs, `node_modules`, build
+output and tests are pruned, and it prints what it skipped.
+
+Both warnings above are Veltro describing *itself*, and both are true. A
+language it found but could not read is named with the command that fixes it,
+because silence would read as "that language is not here". And when a codebase
+is built out of free functions rather than types, it says so instead of handing
+you an empty map: that is the format's blind spot, and you should learn it in
+the first thirty seconds, not the first afternoon.
+
 ## Query it, don't read it
 
 Being the cheapest format is not enough at scale. `examples/Orleans.vel` is
@@ -223,6 +252,7 @@ veltro/                        the Python package
   |--- __main__.py             the command line (see CLI.md)
   |--- export/                 model  ->  PlantUML / Mermaid / D2 (fair benchmarking, the Rosetta way out)
   |--- extract/                repository -> .vel file (cover more languages)
+  |     |--- project.py        a whole repo -> ONE .vel + ONE index, every language at once
   |     |--- walk.py           which files an extractor may read, shared by all of them
   |--- schemas/                the type-graph contract (nodes + edges) shared by every piece
 SPEC.md                        the .vel language specification
@@ -259,7 +289,7 @@ extract_java   |
 | Piece | Role |
 |-------|------|
 | [`SPEC.md`](SPEC.md) | The `.vel` grammar + relation-kind -> UML mapping |
-| [`CLI.md`](CLI.md) | The command line: `parse` / `find` / `show` / `deps` / `map` |
+| [`CLI.md`](CLI.md) | The command line: `extract` / `parse` / `find` / `show` / `deps` / `map` |
 | [`veltro/schemas/model.schema.json`](veltro/schemas/model.schema.json) | The intermediate type-graph schema (single source of truth) |
 | [`veltro/parser.py`](veltro/parser.py) | `.vel` -> model, with schema validation |
 | [`veltro/extract/python_ast.py`](veltro/extract/python_ast.py) | Python source -> `.vel` (deterministic, no LLM) |

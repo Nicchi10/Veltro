@@ -16,11 +16,12 @@ import os
 import sys
 import jsonschema
 
-from veltro.parser import parse_file, VeltroSyntaxError
+from veltro.parser import parse_file, parse_text, VeltroSyntaxError
 from veltro.export.vel import render_node
-from veltro.index import read_span, spans_of
+from veltro.index import index_path_for, read_span, spans_of, write_index
 from veltro.query import (budgeted_ids, edges_of, find_types, load_index_beside,
                           location_line, neighbourhood_ids, resolve_one, slice_vel)
+from veltro.extract.walk import add_walk_arguments
 
 
 def schema_path(name: str = "model.schema.json"):
@@ -181,6 +182,58 @@ def command_parse(arguments) -> int:
     # A model that breaks the contract must not pass quietly: the file is still written (it is what you need to debug), but the exit code says it failed
     if validation != "OK":
         return 1
+    return 0
+
+
+def command_extract(arguments) -> int:
+    """
+    Extract a whole repository into one '.vel' and one source index
+    """
+    from veltro.extract.project import extract_repository
+
+    if not os.path.isdir(arguments.repository):
+        print(f"[ERROR] - not a directory: {arguments.repository}")
+        return 1
+
+    languages = None
+    if arguments.lang:
+        languages = []
+        for name in arguments.lang.split(","):
+            languages.append(name.strip())
+
+    result = extract_repository(arguments.repository, languages, arguments.include_tests, arguments.exclude)
+
+    if not result["detected"]:
+        print(f"[ERROR] - no source files Veltro can read under {arguments.repository}")
+        return 1
+
+    found = []
+    for name in sorted(result["detected"]):
+        found.append(f"{name} ({result['detected'][name]} files)")
+    print(f"[INFO] - found: {', '.join(found)}")
+
+    for name in sorted(result["per_language"]):
+        counts = result["per_language"][name]
+        print(f"[INFO] - {name}: {counts['files']} files, {counts['types']} types")
+
+    model = parse_text(result["vel"])
+    print(f"[INFO] - {len(model['nodes'])} types, {len(model['edges'])} relations")
+
+    output_path = arguments.out
+    if not output_path:
+        output_path = os.path.basename(os.path.abspath(arguments.repository)) + ".vel"
+
+    with open(output_path, "w", encoding="utf-8", newline="\n") as out_file:
+        out_file.write(result["vel"])
+    print(f"[INFO] - written: {output_path}")
+
+    index_path = index_path_for(output_path)
+    write_index(result["index"], index_path)
+    print(f"[INFO] - source index: {index_path}  ({len(result['index']['locations'])} types)")
+
+    for note in result["notes"]:
+        print(f"[WARN] - {note}")
+
     return 0
 
 
@@ -387,9 +440,8 @@ def command_map(arguments) -> int:
 
 # ============ CLI ============
 
-# The bare form 'python -m veltro file.vel' predates the subcommands and is what
-# the docs and everyone's muscle memory use, so it keeps working as 'parse'.
-COMMANDS = ("parse", "find", "show", "deps", "map")
+# The bare form 'python -m veltro file.vel' predates the subcommands and is what the docs and everyone's muscle memory use, so it keeps working as 'parse'.
+COMMANDS = ("parse", "extract", "find", "show", "deps", "map")
 
 
 def normalise_argv(argv: list) -> list:
@@ -423,6 +475,13 @@ def build_parser():
     parse_command.add_argument("--no-derive", action="store_true", help="do not derive association edges from field types")
     parse_command.add_argument("--derive-from-signatures", action="store_true", help="also derive 'depend' edges from method argument and return types (opt-in)")
     parse_command.set_defaults(run=command_parse)
+
+    extract_command = subparsers.add_parser("extract", help="a whole repository -> one .vel and one source index")
+    extract_command.add_argument("repository", help="path to the repository to scan")
+    extract_command.add_argument("--out", help="where to write the .vel (default: <repository name>.vel here)")
+    extract_command.add_argument("--lang", help="comma-separated languages to read, e.g. 'python,typescript' (default: everything found)")
+    add_walk_arguments(extract_command)
+    extract_command.set_defaults(run=command_extract)
 
     find_command = subparsers.add_parser("find", help="list the types matching a name")
     find_command.add_argument("source", help="path to the .vel file")

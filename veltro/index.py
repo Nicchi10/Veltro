@@ -105,6 +105,33 @@ def add_location(index: dict, type_id: str, absolute_path: str, line: int, end_l
     index["locations"].setdefault(type_id, []).append(span)
 
 
+def merge_index(target: dict, extra: dict) -> None:
+    """
+
+    Fold one index into another, rebasing its paths onto the target's root.
+
+    A repository with more than one language is extracted once per language, and
+    each run roots its index where that language's sources begin. One '.vel'
+    needs one index, so the spans have to be rewritten relative to the common
+    root rather than concatenated: a 'file' recorded against a different root
+    would point at nothing.
+
+    Args:
+        target (dict): the index being built (modified in place)
+        extra (dict): another index, with its own root
+
+    """
+    for type_id in extra["locations"]:
+        for span in extra["locations"][type_id]:
+            absolute = os.path.join(extra["root"], span["file"])
+            relative = os.path.relpath(os.path.abspath(absolute), target["root"])
+            target["locations"].setdefault(type_id, []).append({
+                "file": posix_path(relative),
+                "line": span["line"],
+                "end_line": span["end_line"],
+            })
+
+
 def index_path_for(vel_path: str) -> str:
     """
 

@@ -2,12 +2,36 @@
 
 `python -m veltro <command>`, or just `veltro <command>` after `pip install`.
 
-Five commands: `parse` turns a `.vel` into the JSON model, and `find` / `show` /
-`deps` / `map` answer a question about the graph with a bounded payload.
+Six commands. `extract` turns a repository into a `.vel`, `parse` turns a
+`.vel` into the JSON model, and `find` / `show` / `deps` / `map` answer a
+question about the graph with a bounded payload.
 
 ```bash
-pip install veltro          # the core: jsonschema and nothing else
+pip install veltro                  # the core: jsonschema and nothing else
+pip install "veltro[extract]"       # + the C# and TypeScript extractors
 ```
+
+## Start here
+
+```bash
+veltro extract .            # your repository -> repo.vel + repo.index.json
+veltro find repo.vel Service
+veltro show repo.vel MyService --code
+```
+
+```
+[INFO] - found: java (1 files), python (33 files), typescript (2 files)
+[INFO] - python: 33 files, 1 types
+[INFO] - typescript: 2 files, 7 types
+[INFO] - 8 types, 2 relations
+[INFO] - written: Veltro.vel
+[INFO] - source index: Veltro.index.json  (8 types)
+[WARN] - 1 java files were found but not read: the Java extractor is a standalone Java program, see veltro/extract/java/
+[WARN] - only 8 types in 35 files: Veltro models TYPES, so a repository built out of free functions gives it little to describe
+```
+
+That is this repository describing itself, warnings included. Both are true and
+both are worth knowing before you build anything on the output.
 
 ## Why the query commands exist
 
@@ -62,6 +86,43 @@ written, it is what you need in order to debug it, but the command exits
 non-zero.
 
 `python -m veltro file.vel` (no command) still works and means `parse`.
+
+## `extract` - a repository into one `.vel`
+
+```bash
+veltro extract .
+veltro extract ../some-repo --out build/some-repo.vel
+veltro extract . --lang python,typescript
+veltro extract . --exclude "migrations/*" --include-tests
+```
+
+| option | meaning |
+|--------|---------|
+| `--out PATH` | where to write the `.vel` (default: `<repository name>.vel` here) |
+| `--lang a,b` | only these languages (default: everything found) |
+| `--exclude GLOB` | skip paths matching, relative to the repository root (repeatable) |
+| `--include-tests` | read test directories and test files too |
+
+It detects the languages by counting the source files that survive pruning, runs
+each extractor that applies, and writes **one** `.vel` plus **one** source
+index - the spans from every language rebased onto the repository root, so
+`show --code` works across all of them.
+
+It tells you what it could not do. A language that is present but unreadable
+is named, with the command that fixes it:
+
+```
+[WARN] - 1 typescript files were found but not read: needs the [extract] extra: pip install 'veltro[extract]'
+```
+
+Silence there would read as "there is no TypeScript in this repository", which
+is a different and false statement. Java is always reported this way: its
+extractor is a standalone Java program and cannot be driven from here.
+
+And it tells you when Veltro is the wrong tool. Veltro models types, so a
+codebase built out of free functions produces a nearly empty graph. Below one
+type per three source files it says so, rather than leaving you to deduce it
+from a small file.
 
 ## `find` - which types are there
 
