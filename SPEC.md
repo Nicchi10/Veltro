@@ -149,6 +149,12 @@ Methods are unaffected (the `(` tells them apart). Example: `+ module str`.
 
 ### 4.1 Fields
 
+The type is required: a line carrying only a name is a syntax error, not a
+field with an unknown type (conformance case `field_needs_a_type`). Tolerance
+about spacing is not tolerance of a missing type - a bare name is what a file
+cut short mid-write looks like, and accepting it produced a model that validated
+clean and told nobody.
+
 ```
 [<vis>] <name> <type> [= <default>]
 TokenBudget Int?                           <- public (implicit)

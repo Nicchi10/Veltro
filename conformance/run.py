@@ -98,9 +98,28 @@ def run_adapter(command: list, vel_text: str) -> dict:
         text=True,
         encoding="utf-8",
     )
-    if completed.returncode != 0:
-        raise RuntimeError(f"adapter failed ({completed.returncode}): {completed.stderr.strip()}")
-    return json.loads(completed.stdout)
+    return completed
+
+
+def is_rejection_case(stem: str) -> bool:
+    """
+
+    Whether a case asserts a REFUSAL rather than a model.
+
+    Half of the contract in README.md is "exits non-zero on a parse error", and
+    until this existed nothing tested it: every case carried a golden model, so
+    a parser that accepted malformed input and emitted something plausible
+    passed. A case with a '.rejected' file next to its '.vel' has no golden
+    model; it must make the adapter exit non-zero.
+
+    Args:
+        stem (str): the case name
+
+    Returns:
+        bool: True when the case expects a refusal
+
+    """
+    return os.path.exists(os.path.join(CASES_DIR, stem + ".rejected"))
 
 
 def find_cases() -> list:
@@ -140,7 +159,23 @@ def main(argv=None):
         with open(vel_path, encoding="utf-8") as vel_file:
             vel_text = vel_file.read()
 
-        actual = run_adapter(command, vel_text)
+        completed = run_adapter(command, vel_text)
+
+        if is_rejection_case(stem):
+            if completed.returncode != 0:
+                passed += 1
+                print(f"[PASS]   - {stem} (rejected, as it must be)")
+            else:
+                failed += 1
+                print(f"[FAIL]   - {stem}: the adapter accepted input it must refuse (exit 0)")
+            continue
+
+        if completed.returncode != 0:
+            failed += 1
+            print(f"[FAIL]   - {stem}: the adapter exited {completed.returncode}: {completed.stderr.strip()[:200]}")
+            continue
+
+        actual = json.loads(completed.stdout)
 
         if arguments.update:
             with open(expected_path, "w", encoding="utf-8", newline="\n") as expected_file:
@@ -162,7 +197,7 @@ def main(argv=None):
             print(" actual:   " + sort_key(canonicalize(actual)))
 
     if arguments.update:
-        print(f"[INFO] - blessed {len(stems)} cases")
+        print(f"[INFO] - blessed {len(stems) - sum(1 for stem in stems if is_rejection_case(stem))} cases")
         return 0
 
     print(f"[INFO] - {passed} passed, {failed} failed, {len(stems)} total")

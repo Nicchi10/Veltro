@@ -374,11 +374,28 @@ source, which is a worse failure than reading too much; use `--exclude`.
 Without an index everything still works except `show --code`, `show` and `find`
 just stop printing locations, and `show` says so.
 
-## Exit codes
+## Exit codes and error output
 
-`0` on success. Non-zero when a file does not parse, a model fails validation, a
-bare name is ambiguous, a type does not exist, or `--code` is asked for without
-an index.
+`0` on success, non-zero otherwise, and every failure prints one
+`[ERROR] - ...` line rather than a traceback:
+
+| failure | example output |
+|---------|----------------|
+| the file is not there | `[ERROR] - No such file or directory: nope.vel` |
+| a directory was given instead of a file | `[ERROR] - Permission denied: examples` (`Is a directory` on Linux) |
+| the file does not parse | `[ERROR] - syntax: line 4: a field needs a type, got only a name: bar -> bar` |
+| the model fails validation | `[ERROR] - node ids must be unique, 2 repeated: ...` |
+| a bare name is ambiguous | `[ERROR] - 'BaseModel' is declared in 2 modules, say which:` |
+| the type does not exist | `[ERROR] - no type called 'Nope'` |
+| `--code` without an index | `[ERROR] - --code needs a source index next to the .vel` |
+| `--budget` without a tokenizer | `[ERROR] - --budget needs a tokenizer: pip install 'veltro[tokenizer]'` |
+| `--strict` and a member looks truncated | `[ERROR] - A.Foo.bar: default has unbalanced parentheses -> (` |
+
+A missing file is the first mistake everyone makes, and it used to come out as a
+raw `FileNotFoundError` traceback on all five reading commands.
+
+`map` writes its errors and its budget report to **stderr**, so its stdout stays
+a clean `.vel` you can pipe.
 
 ## Using it from Python
 

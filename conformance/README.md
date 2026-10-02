@@ -16,6 +16,20 @@ A conforming parser is a command that:
 - writes the model JSON (per [`model.schema.json`](../veltro/schemas/model.schema.json)) on **stdout**
 - exits non-zero on a parse error
 
+### Cases that must be REFUSED
+
+Most cases pin what a parser must produce. A case with a `<rule>.rejected` file
+instead of a `<rule>.expected.json` pins the other half of the contract: the
+adapter must exit non-zero on it, and whatever it writes to stdout is
+ignored.
+
+That half used to be untested. Every case carried a golden model, so a parser
+that accepted malformed input and emitted something plausible passed the suite -
+which is precisely what this one did before `field_needs_a_type` existed: a
+field line with a name and no type was accepted with an empty type and then
+validated clean. The `.rejected` file explains why, in prose, for whoever
+implements the second parser.
+
 ## Layout
 
 ```

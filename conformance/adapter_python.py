@@ -21,7 +21,7 @@ REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if REPO_ROOT not in sys.path:
     sys.path.insert(0, REPO_ROOT)
 
-from veltro.parser import parse_text
+from veltro.parser import parse_text, VeltroSyntaxError
 
 
 def main():
@@ -29,7 +29,14 @@ def main():
     Read '.vel' from stdin, write the model JSON to stdout
     """
     text = sys.stdin.read()
-    model = parse_text(text)
+    try:
+        model = parse_text(text)
+    except VeltroSyntaxError as error:
+        # Exiting non-zero IS the contract for a parse error (see README.md), so
+        # the reference adapter has to demonstrate it properly: a readable line
+        # on stderr, nothing on stdout, and no traceback.
+        print(f"[ERROR] - syntax: {error}", file=sys.stderr)
+        return 1
     json.dump(model, sys.stdout, indent=2, ensure_ascii=False)
     sys.stdout.write("\n")
     return 0

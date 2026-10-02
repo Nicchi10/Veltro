@@ -107,7 +107,8 @@ def find_matching_paren(text: str, open_index: int) -> int:
             depth -= 1
             if depth == 0:
                 return index
-    raise ValueError(f"[ERROR] - unbalanced parentheses in {text}")
+    # No '[ERROR] -' prefix: the parse loop wraps this into a VeltroSyntaxError that adds the line number and the file's own formatting
+    raise ValueError(f"unbalanced parentheses in {text}")
 
 def extract_type_names(type_string: str) -> list[str]:
     """
@@ -173,9 +174,12 @@ def parse_field(visibility: str, body: str, is_static: bool) -> dict[str, Any]:
     
     pieces = body.split(None, 1) # [<name>, <type>]
     name = pieces[0]
-    type_string = ""
-    if len(pieces) > 1:
-        type_string = normalize_type(pieces[1])
+    if len(pieces) < 2 or not pieces[1].strip():
+        # SPEC 4.1 makes the type part of a field, so a bare name is not a tolerable spelling of anything: it is a line that was cut short. 
+        # It used to be accepted with type "" and then validate clean, so a file truncated mid-write produced a model nobody questioned. 
+        # Raised as a ValueError because this function does not know the line number, the parse loop turns it into a VeltroSyntaxError that does
+        raise ValueError(f"a field needs a type, got only a name: {name}")
+    type_string = normalize_type(pieces[1])
 
     field = {"vis": visibility, "name": name, "type": type_string}
     if default_value is not None:
@@ -788,7 +792,12 @@ def parse_text(text: str, derive_associations=True, derive_signatures=False) -> 
 
         # Inside a type, any other line is a member (field or method)
         if current_node is not None and not in_relation_block:
-            member_kind, member = parse_member_line(line)
+            try:
+                member_kind, member = parse_member_line(line)
+            except ValueError as error:
+                # The member helpers read a line, not a file, so they raise a plain ValueError. Here is the one place that knows which line
+                # it was, which is the difference between a usable error and a traceback: every other syntax failure says 'line N: ... -> text'
+                raise VeltroSyntaxError(line_number, line, str(error)) from error
             if member_kind == "field":
                 current_node["fields"].append(member)
             else:
@@ -830,6 +839,67 @@ def parse_text(text: str, derive_associations=True, derive_signatures=False) -> 
         model["edges"].extend(derived)
 
     return model
+
+def unbalanced_parentheses(text: str) -> bool:
+    """
+
+    Whether a piece of text closes every '(' it opens.
+
+    Args:
+        text (str): a default value
+
+    Returns:
+        bool: True when the parentheses do not balance
+
+    """
+    depth = 0
+    for character in text:
+        if character == "(":
+            depth += 1
+        elif character == ")":
+            depth -= 1
+            if depth < 0:
+                return True
+    return depth != 0
+
+
+def suspicious_members(model: dict[str, Any]) -> list[str]:
+    """
+
+    Members that parse cleanly but look like a file cut short (the '--strict' set).
+
+    These are NOT syntax errors, and making them errors would be wrong. A default
+    may legitimately contain a parenthesis - 'cache dict = field(default_factory=dict)'
+    is the case the whole field-versus-method rule exists for - so the parser
+    keeps accepting the line and a caller who would rather fail than import a
+    half-written file asks for this instead.
+
+    Only ONE check survives here, and the one that did not is the lesson. A
+    second '=' in a default looks like a line that was cut and rejoined, and it
+    was measured against every '.vel' this repository ships: 23 false
+    positives, every one legitimate. Strings that contain '=' (Kafka's config
+    documentation, 14 of them), a C# lambda '_ => Task.CompletedTask', and a
+    constant whose value IS '='. A default is defined as everything after the
+    FIRST '=', so a second one is within spec and real code is full of them. A
+    check that flags correct code is worse than no check. Do not add it back.
+
+    Args:
+        model (dict[str, Any]): a parsed model
+
+    Returns:
+        list[str]: one readable line per suspicious member, empty when clean
+
+    """
+    problems = []
+    for node in model.get("nodes", []):
+        for field in node.get("fields", []):
+            default = field.get("default")
+            if default is None:
+                continue
+            if unbalanced_parentheses(default):
+                problems.append(f"{node['id']}.{field['name']}: default has unbalanced parentheses -> {default}")
+    return problems
+
 
 def parse_file(path, derive_associations=True, derive_signatures=False):
     """

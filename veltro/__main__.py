@@ -16,7 +16,7 @@ import os
 import sys
 import jsonschema
 
-from veltro.parser import parse_file, parse_text, VeltroSyntaxError
+from veltro.parser import parse_file, parse_text, suspicious_members, VeltroSyntaxError
 from veltro.export.vel import render_node
 from veltro.index import index_path_for, read_span, spans_of, write_index
 from veltro.query import (budgeted_ids, edges_of, find_types, load_index_beside,
@@ -167,6 +167,16 @@ def command_parse(arguments) -> int:
     validation = validate_model(model)
     print(f"[INFO] - validation: {validation}")
 
+    # Tolerated by default, fatal on request: a default with unbalanced parentheses or a second '=' parses cleanly and may be perfectly legitimate,
+    # but it is also what a file truncated mid-write looks like. A pipeline would rather stop than import that.
+    suspicious = suspicious_members(model)
+    if suspicious:
+        label = "ERROR" if arguments.strict else "WARN"
+        for problem in suspicious:
+            print(f"[{label}] - {problem}")
+        if not arguments.strict:
+            print(f"[INFO] - {len(suspicious)} member(s) look truncated, --strict makes that an error")
+
     if arguments.out:
         output_path = arguments.out
     else:
@@ -181,6 +191,8 @@ def command_parse(arguments) -> int:
 
     # A model that breaks the contract must not pass quietly: the file is still written (it is what you need to debug), but the exit code says it failed
     if validation != "OK":
+        return 1
+    if suspicious and arguments.strict:
         return 1
     return 0
 
@@ -474,6 +486,7 @@ def build_parser():
     parse_command.add_argument("--out", help="where to write the JSON model")
     parse_command.add_argument("--no-derive", action="store_true", help="do not derive association edges from field types")
     parse_command.add_argument("--derive-from-signatures", action="store_true", help="also derive 'depend' edges from method argument and return types (opt-in)")
+    parse_command.add_argument("--strict", action="store_true", help="fail on members that parse cleanly but look truncated (a default with unbalanced parentheses or a second '=')")
     parse_command.set_defaults(run=command_parse)
 
     extract_command = subparsers.add_parser("extract", help="a whole repository -> one .vel and one source index")
@@ -524,7 +537,19 @@ def main(argv=None):
 
     parser = build_parser()
     arguments = parser.parse_args(normalise_argv(list(argv)))
-    return arguments.run(arguments)
+
+    # One net for every subcommand. Five of the six used to let a missing file escape as a traceback, which is the first mistake every user makes.
+    # OSError, not FileNotFoundError: a directory given instead of a file raises IsADirectoryError on POSIX and PermissionError on Windows.
+    try:
+        return arguments.run(arguments)
+    except VeltroSyntaxError as error:
+        print(f"[ERROR] - syntax: {error}")
+        return 1
+    except OSError as error:
+        name = error.filename if error.filename else "the file"
+        reason = error.strerror if error.strerror else error
+        print(f"[ERROR] - {reason}: {name}")
+        return 1
 
 if __name__ == "__main__":
     sys.exit(main())

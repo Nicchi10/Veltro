@@ -1,0 +1,4 @@
+A field line with a name and no type is not a tolerable spelling of anything:
+SPEC 4.1 makes the type part of a field. It used to be accepted with type ""
+and then validate clean, so a file truncated mid-write produced a model nobody
+questioned. A conforming parser must refuse it (exit non-zero).
