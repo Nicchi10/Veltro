@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-  <img src="images/veltro.png" alt="Veltro - a compact, AI-native language for documenting the static architecture of a codebase as a graph of types" width="200" />
+  <img src="https://raw.githubusercontent.com/Nicchi10/Veltro/main/images/veltro.png" alt="Veltro - a compact, AI-native language for documenting the static architecture of a codebase as a graph of types" width="200" />
 </p>
 
 <h1 align="center">Veltro</h1>
@@ -24,8 +24,8 @@
 
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="images/comprehension_vs_tokens-dark.png" />
-    <img alt="Same comprehension, fewer tokens: across pydantic (Python), spring (Java), MediatR (C#) and nest (TypeScript), Veltro reads as well as Mermaid, PlantUML and D2 (list F1 on Opus) while costing ~26% fewer tokens" src="images/comprehension_vs_tokens.png" width="720" />
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/Nicchi10/Veltro/main/images/comprehension_vs_tokens-dark.png" />
+    <img alt="Same comprehension, fewer tokens: across pydantic (Python), spring (Java), MediatR (C#) and nest (TypeScript), Veltro reads as well as Mermaid, PlantUML and D2 (list F1 on Opus) while costing ~26% fewer tokens" src="https://raw.githubusercontent.com/Nicchi10/Veltro/main/images/comprehension_vs_tokens.png" width="720" />
   </picture>
 </p>
 
@@ -76,8 +76,8 @@ and counted with `tiktoken` (`o200k_base`).
 
 On whole real projects, extracted then tokenised with one command per row
 (`python bench/scale_bench.py <package-or-.vel>`): Python via the AST extractor,
-Java via the [Java extractor](veltro/extract/java), C# via the
-[tree-sitter extractor](veltro/extract/tree_sitter_csharp.py):
+Java via the [Java extractor](https://github.com/Nicchi10/Veltro/tree/main/veltro/extract/java), C# via the
+[tree-sitter extractor](https://github.com/Nicchi10/Veltro/blob/main/veltro/extract/tree_sitter_csharp.py):
 
 | project | language | types | Veltro | Mermaid | PlantUML |
 |---------|----------|-------|--------|---------|----------|
@@ -91,7 +91,7 @@ Java via the [Java extractor](veltro/extract/java), C# via the
 | [Angular](https://github.com/angular/angular) (packages) | TS | 3,274 | 206,067 | +29% | +35% |
 
 Every row but Rich is recomputed on each push by
-[`bench/check_readme_table.py`](bench/check_readme_table.py) — a table nobody
+[`bench/check_readme_table.py`](https://github.com/Nicchi10/Veltro/blob/main/bench/check_readme_table.py), a table nobody
 re-measures goes stale in silence, and this one already had. Rich is the
 exception because no `rich.vel` is committed, so reproducing it needs a checkout
 of Rich itself.
@@ -182,9 +182,9 @@ listed, rather than silently answered about the wrong one. And with the source
 index the extractor writes beside the `.vel`, `show --code` prints the
 declaration's actual source.
 
-**Full reference: [`CLI.md`](CLI.md)** - every command, every option, the source
+**Full reference: [`CLI.md`](https://github.com/Nicchi10/Veltro/blob/main/CLI.md)**, every command, every option, the source
 index, and how to call the same logic from Python (it is pure functions in
-[`veltro/query.py`](veltro/query.py), so the viewer and any future editor
+[`veltro/query.py`](https://github.com/Nicchi10/Veltro/blob/main/veltro/query.py), so the viewer and any future editor
 plugin reuse it rather than reimplement it).
 
 ## Comprehension (does the model still understand it?)
@@ -194,7 +194,7 @@ Fewer tokens are worthless if the model reads the diagram worse. So we test it:
 (automatic, deterministic scoring), asked of the same architecture rendered in
 each format, across several model tiers and four languages (Python, Java, C#, TS).
 
-The honest result: there is **no robust comprehension winner** - the ranking
+The honest result: there is no robust comprehension winner, the ranking
 shuffles by model and the formats sit in overlapping bands. Veltro reads **as
 well** as PlantUML / Mermaid / D2 (matched on partial-credit F1) at the lowest
 token cost, we claim parity, not superiority. On the strict exact-match metric it
@@ -204,15 +204,20 @@ explanation (every format puts relations at 87-96% of the file) and pointed at
 something more interesting: part of the gap is the price of the compression
 itself, because the redundant `+` markers Veltro deletes are also cues a weak
 reader leans on. The evidence is in
-[`eval/error_profile.py`](eval/error_profile.py).
+[`eval/error_profile.py`](https://github.com/Nicchi10/Veltro/blob/main/eval/error_profile.py).
 
 The full methodology, the per-language results, the honest caveats (and the
 home-field handicap Veltro reads under) and how to reproduce them all live in
-**[`eval/README.md`](eval/README.md)**, with a per-project report for each
-codebase (e.g. [`eval/subjects/pydantic/REPORT.md`](eval/subjects/pydantic/REPORT.md)).
+**[`eval/README.md`](https://github.com/Nicchi10/Veltro/blob/main/eval/README.md)**, with a per-project report for each
+codebase (e.g. [`eval/subjects/pydantic/REPORT.md`](https://github.com/Nicchi10/Veltro/blob/main/eval/subjects/pydantic/REPORT.md)).
 
 ### Reproduce it
 
+> These commands run from a **clone** of this repository: `bench/`, `eval/` and
+> `examples/` are repository files, not part of the installed package. A
+> `pip install veltro` gives you the `veltro` command and nothing else - which is
+> all you need to point it at your own code.
+>
 > Note: the repo has many separate "test sections", so the dependencies are split
 > into extras. Reading a `.vel` (parse / find / show / deps / map / export) needs
 > only `jsonschema`; the commands below need `[bench]`, and the eval needs
@@ -237,7 +242,7 @@ python bench/query_cost.py
 ```
 
 The comprehension eval (generate -> ask a model -> score -> leaderboard) has its
-own quickstart in [`eval/README.md`](eval/README.md).
+own quickstart in [`eval/README.md`](https://github.com/Nicchi10/Veltro/blob/main/eval/README.md).
 
 The examples are not hand-written: they are extracted from real projects
 (Rich, Pydantic) with the AST extractor, so the numbers are not cherry-picked.
@@ -288,25 +293,25 @@ extract_java   |
 
 | Piece | Role |
 |-------|------|
-| [`SPEC.md`](SPEC.md) | The `.vel` grammar + relation-kind -> UML mapping |
-| [`CLI.md`](CLI.md) | The command line: `extract` / `parse` / `find` / `show` / `deps` / `map` |
-| [`veltro/schemas/model.schema.json`](veltro/schemas/model.schema.json) | The intermediate type-graph schema (single source of truth) |
-| [`veltro/parser.py`](veltro/parser.py) | `.vel` -> model, with schema validation |
-| [`veltro/extract/python_ast.py`](veltro/extract/python_ast.py) | Python source -> `.vel` (deterministic, no LLM) |
-| [`veltro/extract/tree_sitter_csharp.py`](veltro/extract/tree_sitter_csharp.py) | C# source -> `.vel` (deterministic, no LLM) |
-| [`veltro/extract/java/VeltroJavaExtractor.java`](veltro/extract/java/VeltroJavaExtractor.java) | Java source -> `.vel` (deterministic, no LLM) |
-| [`veltro/query.py`](veltro/query.py) | find / show / deps / map, as pure functions over model + index |
-| [`veltro/index.py`](veltro/index.py) | the sidecar mapping every type back to `file:line` |
-| [`veltro/export/`](veltro/export) | model -> PlantUML / Mermaid / D2 |
-| [`examples/pydantic.vel`](examples/pydantic.vel) | Pydantic's architecture, extracted to `.vel` |
-| [`eval/`](eval) | comprehension eval (OpenAI / Anthropic APIs) + token/accuracy leaderboard |
-| [`docs/`](docs) | the viewer, built and published [live demo](https://nicchi10.github.io/Veltro/) |
+| [`SPEC.md`](https://github.com/Nicchi10/Veltro/blob/main/SPEC.md) | The `.vel` grammar + relation-kind -> UML mapping |
+| [`CLI.md`](https://github.com/Nicchi10/Veltro/blob/main/CLI.md) | The command line: `extract` / `parse` / `find` / `show` / `deps` / `map` |
+| [`veltro/schemas/model.schema.json`](https://github.com/Nicchi10/Veltro/blob/main/veltro/schemas/model.schema.json) | The intermediate type-graph schema (single source of truth) |
+| [`veltro/parser.py`](https://github.com/Nicchi10/Veltro/blob/main/veltro/parser.py) | `.vel` -> model, with schema validation |
+| [`veltro/extract/python_ast.py`](https://github.com/Nicchi10/Veltro/blob/main/veltro/extract/python_ast.py) | Python source -> `.vel` (deterministic, no LLM) |
+| [`veltro/extract/tree_sitter_csharp.py`](https://github.com/Nicchi10/Veltro/blob/main/veltro/extract/tree_sitter_csharp.py) | C# source -> `.vel` (deterministic, no LLM) |
+| [`veltro/extract/java/VeltroJavaExtractor.java`](https://github.com/Nicchi10/Veltro/blob/main/veltro/extract/java/VeltroJavaExtractor.java) | Java source -> `.vel` (deterministic, no LLM) |
+| [`veltro/query.py`](https://github.com/Nicchi10/Veltro/blob/main/veltro/query.py) | find / show / deps / map, as pure functions over model + index |
+| [`veltro/index.py`](https://github.com/Nicchi10/Veltro/blob/main/veltro/index.py) | the sidecar mapping every type back to `file:line` |
+| [`veltro/export/`](https://github.com/Nicchi10/Veltro/tree/main/veltro/export) | model -> PlantUML / Mermaid / D2 |
+| [`examples/pydantic.vel`](https://github.com/Nicchi10/Veltro/blob/main/examples/pydantic.vel) | Pydantic's architecture, extracted to `.vel` |
+| [`eval/`](https://github.com/Nicchi10/Veltro/tree/main/eval) | comprehension eval (OpenAI / Anthropic APIs) + token/accuracy leaderboard |
+| [`docs/`](https://github.com/Nicchi10/Veltro/tree/main/docs) | the viewer, built and published [live demo](https://nicchi10.github.io/Veltro/) |
 
 ## Roadmap
 
 - [x] **LLM comprehension eval** built and run (OpenAI + Anthropic APIs + Ollama...),
       across multiple models, n languages and four formats. Result so far: comparable
-      comprehension, fewer tokens. See [`eval/`](eval)
+      comprehension, fewer tokens. See [`eval/`](https://github.com/Nicchi10/Veltro/tree/main/eval)
 - [x] **Java extractor** (Kafka, Spring) so people lick their fingers
 - [x] **C# extractor** (MediatR, Orleans) via tree-sitter
 - [x] **JS/TS extractor** to complete the picture

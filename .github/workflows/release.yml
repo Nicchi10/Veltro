@@ -1,0 +1,117 @@
+name: Release
+
+# Publishing to PyPI, through Trusted Publishing: no API token is stored in this
+# repository. GitHub hands PyPI a short-lived OIDC token that proves the upload
+# came from THIS workflow in THIS repository, and PyPI checks that against a
+# publisher you register once.
+#
+# ---------------------------------------------------------------------------
+# NOTHING HERE PUBLISHES UNTIL TWO ONE-TIME SETUP STEPS ARE DONE BY HAND:
+#
+#  1. On test.pypi.org and then on pypi.org, add a "pending publisher" for the
+#     project name 'veltro':
+#        owner: Nicchi10   repository: Veltro
+#        workflow: release.yml
+#        environment: testpypi   (and 'pypi' for the real one)
+#     Until that exists, the upload step fails with an OIDC error and nothing
+#     reaches the index.
+#  2. Create the two GitHub environments ('testpypi', 'pypi') in
+#     Settings -> Environments. Protect 'pypi' with a required reviewer: a
+#     version number is burned the moment it is uploaded and can never be
+#     re-used, so a human should approve that one.
+#
+# Then: run the workflow by hand with target=testpypi to rehearse, and publish
+# the real thing by creating a GitHub Release.
+# ---------------------------------------------------------------------------
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      target:
+        description: "Where to upload"
+        required: true
+        default: testpypi
+        type: choice
+        options: [testpypi, pypi]
+
+jobs:
+
+  # Built once and reused by both upload jobs, so what is rehearsed on TestPyPI is byte-for-byte what goes to PyPI.
+  build:
+    name: build the sdist and the wheel
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+      - name: Install the build tools
+        run: pip install build twine
+      - name: Build
+        run: python -m build
+      - name: Check the metadata and that the README renders
+        run: python -m twine check dist/*
+      # The version in pyproject.toml and the tag must agree: publishing 0.1.0 from a tag called v0.2.0 is the kind of mistake that cannot be undone
+      - name: The tag matches the version
+        if: github.event_name == 'release'
+        run: |
+          version=$(python -c "import re,pathlib; print(re.search(r'^version = \"([^\"]+)\"', pathlib.Path('pyproject.toml').read_text(), re.M).group(1))")
+          tag="${GITHUB_REF_NAME#v}"
+          echo "pyproject: $version, tag: $tag"
+          test "$version" = "$tag"
+      - name: The wheel installs and its extras resolve
+        run: pip install "dist/$(ls dist | grep '\.whl$')[dev]"
+      - name: The suite passes
+        # Note: these import veltro from the checkout, not from the wheel, the tests put the repository root on sys.path. It is still worth running:
+        # it is the dependency set the wheel just declared.
+        run: python -m unittest discover tests
+      # This one DOES exercise what ships. Run from a scratch directory so the checkout cannot satisfy the import, on a repository built on the spot.
+      - name: The installed package works outside the checkout
+        run: |
+          work=$(mktemp -d)
+          mkdir -p "$work/src"
+          printf 'class Session:\n    user: User\n\n\nclass User:\n    name: str\n' > "$work/src/app.py"
+          cd "$work"
+          python -c "import veltro, os; print('veltro from', os.path.dirname(veltro.__file__))"
+          veltro extract . --out probe.vel
+          veltro show probe.vel Session
+          veltro map probe.vel --around Session --depth 1
+          test -s probe.vel && test -s probe.index.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: distributions
+          path: dist/
+
+  testpypi:
+    name: upload to TestPyPI (rehearsal)
+    needs: build
+    if: github.event_name == 'workflow_dispatch' && inputs.target == 'testpypi'
+    runs-on: ubuntu-latest
+    environment: testpypi
+    permissions:
+      id-token: write        # this is what lets the action get an OIDC token
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: distributions
+          path: dist/
+      - uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          repository-url: https://test.pypi.org/legacy/
+
+  pypi:
+    name: upload to PyPI
+    needs: build
+    if: github.event_name == 'release' || (github.event_name == 'workflow_dispatch' && inputs.target == 'pypi')
+    runs-on: ubuntu-latest
+    environment: pypi
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: distributions
+          path: dist/
+      - uses: pypa/gh-action-pypi-publish@release/v1

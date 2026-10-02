@@ -33,6 +33,20 @@ veltro show repo.vel MyService --code
 That is this repository describing itself, warnings included. Both are true and
 both are worth knowing before you build anything on the output.
 
+> A note on the examples below. Every command on this page is shown against
+> `examples/pydantic.vel`, which exists in a checkout of this repository, not
+> in a `pip install` - pip installs the package, not the repository's sample
+> data. From an install, run `veltro extract .` first and use the `.vel` it
+> writes:
+>
+> ```bash
+> veltro extract .                    # writes <your-repo>.vel
+> veltro find <your-repo>.vel Service
+> ```
+>
+> Same for the `bench/` and `eval/` scripts quoted elsewhere: those live in the
+> repository, so `git clone` first if you want to reproduce the measurements.
+
 ## Why the query commands exist
 
 A real project's `.vel` either fits in a context window or it does not, and
