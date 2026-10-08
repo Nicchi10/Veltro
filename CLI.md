@@ -386,9 +386,9 @@ python -m veltro.extract.python_ast path/to/package --out build/thing.vel
 | Python | `python -m veltro.extract.python_ast <dir> --out x.vel` |
 | C# | `python -m veltro.extract.tree_sitter_csharp <dir> --out x.vel` |
 | TypeScript / JavaScript | `python -m veltro.extract.tree_sitter_typescript <dir> --out x.vel` |
-| Java | `veltro/extract/java/` (a standalone Java program, see its README) |
+| Java | `veltro/extract/java/` (a standalone Java program, see the header of `VeltroJavaExtractor.java`) |
 
-All three share one pruning policy
+The three Python extractors share one pruning policy
 ([`veltro/extract/walk.py`](veltro/extract/walk.py)) and print what they left
 out, because silence is how someone ends up believing their project has 25,000
 types. Pointing the Python extractor at this repository's root used to return
@@ -412,6 +412,10 @@ are skipped too: they mirror the production types and drown them.
 `.gitignore` is not read. A half-implemented ignore file silently drops real
 source, which is a worse failure than reading too much; use `--exclude`.
 
+The Java extractor does not share that policy: it reads every `.java` file under
+the directory it is given, `target/` and `src/test/java` included, so point it
+at a source root (`./spring/src/main/java`) rather than at a built checkout.
+
 - It lives outside the `.vel` on purpose. The `.vel` is what enters a
   model's context; a `file:line` on every type would cost tokens on every read,
   for something only tools use.
@@ -421,7 +425,18 @@ source, which is a worse failure than reading too much; use `--exclude`.
   only the first would hide the actual code.
 - It is a build artefact and is gitignored. Line numbers move at the first
   edit, and an index pointing at the wrong line is worse than no index.
-- The Java extractor does not produce one yet (it is a standalone Java program).
+- Every extractor writes one, Java included:
+
+```bash
+java $EXPORTS -cp veltro/extract/java VeltroJavaExtractor ./spring/src/main/java --out build/spring.vel
+# [INFO] - written: build/spring.vel
+# [INFO] - source index: build/spring.index.json  (<n> types)
+```
+
+  A Java span opens on the first modifier line, so an annotated type starts
+  at its `@Service` rather than at the `class` keyword: the annotations are part
+  of what that type is. `--index <file>` writes the index elsewhere, and is the
+  only way to get one when the `.vel` goes to stdout.
 
 Without an index everything still works except `show --code`, `show` and `find`
 just stop printing locations, and `show` says so.

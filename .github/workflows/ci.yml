@@ -7,8 +7,10 @@ name: CI
 #   It runs on the oldest and the newest supported Python, and on Windows,
 #   because that is where this project is written and the code writes files
 #   with an explicit newline
-# - 'extractors' installs the [extract] and [bench] extras, so the tests that
-#   SKIP on a core install actually run somewhere
+# - 'extractors' installs the [extract] and [bench] extras AND a JDK, so the
+#   tests that SKIP on a core install actually run somewhere. The Java tests
+#   compile and run the standalone extractor, which is the only way its
+#   published command line gets tested at all
 # - 'readme-table' recomputes the token table. It is the most quoted claim in
 #   the repository and it moves whenever the parser or an exporter changes.
 # - 'extras' only checks that every extra still resolves and imports. It caught
@@ -62,6 +64,13 @@ jobs:
       - uses: actions/setup-python@v7
         with:
           python-version: "3.12"
+      # The Java extractor is a standalone Java program, so its tests COMPILE
+      # and RUN it and skip without a JDK. This is the job where they must not
+      # skip: it is the only place the published Java command line gets tested.
+      - uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: "17"
       - name: Install the extras the tests need
         run: pip install -e ".[extract,bench]"
       - name: Unit tests, nothing skipped

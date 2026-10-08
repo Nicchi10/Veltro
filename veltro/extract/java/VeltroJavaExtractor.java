@@ -23,6 +23,15 @@
  *     - 'extends'  -> 'extend' edges; 'implements' -> 'impl' edges
  *       (interfaces' super-interfaces are 'extend' too); associations are left
  *       for the Veltro parser to derive from field types
+ *     - the sidecar SOURCE INDEX: for every emitted type, the file and the line
+ *       span it is declared on, written next to the '.vel' as '<name>.index.json'
+ *       (the same artefact the Python extractors write, see veltro/index.py).
+ *       Without it 'veltro find' can print no 'file:line' and 'veltro show
+ *       --code' has nothing to read, so half the tooling was dead on Java.
+ *       The span starts at the first MODIFIER, so an annotated type's span opens
+ *       on its '@Service' line rather than on the 'class' keyword: the
+ *       annotations are part of what that type is, and they belong in the span a
+ *       reader is shown.
  *
  * What it skips (v0, on purpose, mirroring the Python extractor):
  *     - nested / inner type declarations (only top-level types are emitted)
@@ -52,6 +61,11 @@
  *     2. Extract a source folder to a .vel file (or omit --out for stdout):
  *         java $EXPORTS -cp veltro/extract/java VeltroJavaExtractor <src_dir> --out out.vel
  *
+ *   That writes 'out.vel' and 'out.index.json' beside it. The index is a derived,
+ *   checkout-specific build artefact (line numbers move with the first edit):
+ *   regenerate it, never commit it. '--index <file>' puts it somewhere else, and
+ *   is the only way to get one when the '.vel' goes to stdout.
+ *
  *   On JDK 8 there is no module system (no --add-exports), but the same classes
  *   live in <JDK>/lib/tools.jar, which is NOT on the default classpath, so add
  *   it instead, note JDK 8 only parses sources up to Java 8:
@@ -69,8 +83,11 @@ import com.sun.source.tree.CompilationUnitTree;
 import com.sun.source.tree.ExpressionTree;
 import com.sun.source.tree.MethodTree;
 import com.sun.source.tree.Tree;
+import com.sun.source.tree.LineMap;
 import com.sun.source.tree.VariableTree;
 import com.sun.source.util.JavacTask;
+import com.sun.source.util.SourcePositions;
+import com.sun.source.util.Trees;
 
 import com.sun.tools.javac.code.Flags;
 import com.sun.tools.javac.tree.JCTree;
@@ -86,6 +103,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -93,6 +111,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 
 public class VeltroJavaExtractor {
 
@@ -123,6 +142,29 @@ public class VeltroJavaExtractor {
             this.to = to;
         }
     }
+
+    // ============ A SINGLE SOURCE LOCATION ============
+
+    /**
+     * One place a type is declared: a file, and the line span it covers
+     */
+    private static final class Span {
+        final String file;
+        final int line;
+        final int endLine;
+
+        Span(String file, int line, int endLine) {
+            this.file = file;
+            this.line = line;
+            this.endLine = endLine;
+        }
+    }
+
+    // The index format version, kept in step with INDEX_VERSION in veltro/index.py
+    private static final int INDEX_VERSION = 1;
+
+    // The suffix that replaces '.vel', so an index always travels next to the file it describes (see INDEX_SUFFIX in veltro/index.py)
+    private static final String INDEX_SUFFIX = ".index.json";
 
     // ============ NAME / TYPE HELPERS ============
 
@@ -469,6 +511,146 @@ public class VeltroJavaExtractor {
         return lines;
     }
 
+    // ============ THE SOURCE INDEX ============
+
+    /**
+     * A path with forward slashes, so an index written on Windows reads the same
+     * everywhere (the Java twin of posix_path in veltro/index.py)
+     *
+     * @param path any path
+     * @return its text with '\' turned into '/'
+     */
+    private static String posixPath(Path path) {
+        return path.toString().replace('\\', '/');
+    }
+
+    /**
+     * The absolute, normalised form of a file, so two spellings of one file
+     * ('./src/A.java' and 'src/A.java') do not become two different locations
+     *
+     * @param file any file
+     * @return its absolute, normalised path
+     */
+    private static Path absolutePath(File file) {
+        return file.toPath().toAbsolutePath().normalize();
+    }
+
+    /**
+     * Where a source file sits relative to the index root
+     *
+     * @param root the index root
+     * @param file a source file under it
+     * @return the POSIX-style relative path, or the absolute one when the two
+     *         cannot be related at all (different Windows drives), which still
+     *         resolves correctly because a consumer joins it onto the root
+     */
+    private static String relativeToRoot(Path root, File file) {
+        Path target = absolutePath(file);
+        try {
+            return posixPath(root.relativize(target));
+        } catch (IllegalArgumentException cannotRelativize) {
+            return posixPath(target);
+        }
+    }
+
+    /**
+     * The file a parsed compilation unit was read from.
+     *
+     * @param unit a parsed source file
+     * @return the file it came from
+     */
+    private static File sourceFileOf(CompilationUnitTree unit) {
+        JavaFileObject source = unit.getSourceFile();
+        try {
+            return new File(source.toUri());
+        } catch (IllegalArgumentException notAFileUri) {
+            return new File(source.getName());
+        }
+    }
+
+    /**
+     * Quote a string as JSON. Written by hand because this extractor must run
+     * with nothing but a JDK: pulling in a JSON library to emit three keys would
+     * make the Java side harder to run than the thing it is documenting
+     *
+     * @param value the string to quote
+     * @return the quoted, escaped JSON string
+     */
+    private static String jsonString(String value) {
+        StringBuilder out = new StringBuilder("\"");
+        for (int index = 0; index < value.length(); index++) {
+            char character = value.charAt(index);
+            if (character == '"' || character == '\\') {
+                out.append('\\').append(character);
+            } else if (character == '\n') {
+                out.append("\\n");
+            } else if (character == '\r') {
+                out.append("\\r");
+            } else if (character == '\t') {
+                out.append("\\t");
+            } else if (character < 0x20) {
+                out.append(String.format("\\u%04x", (int) character));
+            } else {
+                out.append(character);
+            }
+        }
+        return out.append('"').toString();
+    }
+
+    /**
+     * Render the index as JSON, in the shape of index.schema.json
+     *
+     * The ids arrive sorted (the caller uses a TreeMap), so two runs over the
+     * same source produce the same bytes: the index is a diffable artefact
+     *
+     * @param root      the directory every 'file' is relative to
+     * @param locations type id -> every place it is declared
+     * @return the complete JSON document
+     */
+    private static String renderIndex(Path root, Map<String, List<Span>> locations) {
+        StringBuilder out = new StringBuilder();
+        out.append("{\n");
+        out.append("  \"veltro\": ").append(INDEX_VERSION).append(",\n");
+        out.append("  \"root\": ").append(jsonString(posixPath(root))).append(",\n");
+        out.append("  \"locations\": {\n");
+
+        int typesLeft = locations.size();
+        for (Map.Entry<String, List<Span>> entry : locations.entrySet()) {
+            out.append("    ").append(jsonString(entry.getKey())).append(": [\n");
+            List<Span> spans = entry.getValue();
+            for (int index = 0; index < spans.size(); index++) {
+                Span span = spans.get(index);
+                out.append("      {\n");
+                out.append("        \"file\": ").append(jsonString(span.file)).append(",\n");
+                out.append("        \"line\": ").append(span.line).append(",\n");
+                out.append("        \"end_line\": ").append(span.endLine).append("\n");
+                out.append("      }").append(index + 1 < spans.size() ? ",\n" : "\n");
+            }
+            typesLeft--;
+            out.append("    ]").append(typesLeft > 0 ? ",\n" : "\n");
+        }
+
+        out.append("  }\n");
+        out.append("}\n");
+        return out.toString();
+    }
+
+    /**
+     * Where the index of a '.vel' belongs: next to it, same stem (the Java twin
+     * of index_path_for in veltro/index.py)
+     *
+     * @param velPath e.g. 'build/spring.vel'
+     * @return e.g. 'build/spring.index.json'
+     */
+    private static String indexPathFor(String velPath) {
+        int dot = velPath.lastIndexOf('.');
+        int separator = Math.max(velPath.lastIndexOf('/'), velPath.lastIndexOf('\\'));
+        if (dot > separator && dot > 0) {
+            return velPath.substring(0, dot) + INDEX_SUFFIX;
+        }
+        return velPath + INDEX_SUFFIX;
+    }
+
     // ============ PROJECT WALK & RENDERING ============
 
     /**
@@ -552,11 +734,15 @@ public class VeltroJavaExtractor {
     public static void main(String[] arguments) throws IOException {
         String sourceDir = null;
         String outPath = null;
+        String indexPath = null;
 
         for (int index = 0; index < arguments.length; index++) {
             String argument = arguments[index];
             if (argument.equals("--out") && index + 1 < arguments.length) {
                 outPath = arguments[index + 1];
+                index++;
+            } else if (argument.equals("--index") && index + 1 < arguments.length) {
+                indexPath = arguments[index + 1];
                 index++;
             } else if (sourceDir == null) {
                 sourceDir = argument;
@@ -564,7 +750,7 @@ public class VeltroJavaExtractor {
         }
 
         if (sourceDir == null) {
-            System.err.println("usage: java VeltroJavaExtractor <src_dir> [--out file.vel]");
+            System.err.println("usage: java VeltroJavaExtractor <src_dir> [--out file.vel] [--index file.index.json]");
             System.exit(2);
             return;
         }
@@ -590,10 +776,19 @@ public class VeltroJavaExtractor {
         StandardJavaFileManager fileManager = compiler.getStandardFileManager(null, null, StandardCharsets.UTF_8);
         Iterable<? extends JavaFileObject> sources = fileManager.getJavaFileObjectsFromFiles(javaFiles);
         JavacTask task = (JavacTask) compiler.getTask(null, fileManager, null, null, null, sources);
+        SourcePositions positions = Trees.instance(task).getSourcePositions();
 
         Map<String, List<String>> modules = new LinkedHashMap<String, List<String>>();
         List<Edge> allEdges = new ArrayList<Edge>();
         int typeCount = 0;
+
+        // Sorted, so two runs over the same source produce the same index bytes.
+        // A type maps to a LIST of spans: a repository can hold two source roots
+        // declaring the same package and class, and the parser folds those into
+        // one node, so the index has to be able to point at both.
+        Map<String, List<Span>> locations = new TreeMap<String, List<Span>>();
+        Path indexRoot = absolutePath(new File(sourceDir));
+        List<String> withoutSpan = new ArrayList<String>();
 
         for (CompilationUnitTree unit : task.parse()) {
             String module = moduleOf(unit);
@@ -602,11 +797,36 @@ public class VeltroJavaExtractor {
                 moduleLines = new ArrayList<String>();
                 modules.put(module, moduleLines);
             }
+
+            String relativeFile = relativeToRoot(indexRoot, sourceFileOf(unit));
+            LineMap lineMap = unit.getLineMap();
+
             for (Tree declaration : unit.getTypeDecls()) {
-                if (declaration instanceof ClassTree) {
-                    moduleLines.addAll(extractType((ClassTree) declaration, allEdges));
-                    typeCount++;
+                if (!(declaration instanceof ClassTree)) {
+                    continue;
                 }
+                ClassTree type = (ClassTree) declaration;
+                moduleLines.addAll(extractType(type, allEdges));
+                typeCount++;
+
+                // The id the Veltro parser will give this declaration: 'module.Name'
+                String typeId = module + "." + type.getSimpleName().toString();
+                long start = positions.getStartPosition(unit, declaration);
+                long end = positions.getEndPosition(unit, declaration);
+                if (start < 0 || end < 0) {
+                    // No position means no honest span. Recorded, not guessed: an
+                    // index that points at the wrong line is worse than none.
+                    withoutSpan.add(typeId);
+                    continue;
+                }
+                int line = (int) lineMap.getLineNumber(start);
+                int endLine = (int) lineMap.getLineNumber(end);
+                List<Span> spans = locations.get(typeId);
+                if (spans == null) {
+                    spans = new ArrayList<Span>();
+                    locations.put(typeId, spans);
+                }
+                spans.add(new Span(relativeFile, line, endLine));
             }
         }
         fileManager.close();
@@ -625,6 +845,31 @@ public class VeltroJavaExtractor {
             report.println("[INFO] - written: " + outPath);
         } else {
             System.out.print(vel);
+        }
+
+        // The index travels next to the '.vel' it describes, unless asked
+        // otherwise. With the '.vel' on stdout there is no 'next to', so an
+        // index is written only when '--index' says where
+        if (indexPath == null && outPath != null) {
+            indexPath = indexPathFor(outPath);
+        }
+        if (indexPath != null) {
+            Files.write(new File(indexPath).toPath(), renderIndex(indexRoot, locations).getBytes(StandardCharsets.UTF_8));
+            report.println("[INFO] - source index: " + indexPath + "  (" + locations.size() + " types)");
+        }
+
+        // A span is what makes 'veltro find' print a 'file:line' and 'veltro
+        // show --code' able to read anything, so a type without one is a hole in
+        // the tooling and is named rather than passed over in silence.
+        if (!withoutSpan.isEmpty()) {
+            report.println("[ERROR] - no source position for " + withoutSpan.size() + " types, so they are missing from the index:");
+            for (int index = 0; index < withoutSpan.size() && index < 5; index++) {
+                report.println("[ERROR] -     " + withoutSpan.get(index));
+            }
+            if (withoutSpan.size() > 5) {
+                report.println("[ERROR] -     and " + (withoutSpan.size() - 5) + " more");
+            }
+            System.exit(1);
         }
     }
 }
