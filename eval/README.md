@@ -19,6 +19,14 @@ real project --extract--> model --> .vel / .mmd / .puml / .d2  --> ask a model t
 Because the questions and their answers are generated from the same `model`
 (`model.schema.json`), the "correct answer" is a fact, not an opinion.
 
+That property holds because every subject here is a rendering of the **same**
+model, so no subject knows anything the others do not. It stops holding the
+moment a subject is produced by a different tool with its own ontology (a repo
+map, `ctags`, [graphify](https://github.com/Graphify-Labs/graphify)), because
+then "truth from the model" means "truth is Veltro's answer". The comparison
+against those alternatives therefore needs a different design, written before it
+runs: **[`DESIGN.md`](DESIGN.md)** ([issue #12](https://github.com/Nicchi10/Veltro/issues/12)).
+
 ## Question types (all answerable from the graph)
 
 - "Which types implement/extend `X`?"  (edges, kind = impl/extend)
