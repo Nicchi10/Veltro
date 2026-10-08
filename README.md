@@ -136,6 +136,14 @@ veltro extract .
 [WARN] - only 8 types in 35 files: Veltro models TYPES, so a repository built out of free functions gives it little to describe
 ```
 
+And later, when the code has moved on, the question that decides whether any of
+this is trustworthy:
+
+```bash
+veltro check Veltro.vel . --lang python,typescript
+# [INFO] - in sync        (exit 0, or exit 1 and what drifted)
+```
+
 One command, every language in the repository, **one** `.vel` and **one** source
 index mapping each type back to `file:line`. Virtualenvs, `node_modules`, build
 output and tests are pruned, and it prints what it skipped.
@@ -253,6 +261,7 @@ The examples are not hand-written: they are extracted from real projects
 veltro/                        the Python package
   |--- parser.py               .vel  ->  type-graph model (the ONE parser, format is language-agnostic)
   |--- query.py                find / show / deps / map, as pure functions the CLI and the viewer share
+  |--- diff.py                 two models compared: what the .vel says vs what the code says now
   |--- index.py                the sidecar: every type id -> the file:line it is declared at
   |--- __main__.py             the command line (see CLI.md)
   |--- export/                 model  ->  PlantUML / Mermaid / D2 (fair benchmarking, the Rosetta way out)
@@ -294,7 +303,7 @@ extract_java   |
 | Piece | Role |
 |-------|------|
 | [`SPEC.md`](https://github.com/Nicchi10/Veltro/blob/main/SPEC.md) | The `.vel` grammar + relation-kind -> UML mapping |
-| [`CLI.md`](https://github.com/Nicchi10/Veltro/blob/main/CLI.md) | The command line: `extract` / `parse` / `find` / `show` / `deps` / `map` |
+| [`CLI.md`](https://github.com/Nicchi10/Veltro/blob/main/CLI.md) | The command line: `extract` / `check` / `parse` / `find` / `show` / `deps` / `map` |
 | [`veltro/schemas/model.schema.json`](https://github.com/Nicchi10/Veltro/blob/main/veltro/schemas/model.schema.json) | The intermediate type-graph schema (single source of truth) |
 | [`veltro/parser.py`](https://github.com/Nicchi10/Veltro/blob/main/veltro/parser.py) | `.vel` -> model, with schema validation |
 | [`veltro/extract/python_ast.py`](https://github.com/Nicchi10/Veltro/blob/main/veltro/extract/python_ast.py) | Python source -> `.vel` (deterministic, no LLM) |

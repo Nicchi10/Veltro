@@ -2,9 +2,10 @@
 
 `python -m veltro <command>`, or just `veltro <command>` after `pip install`.
 
-Six commands. `extract` turns a repository into a `.vel`, `parse` turns a
-`.vel` into the JSON model, and `find` / `show` / `deps` / `map` answer a
-question about the graph with a bounded payload.
+Seven commands. `extract` turns a repository into a `.vel`, `check` says whether
+that `.vel` is still true, `parse` turns a `.vel` into the JSON model, and
+`find` / `show` / `deps` / `map` answer a question about the graph with a
+bounded payload.
 
 ```bash
 pip install veltro                  # the core: jsonschema and nothing else
@@ -17,6 +18,7 @@ pip install "veltro[extract]"       # + the C# and TypeScript extractors
 veltro extract .            # your repository -> repo.vel + repo.index.json
 veltro find repo.vel Service
 veltro show repo.vel MyService --code
+veltro check repo.vel .     # later: is that .vel still true?
 ```
 
 ```
@@ -137,6 +139,56 @@ And it tells you when Veltro is the wrong tool. Veltro models types, so a
 codebase built out of free functions produces a nearly empty graph. Below one
 type per three source files it says so, rather than leaving you to deduce it
 from a small file.
+
+## `check` - is the `.vel` still true?
+
+```bash
+veltro check repo.vel .
+veltro check repo.vel . --lang python,typescript
+```
+
+```
+[INFO] - the .vel says 2 types, the code says 2
+[DRIFT] - 1 types in the .vel but gone from the code:
+[DRIFT] -     app.User
+[DRIFT] - 1 types in the code but missing from the .vel:
+[DRIFT] -     app.Audit
+[DRIFT] - 1 types declared differently now:
+[DRIFT] -     app.Session
+[ERROR] - repo.vel no longer describes .
+```
+
+Exit **0** when they agree, **1** when they do not, so it belongs in a
+pre-commit hook or a CI job. Note the first line of that example: both counts
+are 2 and the file is still wrong - a type count is not a check.
+
+| option | meaning |
+|--------|---------|
+| `--lang a,b` | only these languages (use the same ones the extraction used) |
+| `--limit N` | how many ids to name per category (default 5) |
+| `--exclude GLOB` | skip paths matching, relative to the repository root (repeatable) |
+| `--include-tests` | read test directories and test files too |
+
+It works by **re-extracting** the repository and comparing, so there is no
+cached state to go stale and no cleverness to trust. Comparison is by node id,
+and ordering never counts: two extractions may meet the files in a different
+order, and a checker that cried drift over that is one nobody would leave
+switched on. Only written relations are compared - an association derived from a
+field is already reported as a change to the type that holds it.
+
+**Use the same walk options as the extraction.** Checking with a different
+`--exclude` or `--lang` reports drift that is not there.
+
+When a language is present but cannot be read, `check` **refuses to judge**:
+
+```
+[ERROR] - cannot judge drift: java is in the repository but was not read
+[ERROR] - java: the Java extractor is a standalone Java program, see veltro/extract/java/
+[INFO] - to judge the rest only: --lang python,typescript
+```
+
+"every Java type was deleted" and "I could not read the Java" look identical to
+a diff, and only one of them is true.
 
 ## `find` - which types are there
 

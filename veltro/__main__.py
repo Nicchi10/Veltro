@@ -17,6 +17,7 @@ import sys
 import jsonschema
 
 from veltro.parser import parse_file, parse_text, suspicious_members, VeltroSyntaxError
+from veltro.diff import compare_models, describe as describe_drift
 from veltro.export.vel import render_node
 from veltro.index import index_path_for, read_span, spans_of, write_index
 from veltro.query import (budgeted_ids, edges_of, find_types, load_index_beside,
@@ -249,6 +250,56 @@ def command_extract(arguments) -> int:
     return 0
 
 
+def command_check(arguments) -> int:
+    """
+    Is the '.vel' still true? Re-extract the repository and compare
+    """
+    from veltro.extract.project import extract_repository
+
+    if not os.path.isdir(arguments.repository):
+        print(f"[ERROR] - not a directory: {arguments.repository}")
+        return 1
+
+    documented = parse_file(arguments.source)
+
+    languages = None
+    if arguments.lang:
+        languages = []
+        for name in arguments.lang.split(","):
+            languages.append(name.strip())
+
+    result = extract_repository(arguments.repository, languages, arguments.include_tests, arguments.exclude)
+    current = parse_text(result["vel"])
+
+    # A language present but unreadable would look exactly like "every type of that language was deleted", so refuse to render a verdict on it.
+    unreadable = []
+    for name in sorted(result["skipped"]):
+        if name in result["detected"]:
+            unreadable.append(name)
+    if unreadable:
+        print(f"[ERROR] - cannot judge drift: {', '.join(unreadable)} is in the repository but was not read")
+        for name in unreadable:
+            print(f"[ERROR] - {name}: {result['skipped'][name]}")
+        kept = []
+        for name in sorted(result["per_language"]):
+            kept.append(name)
+        if kept:
+            print(f"[INFO] - to judge the rest only: --lang {','.join(kept)}")
+        return 1
+
+    comparison = compare_models(documented, current)
+
+    print(f"[INFO] - the .vel says {len(documented['nodes'])} types, the code says {len(current['nodes'])}")
+    if comparison["in_sync"]:
+        print("[INFO] - in sync")
+        return 0
+
+    for line in describe_drift(comparison, arguments.limit):
+        print(f"[DRIFT] - {line}")
+    print(f"[ERROR] - {arguments.source} no longer describes {arguments.repository}")
+    return 1
+
+
 def load_for_query(source: str, derive_signatures: bool = False):
     """
 
@@ -453,7 +504,7 @@ def command_map(arguments) -> int:
 # ============ CLI ============
 
 # The bare form 'python -m veltro file.vel' predates the subcommands and is what the docs and everyone's muscle memory use, so it keeps working as 'parse'.
-COMMANDS = ("parse", "extract", "find", "show", "deps", "map")
+COMMANDS = ("parse", "extract", "check", "find", "show", "deps", "map")
 
 
 def normalise_argv(argv: list) -> list:
@@ -495,6 +546,14 @@ def build_parser():
     extract_command.add_argument("--lang", help="comma-separated languages to read, e.g. 'python,typescript' (default: everything found)")
     add_walk_arguments(extract_command)
     extract_command.set_defaults(run=command_extract)
+
+    check_command = subparsers.add_parser("check", help="is the .vel still true? re-extract and compare")
+    check_command.add_argument("source", help="path to the .vel to check")
+    check_command.add_argument("repository", help="path to the repository it should describe")
+    check_command.add_argument("--lang", help="comma-separated languages to read (use the same as the extraction)")
+    check_command.add_argument("--limit", type=int, default=5, help="how many ids to name per category (default 5)")
+    add_walk_arguments(check_command)
+    check_command.set_defaults(run=command_check)
 
     find_command = subparsers.add_parser("find", help="list the types matching a name")
     find_command.add_argument("source", help="path to the .vel file")
